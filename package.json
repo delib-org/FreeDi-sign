@@ -10,9 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "delib-npm": "^1.2.70",
     "firebase": "^10.12.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-query": "^3.39.3",
     "sass": "^1.77.4"
   },
   "devDependencies": {
