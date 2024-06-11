@@ -14,9 +14,9 @@ export default defineConfig({
     },
 
     manifest: {
-      name: 'freedi-sign',
-      short_name: 'freedi-sign',
-      description: 'deliberative document sigining system',
+      name: 'FreeDi-sign',
+      short_name: 'FreeDi-sign',
+      description: 'Deliberative document signing system',
       theme_color: '#5899E0',
     },
 
