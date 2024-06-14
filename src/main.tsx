@@ -1,16 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./view/App.tsx";
-import { QueryClient, QueryClientProvider } from "react-query";
-
-
-const queryClient = new QueryClient();
+import { Provider } from "react-redux";
+import { store } from "./model/store.ts";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./controllers/router.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    
-    </QueryClientProvider>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
