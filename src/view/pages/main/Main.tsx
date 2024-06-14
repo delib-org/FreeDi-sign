@@ -2,7 +2,7 @@ import { Statement } from "delib-npm";
 
 import { useStatements } from "../../../controllers/hooks/statementsHooks";
 
-import { logOut } from "../../../controllers/db/authCont";
+import Header from "../../components/header/Header";
 
 function Main() {
 
@@ -16,7 +16,7 @@ function Main() {
   return (
     <>
       <div>
-        <h1>Statements <button onClick={logOut}>Log out </button></h1>
+        <Header />
         <section>
           {statements.map((statement: Statement) => (
             <div key={statement.statementId}>

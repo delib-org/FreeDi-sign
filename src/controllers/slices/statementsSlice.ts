@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { Statement, updateArray, StatementSchema } from 'delib-npm'
 
@@ -54,7 +54,12 @@ export const counterSlice = createSlice({
 export const { setStatements, setStatement, deleteStatement } = counterSlice.actions
 
 export const selectStatements = (state: { statements: StatementsState }) => state.statements.statements;
-export const selectStatementsByCreatorId = (creatorId:string|undefined)=> (state: { statements: StatementsState }) => state.statements.statements.filter((statement) => statement.creatorId === creatorId);
+export const selectStatementsByCreatorId = (creatorId: string | undefined) => {
+    return createSelector(
+        (state: { statements: StatementsState }) => state.statements.statements,
+        (statements) => statements.filter((statement) => statement.creatorId === creatorId)
+    );
+};
 export const selectStatement = (state: { statements: StatementsState }, statementId: string) => state.statements.statements.find((statement) => statement.statementId === statementId);
 
 export default counterSlice.reducer

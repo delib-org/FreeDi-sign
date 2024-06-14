@@ -1,0 +1,19 @@
+.header{
+    display: flex;
+    background-color: var(--dark-main);
+    color:var(--text-main);
+    width:100vw;
+
+    &__company{
+        display: flex;
+        flex-direction: column;
+      
+       
+    }
+    &__right{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+}
