@@ -1,10 +1,7 @@
 import { Statement } from "delib-npm";
 
 import { useStatements } from "../../../controllers/hooks/statementsHooks";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../../controllers/slices/userSlice";
-import { useEffect } from "react";
+
 import { logOut } from "../../../controllers/db/authCont";
 
 function Main() {

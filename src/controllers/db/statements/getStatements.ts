@@ -27,11 +27,13 @@ export async function getStatements(): Promise<Statement[]> {
 
 export function listenToStatements(setIsLoading: Function, setError: Function) {
   try {
-    // const user = store.getState().user.user;
-    // if (!user) throw new Error("User not found");
-    const userId = "SsXFNEHj2qqOK8CGjXb9M23F2Uoz"; // user.userId
+    const user = store.getState().user.user;
+    if (!user) throw new Error("User not found");
+    const userId = user.uid;
+console.log(user.displayName, userId)
     const dispatch = store.dispatch;
     setIsLoading(true);
+
     const statementsRef = collection(DB, Collections.statements);
     const q = query(statementsRef, where("creatorId", "==", userId));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
