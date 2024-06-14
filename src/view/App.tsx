@@ -1,30 +1,34 @@
+import { Outlet, useNavigate } from "react-router-dom";
 import "./styles/globals.scss";
-import { Statement } from "delib-npm";
-
-import { useStatements } from "../controllers/hooks/statementsHooks";
-
+import { useEffect } from "react";
+import { listenToAuth } from "../controllers/db/authCont";
+import { useSelector } from "react-redux";
+import { selectUser } from "../controllers/slices/userSlice";
 
 function App() {
+  const user = useSelector(selectUser);
+const navigate = useNavigate();
+  useEffect(() => {
+    const unsubscribe = listenToAuth();
 
-  const { statements, isLoading, error } = useStatements();
- 
-  
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, []);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: An error occurred.</div>;
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    } else {
+      navigate("/");
+    }
+  }, [user]);
 
   return (
     <>
       <div>
-        <h1>Statements</h1>
-        <section>
-          {statements.map((statement: Statement) => (
-            <div key={statement.statementId}>
-              <h2>{statement.statement}</h2>
-              <hr />
-            </div>
-          ))}
-        </section>
+        <h1>App</h1>
+        <Outlet />
       </div>
     </>
   );
