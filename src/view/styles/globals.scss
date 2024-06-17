@@ -1,20 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-:root{
+:root {
 
     //colors
-    --dark-main:#5899E0;
-    --text-main:white;
+    --dark-main: #5899E0;
+    --text-main: white;
 
 }
 
-html, body{
-    font-size:17px;
+html,
+body {
+    font-size: 17px;
 
     margin: 0;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
 }
 
-.logo-font{
+.logo-text {
     font-family: "Caveat", cursive;
     font-optical-sizing: auto;
     font-weight: 500;
