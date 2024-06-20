@@ -1,6 +1,7 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { Statement, updateArray, StatementSchema } from 'delib-npm'
+import { Statement, updateArray, StatementSchema, writeZodError } from 'delib-npm'
+
 
 
 export interface StatementsState {
@@ -21,7 +22,8 @@ export const counterSlice = createSlice({
 
                 statements.forEach((statement) => {
                     try {
-                        StatementSchema.parse(statement);
+                       const results = StatementSchema.safeParse(statement);
+                      if(results.error) writeZodError(results.error, statement);
                         state.statements = updateArray(state.statements, statement, "statementId");
                     } catch (error) {
                         console.error("Error setting statement: ", error);
@@ -34,7 +36,7 @@ export const counterSlice = createSlice({
         setStatement: (state, action: PayloadAction<Statement>) => {
             try {
                 const statement = action.payload;
-                updateArray(state.statements, statement, "statementId");
+               state.statements = updateArray(state.statements, statement, "statementId");
             } catch (error) {
                 console.error("Error setting statement: ", error);
             }
@@ -54,6 +56,10 @@ export const counterSlice = createSlice({
 export const { setStatements, setStatement, deleteStatement } = counterSlice.actions
 
 export const selectStatements = (state: { statements: StatementsState }) => state.statements.statements;
+export const selectTopStatements = createSelector(
+    (state: { statements: StatementsState }) => state.statements.statements,
+    (statements) => statements.filter((statement) => statement.parentId === "top")
+);
 export const selectStatementsByCreatorId = (creatorId: string | undefined) => {
     return createSelector(
         (state: { statements: StatementsState }) => state.statements.statements,

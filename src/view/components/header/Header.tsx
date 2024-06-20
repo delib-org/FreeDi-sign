@@ -15,7 +15,7 @@ const Header = () => {
           <div className="logo-text">FreeDi</div>
         </div>
         <div className={styles.header__company__testimonials}>
-          For Nordia Community
+          Fostering collaboration
         </div>
       </div>
       <div className={styles.header__right}>

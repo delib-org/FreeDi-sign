@@ -1,12 +1,12 @@
 import { Statement } from "delib-npm";
 
-import { useStatements } from "../../../controllers/hooks/statementsHooks";
+import { useUserTopStatements } from "../../../controllers/hooks/statementsHooks";
 
 import Header from "../../components/header/Header";
 
 function Main() {
 
-  const { statements, isLoading, error } = useStatements();
+  const { statements, isLoading, error } = useUserTopStatements();
 
   
 

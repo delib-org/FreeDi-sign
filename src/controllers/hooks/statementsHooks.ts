@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 
 import { Statement } from "delib-npm";
 
-import { listenToStatements } from "../db/statements/getStatements";
+import {  listenToStatements, listenToUserTopStatements } from "../db/statements/getStatements";
 import { useSelector } from "react-redux";
-import { selectStatementsByCreatorId } from "../slices/statementsSlice";
+import { selectStatementsByCreatorId, selectTopStatements } from "../slices/statementsSlice";
 import { selectUser } from "../slices/userSlice";
+import { UnsubscribeObject } from "../../model/unsubscribeModel";
+import { store } from "../../model/store";
 
 
 export function useStatements() {
@@ -25,7 +27,31 @@ export function useStatements() {
         }
     }, []);
 
+    return { statements, isLoading, error };
+}
 
+
+
+export function useUserTopStatements() {
+     
+    const user = store.getState().user.user;
+    const unsubscribes: UnsubscribeObject[] = [];
+   
+    const statements: Statement[] = useSelector(selectTopStatements);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [error, setError] = useState<any>(false);
+
+
+    useEffect(() => {
+        if(user === null) return;
+        const unsubscribe = listenToUserTopStatements(unsubscribes,setIsLoading, setError, 30)
+        return () => {
+            unsubscribe();
+            unsubscribes.forEach((unsubscribe) => {
+                unsubscribe.unsubFunction();
+            });
+        }
+    }, [user]);
 
     return { statements, isLoading, error };
 }
