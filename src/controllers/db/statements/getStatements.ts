@@ -1,9 +1,10 @@
 import { Unsubscribe, collection, doc, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { DB } from '../config';
-import { Collections, Statement, StatementSubscription } from "delib-npm";
+import { Collections, Statement, StatementSubscription, StatementType } from "delib-npm";
 import { store } from "../../../model/store";
 import { deleteStatement, setStatement, setStatements } from "../../slices/statementsSlice";
 import { UnsubscribeObject } from "../../../model/unsubscribeModel";
+import { Dispatch } from "react";
 
 export async function getStatements(): Promise<Statement[]> {
   try {
@@ -102,7 +103,7 @@ export function listenToUserTopStatements(unsubscribes: UnsubscribeObject[], set
     });
 
 
-  } catch (error:any) {
+  } catch (error: any) {
     console.error(error);
     setError(error.message);
     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -145,3 +146,32 @@ export const listenToStatement = (
     return () => { };
   }
 };
+
+export function listenToDocument(statementId: string): Unsubscribe {
+  try {
+    const dispatch = store.dispatch;
+    const statementRef = collection(DB, Collections.statements);
+    const q = query(statementRef, where("parentId", "==", statementId), where("statementType", "==", StatementType.document));
+    return onSnapshot(q, (documentsDB) => {
+     
+      documentsDB.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          console.log("New document: ", change.doc.data());
+          dispatch(setStatement(change.doc.data() as Statement));
+        }
+        if (change.type === "modified") {
+          console.log("Modified document: ", change.doc.data());
+          dispatch(setStatement(change.doc.data() as Statement));
+        }
+        if (change.type === "removed") {
+          console.log("Removed document: ", change.doc.data());
+          dispatch(deleteStatement(change.doc.data().statementId));
+        }
+      });
+
+    }, (error) => { console.error(error) });
+  } catch (error) {
+    console.error(error);
+    return () => { };
+  }
+}
