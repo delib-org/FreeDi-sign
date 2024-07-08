@@ -12,7 +12,7 @@ const Document = () => {
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: An error occurred.</div>;
   console.log("statements", statements)
-  const documents:DocumentObject[] = statementsToDocument(statementId, statements);
+  const documents:DocumentObject[] = statementsToDocument({statementId, statements, parentSectionId: "top"});
   console.log('st', documents)
 
   return (

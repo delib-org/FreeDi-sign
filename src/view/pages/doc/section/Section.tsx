@@ -1,10 +1,11 @@
 import { FC, useState } from "react";
 // import Paragraph from "../paragraph/Paragraph";
 
-
 import styles from "./Section.module.scss";
 import { DocumentObject } from "../../../../controllers/general.ts/statement_helpers";
 import NewSection from "../newSection/NewSection";
+import NewParagraph from "../newParagraph/NewParagraph";
+import Paragraph from "../paragraph/Paragraph";
 
 interface Props {
   parentStatementId: string | undefined;
@@ -24,8 +25,24 @@ const Section: FC<Props> = ({ parentStatementId, document }) => {
         <h2>
           {document.title} {sectionId}
         </h2>
-        {document.sections.map((section) => (<Section key={section.sectionId} document={section} parentStatementId={parentStatementId} />))}
-        <button onClick={() => setNewSection(!newSection)}>New Sub Section +</button>
+        <NewParagraph
+          parentStatementId={parentStatementId}
+          sectionId={sectionId}
+          order={document.sections.length}
+        />
+        {document.paragraphs.map((paragraph) => (
+          <Paragraph key={paragraph.statementId} statement={paragraph} />
+        ))}
+        {document.sections.map((section) => (
+          <Section
+            key={section.sectionId}
+            document={section}
+            parentStatementId={parentStatementId}
+          />
+        ))}
+        <button onClick={() => setNewSection(!newSection)}>
+          New Sub Section +
+        </button>
         {newSection && (
           <section>
             <b>New Section</b>

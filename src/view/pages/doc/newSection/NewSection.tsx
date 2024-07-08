@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { setDocumentStatement } from "../../../../controllers/db/statements/setStatements";
+import { setSectionToDB } from "../../../../controllers/db/statements/setStatements";
 
 interface Props {
   parentStatementId: string | undefined;
@@ -24,7 +24,7 @@ const NewSection: FC<Props> = ({
       if (!parentStatementId) throw new Error("parentStatementId is required");
 
       if (NewSection)
-        setDocumentStatement({
+        setSectionToDB({
           statement: NewSection,
           statementId: parentStatementId,
           order,
