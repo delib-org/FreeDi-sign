@@ -20,7 +20,7 @@ const Document = () => {
       {documents.map((document) => (
         <Section key={document.statementId} document={document} parentStatementId={statementId} />
       ))}
-      <NewStatement parentStatementId={statementId} sectionId={undefined} parentSectionId="top" />
+      <NewStatement parentStatementId={statementId} sectionId={undefined} parentSectionId="top" order={documents.length} />
     </div>
   );
 };

@@ -26,7 +26,7 @@ export function newStatement({ parentSectionId, sectionId, statement, parentId, 
             parentSectionId
         }
 
-        const statementId = crypto.randomUUID();
+        const statementId = sectionId;
         return {
             statement,
             statementId,
@@ -54,23 +54,25 @@ export interface DocumentObject {
     sections: Document[];
 }
 
-export function statementsToDocument(statementId: string|undefined, statements: Statement[], parentSectionId: string = "top"): DocumentObject[] {
+export function statementsToDocument(statementId: string | undefined, statements: Statement[], parentSectionId: string = "top"): DocumentObject[] {
     try {
         if (!statementId) return []
-   
+
         const documentStatements = statements.filter((statement) => statement.statementType === StatementType.document &&
             statement.documentSettings?.parentDocumentId === statementId &&
             statement.documentSettings?.parentSectionId === parentSectionId);
-        
-            return documentStatements.map((documentStatement) => {
-            return {
-                sectionId: documentStatement.documentSettings?.sectionId || crypto.randomUUID(),
-                statementId: documentStatement.statementId,
-                title: documentStatement.statement,
-                statements: [],
-                sections: []
-            }
-        })
+
+        return documentStatements
+            .sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0))
+            .map((documentStatement) => {
+                return {
+                    sectionId: documentStatement.documentSettings?.sectionId || crypto.randomUUID(),
+                    statementId: documentStatement.statementId,
+                    title: documentStatement.statement,
+                    statements: [],
+                    sections: []
+                }
+            })
 
     } catch (error) {
         console.error(error)

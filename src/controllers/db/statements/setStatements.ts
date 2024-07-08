@@ -7,15 +7,14 @@ interface SetDocumentStatement {
     statement: string;
     statementId: string;
     order: number;
-    sectionId?: string;
     parentSectionId?: string;
 }
-export async function setDocumentStatement({statement, statementId, order, sectionId,parentSectionId}: SetDocumentStatement): Promise<void> {
+export async function setDocumentStatement({statement, statementId, order,parentSectionId}: SetDocumentStatement): Promise<void> {
     try {
         const parentStatementRef = doc(DB, Collections.statements, statementId);
         const parentStatementDB = await getDoc(parentStatementRef);
         if (!parentStatementDB.exists()) throw new Error("Parent statement does not exist");
-
+        const sectionId = crypto.randomUUID();
 
 
         //create statement
@@ -30,7 +29,7 @@ export async function setDocumentStatement({statement, statementId, order, secti
         });
 
         if (!newDocumentStatement) throw new Error("Error creating statement");
-        const newDocumentStatementRef = doc(DB, Collections.statements, newDocumentStatement.statementId);
+        const newDocumentStatementRef = doc(DB, Collections.statements, sectionId);
         await setDoc(newDocumentStatementRef, newDocumentStatement);
 
     } catch (error) {

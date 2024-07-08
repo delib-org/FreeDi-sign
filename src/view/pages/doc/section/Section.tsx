@@ -20,9 +20,9 @@ const Section: FC<Props> = ({ parentStatementId, document }) => {
 
     return (
       <section className={styles.section}>
-        <h2>{document.title}</h2>
+        <h2>{document.title} {sectionId}</h2>
         
-       <NewStatement parentStatementId={parentStatementId}  sectionId={sectionId} parentSectionId={sectionId}/>
+       <NewStatement parentStatementId={parentStatementId}  sectionId={sectionId} parentSectionId={sectionId} order={0}/>
       </section>
     );
   } catch (error:any) {
