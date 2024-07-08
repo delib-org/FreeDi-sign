@@ -4,7 +4,6 @@ import { Collections, Statement, StatementSubscription, StatementType } from "de
 import { store } from "../../../model/store";
 import { deleteStatement, setStatement, setStatements } from "../../slices/statementsSlice";
 import { UnsubscribeObject } from "../../../model/unsubscribeModel";
-import { Dispatch } from "react";
 
 export async function getStatements(): Promise<Statement[]> {
   try {
@@ -156,15 +155,15 @@ export function listenToDocument(statementId: string): Unsubscribe {
      
       documentsDB.docChanges().forEach((change) => {
         if (change.type === "added") {
-          console.log("New document: ", change.doc.data());
+       
           dispatch(setStatement(change.doc.data() as Statement));
         }
         if (change.type === "modified") {
-          console.log("Modified document: ", change.doc.data());
+        
           dispatch(setStatement(change.doc.data() as Statement));
         }
         if (change.type === "removed") {
-          console.log("Removed document: ", change.doc.data());
+         
           dispatch(deleteStatement(change.doc.data().statementId));
         }
       });

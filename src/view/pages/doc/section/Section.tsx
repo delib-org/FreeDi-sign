@@ -1,27 +1,28 @@
-import { Statement } from "delib-npm";
+
 import { FC } from "react";
-import Paragraph from "../paragraph/Paragraph";
+// import Paragraph from "../paragraph/Paragraph";
 import NewStatement from "../newStatement/NewStatement";
+
+import styles from './Section.module.scss'
+import { DocumentObject } from "../../../../controllers/general.ts/statement_helpers";
+
 interface Props {
   parentStatementId: string | undefined;
-  statements: Statement[];
+  document: DocumentObject;
 }
-import styles from './Section.module.scss'
 
-const Section: FC<Props> = ({ statements, parentStatementId }) => {
+const Section: FC<Props> = ({ parentStatementId, document }) => {
   try {
     if (!parentStatementId) throw new Error("Parent statement id is required");
-    const sectionId = statements[0].documentSettings?.sectionId;
+    const {sectionId} = document
     if (!sectionId) throw new Error("Section id is required");
     
-    const _statements = statements.filter((statement) => statement.documentSettings?.parentSectionId === sectionId);
 
     return (
       <section className={styles.section}>
-        {_statements.map((statement: Statement) => (
-          <Paragraph key={statement.statementId} statement={statement} />
-        ))}
-       <NewStatement parentStatementId={parentStatementId} statements={statements} sectionId={sectionId} parentSectionId={sectionId}/>
+        <h2>{document.title}</h2>
+        
+       <NewStatement parentStatementId={parentStatementId}  sectionId={sectionId} parentSectionId={sectionId}/>
       </section>
     );
   } catch (error:any) {

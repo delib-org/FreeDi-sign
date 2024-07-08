@@ -24,9 +24,9 @@ export async function setDocumentStatement({statement, statementId, order, secti
             statement,
             parentId: statementId,
             topParentId: parentStatementDB.data().topParentId,
-            parentDocumentId: "top",
+            parentDocumentId: statementId,
             sectionId,
-            parentSectionId
+            parentSectionId: parentSectionId || "top"
         });
 
         if (!newDocumentStatement) throw new Error("Error creating statement");
