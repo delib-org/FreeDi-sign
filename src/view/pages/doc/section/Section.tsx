@@ -1,44 +1,32 @@
 import { Statement } from "delib-npm";
 import { FC } from "react";
 import Paragraph from "../paragraph/Paragraph";
-import { setDocumentStatement } from "../../../../controllers/db/statements/setStatements";
+import NewStatement from "../newStatement/NewStatement";
 interface Props {
   parentStatementId: string | undefined;
   statements: Statement[];
 }
+import styles from './Section.module.scss'
 
 const Section: FC<Props> = ({ statements, parentStatementId }) => {
   try {
     if (!parentStatementId) throw new Error("Parent statement id is required");
-
-    function handleSubmitText(e: React.FormEvent<HTMLFormElement>) {
-      e.preventDefault();
-      try {
-        const target = e.target as typeof e.target & {
-          "new-statement": { value: string };
-        };
-        const newStatement = target["new-statement"].value;
-        if (!parentStatementId) throw new Error("parentStatementId is required");
-        if (newStatement) setDocumentStatement(newStatement, parentStatementId,statements.length);
-      } catch (error) {
-        console.error(error);
-      }
-    }
+    const sectionId = statements[0].documentSettings?.sectionId;
+    if (!sectionId) throw new Error("Section id is required");
+    
+    const _statements = statements.filter((statement) => statement.documentSettings?.parentSectionId === sectionId);
 
     return (
-      <section>
-        {statements.map((statement: Statement) => (
+      <section className={styles.section}>
+        {_statements.map((statement: Statement) => (
           <Paragraph key={statement.statementId} statement={statement} />
         ))}
-        <form onSubmit={handleSubmitText}>
-          <input type="text" name="new-statement" id="" />
-          <button>OK</button>
-        </form>
+       <NewStatement parentStatementId={parentStatementId} statements={statements} sectionId={sectionId} parentSectionId={sectionId}/>
       </section>
     );
-  } catch (error) {
+  } catch (error:any) {
     console.error(error);
-    return <div>Error: An error occurred.</div>;
+    return <div>Error: An error occurred: {error.message}</div>;
   }
 };
 

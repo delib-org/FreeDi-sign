@@ -3,7 +3,14 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { DB } from "../config";
 import { newStatement } from "../../general.ts/statement_helpers";
 
-export async function setDocumentStatement(statement: string, statementId: string, order: number) {
+interface SetDocumentStatement {
+    statement: string;
+    statementId: string;
+    order: number;
+    sectionId?: string;
+    parentSectionId?: string;
+}
+export async function setDocumentStatement({statement, statementId, order, sectionId,parentSectionId}: SetDocumentStatement): Promise<void> {
     try {
         const parentStatementRef = doc(DB, Collections.statements, statementId);
         const parentStatementDB = await getDoc(parentStatementRef);
@@ -17,7 +24,9 @@ export async function setDocumentStatement(statement: string, statementId: strin
             statement,
             parentId: statementId,
             topParentId: parentStatementDB.data().topParentId,
-            parentDocumentId: "top"
+            parentDocumentId: "top",
+            sectionId,
+            parentSectionId
         });
 
         if (!newDocumentStatement) throw new Error("Error creating statement");

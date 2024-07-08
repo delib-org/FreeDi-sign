@@ -7,7 +7,7 @@ interface Props {
 }
 const Paragraph:FC<Props> = ({statement}) => {
   return (
-    <p>{statement.statement}</p>
+    <p>{statement.statement} {statement.statementId}</p>
   )
 }
 

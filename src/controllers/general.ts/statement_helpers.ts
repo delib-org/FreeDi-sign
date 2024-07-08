@@ -2,22 +2,28 @@ import { Statement, StatementType } from "delib-npm";
 import { store } from "../../model/store";
 
 interface NewStatement {
+    sectionId?: string;
+    parentSectionId?: string;
     statement: string;
     parentId: string;
     topParentId: string;
     parentDocumentId: string;
     order: number;  
 }
-export function newStatement({ statement, parentId, topParentId, parentDocumentId, order}: NewStatement): Statement | undefined {
+export function newStatement({parentSectionId, sectionId, statement, parentId, topParentId, parentDocumentId, order}: NewStatement): Statement | undefined {
     try {
 
         const creator = store.getState().user.user;
         if (!creator) throw new Error("User not found");
         const creatorId = creator.uid;
         const lastUpdate: number = new Date().getTime();
+        if(!sectionId) sectionId = crypto.randomUUID();
+        if(!parentSectionId) parentSectionId = "top";
         const documentSettings = {
             parentDocumentId,
-            order
+            order,
+            sectionId,
+            parentSectionId
         }
 
         const statementId = crypto.randomUUID();
