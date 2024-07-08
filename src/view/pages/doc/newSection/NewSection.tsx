@@ -8,7 +8,7 @@ interface Props {
   parentSectionId: string | undefined;
 }
 
-const NewStatement: FC<Props> = ({
+const NewSection: FC<Props> = ({
   parentStatementId,
   parentSectionId = "top",
   order,
@@ -19,13 +19,13 @@ const NewStatement: FC<Props> = ({
       const target = e.target as typeof e.target & {
         "new-statement": { value: string };
       };
-      const newStatement = target["new-statement"].value;
+      const NewSection = target["new-statement"].value;
 
       if (!parentStatementId) throw new Error("parentStatementId is required");
 
-      if (newStatement)
+      if (NewSection)
         setDocumentStatement({
-          statement: newStatement,
+          statement: NewSection,
           statementId: parentStatementId,
           order,
           parentSectionId,
@@ -43,4 +43,4 @@ const NewStatement: FC<Props> = ({
   );
 };
 
-export default NewStatement;
+export default NewSection;

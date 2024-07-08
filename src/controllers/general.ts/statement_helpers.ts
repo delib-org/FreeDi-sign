@@ -1,7 +1,7 @@
 import { Statement, StatementType } from "delib-npm";
 import { store } from "../../model/store";
 
-interface NewStatement {
+interface NewSection {
     sectionId?: string;
     parentSectionId?: string;
     statement: string;
@@ -10,7 +10,7 @@ interface NewStatement {
     parentDocumentId: string;
     order: number;
 }
-export function newStatement({ parentSectionId, sectionId, statement, parentId, topParentId, parentDocumentId, order }: NewStatement): Statement | undefined {
+export function newSection({ parentSectionId, sectionId, statement, parentId, topParentId, parentDocumentId, order }: NewSection): Statement | undefined {
     try {
 
         const creator = store.getState().user.user;
@@ -51,7 +51,7 @@ export interface DocumentObject {
     statementId: string;
     title: string;
     statements: Statement[];
-    sections: Document[];
+    sections: DocumentObject[];
 }
 
 export function statementsToDocument(statementId: string | undefined, statements: Statement[], parentSectionId: string = "top"): DocumentObject[] {
@@ -65,12 +65,15 @@ export function statementsToDocument(statementId: string | undefined, statements
         return documentStatements
             .sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0))
             .map((documentStatement) => {
+
+                const sections = statementsToDocument(statementId, statements, documentStatement.statementId)
+                const sectionId = documentStatement.documentSettings?.sectionId || crypto.randomUUID()
                 return {
-                    sectionId: documentStatement.documentSettings?.sectionId || crypto.randomUUID(),
+                    sectionId,
                     statementId: documentStatement.statementId,
                     title: documentStatement.statement,
                     statements: [],
-                    sections: []
+                    sections
                 }
             })
 

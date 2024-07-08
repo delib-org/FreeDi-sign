@@ -1,7 +1,7 @@
 import { Collections } from "delib-npm";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { DB } from "../config";
-import { newStatement } from "../../general.ts/statement_helpers";
+import { newSection } from "../../general.ts/statement_helpers";
 
 interface SetDocumentStatement {
     statement: string;
@@ -18,7 +18,7 @@ export async function setDocumentStatement({statement, statementId, order,parent
 
 
         //create statement
-        const newDocumentStatement = newStatement({
+        const newDocumentStatement = newSection({
             order,
             statement,
             parentId: statementId,

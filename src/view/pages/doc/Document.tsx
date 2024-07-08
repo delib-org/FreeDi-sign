@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useDocument } from "../../../controllers/hooks/documentHooks";
 import Section from "./section/Section";
-import NewStatement from "./newStatement/NewStatement";
+
 
 import { DocumentObject, statementsToDocument } from "../../../controllers/general.ts/statement_helpers";
+import NewSection from "./newSection/NewSection";
 
 const Document = () => {
   const { statementId } = useParams<{ statementId: string }>();
@@ -20,7 +21,7 @@ const Document = () => {
       {documents.map((document) => (
         <Section key={document.statementId} document={document} parentStatementId={statementId} />
       ))}
-      <NewStatement parentStatementId={statementId} sectionId={undefined} parentSectionId="top" order={documents.length} />
+      <NewSection parentStatementId={statementId} sectionId={undefined} parentSectionId="top" order={documents.length} />
     </div>
   );
 };
