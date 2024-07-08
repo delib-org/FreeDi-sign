@@ -8,17 +8,17 @@ interface NewStatement {
     parentId: string;
     topParentId: string;
     parentDocumentId: string;
-    order: number;  
+    order: number;
 }
-export function newStatement({parentSectionId, sectionId, statement, parentId, topParentId, parentDocumentId, order}: NewStatement): Statement | undefined {
+export function newStatement({ parentSectionId, sectionId, statement, parentId, topParentId, parentDocumentId, order }: NewStatement): Statement | undefined {
     try {
 
         const creator = store.getState().user.user;
         if (!creator) throw new Error("User not found");
         const creatorId = creator.uid;
         const lastUpdate: number = new Date().getTime();
-        if(!sectionId) sectionId = crypto.randomUUID();
-        if(!parentSectionId) parentSectionId = "top";
+        if (!sectionId) sectionId = crypto.randomUUID();
+        if (!parentSectionId) parentSectionId = "top";
         const documentSettings = {
             parentDocumentId,
             order,
@@ -44,4 +44,30 @@ export function newStatement({parentSectionId, sectionId, statement, parentId, t
         console.error(error)
         return undefined
     }
+}
+
+interface Document {
+    statementId: string;
+    title: string;
+    statements: Statement[];
+    sections: Document[];
+}
+
+export function statementsToDocument(statements: Statement[]): Document[] {
+    try {
+        const documentStatements = statements.filter((statement) => statement.statementType === StatementType.document && statement.documentSettings?.parentSectionId === "top");
+        return documentStatements.map((documentStatement) => {
+            return {
+                statementId: documentStatement.statementId,
+                title: documentStatement.statement,
+                statements: [],
+                sections: []
+            }
+        })
+            
+    } catch (error) {
+        console.error(error)
+        return []
+    }
+
 }
