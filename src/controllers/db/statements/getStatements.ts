@@ -1,6 +1,6 @@
-import { Unsubscribe, collection, doc, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { Unsubscribe, collection, doc, getDoc, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { DB } from '../config';
-import { Collections, Statement, StatementSubscription } from "delib-npm";
+import { Collections, Statement, StatementSubscription, StatementType } from "delib-npm";
 import { store } from "../../../model/store";
 import { deleteStatement, setStatement, setStatements } from "../../slices/statementsSlice";
 import { UnsubscribeObject } from "../../../model/unsubscribeModel";
@@ -102,7 +102,7 @@ export function listenToUserTopStatements(unsubscribes: UnsubscribeObject[], set
     });
 
 
-  } catch (error:any) {
+  } catch (error: any) {
     console.error(error);
     setError(error.message);
     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -145,3 +145,34 @@ export const listenToStatement = (
     return () => { };
   }
 };
+
+export async function getStatement(statementId:string):Promise<Statement | undefined>{
+  try {
+    const statementRef = doc(DB, Collections.statements, statementId);
+    const statementDB = await getDoc(statementRef);
+    if (!statementDB.exists()) throw new Error("Statement does not exist");
+    return statementDB.data() as Statement;
+  } catch (error) {
+    return undefined
+  }
+}
+
+export function listenToDocument(statementId: string): Unsubscribe {
+  try {
+    const dispatch = store.dispatch;
+    const statementRef = collection(DB, Collections.statements);
+    const q = query(statementRef, where("documentSettings.parentDocumentId", "==", statementId));
+    return onSnapshot(q, (documentsDB) => {
+     const statements: Statement[] = [];
+      documentsDB.forEach((docDB) => {
+        statements.push(docDB.data() as Statement);
+      });
+       
+      dispatch(setStatements(statements));
+
+    }, (error) => { console.error(error) });
+  } catch (error) {
+    console.error(error);
+    return () => { };
+  }
+}
