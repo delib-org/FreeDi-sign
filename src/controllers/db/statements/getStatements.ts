@@ -167,7 +167,7 @@ export function listenToDocument(statementId: string): Unsubscribe {
       documentsDB.forEach((docDB) => {
         statements.push(docDB.data() as Statement);
       });
-      
+      console.log("DB statements", statements); 
       dispatch(setStatements(statements));
 
     }, (error) => { console.error(error) });

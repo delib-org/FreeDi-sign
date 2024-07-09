@@ -110,21 +110,22 @@ interface StatementsToDocumentProps {
 
 }
 
-export function statementsToDocument({ section, statements, parentSectionId = "top" }: StatementsToDocumentProps):DocumentObject|undefined{
+export function statementsToDocument({ section, statements, parentSectionId = "top" }: StatementsToDocumentProps): DocumentObject | undefined {
     try {
         if (!section) return undefined
-console.log('section', section.statement.toUpperCase())
+        console.log('section', section.statement.toUpperCase())
+console.log('statements', statements)
         // Get all document statements that are children of the current statement
         const levelStatements = statements.filter((st) => st.statementType === StatementType.document &&
             st.parentId === section.statementId) as Statement[];
         console.log('levelStatements', levelStatements)
-        
+
         const sections = levelStatements.filter((st) => st.documentSettings?.type === DocumentType.section).sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0)) as Statement[];
         console.log("sections", sections)
-        
+
         const paragraphs = levelStatements.filter((st) => st.documentSettings?.type === DocumentType.paragraph).sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0)) as Statement[];
         console.log("paragraphs", paragraphs)
-        
+
         const document: DocumentObject = {
             title: section.statement,
             statementId: section.statementId,

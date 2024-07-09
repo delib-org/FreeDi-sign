@@ -67,9 +67,9 @@ export const selectStatementsByCreatorId = (creatorId: string | undefined) => {
     );
 };
 
-export const documentSelector = (statementId:string) => createSelector(
+export const documentSelector = (documentId:string) => createSelector(
     (state: { statements: StatementsState }) => state.statements.statements,
-    (statements) => statements.filter((statement) => statement.parentId === statementId && statement.statementType === StatementType.document)
+    (statements) => statements.filter((statement) => statement.documentSettings?.parentDocumentId === documentId && statement.statementType === StatementType.document)
 );
 
 

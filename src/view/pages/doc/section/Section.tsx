@@ -29,7 +29,7 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
         </h2>
         {docStatement && <NewParagraph
           docStatement={docStatement}
-          parentId={statement.statementId}
+          parentId={statementId}
           order={document.sections.length}
         />}
         {document.paragraphs.map((paragraph) => (
