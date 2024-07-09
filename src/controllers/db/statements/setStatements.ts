@@ -32,7 +32,7 @@ export async function setSectionToDB({docStatement, parentId, order, isTop = fal
             statementType: StatementType.document,
             consensus: 0,
             documentSettings: {
-                parentDocumentId,
+                parentDocumentId:docStatement.statementId,
                 order,
                 type: DocumentType.section,
                 isTop
@@ -51,11 +51,9 @@ export async function setSectionToDB({docStatement, parentId, order, isTop = fal
     }
 }
 
-export async function setParagraphToDB({parentDocumentId, parentId, order, text }: SetSectionToDBProps): Promise<void> {
+export async function setParagraphToDB({docStatement, parentId, order, text }: SetSectionToDBProps): Promise<void> {
     try {
-        const parentStatementRef = doc(DB, Collections.statements, parentId);
-        const parentStatementDB = await getDoc(parentStatementRef);
-        if (!parentStatementDB.exists()) throw new Error("Parent statement does not exist");
+      
 
         const user = store.getState().user.user;
         if(!user) throw new Error("User not found");
@@ -68,13 +66,13 @@ export async function setParagraphToDB({parentDocumentId, parentId, order, text 
             parentId,
             creatorId: user.uid,
             creator:user,
-            topParentId: parentStatementDB.data().topParentId,
+            topParentId: docStatement.topParentId,
             lastUpdate: new Date().getTime(),
             createdAt: new Date().getTime(),
             statementType: StatementType.document,
             consensus: 0,
             documentSettings: {
-                parentDocumentId,
+                parentDocumentId:docStatement.statementId,
                 order,
                 type: DocumentType.paragraph,
                 isTop:false

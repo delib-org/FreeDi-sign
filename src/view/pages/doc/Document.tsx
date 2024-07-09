@@ -31,6 +31,7 @@ const Document = () => {
               key={document.statementId}
               document={document}
               docStatement={docStatement}
+              statement={docStatement}
             />
           ))}
           <NewSection

@@ -6,7 +6,7 @@ interface Props{
     parentId:string;
     order:number;
 }
-const NewParagraph:FC<Props> = ({parentId,parentDocumentId,order}) => {
+const NewParagraph:FC<Props> = ({docStatement, parentId,order}) => {
     function handleAddNewParagraph(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault()
         try {
@@ -19,7 +19,7 @@ const NewParagraph:FC<Props> = ({parentId,parentDocumentId,order}) => {
               setParagraphToDB({
                 text,
                 parentId,
-                parentDocumentId,
+                docStatement,
                 order
                 })
             }
