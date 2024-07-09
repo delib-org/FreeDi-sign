@@ -24,9 +24,9 @@ const NewSection: FC<Props> = ({
 
       if (!parentDocumentId) throw new Error("parentStatementId is required");
 
-      if (NewSection)
+      if (text)
         setSectionToDB({
-          statement: text,
+          text,
           parentDocumentId,
           parentId,
           order,

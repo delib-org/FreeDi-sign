@@ -1,25 +1,25 @@
 import {FC} from 'react'
 import { setParagraphToDB } from '../../../../controllers/db/statements/setStatements';
 interface Props{
-    parentStatementId:string;
-    sectionId:string;
+    parentDocumentId:string;
+    parentId:string;
     order:number;
 }
-const NewParagraph:FC<Props> = ({parentStatementId,sectionId,order}) => {
+const NewParagraph:FC<Props> = ({parentId,parentDocumentId,order}) => {
     function handleAddNewParagraph(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault()
         try {
             const target = e.target as typeof e.target & {
                 "new-paragraph": {value: string}
             }
-            const newParagraph = target["new-paragraph"].value
-            console.log("newParagraph", newParagraph)
-            if(newParagraph){
+            const text = target["new-paragraph"].value
+           
+            if(text){
               setParagraphToDB({
-                statement: newParagraph,
-                statementId: parentStatementId,
-                order,
-                sectionId
+                text,
+                parentId,
+                parentDocumentId,
+                order
                 })
             }
             (e.target as HTMLFormElement).reset()
