@@ -5,17 +5,15 @@ import { newParagraph, newSection } from "../../general.ts/statement_helpers";
 import { store } from "../../../model/store";
 
 interface SetSectionToDBProps {
-    parentDocumentId: string
-    parentId: string,
-    order: number
-    isTop?: boolean,
-    text: string
+    docStatement: Statement;
+    parentId: string;
+    order: number;
+    isTop?: boolean;
+    text: string;
 }
-export async function setSectionToDB({parentDocumentId, parentId, order, isTop = false, text }: SetSectionToDBProps): Promise<void> {
+export async function setSectionToDB({docStatement, parentId, order, isTop = false, text }: SetSectionToDBProps): Promise<void> {
     try {
-        const parentStatementRef = doc(DB, Collections.statements, parentId);
-        const parentStatementDB = await getDoc(parentStatementRef);
-        if (!parentStatementDB.exists()) throw new Error("Parent statement does not exist");
+       
 
         const user = store.getState().user.user;
         if(!user) throw new Error("User not found");
@@ -28,7 +26,7 @@ export async function setSectionToDB({parentDocumentId, parentId, order, isTop =
             parentId,
             creatorId: user.uid,
             creator:user,
-            topParentId: parentStatementDB.data().topParentId,
+            topParentId: docStatement.topParentId,
             lastUpdate: new Date().getTime(),
             createdAt: new Date().getTime(),
             statementType: StatementType.document,

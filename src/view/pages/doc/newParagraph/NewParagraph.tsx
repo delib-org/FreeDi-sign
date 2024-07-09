@@ -1,7 +1,8 @@
 import {FC} from 'react'
 import { setParagraphToDB } from '../../../../controllers/db/statements/setStatements';
+import { Statement } from 'delib-npm';
 interface Props{
-    parentDocumentId:string;
+    docStatement:Statement;
     parentId:string;
     order:number;
 }

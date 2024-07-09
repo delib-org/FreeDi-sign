@@ -6,15 +6,17 @@ import { DocumentObject } from "../../../../controllers/general.ts/statement_hel
 import NewSection from "../newSection/NewSection";
 import NewParagraph from "../newParagraph/NewParagraph";
 import Paragraph from "../paragraph/Paragraph";
+import { Statement } from "delib-npm";
 
 interface Props {
-  parentStatementId: string | undefined;
+  docStatement: Statement;
+  statement: Statement;
   document: DocumentObject;
 }
 
-const Section: FC<Props> = ({ parentStatementId, document }) => {
+const Section: FC<Props> = ({ docStatement, document, statement }) => {
   try {
-    if (!parentStatementId) throw new Error("Parent statement id is required");
+    if (!docStatement) throw new Error("Parent statement id is required");
     const { sectionId } = document;
     if (!sectionId) throw new Error("Section id is required");
 
@@ -25,11 +27,11 @@ const Section: FC<Props> = ({ parentStatementId, document }) => {
         <h2>
           {document.title} {sectionId}
         </h2>
-        <NewParagraph
-          parentStatementId={parentStatementId}
-          sectionId={sectionId}
+        {docStatement && <NewParagraph
+          docStatement={docStatement}
+          parentId={statement.statementId}
           order={document.sections.length}
-        />
+        />}
         {document.paragraphs.map((paragraph) => (
           <Paragraph key={paragraph.statementId} statement={paragraph} />
         ))}
@@ -37,7 +39,8 @@ const Section: FC<Props> = ({ parentStatementId, document }) => {
           <Section
             key={section.sectionId}
             document={section}
-            parentStatementId={parentStatementId}
+            docStatement={docStatement}
+            statement={statement}
           />
         ))}
         <button onClick={() => setNewSection(!newSection)}>
@@ -47,9 +50,8 @@ const Section: FC<Props> = ({ parentStatementId, document }) => {
           <section>
             <b>New Section</b>
             <NewSection
-              parentStatementId={parentStatementId}
-              sectionId={sectionId}
-              parentSectionId={sectionId}
+              docStatement={docStatement}
+              parentId={statement.statementId}
               order={document.sections.length}
             />
           </section>

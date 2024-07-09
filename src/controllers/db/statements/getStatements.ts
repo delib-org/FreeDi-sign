@@ -1,4 +1,4 @@
-import { Unsubscribe, collection, doc, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { Unsubscribe, collection, doc, getDoc, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { DB } from '../config';
 import { Collections, Statement, StatementSubscription, StatementType } from "delib-npm";
 import { store } from "../../../model/store";
@@ -145,6 +145,17 @@ export const listenToStatement = (
     return () => { };
   }
 };
+
+export async function getStatement(statementId:string):Promise<Statement | undefined>{
+  try {
+    const statementRef = doc(DB, Collections.statements, statementId);
+    const statementDB = await getDoc(statementRef);
+    if (!statementDB.exists()) throw new Error("Statement does not exist");
+    return statementDB.data() as Statement;
+  } catch (error) {
+    return undefined
+  }
+}
 
 export function listenToDocument(statementId: string): Unsubscribe {
   try {
