@@ -17,15 +17,15 @@ interface Props {
 const Section: FC<Props> = ({ docStatement, document, statement }) => {
   try {
     if (!docStatement) throw new Error("Parent statement id is required");
-    const { sectionId } = document;
-    if (!sectionId) throw new Error("Section id is required");
+    const { statementId } = document;
+    if (!statementId) throw new Error("statementId is required");
 
     const [newSection, setNewSection] = useState(false);
 
     return (
       <section className={styles.section}>
         <h2>
-          {document.title} {sectionId}
+          {document.title} {statementId}
         </h2>
         {docStatement && <NewParagraph
           docStatement={docStatement}
@@ -37,7 +37,7 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
         ))}
         {document.sections.map((section) => (
           <Section
-            key={section.sectionId}
+            key={statementId}
             document={section}
             docStatement={docStatement}
             statement={statement}

@@ -1,6 +1,7 @@
 import { DocumentType, Statement, StatementType } from "delib-npm";
 import { store } from "../../model/store";
 import { _, p } from "@vite-pwa/assets-generator/dist/shared/assets-generator.5e51fd40.mjs";
+import { doc } from "firebase/firestore";
 
 interface NewSection {
     sectionId?: string;
@@ -96,7 +97,6 @@ export function newParagraph({ sectionId, statement, parentId, topParentId, pare
 }
 
 export interface DocumentObject {
-    sectionId: string;
     statementId: string;
     title: string;
     paragraphs: Statement[];
@@ -104,38 +104,38 @@ export interface DocumentObject {
 }
 
 interface StatementsToDocumentProps {
-    statementId: string | undefined;
+    section?: Statement;
     statements: Statement[];
     parentSectionId: string;
 
 }
 
-export function statementsToDocument({ statementId, statements, parentSectionId = "top" }: StatementsToDocumentProps): DocumentObject[] {
+export function statementsToDocument({ section, statements, parentSectionId = "top" }: StatementsToDocumentProps):DocumentObject|undefined{
     try {
-        if (!statementId) return []
-
+        if (!section) return undefined
+console.log('section', section.statement.toUpperCase())
         // Get all document statements that are children of the current statement
         const levelStatements = statements.filter((st) => st.statementType === StatementType.document &&
-            st.documentSettings?.parentSectionId === parentSectionId) as Statement[];
-            
-        const sections = levelStatements.filter((st) => st.documentSettings?.type === DocumentType.section).sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0)) as Statement[];
-
-        const paragraphs = levelStatements.filter((st) => st.documentSettings?.type === DocumentType.paragraph).sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0)) as Statement[];
-
-        return sections
-            .map((s) => {
+            st.parentId === section.statementId) as Statement[];
+        console.log('levelStatements', levelStatements)
         
-                return {
-                    statementId: s.statementId,
-                    title: s.statement,
-                    paragraphs,
-                    sections
-                }
-            })
+        const sections = levelStatements.filter((st) => st.documentSettings?.type === DocumentType.section).sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0)) as Statement[];
+        console.log("sections", sections)
+        
+        const paragraphs = levelStatements.filter((st) => st.documentSettings?.type === DocumentType.paragraph).sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0)) as Statement[];
+        console.log("paragraphs", paragraphs)
+        
+        const document: DocumentObject = {
+            title: section.statement,
+            statementId: section.statementId,
+            paragraphs,
+            sections: sections.map((section) => statementsToDocument({ section, statements, parentSectionId: section.statementId }))
+        }
+        return document
 
     } catch (error) {
         console.error(error)
-        return []
+        return undefined
     }
 
 }

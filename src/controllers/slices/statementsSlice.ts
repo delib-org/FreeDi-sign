@@ -19,7 +19,7 @@ export const counterSlice = createSlice({
         setStatements: (state, action: PayloadAction<Statement[]>) => {
             try {
                 const statements = action.payload;
-console.log("preslice", statements)
+
                 statements.forEach((statement) => {
                     try {
                        const results = StatementSchema.safeParse(statement);

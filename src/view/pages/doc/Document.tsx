@@ -13,33 +13,33 @@ const Document = () => {
     useDocument(statementId);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: An error occurred.</div>;
-  console.log("statements", statements);
-  const documents: DocumentObject[] = statementsToDocument({
-    statementId,
+  
+  const document: DocumentObject|undefined = statementsToDocument({
+    section: docStatement,
     statements,
     parentSectionId: "top",
   });
-  console.log("st", documents);
+  
 
   return (
     <div>
-      <h1>Document: {statementId}</h1>
+      <h1>Document: {docStatement?.statement}</h1>
       {docStatement && (
         <>
-          {documents.map((document) => (
+          {document && document.sections.map((d) => (
             <Section
-              key={document.statementId}
-              document={document}
+              key={d.statementId}
+              document={d}
               docStatement={docStatement}
               statement={docStatement}
             />
           ))}
-          <NewSection
+          {document && <NewSection
             docStatement={docStatement}
             isTop={true}
             parentId={docStatement.statementId}
-            order={documents.length}
-          />
+            order={document.sections.length}
+          />}
         </>
       )}
     </div>
