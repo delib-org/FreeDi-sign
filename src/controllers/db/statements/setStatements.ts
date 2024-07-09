@@ -53,27 +53,40 @@ export async function setSectionToDB({parentDocumentId, parentId, order, isTop =
     }
 }
 
-export async function setParagraphToDB({ statement, statementId, order, sectionId }: SetSectionToDBProps): Promise<void> {
+export async function setParagraphToDB({parentDocumentId, parentId, order, text }: SetSectionToDBProps): Promise<void> {
     try {
-        const parentStatementRef = doc(DB, Collections.statements, statementId);
+        const parentStatementRef = doc(DB, Collections.statements, parentId);
         const parentStatementDB = await getDoc(parentStatementRef);
         if (!parentStatementDB.exists()) throw new Error("Parent statement does not exist");
-        if (!sectionId) throw new Error("Section id is required");
 
+        const user = store.getState().user.user;
+        if(!user) throw new Error("User not found");
 
-        const newParagraphStatement = newParagraph({
-            order,
-            statement,
-            parentId: statementId,
+        const statementId:string = crypto.randomUUID();
+
+        const newSection:Statement = {
+            statement: text,
+            statementId,
+            parentId,
+            creatorId: user.uid,
+            creator:user,
             topParentId: parentStatementDB.data().topParentId,
-            parentDocumentId: statementId,
-            sectionId
+            lastUpdate: new Date().getTime(),
+            createdAt: new Date().getTime(),
+            statementType: StatementType.document,
+            consensus: 0,
+            documentSettings: {
+                parentDocumentId,
+                order,
+                type: DocumentType.paragraph,
+                isTop:false
+            }
 
-        });
+        };
 
-        if (!newParagraphStatement) throw new Error("Error creating statement");
-        const newParagraphStatementRef = doc(DB, Collections.statements, newParagraphStatement.statementId);
-        await setDoc(newParagraphStatementRef, newParagraphStatement);
+
+        const newSectionRef = doc(DB, Collections.statements, statementId);
+        await setDoc(newSectionRef, newSection);
         return;
 
 
