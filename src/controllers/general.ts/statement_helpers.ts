@@ -1,6 +1,6 @@
-import { Statement, StatementType } from "delib-npm";
+import { DocumentType, Statement, StatementType } from "delib-npm";
 import { store } from "../../model/store";
-import { _ } from "@vite-pwa/assets-generator/dist/shared/assets-generator.5e51fd40.mjs";
+import { _, p } from "@vite-pwa/assets-generator/dist/shared/assets-generator.5e51fd40.mjs";
 
 interface NewSection {
     sectionId?: string;
@@ -25,7 +25,8 @@ export function newSection({ parentSectionId, sectionId, statement, parentId, to
             parentDocumentId,
             order,
             sectionId,
-            parentSectionId
+            parentSectionId,
+            type: DocumentType.section
         }
 
         const statementId = sectionId;
@@ -70,7 +71,8 @@ export function newParagraph({ sectionId, statement, parentId, topParentId, pare
             parentDocumentId,
             order,
             sectionId,
-            type: "p"
+            parentSectionId: sectionId,
+            type: DocumentType.paragraph
         }
 
         const statementId = crypto.randomUUID();
@@ -105,31 +107,27 @@ interface StatementsToDocumentProps {
     statementId: string | undefined;
     statements: Statement[];
     parentSectionId: string;
-    sectionId?: string;
+
 }
 
-export function statementsToDocument({ statementId, statements, parentSectionId = "top", sectionId }: StatementsToDocumentProps): DocumentObject[] {
+export function statementsToDocument({ statementId, statements, parentSectionId = "top" }: StatementsToDocumentProps): DocumentObject[] {
     try {
         if (!statementId) return []
-    
 
-        const documentStatements = statements.filter((statement) => statement.statementType === StatementType.document &&
-            statement.documentSettings?.parentDocumentId === statementId &&
-            statement.documentSettings?.parentSectionId === parentSectionId);
+        // Get all document statements that are children of the current statement
+        const levelStatements = statements.filter((st) => st.statementType === StatementType.document &&
+            st.documentSettings?.parentSectionId === parentSectionId) as Statement[];
+            
+        const sections = levelStatements.filter((st) => st.documentSettings?.type === DocumentType.section).sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0)) as Statement[];
 
-        return documentStatements
-            .sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0))
-            .map((documentStatement) => {
+        const paragraphs = levelStatements.filter((st) => st.documentSettings?.type === DocumentType.paragraph).sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0)) as Statement[];
 
-                const sections = statementsToDocument({ statementId, statements, parentSectionId: documentStatement.statementId });
-                const paragraphs = statements.filter((statement) => statement.statementType === StatementType.document &&
-                    statement.documentSettings?.sectionId === sectionId &&
-                    statement.documentSettings?.type === "p")
-                const _sectionId = documentStatement.documentSettings?.sectionId || crypto.randomUUID()
+        return sections
+            .map((s) => {
+        
                 return {
-                    sectionId:_sectionId,
-                    statementId: documentStatement.statementId,
-                    title: documentStatement.statement,
+                    statementId: s.statementId,
+                    title: s.statement,
                     paragraphs,
                     sections
                 }

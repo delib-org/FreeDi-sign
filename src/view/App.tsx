@@ -20,7 +20,7 @@ const navigate = useNavigate();
     if (!user) {
       navigate("/login");
     } else {
-      navigate("/doc/e357bf6e-9654-4431-af20-486035a094ff");
+      navigate("/doc/ee04279b-1c97-4ba8-adb5-a543d7144a49");
     }
   }, [user]);
 

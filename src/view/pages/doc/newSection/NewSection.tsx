@@ -2,16 +2,17 @@ import { FC } from "react";
 import { setSectionToDB } from "../../../../controllers/db/statements/setStatements";
 
 interface Props {
-  parentStatementId: string | undefined;
+  parentDocumentId: string ;
   order: number;
-  sectionId: string | undefined;
-  parentSectionId: string | undefined;
+  parentId: string;
+  isTop?: boolean;
 }
 
 const NewSection: FC<Props> = ({
-  parentStatementId,
-  parentSectionId = "top",
+  parentDocumentId,
   order,
+  parentId,
+  isTop =false
 }) => {
   function handleSubmitText(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -19,16 +20,17 @@ const NewSection: FC<Props> = ({
       const target = e.target as typeof e.target & {
         "new-statement": { value: string };
       };
-      const NewSection = target["new-statement"].value;
+      const text = target["new-statement"].value;
 
-      if (!parentStatementId) throw new Error("parentStatementId is required");
+      if (!parentDocumentId) throw new Error("parentStatementId is required");
 
       if (NewSection)
         setSectionToDB({
-          statement: NewSection,
-          statementId: parentStatementId,
+          statement: text,
+          parentDocumentId,
+          parentId,
           order,
-          parentSectionId,
+          isTop,
         });
       (e.target as HTMLFormElement).reset();
     } catch (error) {

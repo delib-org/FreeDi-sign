@@ -1,37 +1,50 @@
-import { Collections } from "delib-npm";
+import { Collections, DocumentType, Statement, StatementType } from "delib-npm";
 import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { DB } from "../config";
 import { newParagraph, newSection } from "../../general.ts/statement_helpers";
+import { store } from "../../../model/store";
 
 interface SetSectionToDBProps {
-    statement: string;
-    statementId: string;
-    order: number;
-    sectionId?: string;
-    parentSectionId?: string;
-   
+    parentDocumentId: string
+    parentId: string,
+    order: number
+    isTop?: boolean,
+    text: string
 }
-export async function setSectionToDB({ statement, statementId, order, parentSectionId, sectionId }: SetSectionToDBProps): Promise<void> {
+export async function setSectionToDB({parentDocumentId, parentId, order, isTop = false, text }: SetSectionToDBProps): Promise<void> {
     try {
-        const parentStatementRef = doc(DB, Collections.statements, statementId);
+        const parentStatementRef = doc(DB, Collections.statements, parentId);
         const parentStatementDB = await getDoc(parentStatementRef);
         if (!parentStatementDB.exists()) throw new Error("Parent statement does not exist");
-        sectionId = sectionId || crypto.randomUUID();
 
-        const newParagraphStatement = newSection({
-            order,
-            statement,
-            parentId: statementId,
+        const user = store.getState().user.user;
+        if(!user) throw new Error("User not found");
+
+        const statementId:string = crypto.randomUUID();
+
+        const newSection:Statement = {
+            statement: text,
+            statementId,
+            parentId,
+            creatorId: user.uid,
+            creator:user,
             topParentId: parentStatementDB.data().topParentId,
-            parentDocumentId: statementId,
-            sectionId,
-            parentSectionId: parentSectionId || "top",
+            lastUpdate: new Date().getTime(),
+            createdAt: new Date().getTime(),
+            statementType: StatementType.document,
+            consensus: 0,
+            documentSettings: {
+                parentDocumentId,
+                order,
+                type: DocumentType.section,
+                isTop
+            }
 
-        });
+        };
 
-        if (!newParagraphStatement) throw new Error("Error creating statement");
-        const newParagraphStatementRef = doc(DB, Collections.statements, sectionId);
-        await setDoc(newParagraphStatementRef, newParagraphStatement);
+
+        const newSectionRef = doc(DB, Collections.statements, statementId);
+        await setDoc(newSectionRef, newSection);
         return;
 
 
@@ -45,8 +58,8 @@ export async function setParagraphToDB({ statement, statementId, order, sectionI
         const parentStatementRef = doc(DB, Collections.statements, statementId);
         const parentStatementDB = await getDoc(parentStatementRef);
         if (!parentStatementDB.exists()) throw new Error("Parent statement does not exist");
-       if(!sectionId) throw new Error("Section id is required");
-      
+        if (!sectionId) throw new Error("Section id is required");
+
 
         const newParagraphStatement = newParagraph({
             order,

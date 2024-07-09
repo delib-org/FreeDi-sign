@@ -150,7 +150,7 @@ export function listenToDocument(statementId: string): Unsubscribe {
   try {
     const dispatch = store.dispatch;
     const statementRef = collection(DB, Collections.statements);
-    const q = query(statementRef, where("parentId", "==", statementId), where("statementType", "==", StatementType.document));
+    const q = query(statementRef, where("documentSettings.parentDocumentId", "==", statementId));
     return onSnapshot(q, (documentsDB) => {
      const statements: Statement[] = [];
       documentsDB.forEach((docDB) => {
