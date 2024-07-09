@@ -73,7 +73,7 @@ export function newParagraph({ sectionId, statement, parentId, topParentId, pare
             type: "p"
         }
 
-        const statementId = sectionId;
+        const statementId = crypto.randomUUID();
         return {
             statement,
             statementId,
@@ -111,6 +111,7 @@ interface StatementsToDocumentProps {
 export function statementsToDocument({ statementId, statements, parentSectionId = "top", sectionId }: StatementsToDocumentProps): DocumentObject[] {
     try {
         if (!statementId) return []
+    
 
         const documentStatements = statements.filter((statement) => statement.statementType === StatementType.document &&
             statement.documentSettings?.parentDocumentId === statementId &&

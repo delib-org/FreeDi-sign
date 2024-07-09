@@ -152,21 +152,12 @@ export function listenToDocument(statementId: string): Unsubscribe {
     const statementRef = collection(DB, Collections.statements);
     const q = query(statementRef, where("parentId", "==", statementId), where("statementType", "==", StatementType.document));
     return onSnapshot(q, (documentsDB) => {
-     
-      documentsDB.docChanges().forEach((change) => {
-        if (change.type === "added") {
-       
-          dispatch(setStatement(change.doc.data() as Statement));
-        }
-        if (change.type === "modified") {
-        
-          dispatch(setStatement(change.doc.data() as Statement));
-        }
-        if (change.type === "removed") {
-         
-          dispatch(deleteStatement(change.doc.data().statementId));
-        }
+     const statements: Statement[] = [];
+      documentsDB.forEach((docDB) => {
+        statements.push(docDB.data() as Statement);
       });
+      console.log("DB statements", statements);
+      dispatch(setStatements(statements));
 
     }, (error) => { console.error(error) });
   } catch (error) {

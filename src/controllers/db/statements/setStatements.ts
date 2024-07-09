@@ -45,7 +45,8 @@ export async function setParagraphToDB({ statement, statementId, order, sectionI
         const parentStatementRef = doc(DB, Collections.statements, statementId);
         const parentStatementDB = await getDoc(parentStatementRef);
         if (!parentStatementDB.exists()) throw new Error("Parent statement does not exist");
-        sectionId = sectionId || crypto.randomUUID();
+       if(!sectionId) throw new Error("Section id is required");
+      
 
         const newParagraphStatement = newParagraph({
             order,
@@ -58,8 +59,8 @@ export async function setParagraphToDB({ statement, statementId, order, sectionI
         });
 
         if (!newParagraphStatement) throw new Error("Error creating statement");
-        const newParagraphStatementRef = collection(DB, Collections.statements);
-        await addDoc(newParagraphStatementRef, newParagraphStatement);
+        const newParagraphStatementRef = doc(DB, Collections.statements, newParagraphStatement.statementId);
+        await setDoc(newParagraphStatementRef, newParagraphStatement);
         return;
 
 

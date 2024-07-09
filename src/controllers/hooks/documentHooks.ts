@@ -14,6 +14,8 @@ export function useDocument(statementId: string|undefined): Props {
     try {
         const [isLoading, setIsLoading] = useState<boolean>(false);
         const statements: Statement[] = useSelector(documentSelector(statementId||""));
+        console.log("selctor statements", statements)
+        
         useEffect(() => {
             if (!statementId) return;
             const unsubscribe = listenToDocument(statementId)
