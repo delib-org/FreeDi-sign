@@ -1,7 +1,6 @@
 import { DocumentType, Statement, StatementType } from "delib-npm";
 import { store } from "../../model/store";
-import { _, p } from "@vite-pwa/assets-generator/dist/shared/assets-generator.5e51fd40.mjs";
-import { doc } from "firebase/firestore";
+
 
 interface NewSection {
     sectionId?: string;
@@ -106,7 +105,6 @@ export interface DocumentObject {
 interface StatementsToDocumentProps {
     section?: Statement;
     statements: Statement[];
-    parentSectionId: string;
 
 }
 
@@ -128,7 +126,7 @@ export function statementsToDocument({ section, statements }: StatementsToDocume
             title: section.statement,
             statementId: section.statementId,
             paragraphs,
-            sections: sections.map((section) => statementsToDocument({ section, statements, parentSectionId: section.statementId })).filter((d) => d !== undefined) as DocumentObject[]
+            sections: sections.map((section) => statementsToDocument({ section, statements })).filter((d) => d !== undefined) as DocumentObject[]
         }
         return document
 

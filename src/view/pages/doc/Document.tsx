@@ -16,8 +16,7 @@ const Document = () => {
   
   const document: DocumentObject|undefined = statementsToDocument({
     section: docStatement,
-    statements,
-    parentSectionId: "top",
+    statements
   });
   
 
