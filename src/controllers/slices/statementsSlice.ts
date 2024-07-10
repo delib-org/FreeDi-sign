@@ -1,6 +1,6 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { Statement, updateArray, StatementSchema, writeZodError, StatementType } from 'delib-npm'
+import { Statement, updateArray, StatementSchema, writeZodError, StatementType, DocumentType } from 'delib-npm'
 
 
 
@@ -72,6 +72,11 @@ export const documentSelector = (documentId:string) => createSelector(
     (statements) => statements.filter((statement) => statement.documentSettings?.parentDocumentId === documentId && statement.statementType === StatementType.document)
 );
 
+//comments selector
+export const commentsSelector = (statementId:string) => createSelector(
+    (state: { statements: StatementsState }) => state.statements.statements,
+    (statements) => statements.filter((statement) => statement.parentId === statementId && statement.documentSettings?.type === DocumentType.comment)
+);
 
 export const selectStatement = (state: { statements: StatementsState }, statementId: string) => state.statements.statements.find((statement) => statement.statementId === statementId);
 

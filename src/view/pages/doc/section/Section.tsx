@@ -33,7 +33,7 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
           order={document.sections.length}
         />}
         {document.paragraphs.map((paragraph) => (
-          <Paragraph key={`p-${paragraph.statementId}`} statement={paragraph} />
+          <Paragraph key={`p-${paragraph.statementId}`} statement={paragraph} docStatement={docStatement} />
         ))}
         {document.sections.map((section) => (
           <Section
