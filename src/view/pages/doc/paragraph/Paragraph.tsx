@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { commentsSelector } from "../../../../controllers/slices/statementsSlice";
 import NewComment from "../newComment/NewComment";
 import Comment from "../comment/Comment";
+import styles from "./Paragraph.module.scss";
 
 interface Props {
   statement: Statement;
@@ -12,7 +13,11 @@ interface Props {
 const Paragraph: FC<Props> = ({ statement,docStatement }) => {
   const comments = useSelector(commentsSelector(statement.statementId))
   return (
-    <div className="paragraph">
+    <div className={styles.paragraph}>
+      <div className={styles.paragraph__approval}>
+        <button>Approve</button>
+        <button>Reject</button>
+      </div>
       <p>
         {statement.statement} {statement.statementId}
       </p>

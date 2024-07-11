@@ -1,0 +1,12 @@
+.paragraph {
+ display: flex;
+    flex-direction: column;
+    &__approval{
+        display: flex;
+        justify-content: end;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 1rem;
+        
+    }
+}

@@ -13,7 +13,7 @@ import Header from "../../components/header/Header";
 
 const Document = () => {
   const { statementId } = useParams<{ statementId: string }>();
-  const { statements, isLoading, isError, docStatement } =
+  const { statements, isLoading, isError, docStatement, isAuthorized } =
     useDocument(statementId);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: An error occurred.</div>;
@@ -22,36 +22,31 @@ const Document = () => {
     section: docStatement,
     statements,
   });
+  
+  if(!isAuthorized) return <div>Not authorized</div>;
 
   return (
-    // <div>
-    //   <h1>Document: {docStatement?.statement}</h1>
-    //   {docStatement && (
-    //     <>
-    //       {document && document.sections.map((d) => (
-    //         <Section
-    //           key={d.statementId}
-    //           document={d}
-    //           docStatement={docStatement}
-    //           statement={docStatement}
-    //         />
-    //       ))}
-    //       {document && <NewSection
-    //         docStatement={docStatement}
-    //         isTop={true}
-    //         parentId={docStatement.statementId}
-    //         order={document.sections.length}
-    //       />}
-    //     </>
-    //   )}
-    // </div>
-    <div className={styles.signWrapper}>
-      <Header />
-      <div className={styles.signWrapper__mainContainer}>
-        <Accordion />
-        <PolicyContainer />
-      </div>
-      {/* <h1>Document: {statementId}</h1> */}
+    <div>
+      <a href="https://freedi.tech">Freedi</a>
+      <h1>Document: {docStatement?.statement}</h1>
+      {docStatement && (
+        <>
+          {document && document.sections.map((d) => (
+            <Section
+              key={d.statementId}
+              document={d}
+              docStatement={docStatement}
+              statement={docStatement}
+            />
+          ))}
+          {document && <NewSection
+            docStatement={docStatement}
+            isTop={true}
+            parentId={docStatement.statementId}
+            order={document.sections.length}
+          />}
+        </>
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { Unsubscribe, collection, doc, getDoc, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { DB } from '../config';
-import { Collections, Statement, StatementSubscription, StatementType } from "delib-npm";
+import { Collections, Statement, StatementSubscription } from "delib-npm";
 import { store } from "../../../model/store";
 import { deleteStatement, setStatement, setStatements } from "../../slices/statementsSlice";
 import { UnsubscribeObject } from "../../../model/unsubscribeModel";
