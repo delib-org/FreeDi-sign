@@ -6,10 +6,11 @@ import {
   statementsToDocument,
 } from "../../../controllers/general.ts/statement_helpers";
 import NewSection from "./newSection/NewSection";
+import { auth } from "../../../controllers/db/authCont";
 
 const Document = () => {
   const { statementId } = useParams<{ statementId: string }>();
-  const { statements, isLoading, isError, docStatement } =
+  const { statements, isLoading, isError, docStatement, isAuthorized } =
     useDocument(statementId);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: An error occurred.</div>;
@@ -19,9 +20,11 @@ const Document = () => {
     statements
   });
   
+  if(!isAuthorized) return <div>Not authorized</div>;
 
   return (
     <div>
+      <a href="https://freedi.tech">Freedi</a>
       <h1>Document: {docStatement?.statement}</h1>
       {docStatement && (
         <>

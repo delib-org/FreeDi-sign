@@ -1,7 +1,6 @@
 import { Collections, DocumentType, Statement, StatementType } from "delib-npm";
-import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { DB } from "../config";
-import { newParagraph, newSection } from "../../general.ts/statement_helpers";
 import { store } from "../../../model/store";
 
 interface SetSectionToDBProps {
