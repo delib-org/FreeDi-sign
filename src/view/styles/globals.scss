@@ -6,13 +6,23 @@
     //colors
     --dark-main: #5899E0;
     --text-main: white;
+    --text-body-dark: #57688F;
+    --sign-site-sidebar: #FBFCFF;
+    --icon-blue: #4789D1;
+    --screen-bg: #F2F6FF;
+    --body-default: #6A7699;
+    --blue-primary: #739EE4;
+    --paragraph-light: #818FAD;
+
+
+
+    --button-text: 1rem;
 
 }
 
 html,
 body {
     font-size: 17px;
-
     margin: 0;
     font-family: "Roboto", sans-serif;
     font-weight: 300;

@@ -1,0 +1,122 @@
+.policyWrapper {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 70.64em;
+    height: 46.29rem;
+    overflow-y: hidden;
+    margin-left: 4rem;
+
+    &__title {
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--text-body-dark);
+    }
+
+    &__policyHeaderWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &__title {
+            color: var(--icon-blue);
+            font-weight: 500;
+        }
+
+        &__buttonWrapper {
+            display: flex;
+            gap: 1.5rem;
+        }
+    }
+
+    &__policyMainContainer {
+        display: flex;
+        flex-direction: column;
+        padding-left: 10px;
+
+        &__description {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--body-default);
+        }
+
+        &__titleWrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &__title {
+                color: var(--text-body-dark);
+                font-weight: 500;
+            }
+
+            &__buttonWrapper {
+                display: flex;
+                gap: 1.5rem;
+            }
+        }
+    }
+
+    &__policyFooter {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 5rem;
+
+        &__signatureWrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.58rem;
+            width: 9.23rem;
+            padding: 0.58rem;
+
+            &__text {
+                font-weight: 400;
+                color: var(--text-body-dark);
+                font-size: 0.8rem;
+            }
+        }
+
+        &__buttonWrapper {
+            width: 22.76rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            button {
+                width: 9.70rem;
+                height: 2.41rem;
+                padding: 0.47rem 3.05rem;
+                font-weight: 500;
+                text-align: center;
+                border: none;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .buttonDecline {
+        box-shadow:
+        0px 1px 1px 0px #6E7D8C17,
+        0px 2px 1px 0px #6E7D8C0D,
+        0px 3px 1px 0px #6E7D8C03,
+        0px 5px 1px 0px #6E7D8C00;
+        color: var(--dark-main);
+        opacity: 0.5;
+        background-color: #D7E9FD;
+    }
+
+    .buttonAccept {
+        background-color: var(--dark-main);
+        box-shadow:
+            0px 4px 9px 0px #24466B1A,
+            0px 17px 17px 0px #24466B17,
+            0px 38px 23px 0px #24466B0D,
+            0px 67px 27px 0px #24466B03,
+            0px 105px 29px 0px #24466B00;
+        color: white;
+    }
+
+}

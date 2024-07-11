@@ -1,0 +1,30 @@
+.wrapper {
+    background-color: inherit;
+
+    .titleWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-weight: 500;
+        color: var(--text-body-dark);
+        font-size: 0.85rem;
+        .title{
+            width: 16.88rem;
+        }
+        .titleSpan{
+            margin-bottom: 0.85rem;
+        }
+    }
+
+    .description{
+        padding-left: 1rem;
+        font-size: var(--button-text);
+        font-weight: 400;
+        color: var(--icon-blue);
+    }
+
+    .active{
+        color: var(--icon-blue);
+    }
+}

@@ -1,0 +1,48 @@
+.wrapper {
+    width: 29.88rem;
+    background-color: var(--sign-site-sidebar);
+    box-shadow:
+        1px 0px 2px 0px #62749D1A,
+        4px 0px 4px 0px #62749D17,
+        9px 0px 5px 0px #62749D0D,
+        15px 0px 6px 0px #62749D03,
+        24px 0px 7px 0px #62749D00;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    .headerWrapper {
+        width: 21.2rem;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: 5rem;
+        .header {
+            font-weight: 600;
+            color: var(--icon-blue);
+            font-size: 1.41rem;
+        }
+    }
+
+    .accordionWrapper {
+        width: 20.17rem;
+        padding-left: 4.2rem;
+    }
+
+    .pdfWrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: .5rem;
+        padding-bottom: 3rem;
+        .pdfText{
+            font-weight: 500;
+            text-align: center;
+            color: var(--icon-blue);
+            font-size: 1.17rem;
+        }
+    }
+
+}
