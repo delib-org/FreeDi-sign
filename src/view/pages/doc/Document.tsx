@@ -6,7 +6,7 @@ import {
   statementsToDocument,
 } from "../../../controllers/general.ts/statement_helpers";
 import NewSection from "./newSection/NewSection";
-import { auth } from "../../../controllers/db/authCont";
+
 
 const Document = () => {
   const { statementId } = useParams<{ statementId: string }>();
