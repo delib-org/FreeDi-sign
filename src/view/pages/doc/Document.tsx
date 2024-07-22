@@ -6,9 +6,13 @@ import {
   statementsToDocument,
 } from "../../../controllers/general.ts/statement_helpers";
 import NewSection from "./newSection/NewSection";
+import { useDispatch, useSelector } from "react-redux";
+import { isEditSelector, toggleIsEdit } from "../../../controllers/slices/editSlice";
 
 
 const Document = () => {
+const dispatch = useDispatch();
+  const isEdit = useSelector(isEditSelector);
   const { statementId } = useParams<{ statementId: string }>();
   const { statements, isLoading, isError, docStatement, isAuthorized } =
     useDocument(statementId);
@@ -26,6 +30,9 @@ const Document = () => {
     <div>
       <a href="https://freedi.tech">Freedi</a>
       <h1>Document: {docStatement?.statement}</h1>
+
+      <button style={{backgroundColor:isEdit?"red":"green"}} onClick={()=>{dispatch(toggleIsEdit())}}>{isEdit?"stop edit":"start edit"}</button>
+
       {docStatement && (
         <>
           {document && document.sections.map((d) => (

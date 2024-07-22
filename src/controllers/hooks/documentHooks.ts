@@ -28,6 +28,8 @@ export function useDocument(statementId: string | undefined): Props {
                     if (role === Role.admin || role === Role.member) setIsAuthorized(true);
                 }
             });
+
+            
             const unsubscribe = listenToDocument(statementId);
             getStatement(statementId).then((statement) => {
                 if (statement) setStatement(statement);

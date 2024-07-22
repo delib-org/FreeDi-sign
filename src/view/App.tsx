@@ -9,11 +9,11 @@ import { navigateToDocument } from "./appCont";
 function App() {
   const user = useSelector(selectUser);
   const params = useParams();
-  console.log(params);
+
   const navigate = useNavigate();
   useEffect(() => {
     const { statementId } = params;
-    console.log(statementId);
+ 
     //set to local storage
     if (statementId) {
       localStorage.setItem("statementId", statementId);
