@@ -96,6 +96,7 @@ export function newParagraph({ sectionId, statement, parentId, topParentId, pare
 }
 
 export interface DocumentObject {
+    statement:Statement
     statementId: string;
     title: string;
     paragraphs: Statement[];
@@ -123,6 +124,7 @@ export function statementsToDocument({ section, statements }: StatementsToDocume
         
 
         const document: DocumentObject = {
+            statement: section,
             title: section.statement,
             statementId: section.statementId,
             paragraphs,

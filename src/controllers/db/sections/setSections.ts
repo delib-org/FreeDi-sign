@@ -7,8 +7,9 @@ interface EditSectionProps {
     newText?:string;
 }
 
-export function editSection({statement,newText}:EditSectionProps):void {
+export function updateSectionTextToDB({statement,newText}:EditSectionProps):void {
     try {
+        console.log(newText, statement.statementId)
         const statementRef = doc(DB, Collections.statements, statement.statementId);
         updateDoc(statementRef,{
             statement: newText

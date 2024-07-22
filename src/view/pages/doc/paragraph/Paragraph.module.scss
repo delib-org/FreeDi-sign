@@ -1,4 +1,5 @@
 .paragraph {
+    font-size: 1rem;
  display: flex;
     flex-direction: column;
     &__approval{
@@ -9,4 +10,20 @@
         margin-bottom: 1rem;
         
     }
+}
+
+.textArea{
+    font-size: 1rem;
+    background-color: var(--screenBG);
+    font-family: "Roboto", sans-serif;
+    height: auto;
+    width: 100%;
+    overflow-y: auto;
+    border:1px solid var(--dark-main);
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
 }

@@ -7,6 +7,9 @@ import NewSection from "../newSection/NewSection";
 import NewParagraph from "../newParagraph/NewParagraph";
 import Paragraph from "../paragraph/Paragraph";
 import { Statement } from "delib-npm";
+import { useSelector } from "react-redux";
+import { isEditSelector } from "../../../../controllers/slices/editSlice";
+import { updateSectionTextToDB } from "../../../../controllers/db/sections/setSections";
 
 interface Props {
   docStatement: Statement;
@@ -16,6 +19,7 @@ interface Props {
 
 const Section: FC<Props> = ({ docStatement, document, statement }) => {
   try {
+    const isEdit = useSelector(isEditSelector);
     if (!docStatement) throw new Error("Parent statement id is required");
     const { statementId } = document;
     if (!statementId) throw new Error("statementId is required");
@@ -24,16 +28,29 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
 
     return (
       <section className={styles.section}>
-        <h2>
-          {document.title} {statementId}
-        </h2>
-        {docStatement && <NewParagraph
-          docStatement={docStatement}
-          parentId={statementId}
-          order={document.sections.length}
-        />}
+        {!isEdit ? (
+          <div className={styles.title}>
+            {document.statement.statement}
+          </div>
+        ) : (
+          <input className={styles.input} type="text" defaultValue={document.title} onChange={(e)=>{
+            updateSectionTextToDB({statement:document.statement, newText:e.target.value})
+          }} 
+             />
+        )}
+        {docStatement && (
+          <NewParagraph
+            docStatement={docStatement}
+            parentId={statementId}
+            order={document.sections.length}
+          />
+        )}
         {document.paragraphs.map((paragraph) => (
-          <Paragraph key={`p-${paragraph.statementId}`} statement={paragraph} docStatement={docStatement} />
+          <Paragraph
+            key={`p-${paragraph.statementId}`}
+            statement={paragraph}
+            docStatement={docStatement}
+          />
         ))}
         {document.sections.map((section) => (
           <Section

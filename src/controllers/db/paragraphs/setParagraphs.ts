@@ -7,7 +7,7 @@ interface EditParagraphProps {
     newText?:string;
 }
 
-export function editParagraph({statement,newText}:EditParagraphProps):void {
+export function updateParagraphTextToDB({statement,newText}:EditParagraphProps):void {
     try {
         const statementRef = doc(DB, Collections.statements, statement.statementId);
         updateDoc(statementRef,{
