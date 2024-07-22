@@ -15,6 +15,7 @@ dist
 dist-ssr
 dev-dist
 *.local
+.firebaserc
 
 # Editor directories and files
 .vscode/*
