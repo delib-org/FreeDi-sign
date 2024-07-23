@@ -8,6 +8,7 @@ import styles from "./Paragraph.module.scss";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { adjustTextAreaHeight } from "./paragraphCont";
 import { updateParagraphTextToDB } from "../../../../controllers/db/paragraphs/setParagraphs";
+import Importance from "./importance/Importance";
 
 interface Props {
   statement: Statement;
@@ -42,6 +43,7 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
           
         </textarea>
       )}
+      <Importance statement={statement} document={docStatement} />
       <NewComment
         docStatement={docStatement}
         order={comments.length}
