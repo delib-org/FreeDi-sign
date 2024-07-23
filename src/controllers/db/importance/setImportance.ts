@@ -1,14 +1,17 @@
 import { doc, setDoc } from "firebase/firestore";
 import { DB } from "../config";
-import { Collections, Importance, ImportanceSchema, Statement } from "delib-npm";
+import { Collections, getStatementSubscriptionId, Importance, ImportanceSchema, Statement } from "delib-npm";
 import { store } from "../../../model/store";
 
 export async function setImportanceToDB({ statement, importance, document }: { statement: Statement, document: Statement, importance: number }): void {
     try {
-        const statementRef = doc(DB, Collections.importance, statement.statementId);
+        const user = store.getState().user.user;
+        if (!user) throw new Error("User not logged in");
+        const importanceId = getStatementSubscriptionId(statement.statementId, user);
+        if(!importanceId) throw new Error("ImportanceId not found");
+        const importanceRef = doc(DB, Collections.importance, importanceId);
 
-        const userId = store.getState().user.user?.uid;
-        if (!userId) throw new Error("User not logged in");
+        const userId = user.uid;
 
         const importanceObj: Importance = {
             importance,
@@ -21,7 +24,8 @@ export async function setImportanceToDB({ statement, importance, document }: { s
 
         ImportanceSchema.parse(importanceObj);
 
-        await setDoc(statementRef, importanceObj, { merge: true });
+
+        await setDoc(importanceRef, importanceObj, { merge: true });
     } catch (e) {
         console.error(e);
     }
