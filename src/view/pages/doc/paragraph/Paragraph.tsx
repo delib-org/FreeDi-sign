@@ -22,6 +22,8 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
     //get the previous value of isEdit
   }, [isEdit]);
 
+
+
   return (
     <div className={styles.paragraph}>
       <div className={styles.paragraph__approval}>
@@ -29,7 +31,7 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
         <button>Reject</button>
       </div>
       {!isEdit ? (
-        <p>{statement.statement}</p>
+        <p><span>{statement.statement}</span> <span>{Math.round((statement.importanceData?.sumImportance || 0) * 100)/100}</span> <span>( {statement.importanceData?.numberOfUsers || 0})</span></p>
       ) : (
         <textarea
           className={styles.textArea}

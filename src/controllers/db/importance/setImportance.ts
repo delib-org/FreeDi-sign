@@ -3,7 +3,7 @@ import { DB } from "../config";
 import { Collections, getStatementSubscriptionId, Importance, ImportanceSchema, Statement } from "delib-npm";
 import { store } from "../../../model/store";
 
-export async function setImportanceToDB({ statement, importance, document }: { statement: Statement, document: Statement, importance: number }): void {
+export async function setImportanceToDB({ statement, importance, document }: { statement: Statement, document: Statement, importance: number }): Promise<void> {
     try {
         const user = store.getState().user.user;
         if (!user) throw new Error("User not logged in");
