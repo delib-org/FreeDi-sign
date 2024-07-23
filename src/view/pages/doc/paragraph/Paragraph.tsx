@@ -8,6 +8,7 @@ import styles from "./Paragraph.module.scss";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { adjustTextAreaHeight } from "./paragraphCont";
 import { updateParagraphTextToDB } from "../../../../controllers/db/paragraphs/setParagraphs";
+import Importance from "./importance/Importance";
 
 interface Props {
   statement: Statement;
@@ -21,6 +22,8 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
     //get the previous value of isEdit
   }, [isEdit]);
 
+
+
   return (
     <div className={styles.paragraph}>
       <div className={styles.paragraph__approval}>
@@ -28,7 +31,7 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
         <button>Reject</button>
       </div>
       {!isEdit ? (
-        <p>{statement.statement}</p>
+        <p><span>{statement.statement}</span> <span>{Math.round((statement.importanceData?.sumImportance || 0) * 100)/100}</span> <span>( {statement.importanceData?.numberOfUsers || 0})</span></p>
       ) : (
         <textarea
           className={styles.textArea}
@@ -42,6 +45,7 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
           
         </textarea>
       )}
+      <Importance statement={statement} document={docStatement} />
       <NewComment
         docStatement={docStatement}
         order={comments.length}
