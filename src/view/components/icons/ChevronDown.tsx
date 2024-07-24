@@ -11,9 +11,9 @@ function ChevronDown({}: Props) {
     >
       <path
         d="M4 8L12 16L20 8"
-        stroke="#5899E0"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        stroke="white"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

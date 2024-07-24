@@ -1,3 +1,5 @@
+import MainButton from "../buttons/MainButton";
+import StrongMainButton from "../buttons/StrongMainButton";
 import styles from "./policyComment.module.scss";
 
 interface Props {}
@@ -5,28 +7,33 @@ interface Props {}
 const PolicyComment = (props: Props) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.wrapper__profileWrapper}>
-        <img
-          alt="img"
-          className={styles.wrapper__profileWrapper__profileImage}
+      <img alt="Img" className={styles.wrapper__profileImage} />
+      <form className={styles.wrapper__descriptionWrapper}>
+        <textarea
+          placeholder="Please, provide your thoughts in this space..."
+          className={styles.wrapper__descriptionWrapper__description}
         />
-        <img
-          alt="lock"
-          className={styles.wrapper__profileWrapper__lockImage}
-        />
-        <h4 className={styles.wrapper__profileWrapper__name}>
-          name
-        </h4>
-      </div>
-      <p className={styles.wrapper__description}>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo
-        quisquam debitis nesciunt perferendis suscipit optio culpa eum, qui
-        voluptatum unde? Nemo nulla recusandae nam provident id aliquid sit ea
-        doloribus!
-      </p>
-      <button className={styles.wrapper__button}>
-        Save comment
-      </button>
+        <div className={styles.wrapper__descriptionWrapper__buttonsWrapper}>
+          <StrongMainButton
+            value="Save comment"
+            color="white"
+            backgroundcolor="var(--active-btn)"
+            padding="0.23rem 1.41rem"
+            width="9.11rem"
+            height="1.88rem"
+            fontSize="0.94rem"
+          />
+          <MainButton
+            value="Cancel"
+            color="var(--icon-blue)"
+            backgroundcolor="var(--inactive-btn)"
+            padding="0.23rem 1.41rem"
+            width="9.11rem"
+            height="1.88rem"
+            fontSize="0.94rem"
+          />
+        </div>
+      </form>
     </div>
   );
 };

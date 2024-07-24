@@ -3,50 +3,65 @@ import styles from "./accordion.module.scss";
 import AccordionItem from "./AccordionItem";
 import ChevronLeft from "../icons/ChevronLeft";
 import PdfDownloadLogo from "../icons/PdfDownloadLogo";
+import { useParams } from "react-router-dom";
+import { useDocument } from "../../../controllers/hooks/documentHooks";
+import {
+  DocumentObject,
+  statementsToDocument,
+} from "../../../controllers/general.ts/statement_helpers";
+import File from "../icons/File";
+import LogoAndName from "../icons/LogoAndName";
 
-function Accordion() {
+function Accordion1() {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
+  const { statementId } = useParams<{ statementId: string }>();
+  const { statements, isLoading, isError, docStatement, isAuthorized } =
+    useDocument(statementId);
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: An error occurred.</div>;
 
-  const data = [
-    {
-      title: "Section ipsum dolor sit amet consectetur.",
-      description: "lorem ipsum ipsum lorem",
-    },
-    {
-      title: "Section ipsum dolor sit amet consectetur.",
-      description: "lorem ipsum ipsum lorem",
-    },
-    {
-      title: "Section ipsum dolor sit amet consectetur.",
-      description: "lorem ipsum ipsum lorem",
-    },
-    {
-      title: "Section ipsum dolor sit amet consectetur.",
-      description: "lorem ipsum ipsum lorem",
-    },
-  ];
+  const title = docStatement?.statement.split("\n")[0].split("*")[1];
+  
 
+  const document: DocumentObject | undefined = statementsToDocument({
+    section: docStatement,
+    statements,
+  });
+
+  // section={section}
+  // isActiveSection={index === activeIndex}
+  // key={index}
+  // setActiveIndex={setActiveIndex}
+  // sectionIndex={index}
   return (
     <div className={styles.wrapper}>
       <div>
         <div className={styles.headerWrapper}>
-          <ChevronLeft />
-          <h1 className={styles.header}>
-            Lorem ipsum dolor sit amet consectetur
-          </h1>
+          <div className={styles.headerLogo}>
+            <LogoAndName />
+            <p>for Nordia community</p>
+          </div>
+          <div className={styles.headerTitle}>
+            <File />
+            <h1 className={styles.header}>
+              {title}
+            </h1>
+          </div>
         </div>
         <div className={styles.accordionWrapper}>
-          {data.map((section, index) => {
-            return (
-              <AccordionItem
-                section={section}
-                isActiveSection={index === activeIndex}
-                key={index}
-                setActiveIndex={setActiveIndex}
-                sectionIndex={index}
-              />
-            );
-          })}
+          {docStatement && document?.sections.length !== 0
+            ? document!.sections.map((d, index) => (
+                <AccordionItem
+                  key={index}
+                  document={d}
+                  docStatement={docStatement}
+                  statement={docStatement}
+                  isActiveSection={index === activeIndex}
+                  setActiveIndex={setActiveIndex}
+                  sectionIndex={index}
+                />
+              ))
+            : null}
         </div>
       </div>
       <div className={styles.pdfWrapper}>
@@ -57,4 +72,4 @@ function Accordion() {
   );
 }
 
-export default Accordion;
+export default Accordion1;

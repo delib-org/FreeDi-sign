@@ -1,44 +1,60 @@
     .wrapper {
-        margin-left: 3.5rem;
+        width: 100%;
+        position: relative;
+        padding-right: 4rem;
         border-left: 3px var(--blue-primary) solid;
-        padding-left: 0.88rem;
         display: flex;
-        flex-direction: column;
+        justify-content: center;
+        align-items: end;
         gap: 0.70rem;
 
-        &__profileWrapper {
-            display: flex;
-            gap: 0.47rem;
-
-            &__name {
-                color: var(--text-body-dark);
-                font-size: var(--button-text);
-                font-weight: 400;
-            }
-        }
-
-        &__description {
-            color: var(--paragraph-light);
-            font-size: var(--button-text);
-        }
-
-        &__button{
-            width: 11rem;
+        &__profileImage {
+            position: absolute;
+            left: 5.5rem;
+            top: 1rem;
+            border-radius: 50%;
+            width: 1.88rem;
             height: 1.88rem;
-            padding: 0.23rem 2.35rem;
-            border-radius: 0.11rem;
-            font-weight: 500;
-            font-size: .9rem;
-            text-align: center;
-            border: none;
-            cursor: pointer;
-            background-color: var(--dark-main);
+            border: 2px solid var(--icon-blue);
+        }
+
+        &__descriptionWrapper {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--icon-blue);
+            border-radius: 10px;
             box-shadow:
-                0px 4px 9px 0px #24466B1A,
-                0px 17px 17px 0px #24466B17,
-                0px 38px 23px 0px #24466B0D,
-                0px 67px 27px 0px #24466B03,
-                0px 105px 29px 0px #24466B00;
-            color: white;
+                0px 1px 4px 0px #0C0C0D0D,
+                0px 1px 4px 0px #0C0C0D1A;
+            padding: 8px;
+            width: 64.35rem;
+
+            &__description {
+                font-weight: 400;
+                color: var(--paragraph-light);
+                font-size: var(--button-text);
+                background-color: initial;
+                border: none;
+                outline: none;
+                padding: 1rem;
+                width: 90%;
+                resize: none;
+                overflow: hidden;
+
+
+                &::placeholder{
+                    color: var(--disabled-paragrap);
+                    font-weight: 300;
+                    font-style: italic;
+                    font-size: 0.95rem;
+                }
+            }
+
+            &__buttonsWrapper {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem;
+            }
         }
     }

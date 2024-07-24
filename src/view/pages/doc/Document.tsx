@@ -10,6 +10,10 @@ import NewSection from "./newSection/NewSection";
 import Accordion from "../../components/accordion/Accordion";
 import PolicyContainer from "../../components/policyContainer/PolicyContainer";
 import Header from "../../components/header/Header";
+import CreatingPolicy from "../../components/creatingPolicy/CreatingPolicy";
+import { useState } from "react";
+import PolicyComment from "../../components/policyComment/PolicyComment";
+import PolicyCommentVotes from "../../components/policyCommentVotes/PolicyCommentVotes";
 
 const Document = () => {
   const { statementId } = useParams<{ statementId: string }>();
@@ -22,14 +26,25 @@ const Document = () => {
     section: docStatement,
     statements,
   });
-  
-  if(!isAuthorized) return <div>Not authorized</div>;
+
+  if (!isAuthorized) return <div>Not authorized</div>;
 
   return (
-    <div>
-      <a href="https://freedi.tech">Freedi</a>
-      <h1>Document: {docStatement?.statement}</h1>
-      {docStatement && (
+    <div className={styles.signWrapper}>
+      <div className={styles.signWrapper__leftBar}>
+        <Accordion />
+      </div>
+
+      <div className={styles.signWrapper__mainContainer}>
+        <Header />
+        <CreatingPolicy />
+        {/* <PolicyComment/> */}
+        {/* <PolicyCommentVotes/> */}
+        {/* <PolicyContainer /> */}
+      </div>
+      {/* <a href="https://freedi.tech">Freedi</a>
+      <h1>Document: {docStatement?.statement}</h1> */}
+      {/* {docStatement && (
         <>
           {document && document.sections.map((d) => (
             <Section
@@ -46,7 +61,7 @@ const Document = () => {
             order={document.sections.length}
           />}
         </>
-      )}
+      )} */}
     </div>
   );
 };

@@ -1,12 +1,24 @@
 .paragraph {
- display: flex;
+    display: flex;
     flex-direction: column;
-    &__approval{
+    padding-left: 2rem;
+    gap: 1.5rem;
+    p{
+        color: var(--paragraph-light);
+        font-weight: 400;
+        font-size: 1rem;
+    }
+
+    &__approval {
         display: flex;
-        justify-content: end;
-        gap: 1rem;
+        justify-content: space-between;
         align-items: center;
+        gap: 1rem;
         margin-bottom: 1rem;
-        
+
+        &__buttons {
+            display: flex;
+            gap: 2rem;
+        }
     }
 }

@@ -2,12 +2,29 @@ interface Props {}
 
 function EditText({}: Props) {
   return (
-<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{cursor:'pointer'}}>
-<path d="M20.6667 12V21C20.6667 21.55 20.2167 22 19.6667 22H3.66675C3.11675 22 2.66675 21.55 2.66675 21V5C2.66675 4.45 3.11675 4 3.66675 4H12.6667" stroke="#4789D1" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M19.8167 2.37998L9.90675 12.29L8.66675 16L12.3767 14.76L22.2867 4.84998C22.7367 4.39998 22.7967 3.70998 22.4067 3.31998L21.3467 2.25998C20.9567 1.86998 20.2667 1.91998 19.8167 2.37998Z" stroke="#4789D1" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-  )
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M20 12V21C20 21.55 19.55 22 19 22H3C2.45 22 2 21.55 2 21V5C2 4.45 2.45 4 3 4H12"
+        fill="#739EE4"
+      />
+      <path
+        d="M14.765 6.76514L9.24 12.2902L8 16.0002L11.71 14.7602L17.235 9.23514"
+        stroke="white"
+        strokeMiterlimit="10"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M19.15 2.37998L9.24 12.29L8 16L11.71 14.76L21.62 4.84998C22.07 4.39998 22.13 3.70998 21.74 3.31998L20.68 2.25998C20.29 1.86998 19.6 1.91998 19.15 2.37998Z"
+        fill="#739EE4"
+      />
+    </svg>
+  );
 }
 
-export default EditText
+export default EditText;

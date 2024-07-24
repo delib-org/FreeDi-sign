@@ -10,19 +10,25 @@ interface Props {
   statement: Statement;
   docStatement: Statement;
 }
-const Paragraph: FC<Props> = ({ statement,docStatement }) => {
-  const comments = useSelector(commentsSelector(statement.statementId))
+const Paragraph: FC<Props> = ({ statement, docStatement }) => {
+  const comments = useSelector(commentsSelector(statement.statementId));
   return (
     <div className={styles.paragraph}>
       <div className={styles.paragraph__approval}>
-        <button>Approve</button>
-        <button>Reject</button>
+        <p>{statement.statement}</p>
+        <div className={styles.paragraph__approval__buttons}>
+          <button>Approve</button>
+          <button>Reject</button>
+        </div>
       </div>
-      <p>
-        {statement.statement} {statement.statementId}
-      </p>
-      <NewComment docStatement={docStatement} order={comments.length} parentId={statement.statementId} />
-      {comments.map((comment) => (<Comment key={`c-${comment.statementId}`} statement={comment} />))}
+      <NewComment
+        docStatement={docStatement}
+        order={comments.length}
+        parentId={statement.statementId}
+      />
+      {comments.map((comment) => (
+        <Comment key={`c-${comment.statementId}`} statement={comment} />
+      ))}
     </div>
   );
 };

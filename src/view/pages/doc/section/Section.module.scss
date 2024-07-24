@@ -1,7 +1,16 @@
-.section{
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    background-color: #f4f4f4;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.518);
+.sections {
+    width: 100%;
+
+    .sectionTitle {
+        font-weight: 500;
+        font-size: 1.41rem;
+        color: var(--text-blue);
+        margin: 0;
+    }
+    .sectionWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        
+    }
 }

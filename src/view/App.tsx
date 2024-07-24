@@ -7,7 +7,7 @@ import { selectUser } from "../controllers/slices/userSlice";
 
 function App() {
   const user = useSelector(selectUser);
-const navigate = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     const unsubscribe = listenToAuth();
 
@@ -20,16 +20,13 @@ const navigate = useNavigate();
     if (!user) {
       navigate("/login");
     } else {
-      navigate("/doc/e490ffa4-9a87-4708-9003-670eff680881");
+      navigate("/doc/f5752f94-3a03-43c8-bcb3-b96d3efaf734");
     }
   }, [user]);
 
   return (
     <>
-
-  
-        <Outlet />
-    
+      <Outlet />
     </>
   );
 }

@@ -1,12 +1,79 @@
-.comment {
-    display: flex;
-       flex-direction: column;
-       &__approval{
-           display: flex;
-           justify-content: end;
-           gap: 1rem;
-           align-items: center;
-           margin-bottom: 1rem;
-           
-       }
-   }
+.wrapper {
+    position: relative;
+    margin-left: 3.5rem;
+    border-left: 3px var(--blue-primary) solid;
+    padding-left: 0.88rem;
+
+    &__profileImage {
+        position: absolute;
+        left: -2rem;
+        top: 1rem;
+        border-radius: 50%;
+        width: 1.88rem;
+        height: 1.88rem;
+        border: 2px solid var(--icon-blue);
+    }
+
+    &__descriptionWrapper {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--icon-blue);
+        border-radius: 10px;
+        box-shadow:
+            0px 1px 4px 0px #0C0C0D0D,
+            0px 1px 4px 0px #0C0C0D1A;
+        padding: 8px;
+
+        
+        &__nameWrapper{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 0.47rem;
+
+            &__name{
+                color: var(--text-body-dark);
+                font-size: 0.94rem;
+                font-weight: 400;
+            }
+        }
+
+        &__buttonsContainer{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            
+            &__description {
+                font-weight: 400;
+                color: var(--paragraph-light);
+                font-size: var(--button-text);
+            }
+            
+            &__buttons {
+                display: flex;
+                justify-content: end;
+                align-items: center;
+                gap: 1.64rem;
+    
+                &__buttonWrapper {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 0.70rem;
+    
+                    &__text{
+                        color: var(--text-body-dark);
+                        font-size: var(--button-text);
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+
+
+
+    }
+
+
+
+}
