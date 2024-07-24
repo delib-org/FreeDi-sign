@@ -1,14 +1,24 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import "./styles/globals.scss";
 import { useEffect } from "react";
 import { listenToAuth } from "../controllers/db/authCont";
 import { useSelector } from "react-redux";
 import { selectUser } from "../controllers/slices/userSlice";
+import { navigateToDocument } from "./appCont";
 
 function App() {
   const user = useSelector(selectUser);
+  const params = useParams();
+
   const navigate = useNavigate();
   useEffect(() => {
+    const { statementId } = params;
+ 
+    //set to local storage
+    if (statementId) {
+      localStorage.setItem("statementId", statementId);
+    }
+
     const unsubscribe = listenToAuth();
 
     return () => {
@@ -20,7 +30,9 @@ function App() {
     if (!user) {
       navigate("/login");
     } else {
-      navigate("/doc/f5752f94-3a03-43c8-bcb3-b96d3efaf734");
+      navigateToDocument(params, navigate);
+
+     
     }
   }, [user]);
 
@@ -32,3 +44,5 @@ function App() {
 }
 
 export default App;
+
+

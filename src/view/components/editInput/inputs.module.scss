@@ -1,0 +1,19 @@
+.editInput {
+    background-color: initial;
+    border: none;
+    min-height: 2.47rem;
+    font-size: 1.64rem;
+    color: var(--headline);
+    resize: none;
+    width: 50rem;
+
+    &:hover,
+    &:focus,
+    &:active {
+        outline: none;
+    }
+
+    &::placeholder {
+        color: var(--disabled-paragrap);
+    }
+}

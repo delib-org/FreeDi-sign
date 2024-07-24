@@ -7,6 +7,9 @@
         color: var(--paragraph-light);
         font-weight: 400;
         font-size: 1rem;
+        max-width: 40rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
 
     &__approval {

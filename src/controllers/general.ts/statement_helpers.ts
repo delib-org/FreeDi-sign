@@ -96,6 +96,7 @@ export function newParagraph({ sectionId, statement, parentId, topParentId, pare
 }
 
 export interface DocumentObject {
+    statement:Statement
     statementId: string;
     title: string;
     paragraphs: Statement[];
@@ -121,6 +122,7 @@ export function statementsToDocument({ section, statements }: StatementsToDocume
         const paragraphs = levelStatements.filter((st) => st.documentSettings?.type === DocumentType.paragraph).sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0)) as Statement[];
 
         const document: DocumentObject = {
+            statement: section,
             title: section.statement,
             statementId: section.statementId,
             paragraphs,

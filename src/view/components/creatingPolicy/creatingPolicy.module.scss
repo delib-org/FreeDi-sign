@@ -28,8 +28,9 @@
         align-items: flex-start;
         border-radius: 8px;
         gap: 10px;
-        min-height: 29.4rem;
+        height: 29.4rem;
         padding-bottom: 5rem;
+        overflow-y: auto;
     }
 
     &__bottomWrapper{

@@ -2,7 +2,7 @@ interface Props {
   color: string;
 }
 
-const ThumbsDown = ({ color }: Props) => {
+const ThumbsDownIcon = ({ color }: Props) => {
   return (
     <svg
       width="20"
@@ -22,4 +22,4 @@ const ThumbsDown = ({ color }: Props) => {
   );
 };
 
-export default ThumbsDown;
+export default ThumbsDownIcon;

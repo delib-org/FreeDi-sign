@@ -1,6 +1,6 @@
 interface Props {}
 
-function ChevronRight({}: Props) {
+function ChevronRightIcon({}: Props) {
   return (
     <svg
       width="24"
@@ -19,4 +19,4 @@ function ChevronRight({}: Props) {
   );
 }
 
-export default ChevronRight;
+export default ChevronRightIcon;

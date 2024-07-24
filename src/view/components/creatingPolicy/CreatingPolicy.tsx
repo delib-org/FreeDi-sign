@@ -9,11 +9,18 @@ import {
   DocumentObject,
   statementsToDocument,
 } from "../../../controllers/general.ts/statement_helpers";
-import EditButton from "../buttons/EditButton";
 import InfoButton from "../buttons/InfoButton";
 import Checkbox from "../checkbox/Checkbox";
+// import { toggleIsEdit } from "../../../controllers/slices/editSlice";
+import MainEditButton from "../buttons/MainEditButton";
 
 type Props = {};
+
+// toggle edit mode is inside the EditButton Component.
+// the section edit is not working + its changing the main statement of the room name, making it invisible.
+// the subsection edit is not working but we going to change and delete the sub section anyway.
+// the paragraph section is working good.
+// this is the main component where i connect everything.
 
 const CreatingPolicy = (props: Props) => {
   const { statementId } = useParams<{ statementId: string }>();
@@ -36,7 +43,7 @@ const CreatingPolicy = (props: Props) => {
       <div className={styles.wrapper__headerWrapper}>
         <h1 className={styles.wrapper__headerWrapper__header}>{title}</h1>
         <div className={styles.wrapper__headerWrapper__buttonWrapper}>
-          <EditButton title="Edit"/>
+          <MainEditButton title="Edit"/> 
           <InfoButton/>
           <Checkbox />
         </div>

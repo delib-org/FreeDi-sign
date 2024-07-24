@@ -1,6 +1,6 @@
 import styles from "./accordionItem.module.scss";
-import ChevronDown from "../icons/ChevronDown";
-import ChevronRight from "../icons/ChevronRight";
+import ChevronDownIcon from "../icons/ChevronDownIcon";
+import ChevronRightIcon from "../icons/ChevronRightIcon";
 import { Statement } from "delib-npm";
 import { DocumentObject } from "../../../controllers/general.ts/statement_helpers";
 
@@ -42,7 +42,7 @@ function AccordionItem({
             <h2 className={styles.title}>{document.title}</h2>
           )}
           <span className={styles.titleSpan}>
-            {isActiveSection ? <ChevronDown /> : <ChevronRight />}
+            {isActiveSection ? <ChevronDownIcon /> : <ChevronRightIcon />}
           </span>
         </div>
         <div className={styles.descriptionWrapper}>

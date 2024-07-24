@@ -3,6 +3,7 @@ import App from "../view/App";
 import Login from "../view/pages/login/Login";
 import Main from "../view/pages/main/Main";
 import Document from "../view/pages/doc/Document";
+import Page404 from "../view/pages/page404/Page404";
 
 export const router = createBrowserRouter([
   {
@@ -25,11 +26,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/404",
-    element: <div>404 Not Found</div>,
+    element: <Page404 />,
   },
 
   {
     path: "*",
-    element: <div>404 Not Found</div>,
+    element:  <Page404 />,
   },
 ]);

@@ -1,6 +1,6 @@
 interface Props {}
 
-function Trash({}: Props) {
+function TrashIcon({}: Props) {
   return (
     <svg
       width="25"
@@ -58,4 +58,4 @@ function Trash({}: Props) {
   );
 }
 
-export default Trash;
+export default TrashIcon;

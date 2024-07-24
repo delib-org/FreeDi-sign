@@ -48,7 +48,9 @@
     .accordionWrapper {
         width: 26rem;
         padding-left: 4.2rem;
-    }
+        max-height: 30.58rem;
+        overflow-y: auto; 
+      }
 
     .pdfWrapper {
         display: flex;

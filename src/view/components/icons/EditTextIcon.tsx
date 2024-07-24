@@ -1,6 +1,6 @@
 interface Props {}
 
-function EditText({}: Props) {
+function EditTextIcon({}: Props) {
   return (
     <svg
       width="24"
@@ -27,4 +27,4 @@ function EditText({}: Props) {
   );
 }
 
-export default EditText;
+export default EditTextIcon;

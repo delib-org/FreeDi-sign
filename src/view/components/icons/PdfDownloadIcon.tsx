@@ -1,6 +1,6 @@
 interface Props {}
 
-function PdfDownloadLogo({}: Props) {
+function PdfDownloadIcon({}: Props) {
   return (
     <svg
       width="32"
@@ -33,4 +33,4 @@ function PdfDownloadLogo({}: Props) {
   );
 }
 
-export default PdfDownloadLogo;
+export default PdfDownloadIcon;

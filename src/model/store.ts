@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userSliceReducer from '../controllers/slices/userSlice'
 import statementsSliceReducer from '../controllers/slices/statementsSlice'
+import isEditSliceReducer from '../controllers/slices/editSlice'
 
 export const store = configureStore({
   reducer: {
     user: userSliceReducer,
     statements: statementsSliceReducer,
+    isEdit: isEditSliceReducer
   },
 })
 

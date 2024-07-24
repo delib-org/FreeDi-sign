@@ -42,6 +42,8 @@ const NewParagraph:FC<Props> = ({docStatement, parentId,order}) => {
         setEditMode(false);
         setInputValue("");
       };
+
+        //edit mode + input value state. need to remove it and adjust the button to make instantly new paragraph
   return (
     <>
     {editMode === false ? 

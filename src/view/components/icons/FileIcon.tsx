@@ -1,4 +1,4 @@
-const File = () => {
+const FileIcon = () => {
     return (
       <svg
         width="48"
@@ -51,5 +51,5 @@ const File = () => {
     );
   };
   
-  export default File;
+  export default FileIcon;
   

@@ -39,8 +39,8 @@ const NewSection: FC<Props> = ({
           order,
           isTop,
         });
-      changeEditMode();
       setInputValue("");
+      (e.target as HTMLFormElement).reset()
     } catch (error) {
       console.error(error);
     }
@@ -53,6 +53,8 @@ const NewSection: FC<Props> = ({
     setEditMode(false);
     setInputValue("");
   };
+
+  //edit mode + input value state. need to remove it and adjust the button to make instantly new section
   return (
     <>
       {editMode === false ? (

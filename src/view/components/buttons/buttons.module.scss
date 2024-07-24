@@ -64,3 +64,19 @@
     cursor: pointer;
     background-color: initial;
 }
+
+.commentButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    width: 8.88rem;
+    height: 2.70rem;
+    border: none;
+    background-color: initial;
+    padding: 0 0.70rem 0 0;
+    color: var(--text-blue);
+    font-weight: 400;
+    font-size: 1.05rem;
+}

@@ -1,22 +1,27 @@
 import { Statement } from "delib-npm";
 import { FC } from "react";
 import styles from "./Comment.module.scss";
-import ThumbsUp from "../../../components/icons/ThumbsUp";
+import ThumbsUpIcon from "../../../components/icons/ThumbsUpIcon";
 import MainButton from "../../../components/buttons/MainButton";
-import ThumbsDown from "../../../components/icons/ThumbsDown";
+import ThumbsDownIcon from "../../../components/icons/ThumbsDownIcon";
 import StrongMainButton from "../../../components/buttons/StrongMainButton";
-import AddComment from "../../../components/icons/AddComment";
+import AddComment from "../../../components/icons/AddCommentIcon";
 
 interface Props {
   statement: Statement;
 }
+
+// need to get profile name from database
+// need to get profile image from database
+// need to get number of approve / reject from database
+
 const Comment: FC<Props> = ({ statement }) => {
   return (
     <div className={styles.wrapper}>
-      <img alt="Img" className={styles.wrapper__profileImage} />
+      <img alt="Img" className={styles.wrapper__profileImage} /> 
       <div className={styles.wrapper__descriptionWrapper}>
         <div className={styles.wrapper__descriptionWrapper__nameWrapper}>
-          <h2 className={styles.wrapper__descriptionWrapper__nameWrapper__name}>
+          <h2 className={styles.wrapper__descriptionWrapper__nameWrapper__name}> 
             Saar sAAR
           </h2>
         </div>
@@ -32,7 +37,7 @@ const Comment: FC<Props> = ({ statement }) => {
             color="#fff"
             fontSize="0.94rem"
             value="Add comment"
-            icon={<AddComment />} // Corrected JSX syntax
+            icon={<AddComment />} 
           />
           <div
             className={
@@ -52,7 +57,7 @@ const Comment: FC<Props> = ({ statement }) => {
                 width="7.47rem"
                 height="1.88rem"
                 fontSize="0.94rem"
-                icon={<ThumbsDown color="var(--icon-blue)" />} // Corrected JSX syntax
+                icon={<ThumbsDownIcon color="var(--icon-blue)" />} 
               />
               <p
                 className={
@@ -75,7 +80,7 @@ const Comment: FC<Props> = ({ statement }) => {
                 width="6.23rem"
                 height="1.88rem"
                 fontSize="0.94rem"
-                icon={<ThumbsUp color="var(--icon-blue)" />} // Corrected JSX syntax
+                icon={<ThumbsUpIcon color="var(--icon-blue)" />} 
               />
               <p
                 className={

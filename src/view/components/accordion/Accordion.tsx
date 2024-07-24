@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./accordion.module.scss";
 import AccordionItem from "./AccordionItem";
-import ChevronLeft from "../icons/ChevronLeft";
-import PdfDownloadLogo from "../icons/PdfDownloadLogo";
+import PdfDownloadIcon from "../icons/PdfDownloadIcon";
 import { useParams } from "react-router-dom";
 import { useDocument } from "../../../controllers/hooks/documentHooks";
 import {
   DocumentObject,
   statementsToDocument,
 } from "../../../controllers/general.ts/statement_helpers";
-import File from "../icons/File";
-import LogoAndName from "../icons/LogoAndName";
+import FileIcon from "../icons/FileIcon";
+import LogoAndNameIcon from "../icons/LogoAndNameIcon";
 
 function Accordion1() {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
@@ -38,11 +37,11 @@ function Accordion1() {
       <div>
         <div className={styles.headerWrapper}>
           <div className={styles.headerLogo}>
-            <LogoAndName />
+            <LogoAndNameIcon />
             <p>for Nordia community</p>
           </div>
           <div className={styles.headerTitle}>
-            <File />
+            <FileIcon />
             <h1 className={styles.header}>
               {title}
             </h1>
@@ -65,7 +64,7 @@ function Accordion1() {
         </div>
       </div>
       <div className={styles.pdfWrapper}>
-        <PdfDownloadLogo />
+        <PdfDownloadIcon />
         <h2 className={styles.pdfText}>Download PDF</h2>
       </div>
     </div>

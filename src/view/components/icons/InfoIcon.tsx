@@ -1,6 +1,6 @@
 interface Props {};
 
-function Info({}: Props) {
+function InfoIcon({}: Props) {
   return (
     <svg
       width="24"
@@ -17,4 +17,4 @@ function Info({}: Props) {
   );
 }
 
-export default Info;
+export default InfoIcon;
