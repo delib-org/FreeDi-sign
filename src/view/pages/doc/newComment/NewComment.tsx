@@ -1,6 +1,9 @@
 import { Statement } from "delib-npm";
 import {FC} from "react";
 import { setCommentToDB } from "../../../../controllers/db/statements/setStatements";
+import styles from './newComment.module.scss';
+import StrongMainButton from "../../../components/buttons/StrongMainButton";
+import MainButton from "../../../components/buttons/MainButton";
 
 interface Props{
     docStatement:Statement;
@@ -31,10 +34,37 @@ const NewComment:FC<Props> = ({docStatement,parentId,order}) => {
   }
 
   return (
-    <form onSubmit={handleAddNewComment}>
-      <textarea name="new-paragraph" id="" placeholder="New Comment" />
-      <button>OK</button>
-    </form>
+    <div className={styles.wrapper}>
+      <img alt="Img" className={styles.wrapper__profileImage} />
+      <form className={styles.wrapper__descriptionWrapper} onSubmit={handleAddNewComment}>
+        <textarea
+          placeholder="Please, provide your thoughts in this space..."
+          className={styles.wrapper__descriptionWrapper__description}
+          name="new-paragraph"
+        />
+        <div className={styles.wrapper__descriptionWrapper__buttonsWrapper}>
+          <StrongMainButton
+            value="Save comment"
+            color="white"
+            backgroundcolor="var(--active-btn)"
+            padding="0.23rem 1.41rem"
+            width="9.11rem"
+            height="1.88rem"
+            fontSize="0.94rem"
+            type="submit"
+          />
+          <MainButton
+            value="Cancel"
+            color="var(--icon-blue)"
+            backgroundcolor="var(--inactive-btn)"
+            padding="0.23rem 1.41rem"
+            width="9.11rem"
+            height="1.88rem"
+            fontSize="0.94rem"
+          />
+        </div>
+      </form>
+    </div>
   );
 };
 

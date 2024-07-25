@@ -1,18 +1,13 @@
 import { FC } from "react";
-// import Paragraph from "../paragraph/Paragraph";
-
-import styles from "./Section.module.scss";
+import styles from "./subSection.module.scss";
 import { DocumentObject } from "../../../../controllers/general.ts/statement_helpers";
 import NewSection from "../newSection/NewSection";
 import NewParagraph from "../newParagraph/NewParagraph";
 import Paragraph from "../paragraph/Paragraph";
 import { Statement } from "delib-npm";
-import SubSection from "../subSection/SubSection";
+import EditInput from "../../../components/editInput/EditInput";
 import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
-import { updateSectionTextToDB } from "../../../../controllers/db/sections/setSections";
-import EditInput from "../../../components/editInput/EditInput";
-import { adjustTextAreaHeight } from "../paragraph/paragraphCont";
 
 interface Props {
   docStatement: Statement;
@@ -20,31 +15,19 @@ interface Props {
   document: DocumentObject;
 }
 
-const Section: FC<Props> = ({ docStatement, document, statement }) => {
+const NewSubSection: FC<Props> = ({ docStatement, document, statement }) => {
   try {
     const isEdit = useSelector(isEditSelector);
     if (!docStatement) throw new Error("Parent statement id is required");
     const { statementId } = document;
     if (!statementId) throw new Error("statementId is required");
 
-    return (
-      <section className={styles.sections}>
-        {isEdit ? (
-          <EditInput
-            placeHolder={document.title ? document.title : "Write Section"}
-            onChange={(e) => {
-              adjustTextAreaHeight(e.target);
-              updateSectionTextToDB({ statement, newText: e.target.value });
-            }}
-            onBlur={(e) =>
-              updateSectionTextToDB({ statement, newText: e.target.value })
-            }
-          />
-        ) : (
-          <h2 className={styles.sectionTitle}>{document.title != "" ? document.title : "Write Section"}</h2>
-        )}
+    //Need to remove this file after we fixing the diffrence between sections and sub sections.
 
-        {/* <div className={styles.sectionWrapper}>
+    return (
+      <section className={styles.subSections}>
+        <div className={styles.subSections__subSectionWrapper}>
+          {isEdit ? <EditInput placeHolder={document.title}/> :<h2 className={styles.subSections__subSectionWrapper__subSectionTitle}>{document.title}</h2>}
           {document.paragraphs.map((paragraph) => (
             <Paragraph
               key={`p-${paragraph.statementId}`}
@@ -59,10 +42,10 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
               order={document.sections.length}
             />
           )}
-        </div> */}
+        </div>
 
         {document.sections.map((section, index) => (
-          <SubSection
+          <NewSubSection
             key={index}
             document={section}
             docStatement={docStatement}
@@ -83,4 +66,4 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
   }
 };
 
-export default Section;
+export default NewSubSection;

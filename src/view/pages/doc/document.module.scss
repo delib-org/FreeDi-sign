@@ -1,0 +1,27 @@
+.signWrapper{
+    display: flex;
+
+    &__leftBar{
+        flex: 0;
+        width: 29.88rem;
+        background-color: var(--active-btn);
+        box-shadow:
+            1px 0px 2px 0px #62749D1A,
+            4px 0px 4px 0px #62749D17,
+            9px 0px 5px 0px #62749D0D,
+            15px 0px 6px 0px #62749D03,
+            24px 0px 7px 0px #62749D00;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1;
+        color: white;
+    }
+
+    &__mainContainer{
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+}

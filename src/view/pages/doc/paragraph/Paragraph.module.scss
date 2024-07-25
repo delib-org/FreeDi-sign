@@ -1,29 +1,27 @@
 .paragraph {
-    font-size: 1rem;
- display: flex;
+    display: flex;
     flex-direction: column;
-    &__approval{
-        display: flex;
-        justify-content: end;
-        gap: 1rem;
-        align-items: center;
-        margin-bottom: 1rem;
-        
+    padding-left: 2rem;
+    gap: 1.5rem;
+    p{
+        color: var(--paragraph-light);
+        font-weight: 400;
+        font-size: 1rem;
+        max-width: 40rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
-}
 
-.textArea{
-    font-size: 1rem;
-    background-color: var(--screenBG);
-    font-family: "Roboto", sans-serif;
-    height: auto;
-    width: 100%;
-    overflow-y: auto;
-    border:1px solid var(--dark-main);
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    unicode-bidi: isolate;
+    &__approval {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+
+        &__buttons {
+            display: flex;
+            gap: 2rem;
+        }
+    }
 }

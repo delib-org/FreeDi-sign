@@ -113,7 +113,6 @@ export function statementsToDocument({ section, statements }: StatementsToDocume
     try {
         if (!section) return undefined;
         
-
         // Get all document statements that are children of the current statement
         const levelStatements = statements.filter((st) => st.statementType === StatementType.document &&
             st.parentId === section.statementId) as Statement[];
@@ -121,7 +120,6 @@ export function statementsToDocument({ section, statements }: StatementsToDocume
         const sections = levelStatements.filter((st) => st.documentSettings?.type === DocumentType.section).sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0)) as Statement[];
         
         const paragraphs = levelStatements.filter((st) => st.documentSettings?.type === DocumentType.paragraph).sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0)) as Statement[];
-        
 
         const document: DocumentObject = {
             statement: section,

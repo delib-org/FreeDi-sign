@@ -1,11 +1,19 @@
+import styles from "./document.module.scss";
 import { useParams } from "react-router-dom";
 import { useDocument } from "../../../controllers/hooks/documentHooks";
-import Section from "./section/Section";
+// import Section from "./section/Section";
 import {
   DocumentObject,
   statementsToDocument,
 } from "../../../controllers/general.ts/statement_helpers";
-import NewSection from "./newSection/NewSection";
+// import NewSection from "./newSection/NewSection";
+import Accordion from "../../components/accordion/Accordion";
+// import PolicyContainer from "../../components/policyContainer/PolicyContainer";
+import Header from "../../components/header/Header";
+import CreatingPolicy from "../../components/creatingPolicy/CreatingPolicy";
+// import { useState } from "react";
+// import PolicyComment from "../../components/policyComment/PolicyComment";
+// import PolicyCommentVotes from "../../components/policyCommentVotes/PolicyCommentVotes";
 import { useDispatch, useSelector } from "react-redux";
 import { isEditSelector, toggleIsEdit } from "../../../controllers/slices/editSlice";
 
@@ -18,22 +26,30 @@ const dispatch = useDispatch();
     useDocument(statementId);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: An error occurred.</div>;
-  
-  const document: DocumentObject|undefined = statementsToDocument({
+
+  const document: DocumentObject | undefined = statementsToDocument({
     section: docStatement,
-    statements
+    statements,
   });
-  
-  if(!isAuthorized) return <div>Not authorized</div>;
+
+  if (!isAuthorized) return <div>Not authorized</div>;
+
+  // CreatingPolicy Component its the one i am working with and connecting everything into.
 
   return (
-    <div>
-      <a href="https://freedi.tech">Freedi</a>
-      <h1>Document: {docStatement?.statement}</h1>
+    <div className={styles.signWrapper}>
+      <div className={styles.signWrapper__leftBar}>
+        <Accordion />
+      </div>
 
-      <button style={{backgroundColor:isEdit?"red":"green"}} onClick={()=>{dispatch(toggleIsEdit())}}>{isEdit?"stop edit":"start edit"}</button>
-
-      {docStatement && (
+      <div className={styles.signWrapper__mainContainer}>
+        <Header />
+        <CreatingPolicy />
+        {/* <PolicyContainer /> */}
+      </div>
+      {/* <a href="https://freedi.tech">Freedi</a>
+      <h1>Document: {docStatement?.statement}</h1> */}
+      {/* {docStatement && (
         <>
           {document && document.sections.map((d) => (
             <Section
@@ -50,7 +66,7 @@ const dispatch = useDispatch();
             order={document.sections.length}
           />}
         </>
-      )}
+      )} */}
     </div>
   );
 };

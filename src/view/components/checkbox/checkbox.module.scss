@@ -1,0 +1,21 @@
+.customCheckboxInput {
+    display: none;
+}
+
+.customCheckboxContainer {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.customCheckbox {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: url('../../../assets/icons/checkbox.svg') no-repeat center center;
+    background-size: contain;
+}
+
+.customCheckboxInput:checked + .customCheckbox {
+    background: url('../../../assets/icons/checkedCheckbox.svg') no-repeat center center;
+    background-size: contain;
+}

@@ -12,7 +12,7 @@ interface SetSectionToDBProps {
 }
 export async function setSectionToDB({docStatement, parentId, order, isTop = false, text }: SetSectionToDBProps): Promise<void> {
     try {
-       
+  
 
         const user = store.getState().user.user;
         if(!user) throw new Error("User not found");

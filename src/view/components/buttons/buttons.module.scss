@@ -1,0 +1,82 @@
+.button {
+    font-weight: 500;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    box-shadow:
+        0px 1px 1px 0px #6E7D8C17,
+        0px 2px 1px 0px #6E7D8C0D,
+        0px 3px 1px 0px #6E7D8C03,
+        0px 5px 1px 0px #6E7D8C00;
+}
+
+.strongButton {
+    font-weight: 500;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    box-shadow:
+    0px 4px 9px 0px #24466B1A,
+    0px 17px 17px 0px #24466B17,
+    0px 38px 23px 0px #24466B0D,
+    0px 67px 27px 0px #24466B03,
+    0px 105px 29px 0px #24466B00;
+}
+
+.buttonWithIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.47rem;
+}
+
+.editButton {
+    width: 6.29rem;
+    height: 2.05rem;
+    padding: 0.23rem 1.41rem;
+    gap: 0.23rem;
+    border: 1px #739EE4 solid;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 3.05rem;
+    color: var(--text-blue);
+    display: flex;
+    align-items: flex-end;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 400;
+}
+
+.infoButton {
+    width: 6.23rem;
+    height: 2.70rem;
+    border: 0;
+    padding: 0 0.70rem;
+    gap: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-blue);
+    font-size: 1.05rem;
+    font-weight: 400;
+    cursor: pointer;
+    background-color: initial;
+}
+
+.commentButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    width: 8.88rem;
+    height: 2.70rem;
+    border: none;
+    background-color: initial;
+    padding: 0 0.70rem 0 0;
+    color: var(--text-blue);
+    font-weight: 400;
+    font-size: 1.05rem;
+}

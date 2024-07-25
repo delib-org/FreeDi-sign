@@ -1,0 +1,28 @@
+.wrapper {
+    background-color: inherit;
+    color: white;
+
+    .titleWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 0.85rem;
+
+        .title {
+            width: 16.88rem;
+        }
+    }
+
+    .descriptionWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 0.58rem;
+        .description {
+            padding-left: 1rem;
+            font-size: var(--button-text);
+            font-weight: 400;
+        }
+    }
+}

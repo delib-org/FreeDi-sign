@@ -1,28 +1,18 @@
-.section{
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    background-color: #f4f4f4;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.518);
-    font-size: 1.5rem;
-}
-
-.title{
-    font-size: 1.5rem;
-    margin:.6rem 0rem;
-    font-weight: bold;
-   
-
-}
-
-.input{
+.sections {
     width: 100%;
- 
-    border-radius: 5px;
-    border:none;
-    margin:.6rem 0rem;
-    font-weight: bold;
-    background-color: #f4f4f4;
-   
-    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+
+    .sectionTitle {
+        font-weight: 500;
+        font-size: 1.41rem;
+        color: var(--text-blue);
+        margin: 0;
+    }
+    .sectionWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        
+    }
 }
