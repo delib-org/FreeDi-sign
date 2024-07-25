@@ -1,0 +1,19 @@
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0rem .8rem;
+    color: white;
+    gap:1rem;
+    border:none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.approve{
+    background-color: var(--agree);
+}
+
+.reject{
+    background-color: var(--reject);
+}

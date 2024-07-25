@@ -11,6 +11,7 @@ import { updateParagraphTextToDB } from "../../../../controllers/db/paragraphs/s
 import Importance from "./importance/Importance";
 import CommentButtonIcon from "../../../components/buttons/CommentButton";
 import EditInput from "../../../components/editInput/EditInput";
+import Approval from "../approval/Approval";
 
 interface Props {
   statement: Statement;
@@ -48,8 +49,7 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
         )}
         <div className={styles.paragraph__approval__buttons}>
           <CommentButtonIcon onClick={commentsHandler} />
-          <button>Approve</button>
-          <button>Reject</button>
+          <Approval statement={statement} docStatement={docStatement}/>
         </div>
       </div>
       {showComments && (
@@ -65,7 +65,7 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
         </>
       )}
 
-      {/* {!isEdit ? (
+      {!isEdit ? (
         <p>
           <span>{statement.statement}</span>{" "}
           <span>
@@ -95,7 +95,7 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
       />
       {comments.map((comment) => (
         <Comment key={`c-${comment.statementId}`} statement={comment} />
-      ))} */}
+      ))}
     </div>
   );
 };

@@ -23,9 +23,10 @@
 
     --button-text: 1rem;
 
-    --screenBG: #F2F6FF
-
-
+    --screenBG: #F2F6FF;
+    --agree: #6FC5BE;
+    --reject: #E8749E
+    ;
 
 }
 
@@ -39,7 +40,7 @@ body {
     background-color: var(--screen-bg);
 }
 
-*{
+* {
     box-sizing: border-box;
 }
 
