@@ -1,11 +1,90 @@
-.importance{
-    background-color: teal;
+.importance {
+    transition: all 550ms;
 }
 
-.result{
+.result {
     background-color: lightblue;
 }
 
-.range{
+.range {
     background-color: lightcoral;
+}
+
+.editMain {
+    background-color: transparent;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 3rem;
+    position: relative;
+
+    svg {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        cursor: pointer;
+        user-select: none;
+        // transform: translate(-50%, -50%);
+    }
+}
+
+.imp0 {
+    animation: imp0 550ms;
+    animation-fill-mode: forwards;
+}
+
+
+
+.imp1 {
+    animation: imp1 550ms;
+    animation-fill-mode: forwards;
+}
+
+
+.imp2 {
+    animation: imp2 550ms;
+    animation-fill-mode: forwards;
+}
+
+
+
+@keyframes imp0 {
+    from {
+        transform: rotate(180deg) scale(.6) translate(0%, -50%);
+        left: 0px;
+        bottom: 0px;
+    }
+
+    to {
+        transform: rotate(360deg) scale(1) translate(0%, -50%);
+        left: -50px;
+        bottom: 35px;
+    }
+}
+
+@keyframes imp1 {
+    from {
+        transform: rotate(180deg) scale(.6);
+        left: 0px;
+        bottom: 0px;
+    }
+
+    to {
+        transform: rotate(360deg) scale(1) translate(0%, -50%);
+        left: 0px;
+        bottom: 50px;
+    }
+}
+
+@keyframes imp2 {
+    from {
+        transform: rotate(180deg) scale(.6);
+        left: 0px;
+        bottom: 0px;
+    }
+
+    to {
+        transform: rotate(360deg) scale(1) translate(0%, -50%);
+        left: 50px;
+        bottom: 35px;
+    }
 }
