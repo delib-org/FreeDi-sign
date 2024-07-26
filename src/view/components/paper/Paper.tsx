@@ -9,10 +9,9 @@ import {
   DocumentObject,
   statementsToDocument,
 } from "../../../controllers/general.ts/statement_helpers";
-import InfoButton from "../buttons/InfoButton";
-import Checkbox from "../checkbox/Checkbox";
-// import { toggleIsEdit } from "../../../controllers/slices/editSlice";
-import MainEditButton from "../buttons/MainEditButton";
+import PaperHeader from "./header/PaperHeader";
+import PaperBottomButtons from "./bottomButtons/PaperBottomButtons";
+
 
 
 
@@ -39,16 +38,9 @@ const Paper = () => {
   const title = docStatement?.statement.split("\n")[0].split("*")[1];
 
   return (
-    <div className={styles.paper} style={docStatement && document?.sections.length != 0 ? {justifyContent: "flex-start"} : {justifyContent: "space-between"}}>
-      <div className={styles.headerWrapper}>
-        <h1 className={styles.title}>{title}</h1>
-        <div className={styles.buttons}>
-          <MainEditButton title="Edit"/> 
-          <InfoButton/>
-          <Checkbox />
-        </div>
-      </div>
-      {docStatement && document?.sections.length != 0 ? (
+    <div className={styles.paper}>
+      <PaperHeader title={title} />
+      {docStatement &&  (
         <div className={styles.mainContainer}>
           {document &&
             document.sections.map((d) => (
@@ -60,43 +52,8 @@ const Paper = () => {
               />
             ))}
         </div>
-      ) : null}
-      <div className={styles.bottomWrapper}>
-        {docStatement && (
-          <>
-            {document && (
-              <NewSection
-                docStatement={docStatement}
-                isTop={true}
-                parentId={docStatement.statementId}
-                order={document.sections.length}
-                buttonValue="Add New Section"
-              />
-            )}
-          </>
-        )}
-        
-      </div>
-      <div className={styles.buttonWrapper}>
-          <MainButton
-            width="6.11rem"
-            height="2.41rem"
-            value="Cancel"
-            backgroundcolor="var(--inactive-btn)"
-            padding="8px 24px 8px 24px"
-            fontSize="1rem"
-            color="var(--icon-blue)"
-          />
-          <StrongMainButton
-            width="9.47rem"
-            height="2.41rem"
-            value="Save Changes"
-            backgroundcolor="var(--active-btn)"
-            padding="8px 24px 8px 24px"
-            fontSize="1rem"
-            color="#fff"
-          />
-        </div>
+      )}
+      <PaperBottomButtons />
     </div>
   );
 };
