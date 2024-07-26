@@ -38,7 +38,7 @@ function Accordion() {
         <div className={styles.headerWrapper}>
           <div className={styles.headerLogo}>
             <LogoAndNameIcon />
-            <p>for Nordia community</p>
+            <p>Fostering collaboration</p>
           </div>
           <div className={styles.headerTitle}>
             <FileIcon />

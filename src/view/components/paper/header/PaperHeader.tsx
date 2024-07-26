@@ -1,5 +1,5 @@
 import {FC} from 'react'
-import MainEditButton from '../../buttons/MainEditButton';
+import MainEditButton from '../../buttons/edit/MainEditButton';
 import styles from '../paper.module.scss';
 import InfoButton from '../../buttons/InfoButton';
 import Checkbox from '../../checkbox/Checkbox';

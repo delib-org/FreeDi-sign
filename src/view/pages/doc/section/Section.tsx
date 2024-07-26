@@ -72,7 +72,7 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
           docStatement={docStatement}
           parentId={statementId}
           order={document.sections.length}
-          buttonValue="Add Sub Section"
+          buttonValue="Add new section"
         />
       </section>
     );
