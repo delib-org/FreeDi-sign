@@ -49,7 +49,7 @@ const Paper = () => {
         </div>
       </div>
       {docStatement && document?.sections.length != 0 ? (
-        <div className={styles.wrapper__mainContainer}>
+        <div className={styles.mainContainer}>
           {document &&
             document.sections.map((d) => (
               <Section
@@ -61,7 +61,7 @@ const Paper = () => {
             ))}
         </div>
       ) : null}
-      <div className={styles.wrapper__bottomWrapper}>
+      <div className={styles.bottomWrapper}>
         {docStatement && (
           <>
             {document && (
@@ -75,7 +75,9 @@ const Paper = () => {
             )}
           </>
         )}
-        <div className={styles.wrapper__bottomWrapper__buttonWrapper}>
+        
+      </div>
+      <div className={styles.buttonWrapper}>
           <MainButton
             width="6.11rem"
             height="2.41rem"
@@ -95,7 +97,6 @@ const Paper = () => {
             color="#fff"
           />
         </div>
-      </div>
     </div>
   );
 };

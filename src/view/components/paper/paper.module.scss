@@ -25,29 +25,30 @@
         }
     }
 
-    &__mainContainer{
+    .mainContainer{
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-        border-radius: 8px;
-        gap: 10px;
-        height: 29.4rem;
+        gap: 1rem;
         padding-bottom: 5rem;
-        overflow-y: auto;
+      
     }
 
-    &__bottomWrapper{
+    .bottomWrapper{
         display: flex;
         flex-direction: column;
         justify-content: center;
         gap: 4rem;
 
-        &__buttonWrapper{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 7rem;
-        }
+        
+    }
+    .buttonWrapper{
+        position:sticky;
+        bottom: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 7rem;
     }
 }
