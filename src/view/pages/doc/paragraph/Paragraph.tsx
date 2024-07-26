@@ -9,6 +9,7 @@ import { updateParagraphTextToDB } from "../../../../controllers/db/paragraphs/s
 import Evaluation from "./evaluation/Evaluation";
 import Comment from "../comment/Comment";
 import CommentButtonIcon from "../../../components/buttons/CommentButton";
+import NewComment from "../newComment/NewComment";
 
 interface Props {
   statement: Statement;
@@ -16,7 +17,8 @@ interface Props {
 }
 const Paragraph: FC<Props> = ({ statement, docStatement }) => {
   const comments = useSelector(commentsSelector(statement.statementId));
-  const [showComments, setShowComments] = useState<boolean>(false);
+  const [showComments, setShowComments] = useState<boolean>(true);
+  const [newComment, setNewComment] = useState<boolean>(false);
   const isEdit = useSelector(isEditSelector);
 
   useEffect(() => {
@@ -24,9 +26,10 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
   }, [isEdit]);
 
   function commentsHandler() {
-    return setShowComments(!showComments);
+    return setNewComment(!newComment);
   }
 
+  console.log("newComment", newComment);
   return (
     <div className={styles.paragraph}>
       {isEdit ? (
@@ -46,10 +49,15 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
           {statement.statement}
         </p>
       )}
-      <Evaluation statement={statement} docStatement={docStatement} />
+      <Evaluation statement={statement} docStatement={docStatement} setNewComment={commentsHandler}/>
+      {newComment && <NewComment
+        docStatement={docStatement}
+        order={comments.length}
+        parentId={statement.statementId}
+      />}
       {showComments && (
         <>
-         <CommentButtonIcon onClick={commentsHandler} />
+        
           {comments.map((comment) => (
             <Comment key={`c-${comment.statementId}`} statement={comment} />
           ))}
