@@ -40,9 +40,9 @@ const Paper = () => {
 
   return (
     <div className={styles.paper} style={docStatement && document?.sections.length != 0 ? {justifyContent: "flex-start"} : {justifyContent: "space-between"}}>
-      <div className={styles.wrapper__headerWrapper}>
-        <h1 className={styles.wrapper__headerWrapper__header}>{title}</h1>
-        <div className={styles.wrapper__headerWrapper__buttonWrapper}>
+      <div className={styles.headerWrapper}>
+        <h1 className={styles.title}>{title}</h1>
+        <div className={styles.buttons}>
           <MainEditButton title="Edit"/> 
           <InfoButton/>
           <Checkbox />
