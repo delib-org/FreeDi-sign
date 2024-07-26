@@ -102,7 +102,7 @@ function PolicyContainer({}: Props) {
         </div>
         <div className={styles.policyWrapper__policyFooter__buttonWrapper}>
           <StrongMainButton padding="8px 52px" backgroundColor="var(--inactive-btn)" color="var(--icon-blue)" value="Decline" width="9.47rem" height="2.41rem" fontSize="1.05rem"/>
-          <MainButton padding="8px 52px" backgroundColor="var(--active-btn)" color="#fff" value="Accept" width="9.47rem" height="2.41rem" fontSize="1.05rem"/>
+          <MainButton padding="8px 52px" backgroundColor="var(--active-btn)" color="#fff" value="Accept" height="2.41rem" fontSize="1.05rem"/>
         </div>
       </div>
     </div>

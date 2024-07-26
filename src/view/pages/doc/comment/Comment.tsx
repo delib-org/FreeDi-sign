@@ -54,7 +54,6 @@ const Comment: FC<Props> = ({ statement }) => {
                 color="var(--icon-blue)"
                 backgroundColor="var(--inactive-btn)"
                 padding="0.23rem 1.41rem"
-                width="7.47rem"
                 height="1.88rem"
                 fontSize="0.94rem"
                 icon={<ThumbsDownIcon color="var(--icon-blue)" />} 
@@ -77,7 +76,6 @@ const Comment: FC<Props> = ({ statement }) => {
                 color="var(--icon-blue)"
                 backgroundColor="var(--inactive-btn)"
                 padding="0.23rem 1.41rem"
-                width="6.23rem"
                 height="1.88rem"
                 fontSize="0.94rem"
                 icon={<ThumbsUpIcon color="var(--icon-blue)" />} 

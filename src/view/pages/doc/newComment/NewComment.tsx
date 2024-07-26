@@ -58,7 +58,6 @@ const NewComment:FC<Props> = ({docStatement,parentId,order}) => {
             color="var(--icon-blue)"
             backgroundColor="var(--inactive-btn)"
             padding="0.23rem 1.41rem"
-            width="9.11rem"
             height="1.88rem"
             fontSize="0.94rem"
           />
