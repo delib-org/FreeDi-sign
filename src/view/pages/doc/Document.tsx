@@ -56,7 +56,7 @@ const user = useSelector(selectUser)
       </div>
 
       <div className={styles.main}>
-        <Header />
+        <Header docStatement={docStatement}/>
         <Paper />
       
       </div>
