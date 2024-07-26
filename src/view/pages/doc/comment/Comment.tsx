@@ -33,7 +33,7 @@ const Comment: FC<Props> = ({ statement }) => {
             width="9.70rem"
             height="1.88rem"
             padding="4px 16px"
-            backgroundcolor="var(--active-btn)"
+            backgroundColor="var(--active-btn)"
             color="#fff"
             fontSize="0.94rem"
             value="Add comment"
@@ -52,9 +52,8 @@ const Comment: FC<Props> = ({ statement }) => {
               <MainButton
                 value="Disagree"
                 color="var(--icon-blue)"
-                backgroundcolor="var(--inactive-btn)"
+                backgroundColor="var(--inactive-btn)"
                 padding="0.23rem 1.41rem"
-                width="7.47rem"
                 height="1.88rem"
                 fontSize="0.94rem"
                 icon={<ThumbsDownIcon color="var(--icon-blue)" />} 
@@ -75,9 +74,8 @@ const Comment: FC<Props> = ({ statement }) => {
               <MainButton
                 value="Agree"
                 color="var(--icon-blue)"
-                backgroundcolor="var(--inactive-btn)"
+                backgroundColor="var(--inactive-btn)"
                 padding="0.23rem 1.41rem"
-                width="6.23rem"
                 height="1.88rem"
                 fontSize="0.94rem"
                 icon={<ThumbsUpIcon color="var(--icon-blue)" />} 

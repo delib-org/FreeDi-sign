@@ -3,6 +3,8 @@ import { setSectionToDB } from "../../../../controllers/db/statements/setStateme
 import { Statement } from "delib-npm";
 import StrongMainButton from "../../../components/buttons/StrongMainButton";
 import styles from "./NewSection.module.scss";
+import { useSelector } from "react-redux";
+import { isEditSelector } from "../../../../controllers/slices/editSlice";
 
 interface Props {
   docStatement: Statement;
@@ -21,6 +23,9 @@ const NewSection: FC<Props> = ({
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
+  const isEditing  = useSelector(isEditSelector);
+
   function handleSubmitText(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!docStatement) throw new Error("parentStatementId is required");
@@ -54,13 +59,15 @@ const NewSection: FC<Props> = ({
     setInputValue("");
   };
 
+  if(!isEditing) return null;
+
   //edit mode + input value state. need to remove it and adjust the button to make instantly new section
   return (
     <>
       {editMode === false ? (
         <StrongMainButton
           padding="8px 52px"
-          backgroundcolor="var(--active-btn)"
+          backgroundColor="var(--active-btn)"
           color="#fff"
           value={buttonValue}
           width="14.05rem"

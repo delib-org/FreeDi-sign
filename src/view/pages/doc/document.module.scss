@@ -1,9 +1,11 @@
-.signWrapper{
+.doc{
     display: flex;
+    height: 100vh;
+    width: 100vw;
 
-    &__leftBar{
+    .aside{
         flex: 0;
-        width: 29.88rem;
+        // width: 25rem;
         background-color: var(--active-btn);
         box-shadow:
             1px 0px 2px 0px #62749D1A,
@@ -17,11 +19,14 @@
         align-items: center;
         z-index: 1;
         color: white;
+        height: 100vh;
     }
 
-    &__mainContainer{
+    .main{
         display: flex;
         flex-direction: column;
         flex: 1;
+        overflow-y: auto;
+        padding: 1.5rem 3rem;
     }
 }

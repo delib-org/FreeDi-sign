@@ -11,7 +11,7 @@ import {
 import FileIcon from "../icons/FileIcon";
 import LogoAndNameIcon from "../icons/LogoAndNameIcon";
 
-function Accordion1() {
+function Accordion() {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
   const { statementId } = useParams<{ statementId: string }>();
   const { statements, isLoading, isError, docStatement, isAuthorized } =
@@ -38,7 +38,7 @@ function Accordion1() {
         <div className={styles.headerWrapper}>
           <div className={styles.headerLogo}>
             <LogoAndNameIcon />
-            <p>for Nordia community</p>
+            <p>Fostering collaboration</p>
           </div>
           <div className={styles.headerTitle}>
             <FileIcon />
@@ -71,4 +71,4 @@ function Accordion1() {
   );
 }
 
-export default Accordion1;
+export default Accordion;

@@ -4,59 +4,74 @@ import styles from "./importance.module.scss";
 import { setImportanceToDB } from "../../../../../controllers/db/importance/setImportance";
 import { getImportanceFromDB } from "../../../../../controllers/db/importance/getImportance";
 
+import ImportanceIcon0 from "../../../../../assets/icons/important0.svg?react";
+import ImportanceIcon1 from "../../../../../assets/icons/important1.svg?react";
+import ImportanceIcon2 from "../../../../../assets/icons/important2.svg?react";
+
 interface Props {
   statement: Statement;
   document: Statement;
 }
 
 const Importance: FC<Props> = ({ statement, document }) => {
-  const [importance, setImportance] = useState<number>(0);
+  const [importance, setImportance] = useState<number | undefined>(undefined);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
   useEffect(() => {
     getImportanceFromDB(statement.statementId).then((importance) => {
-      if (importance) setImportance(importance.importance);
+      console.log("importance", importance);
+      if (importance === undefined) {
+        setImportance(undefined);
+
+        return;
+      }
+      if (typeof importance?.importance === "number")
+        setImportance(importance.importance);
       else setImportance(0);
     });
   }, []);
 
+  function fromImportanceToIcon(importance: number): JSX.Element {
+    if (importance < 0.333333) return <ImportanceIcon0 />;
+    if (importance < 0.666666) return <ImportanceIcon1 />;
+    return <ImportanceIcon2 />;
+  }
+
+  function handleImportance(importance: number) {
+    setImportance(importance);
+    setImportanceToDB({ document, statement, importance });
+  }
+
   return (
     <div className={styles.importance}>
-      <div className={styles.result}>{fromNumberToValue(importance)}</div>
-      <input
-        className={styles.range}
-        type="range"
-        min="0"
-        step={0.01}
-        max="1"
-        value={importance}
-        onChange={(e) => setImportance(e.target.valueAsNumber)}
-        onMouseLeave={(e:any) => {
-          
-          setImportanceToDB({
-            statement,
-            document,
-            importance: e.target.valueAsNumber,
-          });
-        }}
-        onTouchEnd={(e:any) => {
-          
-          setImportanceToDB({
-            statement,
-            document,
-            importance: e.target.valueAsNumber,
-          });
-        }}
-      />
+      {isEdit ? (
+        <div className={styles.editMain} onClick={() => setIsEdit(false)}>
+          <ImportanceIcon0
+            className={styles.imp0}
+            onClick={() => handleImportance(0)}
+          />
+          <ImportanceIcon1
+            className={styles.imp1}
+            onClick={() => handleImportance(0.5)}
+          />
+          <ImportanceIcon2
+            className={styles.imp2}
+            onClick={() => handleImportance(1)}
+          />
+          {importance === undefined
+            ? "Priority"
+            : fromImportanceToIcon(importance)}
+        </div>
+      ) : (
+        <div onClick={() => setIsEdit(true)}>
+          {" "}
+          {importance === undefined
+            ? "Priority"
+            : fromImportanceToIcon(importance)}
+        </div>
+      )}
     </div>
   );
 };
 
 export default Importance;
-
-function fromNumberToValue(number: number): string {
-  if (number < 0.2) return "unimportant";
-  if (number < 0.4) return "somewhat important";
-  if (number < 0.6) return "important";
-  if (number < 0.8) return "highly important";
-  return "super important";
-}

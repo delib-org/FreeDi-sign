@@ -7,7 +7,6 @@ import NewSection from "../newSection/NewSection";
 import NewParagraph from "../newParagraph/NewParagraph";
 import Paragraph from "../paragraph/Paragraph";
 import { Statement } from "delib-npm";
-import SubSection from "../subSection/SubSection";
 import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { updateSectionTextToDB } from "../../../../controllers/db/sections/setSections";
@@ -44,7 +43,7 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
           <h2 className={styles.sectionTitle}>{document.title != "" ? document.title : "Write Section"}</h2>
         )}
 
-        {/* <div className={styles.sectionWrapper}>
+        <div className={styles.sectionWrapper}>
           {document.paragraphs.map((paragraph) => (
             <Paragraph
               key={`p-${paragraph.statementId}`}
@@ -59,10 +58,10 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
               order={document.sections.length}
             />
           )}
-        </div> */}
+        </div>
 
         {document.sections.map((section, index) => (
-          <SubSection
+          <Section
             key={index}
             document={section}
             docStatement={docStatement}
@@ -73,7 +72,7 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
           docStatement={docStatement}
           parentId={statementId}
           order={document.sections.length}
-          buttonValue="Add Sub Section"
+          buttonValue="Add new section"
         />
       </section>
     );

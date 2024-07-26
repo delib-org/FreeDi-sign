@@ -46,7 +46,7 @@ const NewComment:FC<Props> = ({docStatement,parentId,order}) => {
           <StrongMainButton
             value="Save comment"
             color="white"
-            backgroundcolor="var(--active-btn)"
+            backgroundColor="var(--active-btn)"
             padding="0.23rem 1.41rem"
             width="9.11rem"
             height="1.88rem"
@@ -56,9 +56,8 @@ const NewComment:FC<Props> = ({docStatement,parentId,order}) => {
           <MainButton
             value="Cancel"
             color="var(--icon-blue)"
-            backgroundcolor="var(--inactive-btn)"
+            backgroundColor="var(--inactive-btn)"
             padding="0.23rem 1.41rem"
-            width="9.11rem"
             height="1.88rem"
             fontSize="0.94rem"
           />

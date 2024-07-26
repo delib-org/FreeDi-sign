@@ -3,6 +3,9 @@
 
 :root {
 
+    //fonts
+    --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
     //colors
     --dark-main: #5899E0;
     --text-main: white;
@@ -19,13 +22,14 @@
     --disabled-paragrap: #A1B0D1;
     --text-blue: #668FD1;
 
-
+--cinnamon: #F38EC2;
 
     --button-text: 1rem;
 
-    --screenBG: #F2F6FF
-
-
+    --screenBG: #F2F6FF;
+    --agree: #6FC5BE;
+    --reject: #E8749E
+    ;
 
 }
 
@@ -33,13 +37,13 @@ html,
 body {
     font-size: 17px;
     margin: 0;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: var(--font-main);
     font-weight: 300;
     font-style: normal;
     background-color: var(--screen-bg);
 }
 
-*{
+* {
     box-sizing: border-box;
 }
 
