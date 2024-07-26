@@ -1,8 +1,5 @@
 import { useParams } from "react-router-dom";
-import NewSection from "../../pages/doc/newSection/NewSection";
 import Section from "../../pages/doc/section/Section";
-import MainButton from "../buttons/MainButton";
-import StrongMainButton from "../buttons/StrongMainButton";
 import styles from "./paper.module.scss";
 import { useDocument } from "../../../controllers/hooks/documentHooks";
 import {

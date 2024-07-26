@@ -60,7 +60,7 @@ const NewSection: FC<Props> = ({
       {editMode === false ? (
         <StrongMainButton
           padding="8px 52px"
-          backgroundcolor="var(--active-btn)"
+          backgroundColor="var(--active-btn)"
           color="#fff"
           value={buttonValue}
           width="14.05rem"

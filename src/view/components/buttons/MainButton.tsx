@@ -1,27 +1,66 @@
-import { ReactNode } from 'react';
-import styles from './buttons.module.scss';
+import { ReactNode } from "react";
+import styles from "./buttons.module.scss";
 
 interface Props {
-    value: string,
-    backgroundcolor:string,
-    padding: string,
-    width: string,
-    height:string,
-    fontSize: string,
-    icon?: ReactNode,
-    color?:string,
-    gap?: string,
-    onClick?: () => void;
+  value: string;
+  backgroundColor?: string;
+  padding?: string;
+  height?: string;
+  fontSize?: string;
+  icon?: ReactNode;
+  color?: string;
+  gap?: string;
+  onClick?: () => void;
 }
 
-const MainButton = ({value,backgroundcolor, icon, padding, color, gap, width, height, fontSize, onClick}: Props) => {
+const MainButton = ({
+  value,
+  backgroundColor = "var(--active-btn)",
+  icon,
+  padding = "8px 24px 8px 24px",
+  color,
+  gap,
+  height = "2.41rem",
+  fontSize = "1rem",
+  onClick,
+}: Props) => {
   return (
     <>
-    {icon ? 
-    <button onClick={onClick} style={{backgroundColor:`${backgroundcolor}`, padding:`${padding}`, color:`${color}`, gap:`${gap}`, width:`${width}`, height:`${height}` , fontSize:`${fontSize}`}} className={`${styles.button} ${styles.buttonWithIcon}`}>{value}<span>{icon}</span></button>
-    : <button onClick={onClick} style={{backgroundColor:`${backgroundcolor}`, padding:`${padding}`, color:`${color}`, gap:`${gap}`, width:`${width}`, height:`${height}` , fontSize:`${fontSize}`}} className={styles.button}>{value}</button>}
-  </>
-  )
-}
+      {icon ? (
+        <button
+          onClick={onClick}
+          style={{
+            backgroundColor: `${backgroundColor}`,
+            padding: `${padding}`,
+            color: `${color}`,
+            gap: `${gap}`,
+            height: `${height}`,
+            fontSize: `${fontSize}`,
+          }}
+          className={`${styles.button} ${styles.buttonWithIcon}`}
+        >
+          {value}
+          <span>{icon}</span>
+        </button>
+      ) : (
+        <button
+          onClick={onClick}
+          style={{
+            backgroundColor: `${backgroundColor}`,
+            padding: `${padding}`,
+            color: `${color}`,
+            gap: `${gap}`,
 
-export default MainButton
+            height: `${height}`,
+            fontSize: `${fontSize}`,
+          }}
+          className={styles.button}
+        >
+          {value}
+        </button>
+      )}
+    </>
+  );
+};
+
+export default MainButton;
