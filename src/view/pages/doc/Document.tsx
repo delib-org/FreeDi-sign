@@ -10,7 +10,7 @@ import {
 import Accordion from "../../components/accordion/Accordion";
 // import PolicyContainer from "../../components/policyContainer/PolicyContainer";
 import Header from "../../components/header/Header";
-import CreatingPolicy from "../../components/creatingPolicy/CreatingPolicy";
+import Paper from "../../components/paper/Paper";
 // import { useState } from "react";
 // import PolicyComment from "../../components/policyComment/PolicyComment";
 // import PolicyCommentVotes from "../../components/policyCommentVotes/PolicyCommentVotes";
@@ -50,15 +50,15 @@ const user = useSelector(selectUser)
   // CreatingPolicy Component its the one i am working with and connecting everything into.
 
   return (
-    <div className={styles.signWrapper}>
-      <div className={styles.signWrapper__leftBar}>
+    <div className={styles.doc}>
+      <div className={styles.aside}>
         <Accordion />
       </div>
 
-      <div className={styles.signWrapper__mainContainer}>
+      <div className={styles.main}>
         <Header />
-        <CreatingPolicy />
-        {/* <PolicyContainer /> */}
+        <Paper />
+      
       </div>
       {/* <a href="https://freedi.tech">Freedi</a>
       <h1>Document: {docStatement?.statement}</h1> */}

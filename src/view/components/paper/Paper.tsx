@@ -3,7 +3,7 @@ import NewSection from "../../pages/doc/newSection/NewSection";
 import Section from "../../pages/doc/section/Section";
 import MainButton from "../buttons/MainButton";
 import StrongMainButton from "../buttons/StrongMainButton";
-import styles from "./creatingPolicy.module.scss";
+import styles from "./paper.module.scss";
 import { useDocument } from "../../../controllers/hooks/documentHooks";
 import {
   DocumentObject,
@@ -14,7 +14,7 @@ import Checkbox from "../checkbox/Checkbox";
 // import { toggleIsEdit } from "../../../controllers/slices/editSlice";
 import MainEditButton from "../buttons/MainEditButton";
 
-type Props = {};
+
 
 // toggle edit mode is inside the EditButton Component.
 // the section edit is not working + its changing the main statement of the room name, making it invisible.
@@ -22,7 +22,7 @@ type Props = {};
 // the paragraph section is working good.
 // this is the main component where i connect everything.
 
-const CreatingPolicy = (props: Props) => {
+const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
   const { statements, isLoading, isError, docStatement, isAuthorized } =
     useDocument(statementId);
@@ -39,7 +39,7 @@ const CreatingPolicy = (props: Props) => {
   const title = docStatement?.statement.split("\n")[0].split("*")[1];
 
   return (
-    <div className={styles.wrapper} style={docStatement && document?.sections.length != 0 ? {justifyContent: "flex-start"} : {justifyContent: "space-between", marginTop:"5.3rem"}}>
+    <div className={styles.paper} style={docStatement && document?.sections.length != 0 ? {justifyContent: "flex-start"} : {justifyContent: "space-between"}}>
       <div className={styles.wrapper__headerWrapper}>
         <h1 className={styles.wrapper__headerWrapper__header}>{title}</h1>
         <div className={styles.wrapper__headerWrapper__buttonWrapper}>
@@ -100,4 +100,4 @@ const CreatingPolicy = (props: Props) => {
   );
 };
 
-export default CreatingPolicy;
+export default Paper;

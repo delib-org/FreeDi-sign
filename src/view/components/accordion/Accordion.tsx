@@ -11,7 +11,7 @@ import {
 import FileIcon from "../icons/FileIcon";
 import LogoAndNameIcon from "../icons/LogoAndNameIcon";
 
-function Accordion1() {
+function Accordion() {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
   const { statementId } = useParams<{ statementId: string }>();
   const { statements, isLoading, isError, docStatement, isAuthorized } =
@@ -71,4 +71,4 @@ function Accordion1() {
   );
 }
 
-export default Accordion1;
+export default Accordion;
