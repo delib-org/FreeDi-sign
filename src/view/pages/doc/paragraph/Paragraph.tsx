@@ -32,10 +32,10 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
 
   return (
     <div className={styles.paragraph}>
-      <div className={styles.paragraph__approval}>
-        {isEdit ? (
-          <EditInput
-            placeHolder={statement.statement ? statement.statement : "Write Paragraph..."}
+      {isEdit ? (
+          <textarea
+            defaultValue={statement.statement}
+            className={`${styles.textArea} ${styles.textAreaEdit}`}
             onChange={(e) => {
               adjustTextAreaHeight(e.target);
               updateParagraphTextToDB({ statement, newText: e.target.value });
@@ -45,8 +45,10 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
             }
           />
         ) : (
-          <p>{statement.statement != "" ? statement.statement : "Write Paragraph..."}</p>
+          <p className={`${styles.textArea} ${styles.textAreaP}`}>{statement.statement}</p>
         )}
+      <div className={styles.paragraph__approval}>
+        
         <div className={styles.paragraph__approval__buttons}>
           <CommentButtonIcon onClick={commentsHandler} />
           <Approval statement={statement} docStatement={docStatement}/>

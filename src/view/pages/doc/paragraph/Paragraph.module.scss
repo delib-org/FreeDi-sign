@@ -3,21 +3,33 @@
     flex-direction: column;
     padding-left: 2rem;
     gap: 1.5rem;
-    p{
-        color: var(--paragraph-light);
+
+    
+    .textArea {
+        width: 100%;
         font-weight: 400;
         font-size: 1rem;
-        max-width: 40rem;
         word-wrap: break-word;
         overflow-wrap: break-word;
+        color: var(--paragraph-light);
+        padding: .3rem;
+        &Edit{
+            background-color: transparent;
+           border:none;
+           font-family: var(--font-main);
+        }
+      
     }
 
     &__approval {
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
         align-items: center;
         gap: 1rem;
         margin-bottom: 1rem;
+
+        
 
         &__buttons {
             display: flex;
@@ -25,3 +37,4 @@
         }
     }
 }
+

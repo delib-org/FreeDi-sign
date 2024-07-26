@@ -1,5 +1,6 @@
+import { FocusEvent,ChangeEvent } from 'react';
 import styles from './inputs.module.scss';
-import { ChangeEvent } from 'react';
+
 
 type Props = {
     placeHolder: string,

@@ -3,6 +3,8 @@ import { setParagraphToDB } from "../../../../controllers/db/statements/setState
 import { Statement } from "delib-npm";
 import StrongMainButton from "../../../components/buttons/StrongMainButton";
 import styles from "./newParagraph.module.scss";
+import { useSelector } from "react-redux";
+import { isEditSelector } from "../../../../controllers/slices/editSlice";
 interface Props {
   docStatement: Statement;
   parentId: string;
@@ -11,6 +13,8 @@ interface Props {
 const NewParagraph: FC<Props> = ({ docStatement, parentId, order }) => {
   const [editMode, setEditMode] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const isEditing = useSelector(isEditSelector);
+
   function handleAddNewParagraph(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
@@ -42,6 +46,11 @@ const NewParagraph: FC<Props> = ({ docStatement, parentId, order }) => {
     setEditMode(false);
     setInputValue("");
   };
+
+
+  if (!isEditing) {
+    return null;
+  }
 
   //edit mode + input value state. need to remove it and adjust the button to make instantly new paragraph
   return (
