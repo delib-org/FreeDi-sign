@@ -69,7 +69,6 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
 
       {!isEdit ? (
         <p>
-          <span>{statement.statement}</span>{" "}
           <span>
             {Math.round((statement.importanceData?.sumImportance || 0) * 100) /
               100}

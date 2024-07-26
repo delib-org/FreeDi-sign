@@ -17,8 +17,8 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
     const [approved, setApproved] = useState<boolean>(true);
 
     useEffect(() => {
-        getUserApprovalFromDB({ statement })
-        .then((approval:Approval|undefined) => {
+      getUserApprovalFromDB({ statement })
+        .then((approval: Approval | undefined) => {
           if (approval) {
             setApproved(approval.approval);
           } else {
@@ -36,25 +36,19 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
     }
 
     return approved ? (
-      <>
-        {statement.statementId}
-        <button
-          onClick={handleApproval}
-          className={`${styles.button} ${styles.approve}`}
-        >
-          Approve <Approve />
-        </button>
-      </>
+      <button
+        onClick={handleApproval}
+        className={`${styles.button} ${styles.approve}`}
+      >
+        Approve <Approve />
+      </button>
     ) : (
-      <>
-        {statement.statementId}
-        <button
-          onClick={handleApproval}
-          className={`${styles.button} ${styles.reject}`}
-        >
-          Reject <Reject />
-        </button>
-      </>
+      <button
+        onClick={handleApproval}
+        className={`${styles.button} ${styles.reject}`}
+      >
+        Reject <Reject />
+      </button>
     );
   } catch (error) {
     console.error(error);
