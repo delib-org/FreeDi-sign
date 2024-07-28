@@ -1,19 +1,81 @@
-.button{
+.button {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0rem .8rem;
     color: white;
-    gap:1rem;
-    border:none;
+    gap: 1rem;
+    border: none;
     cursor: pointer;
     user-select: none;
 }
 
-.approve{
+
+
+.approve {
     background-color: var(--agree);
+
 }
 
-.reject{
+.nonActive {
+    color: #739EE4;
+    cursor: pointer;
+    user-select: none;
+    transform: scale(1.7);
+    background-color: white;
+}
+
+.reject {
     background-color: var(--reject);
+}
+
+.appButton {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 100px;
+
+    div {
+        position: absolute;
+        cursor: pointer;
+        user-select: none;
+        border-radius: 100px;
+        height: 40px;
+        width: 40px;
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+
+    }
+
+    &Base {
+        background-color: white;
+        height: 45px;
+        width: 45px;
+        top: 6px;
+        border-radius: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 4;
+        border: 1px solid #739EE4;
+        cursor: pointer;
+        user-select: none;
+        color: white
+    }
+
+    &Approve {
+        bottom: 50px;
+        left: -40px;
+        background-color: #78d2c2;
+    }
+
+    &Reject {
+        bottom: 50px;
+        left: 40px;
+        background-color: #f16982;
+    }
+
 }

@@ -20,8 +20,9 @@ const Evaluation: FC<Props> = ({ statement, docStatement ,setNewComment}) => {
   return (
     <div className={styles.evaluation}>
       <Importance statement={statement} document={docStatement} />
-      <CommentButtonIcon onClick={setNewComment} />
       <ApprovalComp statement={statement} docStatement={docStatement} />
+      <CommentButtonIcon onClick={setNewComment} />
+    
     </div>
   );
 };

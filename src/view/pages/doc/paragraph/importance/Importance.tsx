@@ -43,7 +43,7 @@ const Importance: FC<Props> = ({ statement, document }) => {
   }
 
   return (
-    <div className={styles.importance}>
+    <>
       {isEdit ? (
         <div className={styles.editMain} onClick={() => setIsEdit(false)}>
           <ImportanceIcon0
@@ -63,14 +63,14 @@ const Importance: FC<Props> = ({ statement, document }) => {
             : fromImportanceToIcon(importance)}
         </div>
       ) : (
-        <div onClick={() => setIsEdit(true)}>
+        <div onClick={() => setIsEdit(true)} className={styles.editMain}>
           {" "}
           {importance === undefined
             ? "Priority"
             : fromImportanceToIcon(importance)}
         </div>
       )}
-    </div>
+    </>
   );
 };
 
