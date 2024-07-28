@@ -8,6 +8,7 @@ import {
 } from "../../../controllers/general.ts/statement_helpers";
 import PaperHeader from "./header/PaperHeader";
 import PaperBottomButtons from "./bottomButtons/PaperBottomButtons";
+import NewSection from "../../pages/doc/newSection/NewSection";
 
 
 
@@ -48,9 +49,15 @@ const Paper = () => {
                 statement={docStatement}
               />
             ))}
+            <NewSection 
+            docStatement={docStatement}
+            order={document?.sections.length || 0}
+            parentId={docStatement.statementId}
+            isTop={true}  />
         </div>
       )}
       <PaperBottomButtons />
+      
     </div>
   );
 };

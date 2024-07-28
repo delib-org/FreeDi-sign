@@ -10,7 +10,7 @@ interface Props {
   docStatement: Statement;
   order: number;
   parentId: string;
-  buttonValue: string;
+  buttonValue?: string;
   isTop?: boolean;
 }
 
@@ -18,7 +18,7 @@ const NewSection: FC<Props> = ({
   docStatement,
   order,
   parentId,
-  buttonValue,
+  buttonValue = "Add new sub section",
   isTop = false,
 }) => {
   const [editMode, setEditMode] = useState(false);
