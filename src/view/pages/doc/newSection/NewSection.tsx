@@ -18,85 +18,38 @@ const NewSection: FC<Props> = ({
   docStatement,
   order,
   parentId,
-  buttonValue = "Add new sub section",
+  buttonValue = "Add new section",
   isTop = false,
 }) => {
-  const [editMode, setEditMode] = useState(false);
-  const [inputValue, setInputValue] = useState("");
+  const isEditing = useSelector(isEditSelector);
 
-  const isEditing  = useSelector(isEditSelector);
-
-  function handleSubmitText(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  function handleSubmitText() {
     if (!docStatement) throw new Error("parentStatementId is required");
 
-    try {
-      const target = e.target as typeof e.target & {
-        "new-statement": { value: string };
-      };
-      const text = target["new-statement"].value;
+    const text = "New Section";
 
-      if (text)
-        setSectionToDB({
-          text,
-          docStatement,
-          parentId,
-          order,
-          isTop,
-        });
-      setInputValue("");
-      (e.target as HTMLFormElement).reset()
-    } catch (error) {
-      console.error(error);
-    }
+    if (text)
+      setSectionToDB({
+        text,
+        docStatement,
+        parentId,
+        order,
+        isTop,
+      });
   }
-  function changeEditMode() {
-    setEditMode(!editMode);
-  }
+  if (!isEditing) return null;
 
-  const handleCancel = () => {
-    setEditMode(false);
-    setInputValue("");
-  };
-
-  if(!isEditing) return null;
-
-  //edit mode + input value state. need to remove it and adjust the button to make instantly new section
   return (
-    <>
-      {editMode === false ? (
-        <StrongMainButton
-          padding="8px 52px"
-          backgroundColor="var(--active-btn)"
-          color="#fff"
-          value={buttonValue}
-          width="14.05rem"
-          height="2.41rem"
-          fontSize="1rem"
-          onClick={changeEditMode}
-        />
-      ) : (
-        <form onSubmit={handleSubmitText} className={styles.form}>
-          <input
-            type="text"
-            name="new-statement"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            className={styles.form__text}
-            placeholder="Section Title"
-          />
-          <div className={styles.form__buttonWrapper}>
-            <input type="submit" value="Ok" className={styles.form__buttonWrapper__submit} />
-            <input
-              type="button"
-              value="Cancel"
-              onClick={handleCancel}
-              className={styles.form__buttonWrapper__cancel}
-            />
-          </div>
-        </form>
-      )}
-    </>
+    <StrongMainButton
+      padding="8px 52px"
+      backgroundColor="var(--active-btn)"
+      color="#fff"
+      value={buttonValue}
+      width="14.05rem"
+      height="2.41rem"
+      fontSize="1rem"
+      onClick={handleSubmitText}
+    />
   );
 };
 

@@ -57,7 +57,6 @@ const Paper = () => {
         </div>
       )}
       <PaperBottomButtons />
-      
     </div>
   );
 };

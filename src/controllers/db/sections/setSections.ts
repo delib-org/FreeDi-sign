@@ -1,18 +1,18 @@
 import { Collections, Statement } from "delib-npm";
 import { doc, updateDoc } from "firebase/firestore";
 import { DB } from "../config";
+import { DocumentObject } from "../../general.ts/statement_helpers";
 
 interface EditSectionProps {
-    statement:Statement;
+    document: DocumentObject;
     newText?:string;
 }
 
-export function updateSectionTextToDB({statement,newText}:EditSectionProps):void {
+export function updateSectionTextToDB({document,newText}:EditSectionProps):void {
     try {
-        console.log(newText, statement.statementId)
-        const statementRef = doc(DB, Collections.statements, statement.statementId);
+        const statementRef = doc(DB, Collections.statements, document.statementId);
         updateDoc(statementRef,{
-            statement: newText
+            statement: newText !== "" ? newText : "New Section" 
         }); 
     } catch (error) {
         console.error(error);
