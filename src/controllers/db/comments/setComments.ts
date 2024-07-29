@@ -27,6 +27,7 @@ export function addCommentToDB({
         if (!user) throw new Error("User not found");
 
         const statementId = crypto.randomUUID();
+        console.log("statementId", statementId);
         const statementRef = doc(DB, Collections.statements, statementId);
         const newStatement: Statement = {
             statementId,
