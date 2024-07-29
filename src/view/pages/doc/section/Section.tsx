@@ -30,17 +30,17 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
       <section className={styles.sections}>
         {isEdit ? (
           <EditInput
-            placeHolder={document.title ? document.title : "Write Section"}
+            placeHolder={document.title ? document.title : "New Section"}
             onChange={(e) => {
               adjustTextAreaHeight(e.target);
-              updateSectionTextToDB({ statement, newText: e.target.value });
+              updateSectionTextToDB({ document, newText: e.target.value });
             }}
             onBlur={(e) =>
-              updateSectionTextToDB({ statement, newText: e.target.value })
+              updateSectionTextToDB({ document, newText: e.target.value })
             }
           />
         ) : (
-          <h2 className={styles.sectionTitle}>{document.title != "" ? document.title : "Write Section"}</h2>
+          <h2 className={styles.sectionTitle}>{document.title}</h2>
         )}
 
         <div className={styles.sectionWrapper}>
@@ -72,7 +72,7 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
           docStatement={docStatement}
           parentId={statementId}
           order={document.sections.length}
-          buttonValue="Add new section"
+          buttonValue="Add new sub section"
         />
       </section>
     );

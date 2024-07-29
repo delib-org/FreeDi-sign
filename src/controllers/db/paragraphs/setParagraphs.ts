@@ -11,7 +11,7 @@ export function updateParagraphTextToDB({statement,newText}:EditParagraphProps):
     try {
         const statementRef = doc(DB, Collections.statements, statement.statementId);
         updateDoc(statementRef,{
-            statement: newText
+            statement: newText !== "" ? newText : "New Paragraph" 
         }); 
     } catch (error) {
         console.error(error);

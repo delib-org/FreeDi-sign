@@ -35,6 +35,7 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
       {isEdit ? (
         <textarea
           defaultValue={statement.statement}
+          placeholder={statement.statement !== "" ? statement.statement : "New Paragraph"}
           className={`${styles.textArea} ${styles.textAreaEdit}`}
           onChange={(e) => {
             adjustTextAreaHeight(e.target);
