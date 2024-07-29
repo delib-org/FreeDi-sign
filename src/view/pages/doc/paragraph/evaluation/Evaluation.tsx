@@ -19,7 +19,6 @@ const Evaluation: FC<Props> = ({ statement, docStatement ,setNewComment}) => {
 
   return (
     <div className={styles.evaluation}>
-      {statement.statementId}
       <Importance statement={statement} document={docStatement} />
       <ApprovalComp statement={statement} docStatement={docStatement} />
       <CommentButtonIcon onClick={setNewComment} />

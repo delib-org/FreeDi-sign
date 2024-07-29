@@ -19,7 +19,7 @@ const Importance: FC<Props> = ({ statement, document }) => {
 
   useEffect(() => {
     getImportanceFromDB(statement.statementId).then((importance) => {
-      console.log("importance", importance);
+      
       if (importance === undefined) {
         setImportance(undefined);
 

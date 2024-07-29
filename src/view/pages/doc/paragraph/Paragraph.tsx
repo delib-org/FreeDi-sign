@@ -29,13 +29,14 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
     return setNewComment(!newComment);
   }
 
-  console.log("newComment", newComment);
   return (
     <div className={styles.paragraph}>
       {isEdit ? (
         <textarea
           defaultValue={statement.statement}
-          placeholder={statement.statement !== "" ? statement.statement : "New Paragraph"}
+          placeholder={
+            statement.statement !== "" ? statement.statement : "New Paragraph"
+          }
           className={`${styles.textArea} ${styles.textAreaEdit}`}
           onChange={(e) => {
             adjustTextAreaHeight(e.target);
@@ -50,15 +51,21 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
           {statement.statement}
         </p>
       )}
-      <Evaluation statement={statement} docStatement={docStatement} setNewComment={commentsHandler}/>
-      {newComment && <NewComment
+      <Evaluation
+        statement={statement}
         docStatement={docStatement}
-        order={comments.length}
-        parentId={statement.statementId}
-      />}
+        setNewComment={commentsHandler}
+      />
+      {newComment && (
+        <NewComment
+          docStatement={docStatement}
+          order={comments.length}
+          paragraphStatement={statement}
+          parentStatement={statement}
+        />
+      )}
       {showComments && (
         <>
-        
           {comments.map((comment) => (
             <Comment key={`c-${comment.statementId}`} statement={comment} />
           ))}

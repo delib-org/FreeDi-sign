@@ -13,7 +13,7 @@ export async function getUserApprovalFromDB({ statement }: { statement: Statemen
         const approvalRef = doc(DB, Collections.approval, approvalId);
         const approvalSnap = await getDoc(approvalRef);
 
-        if (!approvalSnap.exists()) throw new Error("Approval not found");
+        if (!approvalSnap.exists()) return undefined;
 
         return approvalSnap.data() as Approval;
         
