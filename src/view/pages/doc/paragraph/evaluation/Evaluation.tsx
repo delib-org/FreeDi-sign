@@ -7,22 +7,20 @@ import CommentButtonIcon from "../../../../components/buttons/CommentButton";
 //icons
 
 import ApprovalComp from "../../approval/Approval";
-import { commentsSelector } from "../../../../../controllers/slices/statementsSlice";
-import { useSelector } from "react-redux";
 interface Props {
   statement: Statement;
   docStatement: Statement;
-  setShowComments: (show: boolean) => void;
-  showComments: boolean;
+  setShowNewComment: (show: boolean) => void;
+  showNewComment: boolean;
 }
-const Evaluation: FC<Props> = ({ statement, docStatement , setShowComments, showComments}) => {
-  const comments = useSelector(commentsSelector(statement.statementId));
+const Evaluation: FC<Props> = ({ statement, docStatement , setShowNewComment, showNewComment}) => {
+ 
 
   return (
     <div className={styles.evaluation}>
       <Importance statement={statement} document={docStatement} />
       <ApprovalComp statement={statement} docStatement={docStatement} />
-      <CommentButtonIcon onClick={()=>setShowComments(!showComments)} />
+      <CommentButtonIcon onClick={()=>setShowNewComment(!showNewComment)} />
     
     </div>
   );

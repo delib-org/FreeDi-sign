@@ -17,6 +17,7 @@ interface Props {
 const Paragraph: FC<Props> = ({ statement, docStatement }) => { 
   const comments = useSelector(commentsSelector(statement.statementId)).sort((a,b)=>b.createdAt-a.createdAt);
   const [showComments, setShowComments] = useState<boolean>(true);
+  const [showNewComment, setShowNewComment] = useState<boolean>(false);
   const isEdit = useSelector(isEditSelector);
 
   useEffect(() => {
@@ -50,17 +51,17 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
       <Evaluation
         statement={statement}
         docStatement={docStatement}
-        setShowComments={setShowComments}
-        showComments={showComments}
+        setShowNewComment={setShowNewComment}
+        showNewComment={showNewComment}
       />
-      {showComments && (
+      {showNewComment && (
         <NewComment
           docStatement={docStatement}
           order={comments.length}
           paragraphStatement={statement}
           parentStatement={statement}
-          show={showComments}
-          setShow={setShowComments}
+          show={showNewComment}
+          setShow={setShowNewComment}
         />
       )}
 
