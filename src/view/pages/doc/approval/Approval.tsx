@@ -4,7 +4,6 @@ import styles from "./Approval.module.scss";
 //icons
 import Approve from "../../../../assets/icons/approve.svg?react";
 import ApproveWhite from "../../../../assets/icons/approveWhite.svg?react";
-import Reject from "../../../../assets/icons/reject.svg?react";
 import RejectWhite from "../../../../assets/icons/rejectWhite.svg?react";
 import { setApprovalToDB } from "../../../../controllers/db/approval/setApproval";
 import { getUserApprovalFromDB } from "../../../../controllers/db/approval/getApproval";
@@ -22,10 +21,11 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
     useEffect(() => {
       getUserApprovalFromDB({ statement })
         .then((approval: Approval | undefined) => {
+          console.log("approval", approval);
           if (approval) {
             setApproved(approval.approval);
           } else {
-            setApproved(false);
+            setApproved(undefined);
           }
         })
         .catch((error) => {
@@ -33,10 +33,7 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
         });
     }, []);
 
-    function handleApproval() {
-      setApprovalToDB({ docStatement, statement, approval: !approved });
-      setApproved(!approved);
-    }
+  
 
     function handleApprove(approval: boolean) {
       setApprovalToDB({ docStatement, statement, approval });
@@ -44,7 +41,7 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
       setShowApproval(false);
     }
 
-    if (approved === undefined)
+    if (approved === undefined && !showApproval)
       return (
         <div className={styles.nonActive} onClick={() => setShowApproval(true)}>
           <Approve />
@@ -70,7 +67,7 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
         </div>
       </div>
     ) : (
-      <div className={styles.nonActive} onClick={() => setShowApproval(true)} >
+      <div className={styles.selected} style={{backgroundColor:approved?"var(--agree)":"var(--reject"}} onClick={() => setShowApproval(true)} >
        {approved? <ApproveWhite />: <RejectWhite />}
       </div>
     );

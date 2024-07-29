@@ -21,8 +21,10 @@
     color: #739EE4;
     cursor: pointer;
     user-select: none;
-    transform: scale(1.7);
-    background-color: white;
+    transform: scale(1.4);
+    // background-color: white;
+    // width: 60px;
+    // height: 60px;
 }
 
 .reject {
@@ -42,7 +44,7 @@
         border-radius: 100px;
         height: 40px;
         width: 40px;
-        
+        position: absolute;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -78,4 +80,13 @@
         background-color: #f16982;
     }
 
+}
+
+.selected {
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
