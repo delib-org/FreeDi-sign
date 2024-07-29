@@ -11,8 +11,10 @@ interface Props {
   paragraphStatement: Statement;
   parentStatement: Statement;
   order: number;
+  show: boolean;
+  setShow: (show: boolean) => void;
 }
-const NewComment: FC<Props> = ({ docStatement, paragraphStatement,parentStatement, order }) => {
+const NewComment: FC<Props> = ({ docStatement, paragraphStatement,parentStatement, order, show, setShow }) => {
   function handleAddNewComment(ev: any) {
     try {
       ev.preventDefault();
@@ -26,6 +28,7 @@ const NewComment: FC<Props> = ({ docStatement, paragraphStatement,parentStatemen
           docStatement,
           order,
         });
+        setShow(false);
       }
 
       target.reset();

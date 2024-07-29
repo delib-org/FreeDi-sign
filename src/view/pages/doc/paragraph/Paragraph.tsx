@@ -8,26 +8,22 @@ import { adjustTextAreaHeight } from "./paragraphCont";
 import { updateParagraphTextToDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import Evaluation from "./evaluation/Evaluation";
 import Comment from "../comment/Comment";
-import CommentButtonIcon from "../../../components/buttons/CommentButton";
 import NewComment from "../newComment/NewComment";
 
 interface Props {
   statement: Statement;
   docStatement: Statement;
 }
-const Paragraph: FC<Props> = ({ statement, docStatement }) => {
-  const comments = useSelector(commentsSelector(statement.statementId));
+const Paragraph: FC<Props> = ({ statement, docStatement }) => { 
+  const comments = useSelector(commentsSelector(statement.statementId)).sort((a,b)=>b.createdAt-a.createdAt);
   const [showComments, setShowComments] = useState<boolean>(true);
-  const [newComment, setNewComment] = useState<boolean>(false);
   const isEdit = useSelector(isEditSelector);
 
   useEffect(() => {
     //get the previous value of isEdit
   }, [isEdit]);
 
-  function commentsHandler() {
-    return setNewComment(!newComment);
-  }
+ 
 
   return (
     <div className={styles.paragraph}>
@@ -54,23 +50,25 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
       <Evaluation
         statement={statement}
         docStatement={docStatement}
-        setNewComment={commentsHandler}
+        setShowComments={setShowComments}
+        showComments={showComments}
       />
-      {newComment && (
+      {showComments && (
         <NewComment
           docStatement={docStatement}
           order={comments.length}
           paragraphStatement={statement}
           parentStatement={statement}
+          show={showComments}
+          setShow={setShowComments}
         />
       )}
-      {showComments && (
-        <>
-          {comments.map((comment) => (
-            <Comment key={`c-${comment.statementId}`} statement={comment} />
-          ))}
-        </>
-      )}
+
+      <>
+        {comments.map((comment) => (
+          <Comment key={`c-${comment.statementId}`} statement={comment} />
+        ))}
+      </>
     </div>
   );
 };

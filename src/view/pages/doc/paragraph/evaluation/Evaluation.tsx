@@ -12,16 +12,17 @@ import { useSelector } from "react-redux";
 interface Props {
   statement: Statement;
   docStatement: Statement;
-  setNewComment: () => void;
+  setShowComments: (show: boolean) => void;
+  showComments: boolean;
 }
-const Evaluation: FC<Props> = ({ statement, docStatement ,setNewComment}) => {
+const Evaluation: FC<Props> = ({ statement, docStatement , setShowComments, showComments}) => {
   const comments = useSelector(commentsSelector(statement.statementId));
 
   return (
     <div className={styles.evaluation}>
       <Importance statement={statement} document={docStatement} />
       <ApprovalComp statement={statement} docStatement={docStatement} />
-      <CommentButtonIcon onClick={setNewComment} />
+      <CommentButtonIcon onClick={()=>setShowComments(!showComments)} />
     
     </div>
   );
