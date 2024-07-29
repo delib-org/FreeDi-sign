@@ -1,3 +1,5 @@
+
+$size:40px;
 .button {
     display: flex;
     justify-content: center;
@@ -22,9 +24,7 @@
     cursor: pointer;
     user-select: none;
     transform: scale(1.4);
-    // background-color: white;
-    // width: 60px;
-    // height: 60px;
+    
 }
 
 .reject {
@@ -32,61 +32,87 @@
 }
 
 .appButton {
-    position: relative;
-    width: 60px;
-    height: 60px;
-    border-radius: 100px;
+   position: relative;
+    width: $size;
+    height:$size;
+    border-radius: $size;
 
     div {
         position: absolute;
         cursor: pointer;
         user-select: none;
-        border-radius: 100px;
-        height: 40px;
-        width: 40px;
+        border-radius: $size;
+        height: $size;
+        width: $size;
         position: absolute;
         display: flex;
         align-items: center;
         justify-content: center;
-
+        transition: all 0.3s;
 
     }
 
     &Base {
+        position: absolute;
         background-color: white;
-        height: 45px;
-        width: 45px;
-        top: 6px;
+        height: $size;
+        width: $size;
         border-radius: 3rem;
         display: flex;
         align-items: center;
         justify-content: center;
         z-index: 4;
-        border: 1px solid #739EE4;
+     
         cursor: pointer;
         user-select: none;
         color: white
     }
 
     &Approve {
-        bottom: 50px;
-        left: -40px;
+        bottom: 35px;
+        left: -30px;
         background-color: #78d2c2;
+
+        animation: moveOutLeft 500ms ease-in-out 0s 1 forwards normal;
     }
 
     &Reject {
-        bottom: 50px;
-        left: 40px;
+        bottom: 35px;
+        left: 30px;
         background-color: #f16982;
+
+        animation: moveOutRight 500ms ease-in-out 0s 1 forwards normal;
     }
 
 }
 
 .selected {
-    width: 40px;
-    height: 40px;
+    width: $size;
+    height: $size;
     border-radius: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@keyframes moveOutLeft {
+    0% {
+        bottom: 0px;
+        left: 0px;
+    }
+    100% {
+        bottom: 35px;
+        left: -30px;
+    }
+}
+
+@keyframes moveOutRight {
+    0% {
+        bottom: 0px;
+        left: 0px;
+    }
+    100% {
+        bottom: 35px;
+        left: 30px;
+    }
 }

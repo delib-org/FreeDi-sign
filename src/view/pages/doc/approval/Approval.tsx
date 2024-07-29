@@ -1,5 +1,5 @@
 import { Approval, Statement } from "delib-npm";
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import styles from "./Approval.module.scss";
 //icons
 import Approve from "../../../../assets/icons/approve.svg?react";
@@ -17,11 +17,13 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
   try {
     const [approved, setApproved] = useState<boolean | undefined>(undefined);
     const [showApproval, setShowApproval] = useState<boolean>(false);
+    const [close, setClose] = useState<boolean>(false);
+
+    const approvedRef = useRef(null);
 
     useEffect(() => {
       getUserApprovalFromDB({ statement })
         .then((approval: Approval | undefined) => {
-          console.log("approval", approval);
           if (approval) {
             setApproved(approval.approval);
           } else {
@@ -33,7 +35,11 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
         });
     }, []);
 
-  
+    useEffect(() => {
+      if (showApproval) {
+        setClose(false);
+      }
+    }, [showApproval]);
 
     function handleApprove(approval: boolean) {
       setApprovalToDB({ docStatement, statement, approval });
@@ -50,29 +56,32 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
 
     return showApproval ? (
       <div className={styles.appButton}>
-        <div className={styles.appButtonBase}>
-          <Approve />
-        </div>
+        <div className={styles.appButtonBase}></div>
         <div
           className={styles.appButtonApprove}
           onClick={() => handleApprove(true)}
+          style={{ left: close ? "0px" : "-30px", bottom: close ? "0px" : "-30px", transition: "left 0.5s, bottom 0.5s" }}
+          ref={approvedRef}
         >
           <ApproveWhite />
         </div>
         <div
           className={styles.appButtonReject}
           onClick={() => handleApprove(false)}
+          style={{ left: close ? "0px" : "-30px", bottom: close ? "0px" : "-30px", transition: "left 0.5s, bottom 0.5s" }}
         >
           <RejectWhite />
         </div>
       </div>
     ) : (
-      <div className={styles.selected} style={{backgroundColor:approved?"var(--agree)":"var(--reject"}} onClick={() => setShowApproval(true)} >
-       {approved? <ApproveWhite />: <RejectWhite />}
+      <div
+        className={styles.selected}
+        style={{ backgroundColor: approved ? "var(--agree)" : "var(--reject)", transition: "background-color 0.5s" }}
+        onClick={() => setShowApproval(true)}
+      >
+        {approved ? <ApproveWhite /> : <RejectWhite />}
       </div>
     );
-
-   
   } catch (error) {
     console.error(error);
     return null;
