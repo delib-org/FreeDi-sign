@@ -4,7 +4,7 @@
     padding-left: 2rem;
     gap: 1.5rem;
 
-    
+
     .textArea {
         width: 100%;
         font-weight: 400;
@@ -13,12 +13,13 @@
         overflow-wrap: break-word;
         color: var(--paragraph-light);
         padding: .3rem;
-        &Edit{
+
+        &Edit {
             background-color: transparent;
-           border:none;
-           font-family: var(--font-main);
+            border: none;
+            font-family: var(--font-main);
         }
-      
+
     }
 
     &__approval {
@@ -29,12 +30,22 @@
         gap: 1rem;
         margin-bottom: 1rem;
 
-        
+
 
         &__buttons {
             display: flex;
             gap: 2rem;
         }
     }
-}
 
+    .comments {
+       
+       
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+       
+    }
+}

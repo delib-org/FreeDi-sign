@@ -14,17 +14,17 @@ interface Props {
   statement: Statement;
   docStatement: Statement;
 }
-const Paragraph: FC<Props> = ({ statement, docStatement }) => { 
-  const comments = useSelector(commentsSelector(statement.statementId)).sort((a,b)=>b.createdAt-a.createdAt);
-  const [showComments, setShowComments] = useState<boolean>(true);
+const Paragraph: FC<Props> = ({ statement, docStatement }) => {
+  const comments = useSelector(commentsSelector(statement.statementId)).sort(
+    (a, b) => b.createdAt - a.createdAt
+  );
+  const [showComments, setShowComments] = useState<boolean>(false);
   const [showNewComment, setShowNewComment] = useState<boolean>(false);
   const isEdit = useSelector(isEditSelector);
 
   useEffect(() => {
     //get the previous value of isEdit
   }, [isEdit]);
-
- 
 
   return (
     <div className={styles.paragraph}>
@@ -51,25 +51,32 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
       <Evaluation
         statement={statement}
         docStatement={docStatement}
-        setShowNewComment={setShowNewComment}
-        showNewComment={showNewComment}
+        showComments={showComments}
+        setShowComments={setShowComments}
+        numberOfComments={comments.length}
       />
-      {showNewComment && (
-        <NewComment
-          docStatement={docStatement}
-          order={comments.length}
-          paragraphStatement={statement}
-          parentStatement={statement}
-          show={showNewComment}
-          setShow={setShowNewComment}
-        />
-      )}
 
-      <>
-        {comments.map((comment) => (
-          <Comment key={`c-${comment.statementId}`} statement={comment} />
-        ))}
-      </>
+      {showComments && (
+        <>
+          <NewComment
+            docStatement={docStatement}
+            order={comments.length}
+            paragraphStatement={statement}
+            parentStatement={statement}
+            show={showNewComment}
+            setShow={setShowNewComment}
+          />
+          <div
+            className={`${styles.comments} ${
+              showComments ? styles.commentsOpen : styles.commentsClose
+            }`}
+          >
+            {comments.map((comment) => (
+              <Comment key={`c-${comment.statementId}`} statement={comment} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };

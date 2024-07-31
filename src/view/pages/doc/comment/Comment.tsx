@@ -5,7 +5,8 @@ import ThumbsUpIcon from "../../../components/icons/ThumbsUpIcon";
 import MainButton from "../../../components/buttons/MainButton";
 import ThumbsDownIcon from "../../../components/icons/ThumbsDownIcon";
 import StrongMainButton from "../../../components/buttons/StrongMainButton";
-import AddComment from "../../../components/icons/AddCommentIcon";
+import AddComment from "../../../../assets/icons/addCommentIcon.svg?react";
+import ProfileImage from "../../../components/profileImage/ProfileImage";
 
 interface Props {
   statement: Statement;
@@ -18,11 +19,13 @@ interface Props {
 const Comment: FC<Props> = ({ statement }) => {
   return (
     <div className={styles.wrapper}>
-      <img alt="Img" className={styles.wrapper__profileImage} /> 
+      <div className={styles.wrapper__profileImage}>
+        <ProfileImage user={statement.creator} />
+        </div> 
       <div className={styles.wrapper__descriptionWrapper}>
         <div className={styles.wrapper__descriptionWrapper__nameWrapper}>
           <h2 className={styles.wrapper__descriptionWrapper__nameWrapper__name}> 
-            Saar sAAR
+            {statement.creator.displayName}
           </h2>
         </div>
         <p className={styles.wrapper__descriptionWrapper__description}>
@@ -30,9 +33,6 @@ const Comment: FC<Props> = ({ statement }) => {
         </p>
         <div className={styles.wrapper__descriptionWrapper__buttonsContainer}>
           <StrongMainButton
-            width="9.70rem"
-            height="1.88rem"
-            padding="4px 16px"
             backgroundColor="var(--active-btn)"
             color="#fff"
             fontSize="0.94rem"

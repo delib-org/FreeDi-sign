@@ -1,4 +1,4 @@
-import AddComment from '../icons/AddCommentIcon';
+import AddComment from '../../../assets/icons/addCommentIcon.svg?react';
 import styles from './buttons.module.scss';
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
 
 const CommentButton = ({onClick}: Props) => {
   return (
-    <button className={styles.commentButton} onClick={onClick}><AddComment/> Comment</button>
+    <button className={styles.commentButton} onClick={onClick}><AddComment/></button>
   )
 }
 
