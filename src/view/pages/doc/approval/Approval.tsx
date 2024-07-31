@@ -15,7 +15,7 @@ interface Props {
 
 const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
   try {
-    const [approved, setApproved] = useState<boolean | undefined>(undefined);
+    const [approved, setApproved] = useState<boolean | undefined>(true);
     const [showApproval, setShowApproval] = useState<boolean>(false);
     const [close, setClose] = useState<boolean>(false);
 
@@ -27,7 +27,7 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
           if (approval) {
             setApproved(approval.approval);
           } else {
-            setApproved(undefined);
+            setApproved(true);
           }
         })
         .catch((error) => {

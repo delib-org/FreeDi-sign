@@ -7,6 +7,7 @@ import AddComment from "../../../../../assets/icons/addCommentIcon.svg?react";
 //icons
 
 import ApprovalComp from "../../approval/Approval";
+import VerticalHR from "../../../../components/VerticalHR/VerticalHR";
 interface Props {
   statement: Statement;
   docStatement: Statement;
@@ -24,7 +25,7 @@ const Evaluation: FC<Props> = ({
   return (
     <div className={styles.evaluation}>
       <Importance statement={statement} document={docStatement} />
-      <ApprovalComp statement={statement} docStatement={docStatement} />
+      <VerticalHR />
       <div className={styles.comments}>
         {numberOfComments > 0 && (
           <span
@@ -40,6 +41,8 @@ const Evaluation: FC<Props> = ({
           <AddComment onClick={() => setShowComments(!showComments)} />
         </button>
       </div>
+      <VerticalHR />
+      <ApprovalComp statement={statement} docStatement={docStatement} />
     </div>
   );
 };

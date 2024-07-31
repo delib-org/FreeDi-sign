@@ -4,6 +4,7 @@ import styles from "./importance.module.scss";
 import { setImportanceToDB } from "../../../../../controllers/db/importance/setImportance";
 import { getImportanceFromDB } from "../../../../../controllers/db/importance/getImportance";
 
+import ImportanceUnchecked from "../../../../../assets/icons/importantUnchecked.svg?react";
 import ImportanceIcon0 from "../../../../../assets/icons/important0.svg?react";
 import ImportanceIcon1 from "../../../../../assets/icons/important1.svg?react";
 import ImportanceIcon2 from "../../../../../assets/icons/important2.svg?react";
@@ -59,14 +60,14 @@ const Importance: FC<Props> = ({ statement, document }) => {
             onClick={() => handleImportance(1)}
           />
           {importance === undefined
-            ? "Priority"
+            ? <div className={styles.unchecked}><ImportanceUnchecked /></div>
             : fromImportanceToIcon(importance)}
         </div>
       ) : (
         <div onClick={() => setIsEdit(true)} className={styles.editMain}>
           {" "}
           {importance === undefined
-            ? "Priority"
+            ? <div className={styles.unchecked}><ImportanceUnchecked /></div>
             : fromImportanceToIcon(importance)}
         </div>
       )}

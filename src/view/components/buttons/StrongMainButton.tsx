@@ -8,6 +8,7 @@ interface Props {
   width?: string;
   height?: string;
   fontSize?: string;
+  buttonType?: "cancel" | "submit";
   icon?: ReactNode;
   color?: string;
   gap?: string;
@@ -29,6 +30,9 @@ const StrongMainButton = ({
   onClick,
   type = "button",
 }: Props) => {
+
+
+
   return (
     <>
       {icon ? (
