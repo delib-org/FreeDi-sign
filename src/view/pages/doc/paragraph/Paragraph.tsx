@@ -30,9 +30,8 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
     <div className={styles.paragraph}>
       {isEdit ? (
         <textarea
-          defaultValue={statement.statement}
           placeholder={
-            statement.statement !== "" ? statement.statement : "New Paragraph"
+            statement.statement !== "" ? statement.statement : "Enter Text ... "
           }
           className={`${styles.textArea} ${styles.textAreaEdit}`}
           onChange={(e) => {
