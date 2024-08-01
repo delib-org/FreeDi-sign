@@ -7,6 +7,7 @@ import ThumbsDownIcon from '../../../../assets/icons/thumbDown.svg?react';
 import ProfileImage from "../../../components/profileImage/ProfileImage";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../../../controllers/slices/userSlice";
+import { setEvaluationToDB } from "../../../../controllers/db/evaluations/setEvaluations";
 
 interface Props {
   statement: Statement;
@@ -26,6 +27,12 @@ const Comment: FC<Props> = ({ statement }) => {
 
   function handleProConClick(proCon: "pro" | "con" | undefined) {
     setProCon(proCon);
+    const evaluation = (() => {
+      if (proCon === "pro") return 1;
+      if (proCon === "con") return -1;
+      return 0;
+    })();
+    setEvaluationToDB(statement, evaluation);
   }
 
   return (
@@ -40,7 +47,8 @@ const Comment: FC<Props> = ({ statement }) => {
           </h2>
         </div>
         <p className={styles.wrapper__descriptionWrapper__description}>
-          {statement.statement}
+          {statement.statement}<br></br>
+          {statement.statementId}
         </p>
         <div className={styles.wrapper__descriptionWrapper__buttonsContainer}>
           {/* <StrongMainButton
