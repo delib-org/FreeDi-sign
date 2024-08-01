@@ -8,7 +8,6 @@ import { adjustTextAreaHeight } from "./paragraphCont";
 import { updateParagraphTextToDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import Evaluation from "./evaluation/Evaluation";
 import Comment from "../comment/Comment";
-import CommentButtonIcon from "../../../components/buttons/CommentButton";
 import NewComment from "../newComment/NewComment";
 
 interface Props {
@@ -16,26 +15,24 @@ interface Props {
   docStatement: Statement;
 }
 const Paragraph: FC<Props> = ({ statement, docStatement }) => {
-  const comments = useSelector(commentsSelector(statement.statementId));
-  const [showComments, setShowComments] = useState<boolean>(true);
-  const [newComment, setNewComment] = useState<boolean>(false);
+  const comments = useSelector(commentsSelector(statement.statementId)).sort(
+    (a, b) => b.createdAt - a.createdAt
+  );
+  const [showComments, setShowComments] = useState<boolean>(false);
+  const [showNewComment, setShowNewComment] = useState<boolean>(false);
   const isEdit = useSelector(isEditSelector);
 
   useEffect(() => {
     //get the previous value of isEdit
   }, [isEdit]);
 
-  function commentsHandler() {
-    return setNewComment(!newComment);
-  }
-
-  console.log("newComment", newComment);
   return (
     <div className={styles.paragraph}>
       {isEdit ? (
         <textarea
-          defaultValue={statement.statement}
-          placeholder={statement.statement !== "" ? statement.statement : "New Paragraph"}
+          placeholder={
+            statement.statement !== "" ? statement.statement : "Enter Text ... "
+          }
           className={`${styles.textArea} ${styles.textAreaEdit}`}
           onChange={(e) => {
             adjustTextAreaHeight(e.target);
@@ -50,18 +47,33 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
           {statement.statement}
         </p>
       )}
-      <Evaluation statement={statement} docStatement={docStatement} setNewComment={commentsHandler}/>
-      {newComment && <NewComment
+      <Evaluation
+        statement={statement}
         docStatement={docStatement}
-        order={comments.length}
-        parentId={statement.statementId}
-      />}
+        showComments={showComments}
+        setShowComments={setShowComments}
+        numberOfComments={comments.length}
+      />
+
       {showComments && (
         <>
-        
-          {comments.map((comment) => (
-            <Comment key={`c-${comment.statementId}`} statement={comment} />
-          ))}
+          <NewComment
+            docStatement={docStatement}
+            order={comments.length}
+            paragraphStatement={statement}
+            parentStatement={statement}
+            show={showNewComment}
+            setShow={setShowNewComment}
+          />
+          <div
+            className={`${styles.comments} ${
+              showComments ? styles.commentsOpen : styles.commentsClose
+            }`}
+          >
+            {comments.map((comment) => (
+              <Comment key={`c-${comment.statementId}`} statement={comment} />
+            ))}
+          </div>
         </>
       )}
     </div>

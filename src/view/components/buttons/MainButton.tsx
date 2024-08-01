@@ -50,7 +50,6 @@ const MainButton = ({
             padding: `${padding}`,
             color: `${color}`,
             gap: `${gap}`,
-
             height: `${height}`,
             fontSize: `${fontSize}`,
           }}

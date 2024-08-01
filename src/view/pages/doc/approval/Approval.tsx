@@ -1,10 +1,9 @@
 import { Approval, Statement } from "delib-npm";
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import styles from "./Approval.module.scss";
 //icons
 import Approve from "../../../../assets/icons/approve.svg?react";
 import ApproveWhite from "../../../../assets/icons/approveWhite.svg?react";
-import Reject from "../../../../assets/icons/reject.svg?react";
 import RejectWhite from "../../../../assets/icons/rejectWhite.svg?react";
 import { setApprovalToDB } from "../../../../controllers/db/approval/setApproval";
 import { getUserApprovalFromDB } from "../../../../controllers/db/approval/getApproval";
@@ -16,8 +15,11 @@ interface Props {
 
 const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
   try {
-    const [approved, setApproved] = useState<boolean | undefined>(undefined);
+    const [approved, setApproved] = useState<boolean | undefined>(true);
     const [showApproval, setShowApproval] = useState<boolean>(false);
+    const [close, setClose] = useState<boolean>(false);
+
+    const approvedRef = useRef(null);
 
     useEffect(() => {
       getUserApprovalFromDB({ statement })
@@ -25,7 +27,7 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
           if (approval) {
             setApproved(approval.approval);
           } else {
-            setApproved(false);
+            setApproved(true);
           }
         })
         .catch((error) => {
@@ -33,10 +35,11 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
         });
     }, []);
 
-    function handleApproval() {
-      setApprovalToDB({ docStatement, statement, approval: !approved });
-      setApproved(!approved);
-    }
+    useEffect(() => {
+      if (showApproval) {
+        setClose(false);
+      }
+    }, [showApproval]);
 
     function handleApprove(approval: boolean) {
       setApprovalToDB({ docStatement, statement, approval });
@@ -44,7 +47,7 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
       setShowApproval(false);
     }
 
-    if (approved === undefined)
+    if (approved === undefined && !showApproval)
       return (
         <div className={styles.nonActive} onClick={() => setShowApproval(true)}>
           <Approve />
@@ -53,29 +56,32 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
 
     return showApproval ? (
       <div className={styles.appButton}>
-        <div className={styles.appButtonBase}>
-          <Approve />
-        </div>
+        <div className={styles.appButtonBase}></div>
         <div
           className={styles.appButtonApprove}
           onClick={() => handleApprove(true)}
+          style={{ left: close ? "0px" : "-30px", bottom: close ? "0px" : "-30px", transition: "left 0.5s, bottom 0.5s" }}
+          ref={approvedRef}
         >
           <ApproveWhite />
         </div>
         <div
           className={styles.appButtonReject}
           onClick={() => handleApprove(false)}
+          style={{ left: close ? "0px" : "-30px", bottom: close ? "0px" : "-30px", transition: "left 0.5s, bottom 0.5s" }}
         >
           <RejectWhite />
         </div>
       </div>
     ) : (
-      <div className={styles.nonActive} onClick={() => setShowApproval(true)} >
-       {approved? <ApproveWhite />: <RejectWhite />}
+      <div
+        className={styles.selected}
+        style={{ backgroundColor: approved ? "var(--agree)" : "var(--reject)", transition: "background-color 0.5s" }}
+        onClick={() => setShowApproval(true)}
+      >
+        {approved ? <ApproveWhite /> : <RejectWhite />}
       </div>
     );
-
-   
   } catch (error) {
     console.error(error);
     return null;

@@ -6,7 +6,7 @@ const PaperBottomButtons = () => {
   return (
     <div className={styles.buttonWrapper}>
           <MainButton      
-            value="Cancel 4567"
+            value="Cancel"
             backgroundColor="var(--inactive-btn)"
             color="var(--icon-blue)"
           />
