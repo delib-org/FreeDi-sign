@@ -12,8 +12,9 @@ interface Props {
 const NewParagraph: FC<Props> = ({ docStatement, parentId, order }) => {
   const isEditing = useSelector(isEditSelector);
 
-  function handleAddNewParagraph() {
-    const text = "New Paragraph";
+  function handleAddNewParagraph(ev:any) {
+    if (ev.key !== "Enter") return;
+    const text = ev.target.value;
     
     if (text) {
       setParagraphToDB({
@@ -22,6 +23,7 @@ const NewParagraph: FC<Props> = ({ docStatement, parentId, order }) => {
         docStatement,
         order,
       });
+      ev.target.value = "";
     }
   }
 
@@ -30,12 +32,7 @@ const NewParagraph: FC<Props> = ({ docStatement, parentId, order }) => {
   }
 
   return (
-    <StrongMainButton
-      backgroundColor="var(--cinnamon)"
-      color="#fff"
-      value="Add paragraph"
-      onClick={handleAddNewParagraph}
-    />
+    <input type="text" placeholder="New Paragraph" onKeyUp={handleAddNewParagraph} />
   );
 };
 

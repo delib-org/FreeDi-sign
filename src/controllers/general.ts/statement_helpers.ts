@@ -97,6 +97,7 @@ export function newParagraph({ sectionId, statement, parentId, topParentId, pare
 
 export interface DocumentObject {
     statement:Statement
+    level: number;
     statementId: string;
     title: string;
     paragraphs: Statement[];
@@ -106,10 +107,11 @@ export interface DocumentObject {
 interface StatementsToDocumentProps {
     section?: Statement;
     statements: Statement[];
+    level?: number;
 
 }
 
-export function statementsToDocument({ section, statements }: StatementsToDocumentProps): DocumentObject | undefined {
+export function statementsToDocument({ section, statements, level = 1 }: StatementsToDocumentProps): DocumentObject | undefined {
     try {
         if (!section) return undefined;
         
@@ -126,7 +128,8 @@ export function statementsToDocument({ section, statements }: StatementsToDocume
             title: section.statement,
             statementId: section.statementId,
             paragraphs,
-            sections: sections.map((section) => statementsToDocument({ section, statements })).filter((d) => d !== undefined) as DocumentObject[]
+            level,
+            sections: sections.map((section) => statementsToDocument({ section, statements, level:level +1 })).filter((d) => d !== undefined) as DocumentObject[]
         }
         return document
 
@@ -136,3 +139,5 @@ export function statementsToDocument({ section, statements }: StatementsToDocume
     }
 
 }
+
+

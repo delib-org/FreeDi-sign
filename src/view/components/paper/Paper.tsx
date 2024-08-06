@@ -29,7 +29,10 @@ const Paper = () => {
   const document: DocumentObject | undefined = statementsToDocument({
     section: docStatement,
     statements,
+    level: 1,
   });
+
+
 
   if (!isAuthorized) return <div>Not authorized</div>;
 

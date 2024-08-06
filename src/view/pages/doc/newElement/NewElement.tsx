@@ -5,26 +5,33 @@ import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { Statement } from "delib-npm";
 
 import PlusIcon from "../../../../assets/icons/plus.svg?react";
+import { DocumentObject } from "../../../../controllers/general.ts/statement_helpers";
 
 interface Props {
   docStatement: Statement;
+  level: number;
   order: number;
   parentId: string;
   buttonValue?: string;
   isTop?: boolean;
+    document: DocumentObject;
 }
 
 const NewElement: FC<Props> = ({
   docStatement,
   order,
   parentId,
-  buttonValue = "Add new section",
   isTop = false,
+  document,
+  level
 }) => {
   const isEditing = useSelector(isEditSelector);
 
+  
+
   function handleSubmitText() {
     if (!docStatement) throw new Error("parentStatementId is required");
+
 
     const text = "New Section";
 
