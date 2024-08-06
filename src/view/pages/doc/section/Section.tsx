@@ -17,9 +17,10 @@ interface Props {
   docStatement: Statement;
   statement: Statement;
   document: DocumentObject;
+  level: number;
 }
 
-const Section: FC<Props> = ({ docStatement, document, statement }) => {
+const Section: FC<Props> = ({ docStatement, document, statement, level=1 }) => {
   try {
     const isEdit = useSelector(isEditSelector);
     if (!docStatement) throw new Error("Parent statement id is required");
@@ -28,6 +29,7 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
 
     return (
       <section className={styles.sections}>
+        level: {level}
         {isEdit ? (
           <EditInput
             placeHolder={document.title ? document.title : "New Section"}
@@ -66,6 +68,7 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
             document={section}
             docStatement={docStatement}
             statement={statement}
+            level={level + 1}
           />
         ))}
         <NewSection

@@ -14,7 +14,7 @@ interface Props {
   isTop?: boolean;
 }
 
-const NewSection: FC<Props> = ({
+const NewElement: FC<Props> = ({
   docStatement,
   order,
   parentId,
@@ -50,4 +50,4 @@ const NewSection: FC<Props> = ({
   );
 };
 
-export default NewSection;
+export default NewElement;
