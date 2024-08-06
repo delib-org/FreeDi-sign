@@ -5,8 +5,7 @@ import Comment from "../icons/Comment";
 import EditText from "../icons/EditTextIcon";
 import Info from "../icons/InfoIcon";
 import Trash from "../icons/TrashIcon";
-import PolicyComment from "../policyComment/PolicyComment";
-import PolicyCommentVotes from "../policyCommentVotes/PolicyCommentVotes";
+
 import styles from "./policyContainer.module.scss";
 
 interface Props {}

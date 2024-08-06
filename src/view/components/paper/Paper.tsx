@@ -36,7 +36,7 @@ const Paper = () => {
 
   if (!isAuthorized) return <div>Not authorized</div>;
 
-  const title = docStatement?.statement.split("\n")[0].split("*")[1];
+  const title = docStatement?.statement.split("\n")[0];
 
   return (
     <div className={styles.paper}>

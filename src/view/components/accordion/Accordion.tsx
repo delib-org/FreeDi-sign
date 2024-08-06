@@ -19,7 +19,7 @@ function Accordion() {
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: An error occurred.</div>;
 
-  const title = docStatement?.statement.split("\n")[0].split("*")[1];
+  const title = docStatement?.statement.split("\n")[0];
   
 
   const document: DocumentObject | undefined = statementsToDocument({
