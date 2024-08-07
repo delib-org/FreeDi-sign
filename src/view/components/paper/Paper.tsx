@@ -45,12 +45,13 @@ const Paper = () => {
       {docStatement &&  (
         <div className={styles.mainContainer}>
           {document &&
-            document.sections.map((d) => (
+            document.sections.map((d, index) => (
               <Section
                 key={d.statementId}
                 document={d}
                 docStatement={docStatement}
                 statement={docStatement}
+                order={index + 1}
               />
             ))}
             {/* <NewSection 

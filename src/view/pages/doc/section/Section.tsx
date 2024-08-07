@@ -1,17 +1,10 @@
-import { FC, useEffect, useState } from "react";
-// import Paragraph from "../paragraph/Paragraph";
-
+import { FC, useState } from "react";
 import styles from "./Section.module.scss";
 import { DocumentObject } from "../../../../controllers/general.ts/statement_helpers";
-import NewSection from "../newSection/NewSection";
 import NewParagraph from "../newParagraph/NewParagraph";
-import Paragraph from "../paragraph/Paragraph";
 import { Statement } from "delib-npm";
 import { useSelector } from "react-redux";
-import {
-  isEditSelector,
-  setIsEdit,
-} from "../../../../controllers/slices/editSlice";
+import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { updateSectionTextToDB } from "../../../../controllers/db/sections/setSections";
 import EditInput from "../../../components/editInput/EditInput";
 import { adjustTextAreaHeight } from "../paragraph/paragraphCont";
@@ -23,9 +16,10 @@ interface Props {
   docStatement: Statement;
   statement: Statement;
   document: DocumentObject;
+  order: number | string;
 }
 
-const Section: FC<Props> = ({ docStatement, document, statement }) => {
+const Section: FC<Props> = ({ docStatement, document, statement, order }) => {
   try {
     const isEdit = useSelector(isEditSelector);
     const [_isEdit, _setIsEdit] = useState(false);
@@ -48,10 +42,7 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
               if (isEdit) _setIsEdit(true);
             }}
           >
-            {sectionHeader(
-              `${document.level}) ${document.title}`,
-              document.level
-            )}
+            {sectionHeader(`${order}) ${document.title}`, document.level)}
           </div>
         )}
 
@@ -66,7 +57,12 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
           )}
         </div>
 
-        <SubSections document={document} docStatement={docStatement} statement={statement} />
+        <SubSections
+          document={document}
+          docStatement={docStatement}
+          statement={statement}
+          parentOrder={order}
+        />
         <NewElement
           docStatement={docStatement}
           order={document.sections.length}
@@ -100,10 +96,6 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
 };
 
 export default Section;
-
-
-
-
 
 export function sectionHeader(title: string, level: number) {
   switch (level) {
