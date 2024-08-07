@@ -1,9 +1,28 @@
 .paragraph {
     display: flex;
     flex-direction: column;
-    padding-left: 2rem;
+   
 
+    &Text{
+        display: grid;
+        grid-template-columns: auto 40px;
+        gap: 1rem;
+       
+        width: 100%;
 
+        button{
+            background-color: transparent;
+            border: none;
+            color: var(--paragraph-light);
+            font-size:1 rem;
+            cursor: pointer;
+            transition: color .3s;
+
+            &:hover{
+                color: var(--paragraph-dark);
+            }
+        }
+    }
 
     .textArea {
         width: 100%;

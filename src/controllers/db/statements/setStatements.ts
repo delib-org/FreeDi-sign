@@ -1,5 +1,5 @@
-import { Collections, DocumentType, Statement, StatementType } from "delib-npm";
-import { doc, setDoc } from "firebase/firestore";
+import { Collections, DocumentType, Statement, StatementSchema, StatementType } from "delib-npm";
+import { deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { DB } from "../config";
 import { store } from "../../../model/store";
 
@@ -38,6 +38,8 @@ export async function setSectionToDB({docStatement, parentId, order, isTop = fal
             }
 
         };
+
+        StatementSchema.parse(newSection);
 
 
         const newSectionRef = doc(DB, Collections.statements, statementId);
@@ -110,11 +112,14 @@ export async function setCommentToDB({docStatement, parentId, order, text }: Set
             createdAt: new Date().getTime(),
             statementType: StatementType.document,
             consensus: 0,
+            statementSettings: {
+                show:true
+            },
             documentSettings: {
                 parentDocumentId:docStatement.statementId,
                 order,
                 type: DocumentType.comment,
-                isTop:false
+                isTop:false,
             }
 
         };
@@ -128,4 +133,18 @@ export async function setCommentToDB({docStatement, parentId, order, text }: Set
     } catch (error) {
         console.error(error)
     }
+}
+
+export async function deleteParagraphFromDB(statement:Statement):Promise<void> {
+    try {
+        const statementRef = doc(DB, Collections.statements, statement.statementId);
+        console.log("deleting paragraph", statement.statementId);
+        updateDoc(statementRef,{"statementSettings.show":false});
+
+        //delete all comments and all evaluations
+        //TODO: implement this
+    } catch (error) {
+        console.error(error)
+    }   
+
 }

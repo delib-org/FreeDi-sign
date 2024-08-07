@@ -4,11 +4,13 @@ import { useSelector } from "react-redux";
 import { commentsSelector } from "../../../../controllers/slices/statementsSlice";
 import styles from "./Paragraph.module.scss";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
-import { adjustTextAreaHeight } from "./paragraphCont";
 import { updateParagraphTextToDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import Evaluation from "./evaluation/Evaluation";
 import Comment from "../comment/Comment";
 import NewComment from "../newComment/NewComment";
+import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general";
+import { _ } from "@vite-pwa/assets-generator/dist/shared/assets-generator.5e51fd40.mjs";
+import { deleteParagraphFromDB } from "../../../../controllers/db/statements/setStatements";
 
 interface Props {
   statement: Statement;
@@ -33,7 +35,9 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
       if (isEdit && textarea.current) {
         adjustTextAreaHeight(textarea.current);
       }
-    }, [isEdit]);
+    }, [isEdit, textarea, _isEdit]);
+
+    useEffect(() => {}, [textarea]);
 
     return (
       <div className={styles.paragraph}>
@@ -52,14 +56,17 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
             onKeyUp={handleUpdate}
           />
         ) : (
-          <p
-            className={`${styles.textArea} ${styles.textAreaP}`}
-            onClick={() => {
-              _setIsEdit(true);
-            }}
-          >
-            {statement.statement}
-          </p>
+          <div className={styles.paragraphText}>
+            <p
+              className={`${styles.textArea} ${styles.textAreaP}`}
+              onClick={() => {
+                _setIsEdit(true);
+              }}
+            >
+              {statement.statement}
+            </p>
+            <button onClick={()=>deleteParagraphFromDB(statement)}>Delete</button>
+          </div>
         )}
         <Evaluation
           statement={statement}
@@ -104,7 +111,6 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
         //remove new lines
         textarea.value = textarea.value.replace(/\n/g, " ");
         updateParagraphTextToDB({ statement, newText: textarea.value });
-       
       }
     }
   } catch (e) {

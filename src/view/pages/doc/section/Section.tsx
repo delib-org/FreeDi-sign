@@ -7,10 +7,10 @@ import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { updateSectionTextToDB } from "../../../../controllers/db/sections/setSections";
 import EditInput from "../../../components/editInput/EditInput";
-import { adjustTextAreaHeight } from "../paragraph/paragraphCont";
 import NewElement from "../newElement/NewElement";
 import SubParagraphs from "./subParagraphs/SubParagraphs";
 import SubSections from "./subSections/SubSections";
+import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general";
 
 interface Props {
   docStatement: Statement;
@@ -28,7 +28,7 @@ const Section: FC<Props> = ({ docStatement, document, statement, order }) => {
     if (!statementId) throw new Error("statementId is required");
 
     return (
-      <section className={styles.sections}>
+      <section className={`${styles.section} ${isEdit ? styles.edit : null}`}>
         {isEdit && _isEdit ? (
           <EditInput
             placeHolder={document.title ? document.title : "add title"}
@@ -46,29 +46,33 @@ const Section: FC<Props> = ({ docStatement, document, statement, order }) => {
           </div>
         )}
 
-        <div className={styles.sectionWrapper}>
-          <SubParagraphs docStatement={docStatement} document={document} />
-          {docStatement && (
-            <NewParagraph
+        <div className={styles.sectionsWrapper}>
+          <div className={styles.paragraphs}>
+            <SubParagraphs docStatement={docStatement} document={document} />
+            {docStatement && (
+              <NewParagraph
+                docStatement={docStatement}
+                parentId={statementId}
+                order={document.sections.length}
+              />
+            )}
+          </div>
+          <div className={styles.sections}>
+            <SubSections
+              document={document}
               docStatement={docStatement}
-              parentId={statementId}
-              order={document.sections.length}
+              statement={statement}
+              parentOrder={order}
             />
-          )}
+          </div>
+          <NewElement
+            docStatement={docStatement}
+            orderText={order}
+            order={document.sections.length}
+            parentId={statementId}
+            level={document.level}
+          />
         </div>
-
-        <SubSections
-          document={document}
-          docStatement={docStatement}
-          statement={statement}
-          parentOrder={order}
-        />
-        <NewElement
-          docStatement={docStatement}
-          order={document.sections.length}
-          parentId={statementId}
-          level={document.level}
-        />
       </section>
     );
 

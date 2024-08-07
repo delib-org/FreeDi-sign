@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { setSectionToDB } from "../../../../controllers/db/statements/setStatements";
 import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
@@ -12,7 +12,6 @@ interface Props {
   parentId: string;
   buttonValue?: string;
   isTop?: boolean;
-  le
 }
 
 const NewSection: FC<Props> = ({

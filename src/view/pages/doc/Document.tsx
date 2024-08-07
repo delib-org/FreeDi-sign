@@ -19,7 +19,7 @@ const Document = () => {
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: An error occurred.</div>;
 
-console.log(docStatement)
+
 
 const user = useSelector(selectUser)
 

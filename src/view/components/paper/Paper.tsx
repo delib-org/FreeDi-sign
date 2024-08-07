@@ -8,7 +8,6 @@ import {
 } from "../../../controllers/general.ts/statement_helpers";
 import PaperHeader from "./header/PaperHeader";
 import PaperBottomButtons from "./bottomButtons/PaperBottomButtons";
-import NewSection from "../../pages/doc/newSection/NewSection";
 import NewElement from "../../pages/doc/newElement/NewElement";
 
 

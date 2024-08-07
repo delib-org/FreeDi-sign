@@ -1,9 +1,10 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 import { setParagraphToDB } from "../../../../controllers/db/statements/setStatements";
 import { Statement } from "delib-npm";
 import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import styles from "./NewParagraph.module.scss";
+import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general";
 
 interface Props {
   docStatement: Statement;
@@ -11,20 +12,24 @@ interface Props {
   order: number;
 }
 const NewParagraph: FC<Props> = ({ docStatement, parentId, order }) => {
+  const textarea = useRef<HTMLTextAreaElement>(null);
   const isEditing = useSelector(isEditSelector);
 
-  function handleAddNewParagraph(ev:any) {
-    if (ev.key !== "Enter") return;
-    const text = ev.target.value;
-    
-    if (text) {
-      setParagraphToDB({
-        text,
-        parentId,
-        docStatement,
-        order,
-      });
-      ev.target.value = "";
+  function handleAddNewParagraph(ev: any) {
+    if (ev.key !== "Enter") {
+      if (textarea.current) adjustTextAreaHeight(textarea.current);
+    } else {
+      const text = ev.target.value;
+
+      if (text) {
+        setParagraphToDB({
+          text,
+          parentId,
+          docStatement,
+          order,
+        });
+        ev.target.value = "";
+      }
     }
   }
 
@@ -33,7 +38,12 @@ const NewParagraph: FC<Props> = ({ docStatement, parentId, order }) => {
   }
 
   return (
-    <input className={styles.newParagraph} type="text" placeholder="New Paragraph" onKeyUp={handleAddNewParagraph} />
+    <textarea
+      ref={textarea}
+      className={styles.newParagraph}
+      placeholder="New Paragraph"
+      onKeyUp={handleAddNewParagraph}
+    />
   );
 };
 

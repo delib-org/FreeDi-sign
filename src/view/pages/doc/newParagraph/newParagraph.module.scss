@@ -1,12 +1,14 @@
 .newParagraph {
 
-    background-color: white;
+    background-color: transparent;
     // border: none;
     height: 2.47rem;
     font-size: 1rem;
     color: var(--headline);
     padding: .5rem;
-    border-radius: .5rem;
+    border:none;
+    border-bottom: 1px solid var(--disabled-paragraph);
+    width: 90%;
 
     &:hover,
     &:focus,
