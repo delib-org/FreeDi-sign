@@ -1,5 +1,5 @@
 import { Statement } from "delib-npm";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { commentsSelector } from "../../../../controllers/slices/statementsSlice";
 import styles from "./Paragraph.module.scss";
@@ -15,6 +15,7 @@ interface Props {
   docStatement: Statement;
 }
 const Paragraph: FC<Props> = ({ statement, docStatement }) => {
+  const textarea = useRef<HTMLTextAreaElement>(null);
   const comments = useSelector(commentsSelector(statement.statementId)).sort(
     (a, b) => b.createdAt - a.createdAt
   );
@@ -25,11 +26,18 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
   useEffect(() => {
     //get the previous value of isEdit
   }, [isEdit]);
+  
+  useEffect(() => {
+    if (isEdit && textarea.current) {
+      adjustTextAreaHeight(textarea.current);
+    }
+  }, [isEdit]);
 
   return (
     <div className={styles.paragraph}>
       {isEdit ? (
         <textarea
+          ref={textarea}
           placeholder={
             statement.statement !== "" ? statement.statement : "Enter Text ... "
           }

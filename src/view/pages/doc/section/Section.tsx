@@ -35,31 +35,10 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
       <section className={styles.sections}>
         {isEdit && _isEdit ? (
           <EditInput
-            placeHolder={
-              document.title
-                ? `${document.level}) ${document.title}`
-                : "New Section"
-            }
-            onChange={(e) => {
-              const textarea = e.target as HTMLTextAreaElement;
-              adjustTextAreaHeight(textarea);
-              updateSectionTextToDB({ document, newText: textarea.value });
-            }}
-            onBlur={(e) => {
-              updateSectionTextToDB({ document, newText: e.target.value });
-              _setIsEdit(false);
-            }}
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                const textarea = e.target as HTMLTextAreaElement;
-                const value = textarea.value;
-                if (value === "") return;
-
-                updateSectionTextToDB({ document, newText: value });
-               
-                _setIsEdit(false);
-              }
-            }}
+            placeHolder={document.title ? document.title : "add title"}
+            onChange={handleChange}
+            onBlur={handleUpdate}
+            onKeyUp={handleUpdate}
           />
         ) : (
           <div
@@ -107,6 +86,24 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
         />
       </section>
     );
+
+    function handleChange(e: any) {
+      const textarea = e.target as HTMLTextAreaElement;
+      adjustTextAreaHeight(textarea);
+      updateSectionTextToDB({ document, newText: textarea.value });
+    }
+
+    function handleUpdate(e: any) {
+      if (e.key === "Enter" || e.type === "blur") {
+        const textarea = e.target as HTMLTextAreaElement;
+        const value = textarea.value;
+        if (value === "") return;
+
+        updateSectionTextToDB({ document, newText: value });
+
+        _setIsEdit(false);
+      }
+    }
   } catch (error: any) {
     console.error(error);
     return <div>Error: An error occurred: {error.message}</div>;

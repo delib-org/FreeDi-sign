@@ -13,6 +13,7 @@ const EditInput = ({ placeHolder, onChange, onBlur,onKeyUp}: Props) => {
  
     return (
       <textarea
+      autoFocus={true}
         placeholder={placeHolder}
         className={styles.editInput}
         onChange={onChange}
