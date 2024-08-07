@@ -12,13 +12,13 @@ interface Props {
   parentId: string;
   buttonValue?: string;
   isTop?: boolean;
+  le
 }
 
 const NewSection: FC<Props> = ({
   docStatement,
   order,
   parentId,
-  buttonValue = "Add new section",
   isTop = false,
 }) => {
   const isEditing = useSelector(isEditSelector);

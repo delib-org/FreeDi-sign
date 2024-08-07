@@ -7,11 +7,11 @@
     resize: none;
     width: 50rem;
 
-    &:hover,
-    &:focus,
-    &:active {
-        outline: none;
-    }
+    // &:hover,
+    // &:focus,
+    // &:active {
+    //     outline: none;
+    // }
 
     &::placeholder {
         color: var(--disabled-paragraph);

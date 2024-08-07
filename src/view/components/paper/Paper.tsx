@@ -9,6 +9,7 @@ import {
 import PaperHeader from "./header/PaperHeader";
 import PaperBottomButtons from "./bottomButtons/PaperBottomButtons";
 import NewSection from "../../pages/doc/newSection/NewSection";
+import NewElement from "../../pages/doc/newElement/NewElement";
 
 
 
@@ -29,7 +30,7 @@ const Paper = () => {
   const document: DocumentObject | undefined = statementsToDocument({
     section: docStatement,
     statements,
-    level: 1,
+    level: 2,
   });
 
 
@@ -52,11 +53,18 @@ const Paper = () => {
                 statement={docStatement}
               />
             ))}
-            <NewSection 
+            {/* <NewSection 
             docStatement={docStatement}
             order={document?.sections.length || 0}
             parentId={docStatement.statementId}
-            isTop={true}  />
+            isTop={true}  /> */}
+            <NewElement 
+            docStatement={docStatement}
+            order={document?.sections.length || 0}
+            parentId={docStatement.statementId}
+            isTop={true}
+            level={2}
+            />
         </div>
       )}
       <PaperBottomButtons />

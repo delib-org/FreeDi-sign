@@ -1,22 +1,26 @@
-import { FocusEvent,ChangeEvent } from 'react';
-import styles from './inputs.module.scss';
+import styles from "./inputs.module.scss";
 
+import { FocusEvent, ChangeEvent, KeyboardEventHandler } from "react";
 
 type Props = {
-    placeHolder: string,
-    onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-    onBlur?: (e: FocusEvent<HTMLTextAreaElement>) => void;
+  placeHolder: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
+  onBlur?: (e: FocusEvent<HTMLInputElement> | FocusEvent<HTMLTextAreaElement>) => void;
+  onKeyUp?: KeyboardEventHandler<HTMLTextAreaElement> | undefined;
+};
+
+const EditInput = ({ placeHolder, onChange, onBlur,onKeyUp}: Props) => {
+ 
+    return (
+      <textarea
+        placeholder={placeHolder}
+        className={styles.editInput}
+        onChange={onChange}
+        onBlur={onBlur}
+        onKeyUp={onKeyUp}
+      />
+    );
 }
 
-const EditInput = ({placeHolder,onChange,onBlur}: Props) => {
-  return (
-    <textarea
-      placeholder={placeHolder}
-      className={styles.editInput}
-      onChange={onChange}
-      onBlur={onBlur}
-    />
-  )
-}
 
-export default EditInput
+export default EditInput;

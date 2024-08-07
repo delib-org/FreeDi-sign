@@ -4,26 +4,21 @@ import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { Statement } from "delib-npm";
 
-import PlusIcon from "../../../../assets/icons/plus.svg?react";
-import { DocumentObject } from "../../../../controllers/general.ts/statement_helpers";
 
 interface Props {
   docStatement: Statement;
   level: number;
   order: number;
   parentId: string;
-  buttonValue?: string;
   isTop?: boolean;
-    document: DocumentObject;
 }
 
 const NewElement: FC<Props> = ({
   docStatement,
+  level,
   order,
   parentId,
-  isTop = false,
-  document,
-  level
+  isTop = false  
 }) => {
   const isEditing = useSelector(isEditSelector);
 
@@ -49,8 +44,8 @@ const NewElement: FC<Props> = ({
   return (
     <div>
       <button onClick={handleSubmitText} className="new-section">
-        <PlusIcon />
-       
+        {/* <PlusIcon /> */}
+       + H{level}
       </button>
     </div>
 
