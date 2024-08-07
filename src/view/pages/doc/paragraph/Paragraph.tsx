@@ -22,6 +22,7 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
   const [showComments, setShowComments] = useState<boolean>(false);
   const [showNewComment, setShowNewComment] = useState<boolean>(false);
   const isEdit = useSelector(isEditSelector);
+  const [_isEdit, _setIsEdit] = useState(false);
 
   useEffect(() => {
     //get the previous value of isEdit
@@ -35,23 +36,32 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
 
   return (
     <div className={styles.paragraph}>
-      {isEdit ? (
+      {isEdit && _isEdit ? (
         <textarea
           ref={textarea}
-          placeholder={
-            statement.statement !== "" ? statement.statement : "Enter Text ... "
-          }
+          placeholder="Enter Text ... "
+          autoFocus={true}
+          defaultValue={statement.statement}
           className={`${styles.textArea} ${styles.textAreaEdit}`}
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
             adjustTextAreaHeight(e.target);
             updateParagraphTextToDB({ statement, newText: e.target.value });
           }}
-          onBlur={(e) =>
+          onBlur={(e) =>{
             updateParagraphTextToDB({ statement, newText: e.target.value })
-          }
+            _setIsEdit(false)
+          }}
+          onKeyUp={(e) => {
+           
+            if (e.key === "Enter") {
+              
+              updateParagraphTextToDB({ statement, newText: e.target.value });
+              _setIsEdit(false)
+            }
+          }}
         />
       ) : (
-        <p className={`${styles.textArea} ${styles.textAreaP}`}>
+        <p className={`${styles.textArea} ${styles.textAreaP}`} onClick={()=>{_setIsEdit(true)}}>
           {statement.statement}
         </p>
       )}
