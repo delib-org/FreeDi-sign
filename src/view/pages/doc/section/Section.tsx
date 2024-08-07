@@ -16,6 +16,8 @@ import { updateSectionTextToDB } from "../../../../controllers/db/sections/setSe
 import EditInput from "../../../components/editInput/EditInput";
 import { adjustTextAreaHeight } from "../paragraph/paragraphCont";
 import NewElement from "../newElement/NewElement";
+import SubParagraphs from "./subParagraphs/SubParagraphs";
+import SubSections from "./subSections/SubSections";
 
 interface Props {
   docStatement: Statement;
@@ -54,13 +56,7 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
         )}
 
         <div className={styles.sectionWrapper}>
-          {document.paragraphs.map((paragraph) => (
-            <Paragraph
-              key={`p-${paragraph.statementId}`}
-              statement={paragraph}
-              docStatement={docStatement}
-            />
-          ))}
+          <SubParagraphs docStatement={docStatement} document={document} />
           {docStatement && (
             <NewParagraph
               docStatement={docStatement}
@@ -70,14 +66,7 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
           )}
         </div>
 
-        {document.sections.map((section, index) => (
-          <Section
-            key={index}
-            document={section}
-            docStatement={docStatement}
-            statement={statement}
-          />
-        ))}
+        <SubSections document={document} docStatement={docStatement} statement={statement} />
         <NewElement
           docStatement={docStatement}
           order={document.sections.length}
@@ -111,6 +100,10 @@ const Section: FC<Props> = ({ docStatement, document, statement }) => {
 };
 
 export default Section;
+
+
+
+
 
 export function sectionHeader(title: string, level: number) {
   switch (level) {

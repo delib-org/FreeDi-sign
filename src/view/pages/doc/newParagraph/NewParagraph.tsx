@@ -1,9 +1,10 @@
 import { FC } from "react";
 import { setParagraphToDB } from "../../../../controllers/db/statements/setStatements";
 import { Statement } from "delib-npm";
-import StrongMainButton from "../../../components/buttons/StrongMainButton";
 import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
+import styles from "./NewParagraph.module.scss";
+
 interface Props {
   docStatement: Statement;
   parentId: string;
@@ -32,7 +33,7 @@ const NewParagraph: FC<Props> = ({ docStatement, parentId, order }) => {
   }
 
   return (
-    <input type="text" placeholder="New Paragraph" onKeyUp={handleAddNewParagraph} />
+    <input className={styles.newParagraph} type="text" placeholder="New Paragraph" onKeyUp={handleAddNewParagraph} />
   );
 };
 

@@ -109,6 +109,7 @@ interface StatementsToDocumentProps {
     statements: Statement[];
     level?: number;
 
+
 }
 
 export function statementsToDocument({ section, statements, level = 1 }: StatementsToDocumentProps): DocumentObject | undefined {
@@ -129,7 +130,7 @@ export function statementsToDocument({ section, statements, level = 1 }: Stateme
             statementId: section.statementId,
             paragraphs,
             level,
-            sections: sections.map((section) => statementsToDocument({ section, statements, level:level +1 })).filter((d) => d !== undefined) as DocumentObject[]
+            sections: sections.map((section) => statementsToDocument({ section, statements, level:level +1})).filter((d) => d !== undefined) as DocumentObject[]
         }
         return document
 
