@@ -9,7 +9,7 @@ import Evaluation from "./evaluation/Evaluation";
 import Comment from "../comment/Comment";
 import NewComment from "../newComment/NewComment";
 import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general";
-import { deleteParagraphFromDB } from "../../../../controllers/db/statements/setStatements";
+import { deleteParagraphFromDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import DeleteIcon from '../../../../assets/icons/trash.svg?react';
 
 interface Props {
@@ -89,7 +89,6 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
             <NewComment
               docStatement={docStatement}
               order={comments.length}
-              paragraphStatement={statement}
               parentStatement={statement}
               show={showNewComment}
               setShow={setShowNewComment}

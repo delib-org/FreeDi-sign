@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { setSectionToDB } from "../../../../controllers/db/statements/setStatements";
+import { setSectionToDB } from "../../../../controllers/db/sections/setSections";
 import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { Statement } from "delib-npm";

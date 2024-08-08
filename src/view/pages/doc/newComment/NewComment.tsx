@@ -10,7 +10,6 @@ import { store } from "../../../../model/store";
 
 interface Props {
   docStatement: Statement;
-  paragraphStatement: Statement;
   parentStatement: Statement;
   order: number;
   show: boolean;
@@ -18,7 +17,6 @@ interface Props {
 }
 const NewComment: FC<Props> = ({
   docStatement,
-  paragraphStatement,
   parentStatement,
   order,
   setShow,
@@ -32,10 +30,9 @@ const NewComment: FC<Props> = ({
         if (text) {
           addCommentToDB({
             text,
-            paragraphStatement,
             parentStatement,
             docStatement,
-            order,
+            order
           });
           setShow(false);
         }

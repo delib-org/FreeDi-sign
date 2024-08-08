@@ -1,5 +1,5 @@
 import { FC, useRef } from "react";
-import { setParagraphToDB } from "../../../../controllers/db/statements/setStatements";
+import { setParagraphToDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import { Statement } from "delib-npm";
 import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
