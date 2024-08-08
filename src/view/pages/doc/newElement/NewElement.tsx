@@ -1,10 +1,12 @@
 import { FC } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
-import { Statement } from "delib-npm";
+import { Statement, DocumentType } from "delib-npm";
 import PlusIcon from "../../../../assets/icons/plus.svg?react";
 import styles from "./NewElement.module.scss";
 import { setSectionToDB } from "../../../../controllers/db/sections/setSections";
+import { createNewStatement } from "../../../../controllers/general.ts/statement_helpers";
+import { setStatement } from "../../../../controllers/slices/statementsSlice";
 
 interface Props {
   docStatement: Statement;
@@ -22,21 +24,38 @@ const NewElement: FC<Props> = ({
   parentId,
   isTop = false,
 }) => {
+  const dispatch = useDispatch();
   const isEditing = useSelector(isEditSelector);
 
   function handleSubmitText() {
-    if (!docStatement) throw new Error("parentStatementId is required");
+    try {
+      if (!docStatement) throw new Error("parentStatementId is required");
 
-    const text = "New Section";
+      const text = "";
 
-    if (text)
-      setSectionToDB({
+      const newSection = createNewStatement({
         text,
         docStatement,
         parentId,
         order,
         isTop,
+        type: DocumentType.section, // Replace "someType" with the actual type value
       });
+      if(!newSection) throw new Error("Error creating new section");
+      
+      dispatch(setStatement(newSection));
+
+      // if (text)
+      //   setSectionToDB({
+      //     text,
+      //     docStatement,
+      //     parentId,
+      //     order,
+      //     isTop,
+      //   });
+    } catch (error) {
+      console.error(error);
+    }
   }
   if (!isEditing) return null;
 

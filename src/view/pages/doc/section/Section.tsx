@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./Section.module.scss";
 import { DocumentObject } from "../../../../controllers/general.ts/statement_helpers";
 import NewParagraph from "../newParagraph/NewParagraph";
@@ -14,52 +14,64 @@ interface Props {
   docStatement: Statement;
   statement: Statement;
   document: DocumentObject;
-  order: number | string;
+  order: number ;
 }
 
 const Section: FC<Props> = ({ docStatement, document, statement, order }) => {
   try {
     const isEdit = useSelector(isEditSelector);
     const [_isEdit, _setIsEdit] = useState(false);
+    const [isTitleReady, setIsTitleReady] = useState(true);
     if (!docStatement) throw new Error("Parent statement id is required");
     const { statementId } = document;
     if (!statementId) throw new Error("statementId is required");
 
+    useEffect(() => {
+      if(document.title === "") {
+        setIsTitleReady(false);
+      }
+    }, []);
+
     return (
       <section className={`${styles.section} ${isEdit ? styles.edit : null}`}>
-        <SectionTitle order={order} document={document} />
+        <SectionTitle
+          order={order}
+          document={document}
+          setIsTitleReady={setIsTitleReady}
+          isTitleReady={isTitleReady}
+        />
 
-        <div className={styles.sectionsWrapper}>
-          <div className={styles.paragraphs}>
-            <SubParagraphs docStatement={docStatement} document={document} />
-            {docStatement && (
-              <NewParagraph
+        {isTitleReady && (
+          <div className={styles.sectionsWrapper}>
+            <div className={styles.paragraphs}>
+              <SubParagraphs docStatement={docStatement} document={document} />
+              {docStatement && (
+                <NewParagraph
+                  docStatement={docStatement}
+                  parentId={statementId}
+                  order={document.sections.length}
+                />
+              )}
+            </div>
+            <div className={styles.sections}>
+              <SubSections
+                document={document}
                 docStatement={docStatement}
-                parentId={statementId}
-                order={document.sections.length}
+                statement={statement}
+                parentOrder={order}
               />
-            )}
-          </div>
-          <div className={styles.sections}>
-            <SubSections
-              document={document}
+            </div>
+            <NewElement
               docStatement={docStatement}
-              statement={statement}
-              parentOrder={order}
+              orderText={order}
+              order={document.sections.length}
+              parentId={statementId}
+              level={document.level}
             />
           </div>
-          <NewElement
-            docStatement={docStatement}
-            orderText={order}
-            order={document.sections.length}
-            parentId={statementId}
-            level={document.level}
-          />
-        </div>
+        )}
       </section>
     );
-
-    
   } catch (error: any) {
     console.error(error);
     return <div>Error: An error occurred: {error.message}</div>;

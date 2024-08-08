@@ -19,9 +19,10 @@ export async function setSectionToDB({ docStatement, parentId, order, isTop = fa
         if (!newSection) throw new Error("Error creating new section");
 
         const { statementId } = newSection;
+        console.log("newSection", statementId);
 
         const newSectionRef = doc(DB, Collections.statements, statementId);
-        await setDoc(newSectionRef, newSection);
+        await setDoc(newSectionRef, newSection, {merge: true});
         return;
 
 
@@ -38,10 +39,13 @@ interface EditSectionProps {
 
 export function updateSectionTextToDB({ document, newText }: EditSectionProps): void {
     try {
+        const { statementId } = document;
+        if (!statementId) throw new Error("statementId is required");
+        if(!newText) throw new Error("newText is required");
+
+        document.statement.statement = newText;
         const statementRef = doc(DB, Collections.statements, document.statementId);
-        updateDoc(statementRef, {
-            statement: newText !== "" ? newText : "New Section"
-        });
+        setDoc(statementRef, document.statement, { merge: true });
     } catch (error) {
         console.error(error);
     }

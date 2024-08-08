@@ -1,19 +1,33 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { isEditSelector } from "../../../../../controllers/slices/editSlice";
 import { useSelector } from "react-redux";
 import { adjustTextAreaHeight } from "../../../../../controllers/general.ts/general";
-import { updateSectionTextToDB } from "../../../../../controllers/db/sections/setSections";
+import { setSectionToDB } from "../../../../../controllers/db/sections/setSections";
 import { DocumentObject } from "../../../../../controllers/general.ts/statement_helpers";
 import EditInput from "../../../../components/editInput/EditInput";
 import { sectionHeader } from "../Section";
 interface Props {
-  order: number | string;
+  order: number ;
   document: DocumentObject;
+  setIsTitleReady: (isReady: boolean) => void;
+  isTitleReady: boolean;
 }
 
-const SectionTitle:FC<Props> = ({order,document}) => {
-    const isEdit = useSelector(isEditSelector);
-    const [_isEdit, _setIsEdit] = useState(false);
+const SectionTitle: FC<Props> = ({
+  order,
+  document,
+  isTitleReady,
+  setIsTitleReady,
+}) => {
+  const isEdit = useSelector(isEditSelector);
+  const [_isEdit, _setIsEdit] = useState(false);
+
+  useEffect(() => {
+    if (isTitleReady === false) {
+      _setIsEdit(true);
+    }
+  }, [isTitleReady]);
+
   return (
     <>
       {isEdit && _isEdit ? (
@@ -38,16 +52,27 @@ const SectionTitle:FC<Props> = ({order,document}) => {
   function handleChange(e: any) {
     const textarea = e.target as HTMLTextAreaElement;
     adjustTextAreaHeight(textarea);
-    updateSectionTextToDB({ document, newText: textarea.value });
+   
   }
 
   function handleUpdate(e: any) {
     if (e.key === "Enter" || e.type === "blur") {
       const textarea = e.target as HTMLTextAreaElement;
       const value = textarea.value;
-      if (value === "") return;
+      if (value === "") {
+        setIsTitleReady(false);
+        return;
+      }
 
-      updateSectionTextToDB({ document, newText: value });
+      setIsTitleReady(true);
+
+      setSectionToDB({
+        text: value,
+        docStatement: document.statement,
+        parentId: document.statementId,
+        order: order,
+        isTop: false,
+      })
 
       _setIsEdit(false);
     }
