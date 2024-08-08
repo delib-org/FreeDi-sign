@@ -30,6 +30,9 @@ export async function setSectionToDB({docStatement, parentId, order, isTop = fal
             createdAt: new Date().getTime(),
             statementType: StatementType.document,
             consensus: 0,
+            statementSettings: {
+                show:true
+            },
             documentSettings: {
                 parentDocumentId:docStatement.statementId,
                 order,

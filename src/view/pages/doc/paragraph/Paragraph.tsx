@@ -1,7 +1,7 @@
 import { Statement } from "delib-npm";
 import { FC, useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { commentsSelector } from "../../../../controllers/slices/statementsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { commentsSelector, deleteStatement } from "../../../../controllers/slices/statementsSlice";
 import styles from "./Paragraph.module.scss";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { updateParagraphTextToDB } from "../../../../controllers/db/paragraphs/setParagraphs";
@@ -18,6 +18,7 @@ interface Props {
 }
 const Paragraph: FC<Props> = ({ statement, docStatement }) => {
   try {
+    const dispatch = useDispatch();
     const textarea = useRef<HTMLTextAreaElement>(null);
     const comments = useSelector(commentsSelector(statement.statementId)).sort(
       (a, b) => b.createdAt - a.createdAt
@@ -38,6 +39,13 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
     }, [isEdit, textarea, _isEdit]);
 
     useEffect(() => {}, [textarea]);
+
+    function handleDelete() {
+      const shouldDelete = confirm("Are you sure you want to delete this paragraph?")
+      if(!shouldDelete) return;
+      deleteParagraphFromDB(statement);
+      dispatch(deleteStatement(statement.statementId));
+    }
 
     return (
       <div className={styles.paragraph}>
@@ -65,7 +73,7 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
             >
               {statement.statement}
             </p>
-            <button onClick={()=>deleteParagraphFromDB(statement)}><DeleteIcon /></button>
+            <button onClick={handleDelete}><DeleteIcon /></button>
           </div>
         )}
         <Evaluation
