@@ -5,12 +5,10 @@ import NewParagraph from "../newParagraph/NewParagraph";
 import { Statement } from "delib-npm";
 import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
-import { updateSectionTextToDB } from "../../../../controllers/db/sections/setSections";
-import EditInput from "../../../components/editInput/EditInput";
 import NewElement from "../newElement/NewElement";
 import SubParagraphs from "./subParagraphs/SubParagraphs";
 import SubSections from "./subSections/SubSections";
-import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general";
+import SectionTitle from "./sectionTitle/SectionTitle";
 
 interface Props {
   docStatement: Statement;
@@ -29,22 +27,7 @@ const Section: FC<Props> = ({ docStatement, document, statement, order }) => {
 
     return (
       <section className={`${styles.section} ${isEdit ? styles.edit : null}`}>
-        {isEdit && _isEdit ? (
-          <EditInput
-            placeHolder={document.title ? document.title : "add title"}
-            onChange={handleChange}
-            onBlur={handleUpdate}
-            onKeyUp={handleUpdate}
-          />
-        ) : (
-          <div
-            onClick={() => {
-              if (isEdit) _setIsEdit(true);
-            }}
-          >
-            {sectionHeader(`${order}) ${document.title}`, document.level)}
-          </div>
-        )}
+        <SectionTitle order={order} document={document} />
 
         <div className={styles.sectionsWrapper}>
           <div className={styles.paragraphs}>
@@ -76,23 +59,7 @@ const Section: FC<Props> = ({ docStatement, document, statement, order }) => {
       </section>
     );
 
-    function handleChange(e: any) {
-      const textarea = e.target as HTMLTextAreaElement;
-      adjustTextAreaHeight(textarea);
-      updateSectionTextToDB({ document, newText: textarea.value });
-    }
-
-    function handleUpdate(e: any) {
-      if (e.key === "Enter" || e.type === "blur") {
-        const textarea = e.target as HTMLTextAreaElement;
-        const value = textarea.value;
-        if (value === "") return;
-
-        updateSectionTextToDB({ document, newText: value });
-
-        _setIsEdit(false);
-      }
-    }
+    
   } catch (error: any) {
     console.error(error);
     return <div>Error: An error occurred: {error.message}</div>;

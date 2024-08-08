@@ -76,15 +76,15 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
             <button onClick={handleDelete}><DeleteIcon /></button>
           </div>
         )}
-        <Evaluation
+        {!isEdit && <Evaluation
           statement={statement}
           docStatement={docStatement}
           showComments={showComments}
           setShowComments={setShowComments}
           numberOfComments={comments.length}
-        />
+        />}
 
-        {showComments && (
+        {showComments && !isEdit && (
           <>
             <NewComment
               docStatement={docStatement}
