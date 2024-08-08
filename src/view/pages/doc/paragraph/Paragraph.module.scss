@@ -13,10 +13,11 @@
         button{
             background-color: transparent;
             border: none;
-            color: var(--paragraph-light);
+            color: var(--reject);
             font-size:1 rem;
             cursor: pointer;
             transition: color .3s;
+            
 
             &:hover{
                 color: var(--paragraph-dark);

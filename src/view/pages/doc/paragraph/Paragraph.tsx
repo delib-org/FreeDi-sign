@@ -9,8 +9,8 @@ import Evaluation from "./evaluation/Evaluation";
 import Comment from "../comment/Comment";
 import NewComment from "../newComment/NewComment";
 import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general";
-import { _ } from "@vite-pwa/assets-generator/dist/shared/assets-generator.5e51fd40.mjs";
 import { deleteParagraphFromDB } from "../../../../controllers/db/statements/setStatements";
+import DeleteIcon from '../../../../assets/icons/trash.svg?react';
 
 interface Props {
   statement: Statement;
@@ -65,7 +65,7 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
             >
               {statement.statement}
             </p>
-            <button onClick={()=>deleteParagraphFromDB(statement)}>Delete</button>
+            <button onClick={()=>deleteParagraphFromDB(statement)}><DeleteIcon /></button>
           </div>
         )}
         <Evaluation
