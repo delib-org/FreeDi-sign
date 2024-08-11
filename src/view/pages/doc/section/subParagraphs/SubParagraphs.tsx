@@ -1,21 +1,22 @@
 import {FC} from 'react'
-import { DocumentObject } from '../../../../../controllers/general.ts/statement_helpers';
 import { Statement } from 'delib-npm';
 import Paragraph from '../../paragraph/Paragraph';
+import { useSelector } from 'react-redux';
+import { paragraphsSelector } from '../../../../../controllers/slices/statementsSlice';
 
 interface Props {
-    document: DocumentObject;
-    statement: Statement;
+    parentStatement: Statement;
 }
 
-const SubParagraphs:FC<Props> = ({statement,document}) => {
+const SubParagraphs:FC<Props> = ({parentStatement}) => {
+  const { statementId } = parentStatement;
+  const paragraphs = useSelector(paragraphsSelector(statementId));
   return (
     <>
-    {document.paragraphs.map((paragraph) => (
+    {paragraphs.map((paragraph) => (
             <Paragraph
               key={`p-${paragraph.statementId}`}
               statement={paragraph}
-              statement={statement}
             />
           ))}
     </>

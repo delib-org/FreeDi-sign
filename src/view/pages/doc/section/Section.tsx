@@ -5,36 +5,38 @@ import NewParagraph from "../newParagraph/NewParagraph";
 import { Statement } from "delib-npm";
 import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
-import NewElement from "../newElement/NewElement";
+import NewElement from "../newSection/NewSection";
 import SubParagraphs from "./subParagraphs/SubParagraphs";
 import SubSections from "./subSections/SubSections";
 import SectionTitle from "./sectionTitle/SectionTitle";
+import {
+  paragraphsSelector,
+  sectionsSelector,
+} from "../../../../controllers/slices/statementsSlice";
+import NewSection from "../newSection/NewSection";
 
-interface Props { 
+interface Props {
   statement: Statement;
-  document: DocumentObject;
-  order: number ;
+  order: number;
 }
 
-const Section: FC<Props> = ({ document, statement, order }) => {
+const Section: FC<Props> = ({ statement, order }) => {
   try {
+    const sections = useSelector(sectionsSelector);
+    const paragraphs = useSelector(paragraphsSelector);
+
     const isEdit = useSelector(isEditSelector);
     const [_isEdit, _setIsEdit] = useState(false);
     const [isTitleReady, setIsTitleReady] = useState(true);
     const { statementId } = statement;
     if (!statementId) throw new Error("statementId is required");
-
-    useEffect(() => {
-      if(document.title === "") {
-        setIsTitleReady(false);
-      }
-    }, []);
+   
 
     return (
       <section className={`${styles.section} ${isEdit ? styles.edit : null}`}>
         <SectionTitle
           order={order}
-          document={document}
+          statement={statement}
           setIsTitleReady={setIsTitleReady}
           isTitleReady={isTitleReady}
         />
@@ -42,28 +44,21 @@ const Section: FC<Props> = ({ document, statement, order }) => {
         {isTitleReady && (
           <div className={styles.sectionsWrapper}>
             <div className={styles.paragraphs}>
-              <SubParagraphs statement={statement} document={document} />
+              <SubParagraphs parentStatement={statement} />
               {statement && (
                 <NewParagraph
                   statement={statement}
                   parentId={statementId}
-                  order={document.sections.length}
+                  order={2}
                 />
               )}
             </div>
             <div className={styles.sections}>
-              <SubSections
-                document={document}
-                statement={statement}
-                parentOrder={order}
-              />
+              <SubSections statement={statement} />
             </div>
-            <NewElement
+            <NewSection
               statement={statement}
-              orderText={order}
-              order={document.sections.length}
-              parentId={statementId}
-              level={document.level}
+              order={3}            
             />
           </div>
         )}
@@ -71,7 +66,7 @@ const Section: FC<Props> = ({ document, statement, order }) => {
     );
   } catch (error: any) {
     console.error(error);
-    return <div>Error: An error occurred: {error.message}</div>;
+    return null;
   }
 };
 

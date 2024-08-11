@@ -1,51 +1,69 @@
-import { FC } from "react";
-import { setSectionToDB } from "../../../../controllers/db/sections/setSections";
-import { useSelector } from "react-redux";
+import { FC, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
-import { Statement } from "delib-npm";
-
+import { Statement, DocumentType } from "delib-npm";
 import PlusIcon from "../../../../assets/icons/plus.svg?react";
+import styles from "./NewSection.module.scss";
+import { createNewStatement } from "../../../../controllers/general.ts/statement_helpers";
+import { setStatement } from "../../../../controllers/slices/statementsSlice";
+import EditInput from "../../../components/editInput/EditInput";
+import { setSectionToDB } from "../../../../controllers/db/sections/setSections";
 
 interface Props {
-  docStatement: Statement;
+  statement: Statement;
   order: number;
-  parentId: string;
-  buttonValue?: string;
-  isTop?: boolean;
 }
 
-const NewSection: FC<Props> = ({
-  docStatement,
-  order,
-  parentId,
-  isTop = false,
-}) => {
+const NewSection: FC<Props> = ({ statement, order }) => {
+  const dispatch = useDispatch();
   const isEditing = useSelector(isEditSelector);
 
-  function handleSubmitText() {
-    if (!docStatement) throw new Error("parentStatementId is required");
+  const [isEdit, setIsEdit] = useState(false);
 
-    const text = "New Section";
+  function handleSubmitText(e: any) {
+    try {
+      if (!statement) throw new Error("parentStatementId is required");
+      if (e.key === "Enter" || e.type === "blur") {
+        const text = e.target.value;
+        if (!text) return;
 
-    if (text)
-      setSectionToDB({
-        text,
-        docStatement,
-        parentId,
-        order,
-        isTop,
-      });
+        const newSection = createNewStatement({
+          text,
+          statement,
+          parentId: statement.statementId,
+          order,
+          type: DocumentType.section, // Replace "someType" with the actual type value
+        });
+
+        if (!newSection) throw new Error("Error creating new section");
+
+        dispatch(setStatement(newSection));
+
+        setSectionToDB(newSection);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
   if (!isEditing) return null;
 
-  return (
-    <div>
-      <button onClick={handleSubmitText} className="new-section">
-        <PlusIcon />
-       
-      </button>
-    </div>
+  if (isEdit) {
+    return (
+      <EditInput
+        placeholder="New Section"
+        statement={statement}
+        onChange={handleSubmitText}
+        onBlur={handleSubmitText}
+        onKeyUp={handleSubmitText}
+      />
+    );
+  }
 
+  return (
+    <button onClick={() => setIsEdit(true)} className={styles.newElement}>
+      <PlusIcon /> New Section
+      {order + 1}
+    </button>
   );
 };
 

@@ -7,14 +7,20 @@ import ApproveWhite from "../../../../assets/icons/approveWhite.svg?react";
 import RejectWhite from "../../../../assets/icons/rejectWhite.svg?react";
 import { setApprovalToDB } from "../../../../controllers/db/approval/setApproval";
 import { getUserApprovalFromDB } from "../../../../controllers/db/approval/getApproval";
+import { documentSelectorByStatementId } from "../../../../controllers/slices/statementsSlice";
+import { useSelector } from "react-redux";
 
 interface Props {
   statement: Statement;
-  docStatement: Statement;
 }
 
-const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
+const ApprovalComp: FC<Props> = ({ statement }) => {
   try {
+    const docStatement = useSelector(
+      documentSelectorByStatementId(statement.statementId)
+    );
+    if (!docStatement) throw new Error("Document not found");
+
     const [approved, setApproved] = useState<boolean | undefined>(true);
     const [showApproval, setShowApproval] = useState<boolean>(false);
     const [close, setClose] = useState<boolean>(false);
@@ -42,9 +48,14 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
     }, [showApproval]);
 
     function handleApprove(approval: boolean) {
-      setApprovalToDB({ docStatement, statement, approval });
-      setApproved(approval);
-      setShowApproval(false);
+      try {
+        if (!docStatement) throw new Error("Document not found");
+        setApprovalToDB({ docStatement, statement, approval });
+        setApproved(approval);
+        setShowApproval(false);
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     if (approved === undefined && !showApproval)
@@ -60,7 +71,11 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
         <div
           className={styles.appButtonApprove}
           onClick={() => handleApprove(true)}
-          style={{ left: close ? "0px" : "-30px", bottom: close ? "0px" : "-30px", transition: "left 0.5s, bottom 0.5s" }}
+          style={{
+            left: close ? "0px" : "-30px",
+            bottom: close ? "0px" : "-30px",
+            transition: "left 0.5s, bottom 0.5s",
+          }}
           ref={approvedRef}
         >
           <ApproveWhite />
@@ -68,7 +83,11 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
         <div
           className={styles.appButtonReject}
           onClick={() => handleApprove(false)}
-          style={{ left: close ? "0px" : "-30px", bottom: close ? "0px" : "-30px", transition: "left 0.5s, bottom 0.5s" }}
+          style={{
+            left: close ? "0px" : "-30px",
+            bottom: close ? "0px" : "-30px",
+            transition: "left 0.5s, bottom 0.5s",
+          }}
         >
           <RejectWhite />
         </div>
@@ -76,7 +95,10 @@ const ApprovalComp: FC<Props> = ({ statement, docStatement }) => {
     ) : (
       <div
         className={styles.selected}
-        style={{ backgroundColor: approved ? "var(--agree)" : "var(--reject)", transition: "background-color 0.5s" }}
+        style={{
+          backgroundColor: approved ? "var(--agree)" : "var(--reject)",
+          transition: "background-color 0.5s",
+        }}
         onClick={() => setShowApproval(true)}
       >
         {approved ? <ApproveWhite /> : <RejectWhite />}

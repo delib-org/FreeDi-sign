@@ -1,28 +1,24 @@
 import { Statement } from "delib-npm";
-import { DocumentObject } from "../../../../../controllers/general.ts/statement_helpers";
 import Section from "../Section";
+import { useSelector } from "react-redux";
+import { sectionsSelector } from "../../../../../controllers/slices/statementsSlice";
 
 interface SubSectionProps {
-  document: DocumentObject;
-  docStatement: Statement;
   statement: Statement;
-  parentOrder: number | string;
 }
 
-function SubSections({
-  document,
-  statement,
-  parentOrder,
-}: SubSectionProps) {
-  return document.sections.map((section: DocumentObject, index: number) => (
-    <Section
-      key={index}
-      document={section}
-  
-      statement={statement}
-      ={`${parentOrder}-${index + 1}`}
-    />
-  ));
+function SubSections({ statement }: SubSectionProps) {
+  try {
+    const { statementId } = statement;
+    const sections = useSelector(sectionsSelector(statementId));
+
+    return sections.map((section: Statement, index: number) => (
+      <Section key={index} statement={section} order={index + 1} />
+    ));
+  } catch (error) {
+    console.error("Error setting statement: ", error);
+    return null;
+  }
 }
 
 export default SubSections;

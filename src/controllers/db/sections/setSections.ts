@@ -1,29 +1,21 @@
-import { Collections, Statement, DocumentType } from "delib-npm";
+import { Collections, Statement } from "delib-npm";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { DB } from "../config";
-import { createNewStatement, DocumentObject } from "../../general.ts/statement_helpers";
-
-export interface SetSectionToDBProps {
-    docStatement: Statement;
-    parentId: string;
-    order: number;
-    isTop?: boolean;
-    text: string;
-}
 
 
-export async function setSectionToDB({ docStatement, parentId, order, isTop = false, text }: SetSectionToDBProps): Promise<void> {
+
+
+export function setSectionToDB(newSection: Statement): void {
     try {
 
-        const newSection: Statement | undefined = createNewStatement({ text, docStatement, parentId, order, isTop, type: DocumentType.section });
+
         if (!newSection) throw new Error("Error creating new section");
 
         const { statementId } = newSection;
-        console.log("newSection", statementId);
 
         const newSectionRef = doc(DB, Collections.statements, statementId);
-        await setDoc(newSectionRef, newSection, {merge: true});
-        return;
+        setDoc(newSectionRef, newSection, { merge: true });
+        console.log("new section created",statementId)
 
 
     } catch (error) {
@@ -33,19 +25,18 @@ export async function setSectionToDB({ docStatement, parentId, order, isTop = fa
 
 
 interface EditSectionProps {
-    document: DocumentObject;
-    newText?: string;
+    statement: Statement;
+    newText: string;
 }
 
-export function updateSectionTextToDB({ document, newText }: EditSectionProps): void {
+export function updateSectionTitleToDB({ statement, newText }: EditSectionProps): void {
     try {
-        const { statementId } = document;
+        const { statementId } = statement;
         if (!statementId) throw new Error("statementId is required");
-        if(!newText) throw new Error("newText is required");
+        if (!newText) throw new Error("newText is required");
 
-        document.statement.statement = newText;
-        const statementRef = doc(DB, Collections.statements, document.statementId);
-        setDoc(statementRef, document.statement, { merge: true });
+        const statementRef = doc(DB, Collections.statements, statementId);
+        updateDoc(statementRef, { statement: newText });
     } catch (error) {
         console.error(error);
     }

@@ -1,7 +1,7 @@
 import { Statement } from "delib-npm";
 import { FC, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { commentsSelector, deleteStatement } from "../../../../controllers/slices/statementsSlice";
+import { commentsSelector, deleteStatement, documentSelectorByStatementId } from "../../../../controllers/slices/statementsSlice";
 import styles from "./Paragraph.module.scss";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { updateParagraphTextToDB } from "../../../../controllers/db/paragraphs/setParagraphs";
@@ -15,8 +15,10 @@ import DeleteIcon from '../../../../assets/icons/trash.svg?react';
 interface Props {
   statement: Statement;
 }
-const Paragraph: FC<Props> = ({ statement, docStatement }) => {
+const Paragraph: FC<Props> = ({ statement }) => {
   try {
+    const docStatement = useSelector(documentSelectorByStatementId(statement.statementId));
+    if(!docStatement) throw new Error("Document not found");  
     const dispatch = useDispatch();
     const textarea = useRef<HTMLTextAreaElement>(null);
     const comments = useSelector(commentsSelector(statement.statementId)).sort(

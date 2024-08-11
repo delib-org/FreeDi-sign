@@ -8,43 +8,52 @@ import AddComment from "../../../../../assets/icons/addCommentIcon.svg?react";
 
 import ApprovalComp from "../../approval/Approval";
 import VerticalHR from "../../../../components/VerticalHR/VerticalHR";
+import { documentSelectorByStatementId } from "../../../../../controllers/slices/statementsSlice";
+import { useSelector } from "react-redux";
 interface Props {
   statement: Statement;
-  docStatement: Statement;
   showComments: boolean;
   setShowComments: (show: boolean) => void;
   numberOfComments: number;
 }
 const Evaluation: FC<Props> = ({
   statement,
-  docStatement,
   showComments,
   setShowComments,
   numberOfComments,
 }) => {
-  return (
-    <div className={styles.evaluation}>
-      <Importance statement={statement} document={docStatement} />
-      <VerticalHR />
-      <div className={styles.comments}>
-        {numberOfComments > 0 && (
-          <span
-            style={{
-              width: numberOfComments < 10 ? "1.3rem" : "1.5rem",
-              height: numberOfComments < 10 ? "1.3rem" : "1.5rem",
-            }}
-          >
-            {numberOfComments < 100 ? numberOfComments : 99}
-          </span>
-        )}
-        <button>
-          <AddComment onClick={() => setShowComments(!showComments)} />
-        </button>
+  try {
+    const docStatement = useSelector(
+      documentSelectorByStatementId(statement.statementId)
+    );
+
+    return (
+      <div className={styles.evaluation}>
+        <Importance statement={statement} />
+        <VerticalHR />
+        <div className={styles.comments}>
+          {numberOfComments > 0 && (
+            <span
+              style={{
+                width: numberOfComments < 10 ? "1.3rem" : "1.5rem",
+                height: numberOfComments < 10 ? "1.3rem" : "1.5rem",
+              }}
+            >
+              {numberOfComments < 100 ? numberOfComments : 99}
+            </span>
+          )}
+          <button>
+            <AddComment onClick={() => setShowComments(!showComments)} />
+          </button>
+        </div>
+        <VerticalHR />
+        <ApprovalComp statement={statement} />
       </div>
-      <VerticalHR />
-      <ApprovalComp statement={statement} docStatement={docStatement} />
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };
 
 export default Evaluation;
