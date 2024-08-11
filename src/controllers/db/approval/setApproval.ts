@@ -3,7 +3,7 @@ import { DB } from "../config";
 import { Approval, Collections, getStatementSubscriptionId, Statement } from "delib-npm";
 import { store } from "../../../model/store";
 
-export function setApprovalToDB({ docStatement, statement, approval }: { docStatement: Statement, statement: Statement, approval: boolean }): void {
+export function setApprovalToDB({  statement, approval }: {  statement: Statement, approval: boolean }): void {
     try {
         const user = store.getState().user.user;
         if (!user) throw new Error("User not found");
@@ -11,13 +11,15 @@ export function setApprovalToDB({ docStatement, statement, approval }: { docStat
         if (!approvalId) throw new Error("Approval Id not found");
 
         const approvalRef = doc(DB, Collections.approval, approvalId);
+        const documentId = statement.documentSettings?.parentDocumentId;
+        if(!documentId) throw new Error("Document Id not found");
 
         const approvalData: Approval = {
             approvalId,
             approval,
             statementId: statement.statementId,
             userId: user.uid,
-            documentId: docStatement.statementId,
+            documentId,
             topParentId: statement.topParentId
         }
 

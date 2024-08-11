@@ -16,10 +16,8 @@ interface Props {
 
 const ApprovalComp: FC<Props> = ({ statement }) => {
   try {
-    const docStatement = useSelector(
-      documentSelectorByStatementId(statement.statementId)
-    );
-    if (!docStatement) throw new Error("Document not found");
+ 
+  
 
     const [approved, setApproved] = useState<boolean | undefined>(true);
     const [showApproval, setShowApproval] = useState<boolean>(false);
@@ -49,8 +47,8 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
 
     function handleApprove(approval: boolean) {
       try {
-        if (!docStatement) throw new Error("Document not found");
-        setApprovalToDB({ docStatement, statement, approval });
+
+        setApprovalToDB({ statement, approval });
         setApproved(approval);
         setShowApproval(false);
       } catch (error) {

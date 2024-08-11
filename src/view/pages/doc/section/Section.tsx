@@ -38,7 +38,6 @@ const Section: FC<Props> = ({ statement, order }) => {
           setIsTitleReady={setIsTitleReady}
           isTitleReady={isTitleReady}
         />
-        {statementId}
         {isTitleReady && (
           <div className={styles.sectionsWrapper}>
             <div className={styles.paragraphs}>

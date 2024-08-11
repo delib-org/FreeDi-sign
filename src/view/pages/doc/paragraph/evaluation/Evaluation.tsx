@@ -23,9 +23,7 @@ const Evaluation: FC<Props> = ({
   numberOfComments,
 }) => {
   try {
-    const docStatement = useSelector(
-      documentSelectorByStatementId(statement.statementId)
-    );
+  
 
     return (
       <div className={styles.evaluation}>

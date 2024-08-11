@@ -18,7 +18,7 @@ export async function setParagraphToDB({ statement, order, text }: SetSectionToD
         const newSection: Statement | undefined = createNewStatement({ text, statement, order, isTop: false, type: DocumentType.paragraph });
         if (!newSection) throw new Error("Error creating new section");
         const { statementId } = newSection;
-        console.log("new paragraph", newSection.statementId, "with parent", statement.statementId, "docId", newSection.documentSettings?.parentDocumentId);
+      
         const newSectionRef = doc(DB, Collections.statements, statementId);
         await setDoc(newSectionRef, newSection);
         return;

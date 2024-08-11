@@ -149,7 +149,7 @@ export function createNewStatement({ text, statement, order, isTop, type }: { te
         const statementId: string = crypto.randomUUID();
     
         const parentDocumentId = statement.documentSettings?.parentDocumentId || statement.statementId;
-       console.log("statement.documentSettings?.parentDocumentId", statement.documentSettings?.parentDocumentId, "parentDocumentId",parentDocumentId);
+   
 
         const newStatement: Statement = {
             statement: text,

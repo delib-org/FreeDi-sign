@@ -78,7 +78,6 @@ const Paragraph: FC<Props> = ({ statement }) => {
         )}
         {!isEdit && <Evaluation
           statement={statement}
-       
           showComments={showComments}
           setShowComments={setShowComments}
           numberOfComments={comments.length}

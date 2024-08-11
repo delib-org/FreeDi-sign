@@ -8,18 +8,14 @@ import ImportanceUnchecked from "../../../../../assets/icons/importantUnchecked.
 import ImportanceIcon0 from "../../../../../assets/icons/important0.svg?react";
 import ImportanceIcon1 from "../../../../../assets/icons/important1.svg?react";
 import ImportanceIcon2 from "../../../../../assets/icons/important2.svg?react";
-import { useSelector } from "react-redux";
-import { documentSelectorByStatementId } from "../../../../../controllers/slices/statementsSlice";
+
 
 interface Props {
   statement: Statement;
 }
 
 const Importance: FC<Props> = ({ statement }) => {
-  const document: Statement | undefined = useSelector(
-    documentSelectorByStatementId(statement.statementId)
-  );
-  if (!document) throw new Error("Document not found");
+
 
   const [importance, setImportance] = useState<number | undefined>(undefined);
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -45,9 +41,9 @@ const Importance: FC<Props> = ({ statement }) => {
 
   function handleImportance(importance: number) {
     try {
-      if (!document) throw new Error("Document not found");
+
       setImportance(importance);
-      setImportanceToDB({ document, statement, importance });
+      setImportanceToDB({ statement, importance });
     } catch (error) {
       console.error(error);
     }
