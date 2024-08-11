@@ -22,8 +22,6 @@ interface Props {
 
 const Section: FC<Props> = ({ statement, order }) => {
   try {
-    const sections = useSelector(sectionsSelector);
-    const paragraphs = useSelector(paragraphsSelector);
 
     const isEdit = useSelector(isEditSelector);
     const [_isEdit, _setIsEdit] = useState(false);

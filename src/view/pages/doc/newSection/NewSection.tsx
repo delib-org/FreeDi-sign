@@ -15,7 +15,7 @@ interface Props {
 }
 
 const NewSection: FC<Props> = ({ statement, order }) => {
-  const dispatch = useDispatch();
+
   const isEditing = useSelector(isEditSelector);
 
   const [isEdit, setIsEdit] = useState(false);
@@ -24,8 +24,10 @@ const NewSection: FC<Props> = ({ statement, order }) => {
     try {
       if (!statement) throw new Error("parentStatementId is required");
       if (e.key === "Enter" || e.type === "blur") {
-        const text = e.target.value;
-        if (!text) return;
+    
+        const text = e.target.value.replace(/\n/g, "");
+              
+        if (!text || text === "") return;
 
         const newSection = createNewStatement({
           text,
@@ -37,8 +39,7 @@ const NewSection: FC<Props> = ({ statement, order }) => {
 
         if (!newSection) throw new Error("Error creating new section");
 
-        dispatch(setStatement(newSection));
-
+        setIsEdit(false);
         setSectionToDB(newSection);
       }
     } catch (error) {
@@ -51,7 +52,6 @@ const NewSection: FC<Props> = ({ statement, order }) => {
     return (
       <EditInput
         placeholder="New Section"
-        statement={statement}
         onChange={handleSubmitText}
         onBlur={handleSubmitText}
         onKeyUp={handleSubmitText}

@@ -1,11 +1,11 @@
-import { Statement } from "delib-npm";
+
 import styles from "./inputs.module.scss";
 
 import { FocusEvent, ChangeEvent, KeyboardEventHandler } from "react";
 
 type Props = {
   placeholder: string;
-  statement:Statement;
+  text?:string;
   onChange?: (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
   ) => void;
@@ -15,11 +15,11 @@ type Props = {
   onKeyUp?: KeyboardEventHandler<HTMLTextAreaElement> | undefined;
 };
 
-const EditInput = ({ placeholder, statement, onChange, onBlur, onKeyUp }: Props) => {
+const EditInput = ({ placeholder, text= "", onChange, onBlur, onKeyUp }: Props) => {
   return (
     <textarea
       autoFocus={true}
-      defaultValue={statement.statement || ""}
+      defaultValue={text}
       placeholder={placeholder}
       className={styles.editInput}
       onChange={onChange}

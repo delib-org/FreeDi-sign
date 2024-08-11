@@ -12,6 +12,7 @@ import { sectionsSelector } from "../../../controllers/slices/statementsSlice";
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
   const sections = useSelector(sectionsSelector(statementId || ""));
+
   const { isLoading, isError, statement, isAuthorized } =
     useDocument(statementId);
   if (isLoading) return <div>Loading...</div>;
@@ -26,10 +27,10 @@ const Paper = () => {
       <PaperHeader title={title} />
       {statement && (
         <div className={styles.mainContainer}>
-          {sections.map((d, index) => (
+          {sections.map((section, index) => (
               <Section
-                key={d.statementId}
-                statement={statement}
+                key={section.statementId}
+                statement={section}
                 order={index + 1}
               />
             ))}

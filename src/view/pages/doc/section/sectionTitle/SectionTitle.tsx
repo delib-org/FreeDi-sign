@@ -5,6 +5,8 @@ import { adjustTextAreaHeight } from "../../../../../controllers/general.ts/gene
 import EditInput from "../../../../components/editInput/EditInput";
 import { sectionHeader } from "../Section";
 import { Statement } from "delib-npm";
+import { updateParagraphTextToDB } from "../../../../../controllers/db/paragraphs/setParagraphs";
+import { updateStatementText } from "../../../../../controllers/db/statements/setStatements";
 
 
 interface Props {
@@ -35,7 +37,7 @@ const SectionTitle: FC<Props> = ({
         {isEdit && _isEdit ? (
           <EditInput
             placeholder="Sdd title"
-            statement={statement}
+            text={statement.statement}
             onChange={handleChange}
             onBlur={handleUpdate}
             onKeyUp={handleUpdate}
@@ -59,9 +61,10 @@ const SectionTitle: FC<Props> = ({
 
     function handleUpdate(e: any) {
       if (e.key === "Enter" || e.type === "blur") {
-        debugger;
+      
         const textarea = e.target as HTMLTextAreaElement;
         const value = textarea.value;
+       
         if (value === "") {
           setIsTitleReady(false);
           return;
@@ -69,13 +72,7 @@ const SectionTitle: FC<Props> = ({
 
         setIsTitleReady(true);
 
-        // setSectionToDB({
-        //   text: value,
-        //   docStatement: section.statement,
-        //   parentId: section.statementId,
-        //   order: order,
-        //   isTop: false,
-        // });
+        updateStatementText(statement.statementId, value);
 
         _setIsEdit(false);
       }
