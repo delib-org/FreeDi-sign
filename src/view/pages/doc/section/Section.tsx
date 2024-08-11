@@ -38,7 +38,7 @@ const Section: FC<Props> = ({ statement, order }) => {
           setIsTitleReady={setIsTitleReady}
           isTitleReady={isTitleReady}
         />
-
+        {statementId}
         {isTitleReady && (
           <div className={styles.sectionsWrapper}>
             <div className={styles.paragraphs}>
@@ -46,7 +46,6 @@ const Section: FC<Props> = ({ statement, order }) => {
               {statement && (
                 <NewParagraph
                   statement={statement}
-                  parentId={statementId}
                   order={2}
                 />
               )}

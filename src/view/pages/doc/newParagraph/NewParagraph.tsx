@@ -8,10 +8,9 @@ import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general
 
 interface Props {
   statement: Statement;
-  parentId: string;
   order: number;
 }
-const NewParagraph: FC<Props> = ({ statement, parentId, order }) => {
+const NewParagraph: FC<Props> = ({ statement, order }) => {
   const textarea = useRef<HTMLTextAreaElement>(null);
   const isEditing = useSelector(isEditSelector);
 
@@ -24,7 +23,6 @@ const NewParagraph: FC<Props> = ({ statement, parentId, order }) => {
       if (text) {
         setParagraphToDB({
           text,
-          parentId,
           statement,
           order,
         });

@@ -12,12 +12,10 @@ interface EditCommentProps {
 export function addCommentToDB({
     text,
     parentStatement,
-    docStatement,
     order = 0 }:
     {
         text: string,
         parentStatement: Statement,
-        docStatement: Statement,
         order: number
     }): void {
     try {
@@ -28,8 +26,7 @@ export function addCommentToDB({
            
         const newStatement: Statement | undefined = createNewStatement({
             text,
-            docStatement,
-            parentId: parentStatement.statementId,
+            statement: parentStatement,
             order,
             type: DocumentType.comment,
             isTop: false

@@ -32,7 +32,6 @@ const NewSection: FC<Props> = ({ statement, order }) => {
         const newSection = createNewStatement({
           text,
           statement,
-          parentId: statement.statementId,
           order,
           type: DocumentType.section, // Replace "someType" with the actual type value
         });

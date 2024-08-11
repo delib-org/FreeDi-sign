@@ -141,17 +141,20 @@ export function statementsToDocument({ section, statements, level = 1 }: Stateme
 
 }
 
-export function createNewStatement({ text, statement, parentId, order, isTop, type }: { text: string, statement: Statement, parentId: string, order: number, isTop?: boolean, type:DocumentType}): Statement | undefined {
+export function createNewStatement({ text, statement, order, isTop, type }: { text: string, statement: Statement, order: number, isTop?: boolean, type:DocumentType}): Statement | undefined {
     try {
         const user = store.getState().user.user;
         if (!user) throw new Error("User not found");
 
         const statementId: string = crypto.randomUUID();
+    
+        const parentDocumentId = statement.documentSettings?.parentDocumentId || statement.statementId;
+       console.log("statement.documentSettings?.parentDocumentId", statement.documentSettings?.parentDocumentId, "parentDocumentId",parentDocumentId);
 
         const newStatement: Statement = {
             statement: text,
             statementId,
-            parentId,
+            parentId: statement.statementId,
             creatorId: user.uid,
             creator: user,
             topParentId: statement.topParentId,
@@ -163,7 +166,7 @@ export function createNewStatement({ text, statement, parentId, order, isTop, ty
                 show: true
             },
             documentSettings: {
-                parentDocumentId: statement.statementId,
+                parentDocumentId,
                 order,
                 type,
                 isTop: isTop||false

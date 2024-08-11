@@ -17,8 +17,7 @@ interface Props {
 }
 const Paragraph: FC<Props> = ({ statement }) => {
   try {
-    const docStatement = useSelector(documentSelectorByStatementId(statement.statementId));
-    if(!docStatement) throw new Error("Document not found");  
+   
     const dispatch = useDispatch();
     const textarea = useRef<HTMLTextAreaElement>(null);
     const comments = useSelector(commentsSelector(statement.statementId)).sort(
@@ -88,9 +87,8 @@ const Paragraph: FC<Props> = ({ statement }) => {
         {showComments && !isEdit && (
           <>
             <NewComment
-              docStatement={docStatement}
-              order={comments.length}
               parentStatement={statement}
+              order={comments.length}
               show={showNewComment}
               setShow={setShowNewComment}
             />

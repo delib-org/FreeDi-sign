@@ -10,7 +10,9 @@ interface Props {
 
 const SubParagraphs:FC<Props> = ({parentStatement}) => {
   const { statementId } = parentStatement;
+ 
   const paragraphs = useSelector(paragraphsSelector(statementId));
+
   return (
     <>
     {paragraphs.map((paragraph) => (

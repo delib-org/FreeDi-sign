@@ -6,20 +6,19 @@ import { createNewStatement } from "../../general.ts/statement_helpers";
 
 export interface SetSectionToDBProps {
     statement: Statement;
-    parentId: string;
     order: number;
     isTop?: boolean;
     text: string;
 }
 
 
-export async function setParagraphToDB({ statement, parentId, order, text }: SetSectionToDBProps): Promise<void> {
+export async function setParagraphToDB({ statement, order, text }: SetSectionToDBProps): Promise<void> {
     try {
 
-        const newSection: Statement | undefined = createNewStatement({ text, statement, parentId, order, isTop: false, type: DocumentType.paragraph });
-        if(!newSection) throw new Error("Error creating new section");
+        const newSection: Statement | undefined = createNewStatement({ text, statement, order, isTop: false, type: DocumentType.paragraph });
+        if (!newSection) throw new Error("Error creating new section");
         const { statementId } = newSection;
-
+        console.log("new paragraph", newSection.statementId, "with parent", statement.statementId, "docId", newSection.documentSettings?.parentDocumentId);
         const newSectionRef = doc(DB, Collections.statements, statementId);
         await setDoc(newSectionRef, newSection);
         return;
@@ -46,16 +45,16 @@ export function updateParagraphTextToDB({ statement, newText }: EditParagraphPro
     }
 }
 
-export async function deleteParagraphFromDB(statement:Statement):Promise<void> {
+export async function deleteParagraphFromDB(statement: Statement): Promise<void> {
     try {
         const statementRef = doc(DB, Collections.statements, statement.statementId);
         console.log("deleting paragraph", statement.statementId);
-        updateDoc(statementRef,{"statementSettings.show":false});
+        updateDoc(statementRef, { "statementSettings.show": false });
 
         //delete all comments and all evaluations
         //TODO: implement this
     } catch (error) {
         console.error(error)
-    }   
+    }
 
 }
