@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 const Document = () => {
   
   const { statementId } = useParams<{ statementId: string }>();
-  const {  isLoading, isError, docStatement, isAuthorized } =
+  const {  isLoading, isError, statement, isAuthorized } =
     useDocument(statementId);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: An error occurred.</div>;
@@ -40,7 +40,7 @@ const user = useSelector(selectUser)
       </div>
 
       <div className={styles.main}>
-        <Header docStatement={docStatement}/>
+        <Header statement={statement}/>
         <Paper />
       
       </div>

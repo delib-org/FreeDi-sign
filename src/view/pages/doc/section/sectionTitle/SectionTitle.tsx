@@ -32,7 +32,7 @@ const SectionTitle: FC<Props> = ({
     <>
       {isEdit && _isEdit ? (
         <EditInput
-          placeHolder={document.title ? document.title : "add title"}
+          placeHolder="Sdd title"
           onChange={handleChange}
           onBlur={handleUpdate}
           onKeyUp={handleUpdate}
@@ -57,6 +57,7 @@ const SectionTitle: FC<Props> = ({
 
   function handleUpdate(e: any) {
     if (e.key === "Enter" || e.type === "blur") {
+      debugger;
       const textarea = e.target as HTMLTextAreaElement;
       const value = textarea.value;
       if (value === "") {

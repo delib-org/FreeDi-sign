@@ -7,11 +7,11 @@ import styles from "./NewParagraph.module.scss";
 import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general";
 
 interface Props {
-  docStatement: Statement;
+  statement: Statement;
   parentId: string;
   order: number;
 }
-const NewParagraph: FC<Props> = ({ docStatement, parentId, order }) => {
+const NewParagraph: FC<Props> = ({ statement, parentId, order }) => {
   const textarea = useRef<HTMLTextAreaElement>(null);
   const isEditing = useSelector(isEditSelector);
 
@@ -25,7 +25,7 @@ const NewParagraph: FC<Props> = ({ docStatement, parentId, order }) => {
         setParagraphToDB({
           text,
           parentId,
-          docStatement,
+          statement,
           order,
         });
         ev.target.value = "";

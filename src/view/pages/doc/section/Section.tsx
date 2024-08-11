@@ -10,20 +10,18 @@ import SubParagraphs from "./subParagraphs/SubParagraphs";
 import SubSections from "./subSections/SubSections";
 import SectionTitle from "./sectionTitle/SectionTitle";
 
-interface Props {
-  docStatement: Statement;
+interface Props { 
   statement: Statement;
   document: DocumentObject;
   order: number ;
 }
 
-const Section: FC<Props> = ({ docStatement, document, statement, order }) => {
+const Section: FC<Props> = ({ document, statement, order }) => {
   try {
     const isEdit = useSelector(isEditSelector);
     const [_isEdit, _setIsEdit] = useState(false);
     const [isTitleReady, setIsTitleReady] = useState(true);
-    if (!docStatement) throw new Error("Parent statement id is required");
-    const { statementId } = document;
+    const { statementId } = statement;
     if (!statementId) throw new Error("statementId is required");
 
     useEffect(() => {
@@ -44,10 +42,10 @@ const Section: FC<Props> = ({ docStatement, document, statement, order }) => {
         {isTitleReady && (
           <div className={styles.sectionsWrapper}>
             <div className={styles.paragraphs}>
-              <SubParagraphs docStatement={docStatement} document={document} />
-              {docStatement && (
+              <SubParagraphs statement={statement} document={document} />
+              {statement && (
                 <NewParagraph
-                  docStatement={docStatement}
+                  statement={statement}
                   parentId={statementId}
                   order={document.sections.length}
                 />
@@ -56,13 +54,12 @@ const Section: FC<Props> = ({ docStatement, document, statement, order }) => {
             <div className={styles.sections}>
               <SubSections
                 document={document}
-                docStatement={docStatement}
                 statement={statement}
                 parentOrder={order}
               />
             </div>
             <NewElement
-              docStatement={docStatement}
+              statement={statement}
               orderText={order}
               order={document.sections.length}
               parentId={statementId}

@@ -5,7 +5,7 @@ import { createNewStatement } from "../../general.ts/statement_helpers";
 
 
 export interface SetSectionToDBProps {
-    docStatement: Statement;
+    statement: Statement;
     parentId: string;
     order: number;
     isTop?: boolean;
@@ -13,10 +13,10 @@ export interface SetSectionToDBProps {
 }
 
 
-export async function setParagraphToDB({ docStatement, parentId, order, text }: SetSectionToDBProps): Promise<void> {
+export async function setParagraphToDB({ statement, parentId, order, text }: SetSectionToDBProps): Promise<void> {
     try {
 
-        const newSection: Statement | undefined = createNewStatement({ text, docStatement, parentId, order, isTop: false, type: DocumentType.paragraph });
+        const newSection: Statement | undefined = createNewStatement({ text, statement, parentId, order, isTop: false, type: DocumentType.paragraph });
         if(!newSection) throw new Error("Error creating new section");
         const { statementId } = newSection;
 

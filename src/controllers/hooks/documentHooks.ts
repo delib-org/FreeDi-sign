@@ -7,7 +7,7 @@ import { getSubscription } from "../db/subscriptions/getSubscriptions";
 
 interface Props {
     statements: Statement[];
-    docStatement: Statement | undefined;
+    statement: Statement | undefined;
     isLoading: boolean;
     isError: boolean;
     isAuthorized: boolean;
@@ -42,9 +42,9 @@ export function useDocument(statementId: string | undefined): Props {
         const _statements = isAuthorized ? statements : [];
         const _statement = isAuthorized ? statement : undefined;
 
-        return { statements: _statements, isError: false, isLoading, docStatement: _statement, isAuthorized }
+        return { statements: _statements, isError: false, isLoading, statement: _statement, isAuthorized }
     } catch (error) {
         console.error(error)
-        return { statements: [], isError: true, isLoading: false, docStatement: undefined, isAuthorized: false }
+        return { statements: [], isError: true, isLoading: false, statement: undefined, isAuthorized: false }
     }
 }

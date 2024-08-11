@@ -14,7 +14,6 @@ import DeleteIcon from '../../../../assets/icons/trash.svg?react';
 
 interface Props {
   statement: Statement;
-  docStatement: Statement;
 }
 const Paragraph: FC<Props> = ({ statement, docStatement }) => {
   try {
@@ -78,7 +77,7 @@ const Paragraph: FC<Props> = ({ statement, docStatement }) => {
         )}
         {!isEdit && <Evaluation
           statement={statement}
-          docStatement={docStatement}
+       
           showComments={showComments}
           setShowComments={setShowComments}
           numberOfComments={comments.length}

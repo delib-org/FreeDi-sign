@@ -5,17 +5,17 @@ import Paragraph from '../../paragraph/Paragraph';
 
 interface Props {
     document: DocumentObject;
-    docStatement: Statement;
+    statement: Statement;
 }
 
-const SubParagraphs:FC<Props> = ({docStatement,document}) => {
+const SubParagraphs:FC<Props> = ({statement,document}) => {
   return (
     <>
     {document.paragraphs.map((paragraph) => (
             <Paragraph
               key={`p-${paragraph.statementId}`}
               statement={paragraph}
-              docStatement={docStatement}
+              statement={statement}
             />
           ))}
     </>

@@ -6,16 +6,16 @@ import Home from "../../../assets/icons/home.svg?react";
 import { Statement } from "delib-npm";
 
 interface Props {
-  docStatement?: Statement;
+  statement?: Statement;
 }
 
-const Header: FC<Props> = ({ docStatement }) => {
+const Header: FC<Props> = ({ statement }) => {
   return (
     <header className={styles.header}>
       <div className={styles.right}>
         <div className={styles.icons}>
-          {docStatement && (
-            <a href={`https://freedi.tech/statement/${docStatement.statementId}/info`}>
+          {statement && (
+            <a href={`https://freedi.tech/statement/${statement.statementId}/info`}>
               <button className={styles.icon}>
                 <Home />
               </button>

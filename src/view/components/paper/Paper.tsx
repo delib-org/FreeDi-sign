@@ -10,9 +10,6 @@ import PaperHeader from "./header/PaperHeader";
 import PaperBottomButtons from "./bottomButtons/PaperBottomButtons";
 import NewElement from "../../pages/doc/newElement/NewElement";
 
-
-
-
 // toggle edit mode is inside the EditButton Component.
 // the section edit is not working + its changing the main statement of the room name, making it invisible.
 // the subsection edit is not working but we going to change and delete the sub section anyway.
@@ -21,50 +18,48 @@ import NewElement from "../../pages/doc/newElement/NewElement";
 
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
-  const { statements, isLoading, isError, docStatement, isAuthorized } =
+  const { statements, isLoading, isError, statement, isAuthorized } =
     useDocument(statementId);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: An error occurred.</div>;
 
   const document: DocumentObject | undefined = statementsToDocument({
-    section: docStatement,
+    section: statement,
     statements,
     level: 2,
   });
 
-
-
   if (!isAuthorized) return <div>Not authorized</div>;
 
-  const title = docStatement?.statement.split("\n")[0];
+  const title = statement?.statement.split("\n")[0];
 
   return (
     <div className={styles.paper}>
       <PaperHeader title={title} />
-      {docStatement &&  (
+      {statement && (
         <div className={styles.mainContainer}>
           {document &&
             document.sections.map((d, index) => (
               <Section
                 key={d.statementId}
                 document={d}
-                docStatement={docStatement}
-                statement={docStatement}
+                statement={statement}
                 order={index + 1}
               />
             ))}
-            {/* <NewSection 
-            docStatement={docStatement}
+          {/* <NewSection 
+            statement={statement}
             order={document?.sections.length || 0}
-            parentId={docStatement.statementId}
+            parentId={statement.statementId}
             isTop={true}  /> */}
-            <NewElement 
-            docStatement={docStatement}
+          <NewElement
+          orderText={`${document?.sections.length}`}
+            statement={statement}
             order={document?.sections.length || 0}
-            parentId={docStatement.statementId}
+            parentId={statement.statementId}
             isTop={true}
             level={2}
-            />
+          />
         </div>
       )}
       <PaperBottomButtons />

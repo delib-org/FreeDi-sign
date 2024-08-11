@@ -11,7 +11,6 @@ interface SubSectionProps {
 
 function SubSections({
   document,
-  docStatement,
   statement,
   parentOrder,
 }: SubSectionProps) {
@@ -19,9 +18,9 @@ function SubSections({
     <Section
       key={index}
       document={section}
-      docStatement={docStatement}
+  
       statement={statement}
-      order={`${parentOrder}-${index + 1}`}
+      ={`${parentOrder}-${index + 1}`}
     />
   ));
 }

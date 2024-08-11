@@ -4,12 +4,11 @@ import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { Statement, DocumentType } from "delib-npm";
 import PlusIcon from "../../../../assets/icons/plus.svg?react";
 import styles from "./NewElement.module.scss";
-import { setSectionToDB } from "../../../../controllers/db/sections/setSections";
 import { createNewStatement } from "../../../../controllers/general.ts/statement_helpers";
 import { setStatement } from "../../../../controllers/slices/statementsSlice";
 
 interface Props {
-  docStatement: Statement;
+  statement: Statement;
   level: number;
   order: number;
   orderText: number | string;
@@ -18,7 +17,7 @@ interface Props {
 }
 
 const NewElement: FC<Props> = ({
-  docStatement,
+  statement,
   order,
   orderText,
   parentId,
@@ -29,13 +28,13 @@ const NewElement: FC<Props> = ({
 
   function handleSubmitText() {
     try {
-      if (!docStatement) throw new Error("parentStatementId is required");
+      if (!statement) throw new Error("parentStatementId is required");
 
       const text = "";
 
       const newSection = createNewStatement({
         text,
-        docStatement,
+        statement,
         parentId,
         order,
         isTop,
@@ -45,14 +44,6 @@ const NewElement: FC<Props> = ({
       
       dispatch(setStatement(newSection));
 
-      // if (text)
-      //   setSectionToDB({
-      //     text,
-      //     docStatement,
-      //     parentId,
-      //     order,
-      //     isTop,
-      //   });
     } catch (error) {
       console.error(error);
     }

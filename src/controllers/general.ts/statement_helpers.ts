@@ -141,7 +141,7 @@ export function statementsToDocument({ section, statements, level = 1 }: Stateme
 
 }
 
-export function createNewStatement({ text, docStatement, parentId, order, isTop, type }: { text: string, docStatement: Statement, parentId: string, order: number, isTop?: boolean, type:DocumentType}): Statement | undefined {
+export function createNewStatement({ text, statement, parentId, order, isTop, type }: { text: string, statement: Statement, parentId: string, order: number, isTop?: boolean, type:DocumentType}): Statement | undefined {
     try {
         const user = store.getState().user.user;
         if (!user) throw new Error("User not found");
@@ -154,7 +154,7 @@ export function createNewStatement({ text, docStatement, parentId, order, isTop,
             parentId,
             creatorId: user.uid,
             creator: user,
-            topParentId: docStatement.topParentId,
+            topParentId: statement.topParentId,
             lastUpdate: new Date().getTime(),
             createdAt: new Date().getTime(),
             statementType: StatementType.document,
@@ -163,7 +163,7 @@ export function createNewStatement({ text, docStatement, parentId, order, isTop,
                 show: true
             },
             documentSettings: {
-                parentDocumentId: docStatement.statementId,
+                parentDocumentId: statement.statementId,
                 order,
                 type,
                 isTop: isTop||false
