@@ -43,6 +43,7 @@ const SectionTitle: FC<Props> = ({
           />
         ) : (
           <div
+            id={`id-${statement.statementId}`}
             onClick={() => {
               if (isEdit) _setIsEdit(true);
             }}

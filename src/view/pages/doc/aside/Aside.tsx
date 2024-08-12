@@ -7,10 +7,7 @@ import FileIcon from "../../../components/icons/FileIcon";
 import LogoAndNameIcon from "../../../components/icons/LogoAndNameIcon";
 import styles from "./Aside.module.scss";
 import { useSelector } from "react-redux";
-import {
-  sectionsSelector,
-  statementSelector,
-} from "../../../../controllers/slices/statementsSlice";
+import { sectionsSelector } from "../../../../controllers/slices/statementsSlice";
 import { useDocument } from "../../../../controllers/hooks/documentHooks";
 
 function Accordion() {
@@ -19,6 +16,7 @@ function Accordion() {
   console.log(statementId);
   const { statement } = useDocument(statementId);
   const sections = useSelector(sectionsSelector(statementId));
+  console.log(sections);
 
   const title = statement?.statement.split("\n")[0];
 
@@ -43,6 +41,7 @@ function Accordion() {
               isActiveSection={index === activeIndex}
               setActiveIndex={setActiveIndex}
               sectionIndex={index}
+              level={1}
             />
           ))}
         </div>

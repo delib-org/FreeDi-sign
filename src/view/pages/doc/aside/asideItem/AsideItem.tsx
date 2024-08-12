@@ -10,6 +10,7 @@ interface Props {
   setActiveIndex: (index: number | null) => void;
   sectionIndex: number;
   statement: Statement;
+  level: number;
 }
 
 function AsideItem({
@@ -17,6 +18,7 @@ function AsideItem({
   setActiveIndex,
   sectionIndex,
   statement,
+  level
 }: Props) {
   const toggleSection = () => {
     const nextIndex = isActiveSection ? null : sectionIndex;
@@ -28,26 +30,28 @@ function AsideItem({
 
   return (
     <>
-      <div className={styles.wrapper}>
+      <div className={styles.asideItem}>
         <div className={styles.titleWrapper} onClick={toggleSection}>
           {isActiveSection ? (
-            <h2 className={`${styles.active} ${styles.title}`}>{title}</h2>
+            <a href={`#id-${statement.statementId}`}  className={`${styles.active} ${styles.title} ${styles["h"+(level+1)]}`}>{title}</a>
           ) : (
-            <h2 className={styles.title}>{title}</h2>
+            <a href={`#id-${statement.statementId}`}  className={`${styles.title} ${styles["h"+(level+1)]}`}>{title}</a>
           )}
           <span className={styles.titleSpan}>
             {isActiveSection ? <ChevronDownIcon /> : <ChevronRightIcon />}
           </span>
         </div>
         <div className={styles.descriptionWrapper}>
-          {isActiveSection &&
-            sections.map((section, index) => {
-              const sectionTitle = section.statement.split("\n")[0];
-              return(
-              <div className={styles.description} key={index}>
-                {sectionTitle}
-              </div>
-            )})}
+          {sections.map((section, index) => (
+            <AsideItem
+              key={`as-${section.statementId}`}
+              statement={section}
+              isActiveSection={index === sectionIndex}
+              setActiveIndex={setActiveIndex}
+              sectionIndex={index}
+              level={level + 1}
+            />
+          ))}
         </div>
       </div>
     </>
