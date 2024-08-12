@@ -1,0 +1,39 @@
+.comments {
+    position: relative;
+    width: fit-content;
+   
+
+    button{
+        position: relative;
+        right: 0;
+        color:var(--blue-primary);
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        user-select: none;
+
+
+        svg{
+            transform: scale(1.1) translateY(.11rem);
+        }
+       
+    }
+    span {
+        position: absolute;
+        background-color: red;
+        top: -.5rem;
+        left: 50%;
+        border-radius: 100px;
+        width: 1.2rem;
+        height: 1.2rem;
+        color: white;
+        cursor: pointer;
+        font-size: .9rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+    }
+
+    
+}

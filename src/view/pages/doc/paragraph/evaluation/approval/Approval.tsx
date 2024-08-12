@@ -2,11 +2,11 @@ import { Approval, Statement } from "delib-npm";
 import { FC, useState, useEffect, useRef } from "react";
 import styles from "./Approval.module.scss";
 //icons
-import Approve from "../../../../assets/icons/approve.svg?react";
-import ApproveWhite from "../../../../assets/icons/approveWhite.svg?react";
-import RejectWhite from "../../../../assets/icons/rejectWhite.svg?react";
-import { setApprovalToDB } from "../../../../controllers/db/approval/setApproval";
-import { getUserApprovalFromDB } from "../../../../controllers/db/approval/getApproval";
+import Approve from "../../../../../../assets/icons/approve.svg?react";
+import ApproveWhite from "../../../../../../assets/icons/approveWhite.svg?react";
+import RejectWhite from "../../../../../../assets/icons/rejectWhite.svg?react";
+import { setApprovalToDB } from "../../../../../../controllers/db/approval/setApproval";
+import { getUserApprovalFromDB } from "../../../../../../controllers/db/approval/getApproval";
 
 
 interface Props {
@@ -75,7 +75,7 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
           }}
           ref={approvedRef}
         >
-          <ApproveWhite />
+          <ApproveWhite  />
         </div>
         <div
           className={styles.appButtonReject}

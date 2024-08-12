@@ -1,22 +1,19 @@
 import { Statement } from "delib-npm";
 import { FC, useState, useEffect } from "react";
 import styles from "./importance.module.scss";
-import { setImportanceToDB } from "../../../../../controllers/db/importance/setImportance";
-import { getImportanceFromDB } from "../../../../../controllers/db/importance/getImportance";
+import { setImportanceToDB } from "../../../../../../controllers/db/importance/setImportance";
+import { getImportanceFromDB } from "../../../../../../controllers/db/importance/getImportance";
 
-import ImportanceUnchecked from "../../../../../assets/icons/importantUnchecked.svg?react";
-import ImportanceIcon0 from "../../../../../assets/icons/important0.svg?react";
-import ImportanceIcon1 from "../../../../../assets/icons/important1.svg?react";
-import ImportanceIcon2 from "../../../../../assets/icons/important2.svg?react";
-
+import ImportanceUnchecked from "../../../../../../assets/icons/importantUnchecked.svg?react";
+import ImportanceIcon0 from "../../../../../../assets/icons/important0.svg?react";
+import ImportanceIcon1 from "../../../../../../assets/icons/important1.svg?react";
+import ImportanceIcon2 from "../../../../../../assets/icons/important2.svg?react";
 
 interface Props {
   statement: Statement;
 }
 
 const Importance: FC<Props> = ({ statement }) => {
-
-
   const [importance, setImportance] = useState<number | undefined>(undefined);
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
@@ -41,7 +38,6 @@ const Importance: FC<Props> = ({ statement }) => {
 
   function handleImportance(importance: number) {
     try {
-
       setImportance(importance);
       setImportanceToDB({ statement, importance });
     } catch (error) {
@@ -50,19 +46,19 @@ const Importance: FC<Props> = ({ statement }) => {
   }
 
   return (
-    <>
+    <div className={styles.importanceBox}>
       {isEdit ? (
-        <div className={styles.editMain} onClick={() => setIsEdit(false)}>
+        <div className={styles.importance} onClick={() => setIsEdit(false)}>
           <ImportanceIcon0
-            className={styles.imp0}
+            className={`${styles.importance} ${styles.imp0}`}
             onClick={() => handleImportance(0)}
           />
           <ImportanceIcon1
-            className={styles.imp1}
+            className={`${styles.importance} ${styles.imp1}`}
             onClick={() => handleImportance(0.5)}
           />
           <ImportanceIcon2
-            className={styles.imp2}
+            className={`${styles.importance} ${styles.imp2}`}
             onClick={() => handleImportance(1)}
           />
           {importance === undefined ? (
@@ -70,11 +66,13 @@ const Importance: FC<Props> = ({ statement }) => {
               <ImportanceUnchecked />
             </div>
           ) : (
-            fromImportanceToIcon(importance)
+            <div className={styles.unchecked}>
+              {fromImportanceToIcon(importance)}
+            </div>
           )}
         </div>
       ) : (
-        <div onClick={() => setIsEdit(true)} className={styles.editMain}>
+        <div onClick={() => setIsEdit(true)} className={styles.importance}>
           {" "}
           {importance === undefined ? (
             <div className={styles.unchecked}>
@@ -85,7 +83,7 @@ const Importance: FC<Props> = ({ statement }) => {
           )}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

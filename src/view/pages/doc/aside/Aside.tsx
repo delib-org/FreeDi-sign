@@ -42,6 +42,9 @@ function Accordion() {
           <PdfDownloadIcon />
           <h2 className={styles.pdfText}>Download PDF</h2>
         </div> */}
+        <div className={styles.ddi}>
+          <a href="https://delib.org" target="_blank">From the Deliberative Democracy Institute</a>
+        </div>
       </div>
     </aside>
   );
