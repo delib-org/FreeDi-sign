@@ -1,9 +1,8 @@
 import styles from "./AsideItem.module.scss";
-import ChevronDownIcon from "../../../../components/icons/ChevronDownIcon";
-import ChevronRightIcon from "../../../../components/icons/ChevronRightIcon";
 import { Statement } from "delib-npm";
 import { useSelector } from "react-redux";
 import { sectionsSelector } from "../../../../../controllers/slices/statementsSlice";
+import { useLanguage } from "../../../../../controllers/hooks/useLanguage";
 
 interface Props {
   isActiveSection: boolean;
@@ -20,18 +19,15 @@ function AsideItem({
   statement,
   level
 }: Props) {
-  const toggleSection = () => {
-    const nextIndex = isActiveSection ? null : sectionIndex;
-    setActiveIndex(nextIndex);
-  };
-
+ 
+const {dir} = useLanguage();
   const sections = useSelector(sectionsSelector(statement.statementId));
   const title = statement.statement.split("\n")[0];
 
   return (
     <>
-      <div className={styles.asideItem}>
-        <div className={styles.titleWrapper} onClick={toggleSection}>
+      <div className={`${styles.asideItem} ${dir === 'rtl'&& styles["asideItem--rtl"]}`}>
+        <div className={styles.titleWrapper}>
           {isActiveSection ? (
             <a href={`#id-${statement.statementId}`}  className={`${styles.active} ${styles.title} ${styles["h"+(level+1)]}`}>{title}</a>
           ) : (

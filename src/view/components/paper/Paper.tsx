@@ -6,14 +6,13 @@ import PaperBottomButtons from "./bottomButtons/PaperBottomButtons";
 import NewSection from "../../pages/doc/newSection/NewSection";
 import { useSelector } from "react-redux";
 import { sectionsSelector } from "../../../controllers/slices/statementsSlice";
-import { useContext } from "react";
-import { RoleContext } from "../../pages/doc/Document";
+import { useLanguage } from "../../../controllers/hooks/useLanguage";
 
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
   const sections = useSelector(sectionsSelector(statementId || ""));
-  const role = useContext(RoleContext);
-  console.log("role", role);
+  const {dir} = useLanguage();
+
   const { isLoading, isError, statement, isAuthorized } =
     useDocument(statementId);
   if (isLoading) return <div>Loading...</div>;
@@ -23,7 +22,7 @@ const Paper = () => {
 
   return (
     <div className={styles.paper}>
-      <div className="wrapper wrapper--paper">
+      <div className={`wrapper wrapper--paper ${dir === "rtl" && "wrapper--rtl"}`}>
         {statement && (
           <div className={styles.mainContainer}>
             {sections.map((section, index) => (

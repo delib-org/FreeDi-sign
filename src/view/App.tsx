@@ -5,15 +5,18 @@ import { listenToAuth } from "../controllers/db/authCont";
 import { useSelector } from "react-redux";
 import { selectUser } from "../controllers/slices/userSlice";
 import { navigateToDocument } from "./appCont";
+import { useLanguage } from "../controllers/hooks/useLanguage";
+
 
 function App() {
   const user = useSelector(selectUser);
   const params = useParams();
+  const {dir} = useLanguage();
 
   const navigate = useNavigate();
   useEffect(() => {
     const { statementId } = params;
- 
+
     //set to local storage
     if (statementId) {
       localStorage.setItem("statementId", statementId);
@@ -31,18 +34,14 @@ function App() {
       navigate("/login");
     } else {
       navigateToDocument(params, navigate);
-
-     
     }
   }, [user]);
 
   return (
-    <>
+    <div style={{direction:dir}}>
       <Outlet />
-    </>
+    </div>
   );
 }
 
 export default App;
-
-

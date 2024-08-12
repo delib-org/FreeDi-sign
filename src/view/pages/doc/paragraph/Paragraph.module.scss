@@ -1,25 +1,25 @@
 .paragraph {
     display: flex;
     flex-direction: column;
-   
 
-    &Text{
+
+    &Text {
         display: grid;
         grid-template-columns: auto 40px;
         gap: 1rem;
-       
+
         width: 100%;
 
-        button{
+        button {
             background-color: transparent;
             border: none;
             color: var(--reject);
-            font-size:1 rem;
+            font-size: 1 rem;
             cursor: pointer;
             transition: color .3s;
-            
 
-            &:hover{
+
+            &:hover {
                 color: var(--paragraph-dark);
             }
         }
@@ -61,13 +61,36 @@
     }
 
     .comments {
-       
-       
+
+
         position: relative;
         display: flex;
         flex-direction: column;
         gap: 1rem;
 
-       
+
+    }
+}
+
+.paragraphLine {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: .5rem;
+
+    .importance {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        svg {
+            transform: scale(.8);
+        }
+
+        span {
+            font-size: .7rem;
+            font-weight: 400;
+            color: var(--paragraph-light);
+        }
     }
 }

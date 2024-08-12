@@ -1,17 +1,18 @@
 import { useState } from "react";
 
 import AsideItem from "./asideItem/AsideItem";
-import PdfDownloadIcon from "../../../components/icons/PdfDownloadIcon";
 import { useParams } from "react-router-dom";
-import FileIcon from "../../../components/icons/FileIcon";
+
 import LogoAndNameIcon from "../../../components/icons/LogoAndNameIcon";
 import styles from "./Aside.module.scss";
 import { useSelector } from "react-redux";
 import { sectionsSelector } from "../../../../controllers/slices/statementsSlice";
+import { useLanguage } from "../../../../controllers/hooks/useLanguage";
 
 
 function Accordion() {
 
+  const {t, dir} = useLanguage();
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
   const { statementId } = useParams<{ statementId: string }>();
   const sections = useSelector(sectionsSelector(statementId));
@@ -19,11 +20,11 @@ function Accordion() {
 
   return (
     <aside className={styles.aside}>
-      <div className={styles.logo}>
+      <div className={`${styles.logo} ${dir === "rtl"?styles["logo--rtl"]:null}` }>
         <LogoAndNameIcon />
-        <div className={styles.slogan}>Fostering collaboration</div>
+        <div className={styles.slogan}>{t("Fostering Collaboration")}</div>
       </div>
-      <div className={styles.content}>
+      <div className={`${styles.content} ${dir === 'rtl'?styles["content--rtl"]:null}`}>
         <div className={styles.title}>
           
           <div className={styles.contentTitle}>Content</div>

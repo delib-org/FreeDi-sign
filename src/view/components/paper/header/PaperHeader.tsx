@@ -5,6 +5,10 @@ import InfoButton from "../../buttons/InfoButton";
 import Checkbox from "../../checkbox/Checkbox";
 import { Role, Statement } from "delib-npm";
 import { RoleContext } from "../../../pages/doc/Document";
+import {
+  LanguagesEnum,
+  useLanguage,
+} from "../../../../controllers/hooks/useLanguage";
 
 interface Props {
   statement?: Statement;
@@ -12,15 +16,31 @@ interface Props {
 
 const PaperHeader: FC<Props> = ({ statement }) => {
   const role = useContext(RoleContext);
+  const { currentLanguage, changeLanguage } = useLanguage();
   if (!statement) return null;
   const title = statement.statement.split("\n")[0].replace("*", "").trim();
+  
+  //TODO: remove
+  function handleToggleLanguage() {
+    if (currentLanguage === LanguagesEnum.he) changeLanguage(LanguagesEnum.en);
+    else changeLanguage(LanguagesEnum.he);
+  }
+
   return (
     <header className={styles.header}>
       <div className={styles.top}>
         <h1 className={styles.title}>
-          <a href={`https://freedi.tech/statement/${statement.statementId}/info`} target="_blank">{title}</a>
+          <a
+            href={`https://freedi.tech/statement/${statement.statementId}/info`}
+            target="_blank"
+          >
+            {title}
+          </a>
         </h1>
         <div className={styles.buttons}>
+          <button className={styles.button} onClick={handleToggleLanguage}>
+            Toggle Langue
+          </button>
           {role === Role.admin && <MainEditButton title="Edit" />}
           <InfoButton />
           <Checkbox />

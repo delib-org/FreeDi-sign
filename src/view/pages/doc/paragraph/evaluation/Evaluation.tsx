@@ -9,9 +9,6 @@ import { RoleContext } from "../../Document";
 
 //icons
 
-
-
-
 interface Props {
   statement: Statement;
   showComments: boolean;
@@ -27,10 +24,22 @@ const Evaluation: FC<Props> = ({
   const role = useContext(RoleContext);
   try {
     return (
-      <div className={`${styles.evaluation} ${role === Role.admin?styles.evaluationAdmin:null}`} >
-        <Importance statement={statement} />
-        <VerticalHR />
-       <CommentsButton numberOfComments={numberOfComments} showComments={showComments} setShowComments={setShowComments} />
+      <div
+        className={`${styles.evaluation} ${
+          role === Role.admin ? styles.evaluationAdmin : null
+        }`}
+      >
+        {role !== Role.admin && (
+          <>
+            <Importance statement={statement} />
+            <VerticalHR />
+          </>
+        )}
+        <CommentsButton
+          numberOfComments={numberOfComments}
+          showComments={showComments}
+          setShowComments={setShowComments}
+        />
         <VerticalHR />
         <ApprovalComp statement={statement} />
       </div>

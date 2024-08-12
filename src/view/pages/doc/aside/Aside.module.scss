@@ -16,6 +16,11 @@
         gap: 0rem;
         padding-top: 0rem;
 
+        &--rtl{
+            padding-left: 0;
+            padding-right: 1.4rem;
+        }
+
         .slogan {
             margin: 0;
             font-size: 0.94rem;
@@ -31,6 +36,11 @@
         height: -webkit-fill-available;
         overflow-y: auto;
         padding-bottom: 4rem;
+
+        &--rtl{
+            padding-left: 0;
+            padding-right: 1.2rem;
+        }
 
         .contentTitle {
             box-sizing: border-box;

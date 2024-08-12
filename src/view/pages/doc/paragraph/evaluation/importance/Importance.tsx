@@ -30,11 +30,7 @@ const Importance: FC<Props> = ({ statement }) => {
     });
   }, []);
 
-  function fromImportanceToIcon(importance: number): JSX.Element {
-    if (importance < 0.333333) return <ImportanceIcon0 />;
-    if (importance < 0.666666) return <ImportanceIcon1 />;
-    return <ImportanceIcon2 />;
-  }
+
 
   function handleImportance(importance: number) {
     try {
@@ -88,3 +84,9 @@ const Importance: FC<Props> = ({ statement }) => {
 };
 
 export default Importance;
+
+export function fromImportanceToIcon(importance: number): JSX.Element {
+  if (importance < 0.333333) return <ImportanceIcon0 />;
+  if (importance < 0.666666) return <ImportanceIcon1 />;
+  return <ImportanceIcon2 />;
+}
