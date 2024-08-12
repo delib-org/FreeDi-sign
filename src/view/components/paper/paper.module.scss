@@ -4,8 +4,10 @@
     justify-content: flex-start;
     padding-bottom: 2rem;
     width: 100%;
+    height: 100vh;
+    overflow-y: auto;
     scroll-behavior: smooth;
-
+  
   
     
     .headerWrapper{

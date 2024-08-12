@@ -1,17 +1,20 @@
-.wrapper {
-    display: flex;
-    flex-direction: column;
+.aside {
+    display: grid;
+    grid-template-rows: 10rem 1fr;
     justify-content: space-between;
     align-items: center;
     height: 100vh;
-    width: 100%;
-    .headerWrapper {
+    width: max-content;
+    user-select: none;
+
+    .header {
         display: flex;
         flex-direction: column;
         gap: 2rem;
         width: 100%;
+        padding: 1rem 0;
 
-        .headerLogo{
+        .logo {
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -20,14 +23,24 @@
             padding-left: 4rem;
             gap: .4rem;
             padding-top: 1rem;
-            p{
+
+            p {
                 margin: 0;
                 font-size: 0.94rem;
                 font-weight: 400;
             }
         }
 
-        .headerTitle {
+        
+    }
+
+    .content {
+        width: fit-content;
+        padding-left: 1.2rem;
+        height: -webkit-fill-available;
+        overflow-y: auto;
+
+        .title {
             box-sizing: border-box;
             display: flex;
             justify-content: start;
@@ -35,26 +48,21 @@
             gap: 0.70rem;
             width: 96%;
             text-align: start;
-            margin-inline: auto;
+            // margin-inline: auto;
             padding: 0.1rem 0.1rem 0.1rem 2rem;
-            margin-top: 2rem;
             background-color: rgba(41, 86, 160, 0.25);
             border-radius: 0.23rem;
 
-            .header {
-                font-weight: 500;
-                font-size: 1.17rem;
-                
-            }
-        }
-    }
 
-    .accordionWrapper {
-        width: 26rem;
-        padding-left: 4.2rem;
-        max-height: 30.58rem;
-        overflow-y: auto; 
-      }
+        }
+
+        .docTitle {
+            font-weight: 500;
+            font-size: 1.17rem;
+
+        }
+
+    }
 
     .pdfWrapper {
         display: flex;

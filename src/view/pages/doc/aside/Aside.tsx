@@ -21,36 +21,34 @@ function Accordion() {
   const title = statement?.statement.split("\n")[0];
 
   return (
-    <div className={styles.wrapper}>
-      <div>
-        <div className={styles.headerWrapper}>
-          <div className={styles.headerLogo}>
-            <LogoAndNameIcon />
-            <p>Fostering collaboration</p>
-          </div>
-          <div className={styles.headerTitle}>
-            <FileIcon />
-            <h1 className={styles.header}>{title}</h1>
-          </div>
-        </div>
-        <div className={styles.accordionWrapper}>
-          {sections.map((st, index) => (
-            <AccordionItem
-              key={`as-${st.statementId}`}
-              statement={st}
-              isActiveSection={index === activeIndex}
-              setActiveIndex={setActiveIndex}
-              sectionIndex={index}
-              level={1}
-            />
-          ))}
+    <aside className={styles.aside}>
+      <div className={styles.header}>
+        <div className={styles.logo}>
+          <LogoAndNameIcon />
+          <p>Fostering collaboration</p>
         </div>
       </div>
-      <div className={styles.pdfWrapper}>
-        <PdfDownloadIcon />
-        <h2 className={styles.pdfText}>Download PDF</h2>
+      <div className={styles.content}>
+        <div className={styles.title}>
+          <FileIcon />
+          <div className={styles.docTitle}>{title}</div>
+        </div>
+        {sections.map((st, index) => (
+          <AccordionItem
+            key={`as-${st.statementId}`}
+            statement={st}
+            isActiveSection={index === activeIndex}
+            setActiveIndex={setActiveIndex}
+            sectionIndex={index}
+            level={1}
+          />
+        ))}
+        <div className={styles.pdfWrapper}>
+          <PdfDownloadIcon />
+          <h2 className={styles.pdfText}>Download PDF</h2>
+        </div>
       </div>
-    </div>
+    </aside>
   );
 }
 
