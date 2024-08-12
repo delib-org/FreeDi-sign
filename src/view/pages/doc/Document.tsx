@@ -9,6 +9,7 @@ import Paper from "../../components/paper/Paper";
 import { logOut } from "../../../controllers/db/authCont";
 import { selectUser } from "../../../controllers/slices/userSlice";
 import { useSelector } from "react-redux";
+import PaperHeader from "../../components/paper/header/PaperHeader";
 
 
 const Document = () => {
@@ -40,7 +41,7 @@ const user = useSelector(selectUser)
       </div>
 
       <div className={styles.main}>
-        <Header statement={statement}/>
+        <PaperHeader statement={statement}/>
         <Paper />
       
       </div>

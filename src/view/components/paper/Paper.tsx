@@ -8,7 +8,6 @@ import NewSection from "../../pages/doc/newSection/NewSection";
 import { useSelector } from "react-redux";
 import { sectionsSelector } from "../../../controllers/slices/statementsSlice";
 
-
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
   const sections = useSelector(sectionsSelector(statementId || ""));
@@ -20,14 +19,12 @@ const Paper = () => {
 
   if (!isAuthorized) return <div>Not authorized</div>;
 
-  const title = statement?.statement.split("\n")[0];
-
   return (
     <div className={styles.paper}>
-      <PaperHeader title={title} />
-      {statement && (
-        <div className={styles.mainContainer}>
-          {sections.map((section, index) => (
+      <div className="wrapper wrapper--paper">
+        {statement && (
+          <div className={styles.mainContainer}>
+            {sections.map((section, index) => (
               <Section
                 key={section.statementId}
                 statement={section}
@@ -37,14 +34,15 @@ const Paper = () => {
               />
             ))}
 
-          <NewSection
-            statement={statement}
-            order={sections.length + 1}
-            parentBullet=""
-          />
-        </div>
-      )}
-      <PaperBottomButtons />
+            <NewSection
+              statement={statement}
+              order={sections.length + 1}
+              parentBullet=""
+            />
+          </div>
+        )}
+        <PaperBottomButtons />
+      </div>
     </div>
   );
 };

@@ -37,9 +37,7 @@ function AsideItem({
           ) : (
             <a href={`#id-${statement.statementId}`}  className={`${styles.title} ${styles["h"+(level+1)]}`}>{title}</a>
           )}
-          <span className={styles.titleSpan}>
-            {isActiveSection ? <ChevronDownIcon /> : <ChevronRightIcon />}
-          </span>
+          
         </div>
         <div className={styles.descriptionWrapper}>
           {sections.map((section, index) => (
