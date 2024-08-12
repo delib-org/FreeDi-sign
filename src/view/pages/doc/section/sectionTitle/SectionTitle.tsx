@@ -3,22 +3,21 @@ import { isEditSelector } from "../../../../../controllers/slices/editSlice";
 import { useSelector } from "react-redux";
 import { adjustTextAreaHeight } from "../../../../../controllers/general.ts/general";
 import EditInput from "../../../../components/editInput/EditInput";
-import { sectionHeader } from "../Section";
 import { Statement } from "delib-npm";
-import { updateParagraphTextToDB } from "../../../../../controllers/db/paragraphs/setParagraphs";
 import { updateStatementText } from "../../../../../controllers/db/statements/setStatements";
 
-
 interface Props {
-  order: number;
+  bullet: string;
+  level: number;
   statement: Statement;
   setIsTitleReady: (isReady: boolean) => void;
   isTitleReady: boolean;
 }
 
 const SectionTitle: FC<Props> = ({
-  order,
- statement,
+  bullet,
+  level,
+  statement,
   isTitleReady,
   setIsTitleReady,
 }) => {
@@ -48,7 +47,7 @@ const SectionTitle: FC<Props> = ({
               if (isEdit) _setIsEdit(true);
             }}
           >
-            {sectionHeader(`${order}) ${statement.statement}`,2)}
+            {sectionHeader(`${bullet} ) ${statement.statement}`, level)}
           </div>
         )}
       </>
@@ -61,10 +60,9 @@ const SectionTitle: FC<Props> = ({
 
     function handleUpdate(e: any) {
       if (e.key === "Enter" || e.type === "blur") {
-      
         const textarea = e.target as HTMLTextAreaElement;
         const value = textarea.value;
-       
+
         if (value === "") {
           setIsTitleReady(false);
           return;
@@ -84,3 +82,20 @@ const SectionTitle: FC<Props> = ({
 };
 
 export default SectionTitle;
+
+function sectionHeader(title: string, level: number) {
+  switch (level) {
+    case 1:
+      return <h2>{title}</h2>;
+    case 2:
+      return <h3>{title}</h3>;
+    case 3:
+      return <h4>{title}</h4>;
+    case 4:
+      return <h5>{title}</h5>;
+    case 5:
+      return <h6>{title}</h6>;
+    default:
+      return <h6>{title}</h6>;
+  }
+}

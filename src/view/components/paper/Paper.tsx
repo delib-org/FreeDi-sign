@@ -32,6 +32,8 @@ const Paper = () => {
                 key={section.statementId}
                 statement={section}
                 order={index + 1}
+                parentLevel={0}
+                parentBullet=""
               />
             ))}
 

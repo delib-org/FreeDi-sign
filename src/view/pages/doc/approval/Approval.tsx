@@ -7,8 +7,7 @@ import ApproveWhite from "../../../../assets/icons/approveWhite.svg?react";
 import RejectWhite from "../../../../assets/icons/rejectWhite.svg?react";
 import { setApprovalToDB } from "../../../../controllers/db/approval/setApproval";
 import { getUserApprovalFromDB } from "../../../../controllers/db/approval/getApproval";
-import { documentSelectorByStatementId } from "../../../../controllers/slices/statementsSlice";
-import { useSelector } from "react-redux";
+
 
 interface Props {
   statement: Statement;

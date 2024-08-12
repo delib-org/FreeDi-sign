@@ -1,39 +1,43 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import styles from "./Section.module.scss";
-import { DocumentObject } from "../../../../controllers/general.ts/statement_helpers";
 import NewParagraph from "../newParagraph/NewParagraph";
 import { Statement } from "delib-npm";
 import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
-import NewElement from "../newSection/NewSection";
 import SubParagraphs from "./subParagraphs/SubParagraphs";
 import SubSections from "./subSections/SubSections";
 import SectionTitle from "./sectionTitle/SectionTitle";
-import {
-  paragraphsSelector,
-  sectionsSelector,
-} from "../../../../controllers/slices/statementsSlice";
 import NewSection from "../newSection/NewSection";
 
 interface Props {
   statement: Statement;
   order: number;
+  parentLevel: number;
+  parentBullet: string;
 }
 
-const Section: FC<Props> = ({ statement, order }) => {
+const Section: FC<Props> = ({
+  statement,
+  order,
+  parentBullet,
+  parentLevel,
+}) => {
   try {
-
     const isEdit = useSelector(isEditSelector);
     const [_isEdit, _setIsEdit] = useState(false);
     const [isTitleReady, setIsTitleReady] = useState(true);
     const { statementId } = statement;
     if (!statementId) throw new Error("statementId is required");
-   
+
+    const bullet =
+      parentBullet !== "" ? `${parentBullet}.${order}` : `${order}`;
+    const level = parentLevel + 1;
 
     return (
       <section className={`${styles.section} ${isEdit ? styles.edit : null}`}>
         <SectionTitle
-          order={order}
+          bullet={bullet}
+          level={level}
           statement={statement}
           setIsTitleReady={setIsTitleReady}
           isTitleReady={isTitleReady}
@@ -43,19 +47,17 @@ const Section: FC<Props> = ({ statement, order }) => {
             <div className={styles.paragraphs}>
               <SubParagraphs parentStatement={statement} />
               {statement && (
-                <NewParagraph
-                  statement={statement}
-                  order={2}
-                />
+                <NewParagraph statement={statement} order={order} />
               )}
             </div>
             <div className={styles.sections}>
-              <SubSections statement={statement} />
+              <SubSections
+                statement={statement}
+                parentBullet={bullet}
+                parentLevel={level}
+              />
             </div>
-            <NewSection
-              statement={statement}
-              order={3}            
-            />
+            <NewSection statement={statement} order={3} />
           </div>
         )}
       </section>
@@ -67,20 +69,3 @@ const Section: FC<Props> = ({ statement, order }) => {
 };
 
 export default Section;
-
-export function sectionHeader(title: string, level: number) {
-  switch (level) {
-    case 2:
-      return <h2>{title}</h2>;
-    case 3:
-      return <h3>{title}</h3>;
-    case 4:
-      return <h4>{title}</h4>;
-    case 5:
-      return <h5>{title}</h5>;
-    case 6:
-      return <h6>{title}</h6>;
-    default:
-      return <h6>{title}</h6>;
-  }
-}
