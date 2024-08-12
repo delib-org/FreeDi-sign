@@ -11,12 +11,13 @@ import {
   sectionsSelector,
   statementSelector,
 } from "../../../../controllers/slices/statementsSlice";
+import { useDocument } from "../../../../controllers/hooks/documentHooks";
 
 function Accordion() {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
   const { statementId } = useParams<{ statementId: string }>();
-
-  const statement = useSelector(statementSelector(statementId));
+  console.log(statementId);
+  const { statement } = useDocument(statementId);
   const sections = useSelector(sectionsSelector(statementId));
 
   const title = statement?.statement.split("\n")[0];
