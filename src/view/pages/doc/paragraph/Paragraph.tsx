@@ -1,7 +1,7 @@
 import { Statement } from "delib-npm";
 import { FC, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { commentsSelector, deleteStatement, documentSelectorByStatementId } from "../../../../controllers/slices/statementsSlice";
+import { commentsSelector, deleteStatement } from "../../../../controllers/slices/statementsSlice";
 import styles from "./Paragraph.module.scss";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { updateParagraphTextToDB } from "../../../../controllers/db/paragraphs/setParagraphs";
@@ -73,7 +73,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
             >
               {statement.statement}
             </p>
-            <button onClick={handleDelete}><DeleteIcon /></button>
+            {isEdit && <button onClick={handleDelete}><DeleteIcon /></button>}
           </div>
         )}
         {!isEdit && <Evaluation

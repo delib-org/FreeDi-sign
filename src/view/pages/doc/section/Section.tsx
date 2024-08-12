@@ -8,6 +8,7 @@ import SubParagraphs from "./subParagraphs/SubParagraphs";
 import SubSections from "./subSections/SubSections";
 import SectionTitle from "./sectionTitle/SectionTitle";
 import NewSection from "../newSection/NewSection";
+import { getBullet } from "../../../../controllers/general.ts/helpers";
 
 interface Props {
   statement: Statement;
@@ -26,11 +27,11 @@ const Section: FC<Props> = ({
     const isEdit = useSelector(isEditSelector);
     const [_isEdit, _setIsEdit] = useState(false);
     const [isTitleReady, setIsTitleReady] = useState(true);
+    const [subSectionsLength, setSubSectionsLength] = useState<number>(0);
     const { statementId } = statement;
     if (!statementId) throw new Error("statementId is required");
 
-    const bullet =
-      parentBullet !== "" ? `${parentBullet}.${order}` : `${order}`;
+    const bullet = getBullet(parentBullet, order);
     const level = parentLevel + 1;
 
     return (
@@ -52,12 +53,17 @@ const Section: FC<Props> = ({
             </div>
             <div className={styles.sections}>
               <SubSections
+                setSubSectionsLength={setSubSectionsLength}
                 statement={statement}
                 parentBullet={bullet}
                 parentLevel={level}
               />
             </div>
-            <NewSection statement={statement} order={3} />
+            <NewSection
+              statement={statement}
+              order={subSectionsLength+1}
+              parentBullet={bullet}
+            />
           </div>
         )}
       </section>

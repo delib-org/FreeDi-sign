@@ -1,22 +1,25 @@
 import { FC, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { Statement, DocumentType } from "delib-npm";
 import PlusIcon from "../../../../assets/icons/plus.svg?react";
 import styles from "./NewSection.module.scss";
 import { createNewStatement } from "../../../../controllers/general.ts/statement_helpers";
-import { setStatement } from "../../../../controllers/slices/statementsSlice";
+
 import EditInput from "../../../components/editInput/EditInput";
 import { setSectionToDB } from "../../../../controllers/db/sections/setSections";
+import { getBullet } from "../../../../controllers/general.ts/helpers";
 
 interface Props {
   statement: Statement;
+  parentBullet: string;
   order: number;
 }
 
-const NewSection: FC<Props> = ({ statement, order }) => {
+const NewSection: FC<Props> = ({ statement, order,parentBullet }) => {
 
   const isEditing = useSelector(isEditSelector);
+  const bullet = getBullet(parentBullet, order);
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -61,7 +64,7 @@ const NewSection: FC<Props> = ({ statement, order }) => {
   return (
     <button onClick={() => setIsEdit(true)} className={styles.newElement}>
       <PlusIcon /> New Section
-      {order + 1}
+      {bullet}
     </button>
   );
 };

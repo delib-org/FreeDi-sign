@@ -39,7 +39,8 @@ const Paper = () => {
 
           <NewSection
             statement={statement}
-            order={sections.length || 0}
+            order={sections.length + 1}
+            parentBullet=""
           />
         </div>
       )}
