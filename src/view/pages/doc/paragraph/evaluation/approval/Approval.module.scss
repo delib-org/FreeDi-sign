@@ -128,3 +128,29 @@ $size:28px;
         left: 20px;
     }
 }
+
+.admin{
+    display: flex;
+    gap: .2rem;
+
+    &__approve{
+        display: flex;       
+        align-items: center;
+        justify-content: center;
+        border-radius: 4rem;
+        width: var(--small-circle);
+        height: var(--small-circle);
+        svg{
+            transform: scale(.8);
+        }
+       
+
+        &--approve{
+            background-color: var(--agree);
+        }
+
+        &--reject{
+            background-color: var(--reject);
+        }
+    }
+}

@@ -1,10 +1,11 @@
-import { Statement } from "delib-npm";
-import { FC } from "react";
+import { Role, Statement } from "delib-npm";
+import { FC, useContext } from "react";
 import styles from "./Evaluation.module.scss";
 import Importance from "./importance/Importance";
 import ApprovalComp from "./approval/Approval";
 import VerticalHR from "../../../../components/VerticalHR/VerticalHR";
 import CommentsButton from "./importance/comments/CommentsButton";
+import { RoleContext } from "../../Document";
 
 //icons
 
@@ -23,9 +24,10 @@ const Evaluation: FC<Props> = ({
   setShowComments,
   numberOfComments,
 }) => {
+  const role = useContext(RoleContext);
   try {
     return (
-      <div className={styles.evaluation}>
+      <div className={`${styles.evaluation} ${role === Role.admin?styles.evaluationAdmin:null}`} >
         <Importance statement={statement} />
         <VerticalHR />
        <CommentsButton numberOfComments={numberOfComments} showComments={showComments} setShowComments={setShowComments} />

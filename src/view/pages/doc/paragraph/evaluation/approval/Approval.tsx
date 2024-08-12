@@ -1,5 +1,5 @@
-import { Approval, Statement } from "delib-npm";
-import { FC, useState, useEffect, useRef } from "react";
+import { Approval, Role, Statement } from "delib-npm";
+import { FC, useState, useEffect, useRef, useContext } from "react";
 import styles from "./Approval.module.scss";
 //icons
 import Approve from "../../../../../../assets/icons/approve.svg?react";
@@ -7,7 +7,7 @@ import ApproveWhite from "../../../../../../assets/icons/approveWhite.svg?react"
 import RejectWhite from "../../../../../../assets/icons/rejectWhite.svg?react";
 import { setApprovalToDB } from "../../../../../../controllers/db/approval/setApproval";
 import { getUserApprovalFromDB } from "../../../../../../controllers/db/approval/getApproval";
-
+import { RoleContext } from "../../../Document";
 
 interface Props {
   statement: Statement;
@@ -15,8 +15,7 @@ interface Props {
 
 const ApprovalComp: FC<Props> = ({ statement }) => {
   try {
- 
-  
+    const role = useContext(RoleContext);
 
     const [approved, setApproved] = useState<boolean | undefined>(true);
     const [showApproval, setShowApproval] = useState<boolean>(false);
@@ -46,13 +45,30 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
 
     function handleApprove(approval: boolean) {
       try {
-
         setApprovalToDB({ statement, approval });
         setApproved(approval);
         setShowApproval(false);
       } catch (error) {
         console.error(error);
       }
+    }
+
+    if (role === Role.admin) {
+      const approved = statement.documentApproval?.approved || 0;
+      const rejected =
+        (statement.documentApproval?.totalVoters || approved) - approved || 0;
+      return (
+        <div className={styles.admin}>
+          {approved}
+          <div className={`${styles["admin__approve"]} ${styles["admin__approve--approve"]}`}>
+            <ApproveWhite />
+          </div> 
+          <div className={`${styles["admin__approve"]} ${styles["admin__approve--reject"]}`}>
+            <RejectWhite />
+          </div>
+          {rejected}
+        </div>
+      );
     }
 
     if (approved === undefined && !showApproval)
@@ -75,7 +91,7 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
           }}
           ref={approvedRef}
         >
-          <ApproveWhite  />
+          <ApproveWhite />
         </div>
         <div
           className={styles.appButtonReject}

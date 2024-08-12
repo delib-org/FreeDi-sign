@@ -49,6 +49,9 @@ const Paragraph: FC<Props> = ({ statement }) => {
 
     return (
       <div className={styles.paragraph}>
+        <div className={styles.importance}>
+          {statement.documentImportance?.averageImportance} ({statement.documentImportance?.numberOfUsers})
+        </div>
         {isEdit && _isEdit ? (
           <textarea
             ref={textarea}

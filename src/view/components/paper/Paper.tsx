@@ -2,16 +2,18 @@ import { useParams } from "react-router-dom";
 import Section from "../../pages/doc/section/Section";
 import styles from "./paper.module.scss";
 import { useDocument } from "../../../controllers/hooks/documentHooks";
-import PaperHeader from "./header/PaperHeader";
 import PaperBottomButtons from "./bottomButtons/PaperBottomButtons";
 import NewSection from "../../pages/doc/newSection/NewSection";
 import { useSelector } from "react-redux";
 import { sectionsSelector } from "../../../controllers/slices/statementsSlice";
+import { useContext } from "react";
+import { RoleContext } from "../../pages/doc/Document";
 
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
   const sections = useSelector(sectionsSelector(statementId || ""));
-
+  const role = useContext(RoleContext);
+  console.log("role", role);
   const { isLoading, isError, statement, isAuthorized } =
     useDocument(statementId);
   if (isLoading) return <div>Loading...</div>;
