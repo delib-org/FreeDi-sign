@@ -1,45 +1,39 @@
-import styles from "./accordionItem.module.scss";
-import ChevronDownIcon from "../icons/ChevronDownIcon";
-import ChevronRightIcon from "../icons/ChevronRightIcon";
+import styles from "./AsideItem.module.scss";
+import ChevronDownIcon from "../../../../components/icons/ChevronDownIcon";
+import ChevronRightIcon from "../../../../components/icons/ChevronRightIcon";
 import { Statement } from "delib-npm";
-import { DocumentObject } from "../../../controllers/general.ts/statement_helpers";
+import { useSelector } from "react-redux";
+import { sectionsSelector } from "../../../../../controllers/slices/statementsSlice";
 
 interface Props {
   isActiveSection: boolean;
   setActiveIndex: (index: number | null) => void;
   sectionIndex: number;
-  docStatement: Statement;
   statement: Statement;
-  document: DocumentObject;
 }
 
-function AccordionItem({
+function AsideItem({
   isActiveSection,
   setActiveIndex,
   sectionIndex,
-  docStatement,
   statement,
-  document,
 }: Props) {
   const toggleSection = () => {
     const nextIndex = isActiveSection ? null : sectionIndex;
     setActiveIndex(nextIndex);
   };
 
-  if (!docStatement) throw new Error("Parent statement id is required");
-  const { statementId } = document;
-  if (!statementId) throw new Error("statementId is required");
+  const sections = useSelector(sectionsSelector(statement.statementId));
+  const title = statement.statement.split("\n")[0];
 
   return (
     <>
       <div className={styles.wrapper}>
         <div className={styles.titleWrapper} onClick={toggleSection}>
           {isActiveSection ? (
-            <h2 className={`${styles.active} ${styles.title}`}>
-              {document.title}
-            </h2>
+            <h2 className={`${styles.active} ${styles.title}`}>{title}</h2>
           ) : (
-            <h2 className={styles.title}>{document.title}</h2>
+            <h2 className={styles.title}>{title}</h2>
           )}
           <span className={styles.titleSpan}>
             {isActiveSection ? <ChevronDownIcon /> : <ChevronRightIcon />}
@@ -47,11 +41,13 @@ function AccordionItem({
         </div>
         <div className={styles.descriptionWrapper}>
           {isActiveSection &&
-            document.sections.map((section, index) => (
+            sections.map((section, index) => {
+              const sectionTitle = section.statement.split("\n")[0];
+              return(
               <div className={styles.description} key={index}>
-                {section.title}
+                {sectionTitle}
               </div>
-            ))}
+            )})}
         </div>
       </div>
     </>
@@ -66,4 +62,4 @@ function AccordionItem({
   );
 }
 
-export default AccordionItem;
+export default AsideItem;

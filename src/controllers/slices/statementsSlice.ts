@@ -67,6 +67,11 @@ export const selectStatementsByCreatorId = (creatorId: string | undefined) => {
     );
 };
 
+export const statementSelector = (statementId?: string) => createSelector(
+    (state: { statements: StatementsState }) => state.statements.statements,
+    (statements) => statements.find((statement) => statement.statementId === statementId)
+);
+
 export const documentSelector = (documentId: string) => createSelector(
     (state: { statements: StatementsState }) => state.statements.statements,
     (statements) => statements.filter((statement) => statement.documentSettings?.parentDocumentId === documentId && statement.statementType === StatementType.document)
@@ -79,7 +84,7 @@ export const documentSelectorByStatementId = (documentId: string) => createSelec
 
 
 //sections selector
-export const sectionsSelector = (statementId: string) => createSelector(
+export const sectionsSelector = (statementId?: string) => createSelector(
     (state: { statements: StatementsState }) => state.statements.statements,
     (statements) => statements.filter((statement) => statement.parentId === statementId && statement.documentSettings?.type === DocumentType.section)
 );

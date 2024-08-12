@@ -1,7 +1,7 @@
 import styles from "./document.module.scss";
 import { useParams } from "react-router-dom";
 import { useDocument } from "../../../controllers/hooks/documentHooks";
-import Accordion from "../../components/accordion/Accordion";
+import Accordion from "./aside/Aside";
 
 import Header from "../../components/header/Header";
 import Paper from "../../components/paper/Paper";
