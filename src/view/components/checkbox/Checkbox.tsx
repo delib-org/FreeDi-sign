@@ -1,10 +1,10 @@
 import styles from './checkbox.module.scss';
 
-type Props = {}
+
 
 // waiting with the function to approve on database
 
-const Checkbox = (props: Props) => {
+const Checkbox = () => {
   return (
     <label className={styles.customCheckboxContainer}>
       <input type="checkbox" className={styles.customCheckboxInput}/>

@@ -43,7 +43,7 @@ const PaperHeader: FC<Props> = ({ statement }) => {
         </h1>
         <div className={styles.buttons}>
           <button className={styles.button} onClick={handleToggleLanguage}>
-          {currentLanguage === LanguagesEnum.en ? <USAFlag />: <IsraelFlag />}
+          {currentLanguage === LanguagesEnum.en ?<IsraelFlag />: <USAFlag />}
           </button>
           {role === Role.admin && <MainEditButton title="Edit" />}
           <InfoButton />

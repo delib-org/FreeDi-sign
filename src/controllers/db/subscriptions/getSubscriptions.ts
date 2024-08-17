@@ -1,4 +1,4 @@
-import { Collections, getStatementSubscriptionId, StatementSubscription, User } from "delib-npm";
+import { Collections, getStatementSubscriptionId, StatementSubscription} from "delib-npm";
 import { store } from "../../../model/store";
 import { doc, getDoc } from "firebase/firestore";
 import { DB } from "../config";
