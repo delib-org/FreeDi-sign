@@ -27,7 +27,7 @@ function Accordion() {
       <div className={`${styles.content} ${dir === 'rtl'?styles["content--rtl"]:null}`}>
         <div className={styles.title}>
           
-          <div className={styles.contentTitle}>Content</div>
+          <div className={styles.contentTitle}>{t("Content")}</div>
         </div>
         {sections.map((st, index) => (
           <AsideItem
@@ -44,7 +44,7 @@ function Accordion() {
           <h2 className={styles.pdfText}>Download PDF</h2>
         </div> */}
         <div className={styles.ddi}>
-          <a href="https://delib.org" target="_blank">From the Deliberative Democracy Institute</a>
+          <a href="https://delib.org" target="_blank">{t("From the Deliberative Democracy Institute")}</a>
         </div>
       </div>
     </aside>

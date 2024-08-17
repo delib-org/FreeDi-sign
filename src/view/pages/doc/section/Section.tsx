@@ -9,6 +9,7 @@ import SubSections from "./subSections/SubSections";
 import SectionTitle from "./sectionTitle/SectionTitle";
 import NewSection from "../newSection/NewSection";
 import { getBullet } from "../../../../controllers/general.ts/helpers";
+import { useLanguage } from "../../../../controllers/hooks/useLanguage";
 
 interface Props {
   statement: Statement;
@@ -30,6 +31,7 @@ const Section: FC<Props> = ({
     const [subSectionsLength, setSubSectionsLength] = useState<number>(0);
     const { statementId } = statement;
     if (!statementId) throw new Error("statementId is required");
+    const {dir} = useLanguage();
 
     const bullet = getBullet(parentBullet, order);
     const level = parentLevel + 1;
@@ -44,7 +46,7 @@ const Section: FC<Props> = ({
           isTitleReady={isTitleReady}
         />
         {isTitleReady && (
-          <div className={styles.sectionsWrapper}>
+          <div className={`${styles.sectionsWrapper} ${dir === 'rtl' && styles["sectionsWrapper--rtl"]}`}>
             <div className={styles.paragraphs}>
               <SubParagraphs parentStatement={statement} />
               {statement && (

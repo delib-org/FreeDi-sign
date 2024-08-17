@@ -38,7 +38,7 @@ function App() {
   }, [user]);
 
   return (
-    <div style={{direction:dir}}>
+    <div style={{direction:dir, fontFamily:"Assistant, sans-serif"}}>
       <Outlet />
     </div>
   );

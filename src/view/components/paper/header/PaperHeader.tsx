@@ -10,6 +10,10 @@ import {
   useLanguage,
 } from "../../../../controllers/hooks/useLanguage";
 
+//icons
+import USAFlag from "../../../../assets/icons/usaFlag.svg?react";
+import IsraelFlag from "../../../../assets/icons/israelFlag.svg?react";
+
 interface Props {
   statement?: Statement;
 }
@@ -39,7 +43,7 @@ const PaperHeader: FC<Props> = ({ statement }) => {
         </h1>
         <div className={styles.buttons}>
           <button className={styles.button} onClick={handleToggleLanguage}>
-            Toggle Langue
+          {currentLanguage === LanguagesEnum.en ? <USAFlag />: <IsraelFlag />}
           </button>
           {role === Role.admin && <MainEditButton title="Edit" />}
           <InfoButton />
