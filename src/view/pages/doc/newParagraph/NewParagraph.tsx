@@ -3,7 +3,7 @@ import { setParagraphToDB } from "../../../../controllers/db/paragraphs/setParag
 import { Statement } from "delib-npm";
 import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
-import styles from "./NewParagraph.module.scss";
+import styles from "./newParagraph.module.scss";
 import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general";
 
 interface Props {
