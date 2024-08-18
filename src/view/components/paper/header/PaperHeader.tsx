@@ -50,12 +50,12 @@ const PaperHeader: FC<Props> = ({ statement }) => {
           <Checkbox />
         </div>
       </div>
-      <div className={styles.bottom}>
-        {/* <div className={styles.lastModified}>
+      {/* <div className={styles.bottom}>
+        <div className={styles.lastModified}>
           Last Modified:
           <span>09:05 17/6/2024</span>
-        </div> */}
-      </div>
+        </div>
+      </div> */}
     </header>
   );
 };
