@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Role, Statement } from "delib-npm";
+import { membersAllowed, Role, Statement } from "delib-npm";
 import { getStatement, listenToDocument } from "../db/statements/getStatements";
 import { useSelector } from "react-redux";
 import { documentSelector } from "../slices/statementsSlice";
 import { getSubscription } from "../db/subscriptions/getSubscriptions";
+import { selectUser } from "../slices/userSlice";
 
 interface Props {
     statements: Statement[];
@@ -16,11 +17,13 @@ interface Props {
 export function useDocument(statementId: string | undefined): Props {
 
     try {
+        const user = useSelector(selectUser);
         const [isLoading] = useState<boolean>(false);
         const [statement, setStatement] = useState<Statement | undefined>(undefined);
         const statements: Statement[] = useSelector(documentSelector(statementId || ""));
         const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
         const [role, setRole] = useState<Role>(Role.unsubscribed);
+
 
         useEffect(() => {
             if (!statementId) return;
@@ -41,6 +44,13 @@ export function useDocument(statementId: string | undefined): Props {
                 unsubscribe();
             }
         }, [statementId]);
+
+        useEffect(()=>{
+            if(statement?.membership?.typeOfMembersAllowed === membersAllowed.all && user?.isAnonymous){
+                setIsAuthorized(true);
+                setRole(Role.unsubscribed);
+            }
+        },[statement, user])
 
         const _statements = isAuthorized ? statements : [];
         const _statement = isAuthorized ? statement : undefined;

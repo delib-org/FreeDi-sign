@@ -48,7 +48,7 @@ export function updateParagraphTextToDB({ statement, newText }: EditParagraphPro
 export async function deleteParagraphFromDB(statement: Statement): Promise<void> {
     try {
         const statementRef = doc(DB, Collections.statements, statement.statementId);
-        console.log("deleting paragraph", statement.statementId);
+     
         updateDoc(statementRef, { "statementSettings.show": false });
 
         //delete all comments and all evaluations

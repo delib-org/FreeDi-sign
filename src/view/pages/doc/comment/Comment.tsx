@@ -1,34 +1,50 @@
 import { AgreeDisagreeEnum, Statement } from "delib-npm";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import styles from "./Comment.module.scss";
 import ThumbsUpIcon from "../../../../assets/icons/thumbUp.svg?react";
 import MainButton from "../../../components/buttons/MainButton";
 import ThumbsDownIcon from "../../../../assets/icons/thumbDown.svg?react";
 import ProfileImage from "../../../components/profileImage/ProfileImage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../../../controllers/slices/userSlice";
 import { setAgreesToDB } from "../../../../controllers/db/agree/setAgrees";
+import { listenToUserAgree } from "../../../../controllers/db/agree/getAgree";
+import {
+  selectAgree,
+  updateAgree,
+} from "../../../../controllers/slices/agreeSlice";
 
 interface Props {
   statement: Statement;
 }
 
 const Comment: FC<Props> = ({ statement }) => {
+  const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const agree = useSelector(selectAgree(statement.statementId));
 
-  const [agree, setAgree] = useState<AgreeDisagreeEnum>(
-    AgreeDisagreeEnum.NoOpinion
-  );
+  useEffect(() => {
+    let unsub = () => {};
+
+    unsub = listenToUserAgree(statement.statementId);
+
+    return () => {
+      unsub();
+    };
+  }, []);
 
   function handleAgree(_agree: AgreeDisagreeEnum) {
-
-    if(agree === _agree) {
-      setAgree(AgreeDisagreeEnum.NoOpinion);
-      _agree = AgreeDisagreeEnum.NoOpinion;
-    }
-    setAgree(_agree);
-
-    setAgreesToDB({ statement, agree:_agree });
+    let __agree = AgreeDisagreeEnum.NoOpinion;
+    if (agree?.agree !== _agree) {
+      __agree = _agree;
+    } 
+    dispatch(
+      updateAgree({
+        agree: __agree,
+        statementId: statement.statementId,
+      })
+    );
+    setAgreesToDB({ statement, agree: __agree });
   }
 
   const isAuthor = user?.uid === statement.creatorId;
@@ -43,7 +59,8 @@ const Comment: FC<Props> = ({ statement }) => {
       <div className={styles.wrapper__descriptionWrapper}>
         <div className={styles.wrapper__descriptionWrapper__nameWrapper}></div>
         <p className={styles.wrapper__descriptionWrapper__description}>
-          {statement.statement}
+          {statement.statement}<br />
+          {statement.statementId}
         </p>
         <div className={styles.wrapper__descriptionWrapper__buttonsContainer}>
           <div />
@@ -61,12 +78,12 @@ const Comment: FC<Props> = ({ statement }) => {
                 <MainButton
                   value="Disagree"
                   color={
-                    agree === AgreeDisagreeEnum.Disagree
+                    agree?.agree === AgreeDisagreeEnum.Disagree
                       ? "white"
                       : "var(--icon-blue)"
                   }
                   backgroundColor={
-                    agree === AgreeDisagreeEnum.Disagree
+                    agree?.agree === AgreeDisagreeEnum.Disagree
                       ? "var(--reject)"
                       : "var(--inactive-btn)"
                   }
@@ -78,7 +95,7 @@ const Comment: FC<Props> = ({ statement }) => {
                     styles.wrapper__descriptionWrapper__buttonsContainer__buttons__buttonWrapper__text
                   }
                 >
-                  149
+                  {statement.documentAgree?.disagree || 0}
                 </p>
               </div>
               <div
@@ -89,12 +106,12 @@ const Comment: FC<Props> = ({ statement }) => {
                 <MainButton
                   value="Agree"
                   color={
-                    agree === AgreeDisagreeEnum.Agree
+                    agree?.agree === AgreeDisagreeEnum.Agree
                       ? "white"
                       : "var(--icon-blue)"
                   }
                   backgroundColor={
-                    agree === AgreeDisagreeEnum.Agree
+                    agree?.agree === AgreeDisagreeEnum.Agree
                       ? "var(--agree)"
                       : "var(--inactive-btn)"
                   }
@@ -106,7 +123,7 @@ const Comment: FC<Props> = ({ statement }) => {
                     styles.wrapper__descriptionWrapper__buttonsContainer__buttons__buttonWrapper__text
                   }
                 >
-                  379
+                  {statement.documentAgree?.agree || 0}
                 </p>
               </div>
             </div>

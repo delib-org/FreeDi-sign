@@ -141,7 +141,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
       }
     }
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return null;
   }
 };

@@ -1,5 +1,5 @@
 import styles from "./document.module.scss";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useDocument } from "../../../controllers/hooks/documentHooks";
 import Aside from "./aside/Aside";
 import Paper from "../../components/paper/Paper";
@@ -17,6 +17,11 @@ export const RoleContext = createContext<Role>(Role.unsubscribed);
 
 const Document = () => {
   const { statementId } = useParams<{ statementId: string }>();
+
+  //get path params
+  const location = useLocation();
+ 
+
   const { isLoading, isError, statement, isAuthorized, role } =
     useDocument(statementId);
   if (isLoading) return <div>Loading...</div>;

@@ -21,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: "/doc/:statementId",
         element: <Document />,
+      },
+      {
+        path: "/doc-anonymous/:statementId",
+        element: <Document />,
       }
     ],
   },

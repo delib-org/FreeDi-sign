@@ -15,7 +15,7 @@ export function setSectionToDB(newSection: Statement): void {
 
         const newSectionRef = doc(DB, Collections.statements, statementId);
         setDoc(newSectionRef, newSection, { merge: true });
-        console.log("new section created",statementId)
+  
 
 
     } catch (error) {

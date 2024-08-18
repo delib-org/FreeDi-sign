@@ -3,10 +3,12 @@ import userSliceReducer from '../controllers/slices/userSlice'
 import statementsSliceReducer from '../controllers/slices/statementsSlice'
 import isEditSliceReducer from '../controllers/slices/editSlice';
 import subscriptionsSliceReducer from '../controllers/slices/subscriptionsSlice';
+import agreesSliceReducer from '../controllers/slices/agreeSlice';
 
 export const store = configureStore({
   reducer: {
     user: userSliceReducer,
+    agrees: agreesSliceReducer  ,
     statements: statementsSliceReducer,
     isEdit: isEditSliceReducer,
     subscriptions: subscriptionsSliceReducer,

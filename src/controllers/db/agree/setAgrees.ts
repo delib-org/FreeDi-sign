@@ -11,7 +11,7 @@ export function setAgreesToDB({ statement, agree }: { statement: Statement, agre
         if (!agreeId) throw new Error("Agree Id not found");
 
         const agreeRef = doc(DB, Collections.agrees, agreeId);
-        console.log(Collections.agrees)
+     
         const documentId = statement.documentSettings?.parentDocumentId;
         if(!documentId) throw new Error("Document Id not found");
 
