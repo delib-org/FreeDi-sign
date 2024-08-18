@@ -108,12 +108,12 @@ const Paragraph: FC<Props> = ({ statement }) => {
 
         {showComments && !isEdit && (
           <>
-            <NewComment
+            {role !== Role.admin && <NewComment
               parentStatement={statement}
               order={comments.length}
               show={showNewComment}
               setShow={setShowNewComment}
-            />
+            />}
             <div
               className={`${styles.comments} ${
                 showComments ? styles.commentsOpen : styles.commentsClose

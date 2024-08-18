@@ -1,63 +1,51 @@
-import { Statement } from "delib-npm";
+import { AgreeDisagreeEnum, Statement } from "delib-npm";
 import { FC, useState } from "react";
 import styles from "./Comment.module.scss";
-import ThumbsUpIcon from  '../../../../assets/icons/thumbUp.svg?react';
+import ThumbsUpIcon from "../../../../assets/icons/thumbUp.svg?react";
 import MainButton from "../../../components/buttons/MainButton";
-import ThumbsDownIcon from '../../../../assets/icons/thumbDown.svg?react';
+import ThumbsDownIcon from "../../../../assets/icons/thumbDown.svg?react";
 import ProfileImage from "../../../components/profileImage/ProfileImage";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../../../controllers/slices/userSlice";
-import { setEvaluationToDB } from "../../../../controllers/db/evaluations/setEvaluations";
+import { setAgreesToDB } from "../../../../controllers/db/agree/setAgrees";
 
 interface Props {
   statement: Statement;
 }
 
-
-// need to get profile name from database
-// need to get profile image from database
-// need to get number of approve / reject from database
-
 const Comment: FC<Props> = ({ statement }) => {
   const user = useSelector(selectUser);
 
-  const [proCon, setProCon] = useState<"pro" | "con" | undefined>(undefined);
-  const proColor = { background: "green", text: "white" };
-  const conColor = { background: "red", text: "white" };
+  const [agree, setAgree] = useState<AgreeDisagreeEnum>(
+    AgreeDisagreeEnum.NoOpinion
+  );
 
-  function handleProConClick(proCon: "pro" | "con" | undefined) {
-    setProCon(proCon);
-    const evaluation = (() => {
-      if (proCon === "pro") return 1;
-      if (proCon === "con") return -1;
-      return 0;
-    })();
-    setEvaluationToDB(statement, evaluation);
+  function handleAgree(_agree: AgreeDisagreeEnum) {
+
+    if(agree === _agree) {
+      setAgree(AgreeDisagreeEnum.NoOpinion);
+      _agree = AgreeDisagreeEnum.NoOpinion;
+    }
+    setAgree(_agree);
+
+    setAgreesToDB({ statement, agree:_agree });
   }
+
+  const isAuthor = user?.uid === statement.creatorId;
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.wrapper__profileImage}>
-        <ProfileImage user={statement.creator} />
-      </div>
-      <div className={styles.wrapper__descriptionWrapper}>
-        <div className={styles.wrapper__descriptionWrapper__nameWrapper}>
-          <h2 className={styles.wrapper__descriptionWrapper__nameWrapper__name}>
-            {statement.creator.displayName}
-          </h2>
+      {isAuthor && (
+        <div className={styles.wrapper__profileImage}>
+          <ProfileImage user={statement.creator} />
         </div>
+      )}
+      <div className={styles.wrapper__descriptionWrapper}>
+        <div className={styles.wrapper__descriptionWrapper__nameWrapper}></div>
         <p className={styles.wrapper__descriptionWrapper__description}>
-          {statement.statement}<br></br>
-          {statement.statementId}
+          {statement.statement}
         </p>
         <div className={styles.wrapper__descriptionWrapper__buttonsContainer}>
-          {/* <StrongMainButton
-            backgroundColor="var(--active-btn)"
-            color="#fff"
-            fontSize="0.94rem"
-            value="Add comment"
-            icon={<AddComment />}
-          /> */}
           <div />
           {user?.uid !== statement.creatorId && (
             <div
@@ -72,16 +60,18 @@ const Comment: FC<Props> = ({ statement }) => {
               >
                 <MainButton
                   value="Disagree"
-                  color={proCon === "con" ? conColor.text : "var(--icon-blue)"}
+                  color={
+                    agree === AgreeDisagreeEnum.Disagree
+                      ? "white"
+                      : "var(--icon-blue)"
+                  }
                   backgroundColor={
-                    proCon === "con"
-                      ? conColor.background
+                    agree === AgreeDisagreeEnum.Disagree
+                      ? "var(--reject)"
                       : "var(--inactive-btn)"
                   }
                   icon={<ThumbsDownIcon />}
-                  onClick={() =>
-                    handleProConClick(proCon === "con" ? undefined : "con")
-                  }
+                  onClick={() => handleAgree(AgreeDisagreeEnum.Disagree)}
                 />
                 <p
                   className={
@@ -98,23 +88,25 @@ const Comment: FC<Props> = ({ statement }) => {
               >
                 <MainButton
                   value="Agree"
-                  color={proCon === "pro" ? proColor.text : "var(--icon-blue)"}
+                  color={
+                    agree === AgreeDisagreeEnum.Agree
+                      ? "white"
+                      : "var(--icon-blue)"
+                  }
                   backgroundColor={
-                    proCon === "pro"
-                      ? proColor.background
+                    agree === AgreeDisagreeEnum.Agree
+                      ? "var(--agree)"
                       : "var(--inactive-btn)"
                   }
                   icon={<ThumbsUpIcon />}
-                  onClick={() =>
-                    handleProConClick(proCon === "pro" ? undefined : "pro")
-                  }
+                  onClick={() => handleAgree(AgreeDisagreeEnum.Agree)}
                 />
                 <p
                   className={
                     styles.wrapper__descriptionWrapper__buttonsContainer__buttons__buttonWrapper__text
                   }
                 >
-                  389
+                  379
                 </p>
               </div>
             </div>
