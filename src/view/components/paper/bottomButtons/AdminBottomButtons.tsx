@@ -4,7 +4,7 @@ import StrongMainButton from '../../buttons/StrongMainButton'
 import styles from '../paper.module.scss'
 import { isEditSelector, setIsEdit } from '../../../../controllers/slices/editSlice'
 
-const PaperBottomButtons = () => {
+const AdminBottomButtons = () => {
   const dispatch = useDispatch()
   const isEdit = useSelector(isEditSelector)
 
@@ -29,4 +29,4 @@ const PaperBottomButtons = () => {
   )
 }
 
-export default PaperBottomButtons
+export default AdminBottomButtons

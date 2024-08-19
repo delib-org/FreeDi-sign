@@ -2,22 +2,21 @@ import { useParams } from "react-router-dom";
 import Section from "../../pages/doc/section/Section";
 import styles from "./paper.module.scss";
 import { useDocument } from "../../../controllers/hooks/documentHooks";
-import PaperBottomButtons from "./bottomButtons/PaperBottomButtons";
+import AdminBottomButtons from "./bottomButtons/AdminBottomButtons";
 import NewSection from "../../pages/doc/newSection/NewSection";
 import { useSelector } from "react-redux";
-import { paragraphsSelector, sectionsSelector } from "../../../controllers/slices/statementsSlice";
+import { sectionsSelector } from "../../../controllers/slices/statementsSlice";
 import { useLanguage } from "../../../controllers/hooks/useLanguage";
-import { Statement } from "delib-npm";
+import { Role } from "delib-npm";
+import UserButtons from "./bottomButtons/userButtons/UserButtons";
+
 
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
   const sections = useSelector(sectionsSelector(statementId || ""));
-  const paragraphs: Statement[] = useSelector(paragraphsSelector(statementId || ""));
   const {dir} = useLanguage();
 
-  const paragraphsAprroved = paragraphs.filter((paragraph) => paragraph.documentApproval?.approved);
-
-  const { isLoading, isError, statement, isAuthorized } =
+  const { isLoading, isError, statement, isAuthorized, role } =
     useDocument(statementId);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: An error occurred.</div>;
@@ -46,7 +45,7 @@ const Paper = () => {
             />
           </div>
         )}
-        <PaperBottomButtons />
+        {role === Role.admin? <AdminBottomButtons />:<UserButtons />}
       </div>
     </div>
   );

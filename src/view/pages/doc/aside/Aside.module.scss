@@ -6,6 +6,11 @@
     width: max-content;
     user-select: none;
 
+    @media screen and (max-width: 1030px) {
+        display: none;
+        
+    }
+
     .logo {
         width: 100%;
         display: flex;

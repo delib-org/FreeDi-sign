@@ -15,6 +15,10 @@
         align-items: center;
         gap: 1rem;
 
+        @media screen and (max-width: 1030px) {
+           flex-direction: column;
+        }
+
         .buttons{
             display: flex;
             justify-content: end;

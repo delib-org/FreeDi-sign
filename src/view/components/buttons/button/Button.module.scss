@@ -1,0 +1,14 @@
+.button{
+    border:none;
+    padding: 10px 30px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+
+    &:hover{
+        background-color: #f0f0f0;
+    }
+}
