@@ -27,6 +27,8 @@ const Paper = () => {
 
   if (!isAuthorized) return <div>Not authorized</div>;
 
+  if(!statement) return null;
+
   return (
     <div className={styles.paper}>
       <div className={`wrapper wrapper--paper ${dir === "rtl" && "wrapper--rtl"}`}>
@@ -49,7 +51,7 @@ const Paper = () => {
             />
           </div>
         )}
-        {role === Role.admin? <AdminBottomButtons />:<UserButtons paragraphsLength={paragraphs.length} approved={approved} />}
+        {role === Role.admin? <AdminBottomButtons />:<UserButtons paragraphsLength={paragraphs.length} approved={approved} document={statement}/>}
       </div>
     </div>
   );

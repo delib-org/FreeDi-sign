@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { AgreeDisagree, AgreeDisagreeEnum, Statement, updateArray } from 'delib-npm'
 import { UserState } from './userSlice';
@@ -33,6 +33,22 @@ export const { setAgree,updateAgree } = agreesSlice.actions
 
 
 
-export const selectAgree = (statementId: string) => (state: { agrees: AgreeState, user:UserState }) => state.agrees.agrees.find(agree => agree.statementId === statementId && agree.userId === state.user.user?.uid);
+const selectAgreesState = (state: { agrees: AgreeState }) => state.agrees;
+const selectAgrees = createSelector(
+  selectAgreesState,
+  (agreesState) => agreesState.agrees
+);
+
+const selectUserState = (state: { user: UserState }) => state.user;
+const selectUser = createSelector(
+  selectUserState,
+  (userState) => userState.user
+);
+
+export const selectAgree = (statementId: string) =>
+  createSelector(
+    [selectAgrees, selectUser],
+    (agrees, user) => agrees.find(agree => agree.statementId === statementId && agree.userId === user?.uid)
+  );
 
 export default agreesSlice.reducer
