@@ -5,13 +5,17 @@ import { useDocument } from "../../../controllers/hooks/documentHooks";
 import PaperBottomButtons from "./bottomButtons/PaperBottomButtons";
 import NewSection from "../../pages/doc/newSection/NewSection";
 import { useSelector } from "react-redux";
-import { sectionsSelector } from "../../../controllers/slices/statementsSlice";
+import { paragraphsSelector, sectionsSelector } from "../../../controllers/slices/statementsSlice";
 import { useLanguage } from "../../../controllers/hooks/useLanguage";
+import { Statement } from "delib-npm";
 
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
   const sections = useSelector(sectionsSelector(statementId || ""));
+  const paragraphs: Statement[] = useSelector(paragraphsSelector(statementId || ""));
   const {dir} = useLanguage();
+
+  const paragraphsAprroved = paragraphs.filter((paragraph) => paragraph.documentApproval?.approved);
 
   const { isLoading, isError, statement, isAuthorized } =
     useDocument(statementId);

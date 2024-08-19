@@ -4,6 +4,7 @@ import statementsSliceReducer from '../controllers/slices/statementsSlice'
 import isEditSliceReducer from '../controllers/slices/editSlice';
 import subscriptionsSliceReducer from '../controllers/slices/subscriptionsSlice';
 import agreesSliceReducer from '../controllers/slices/agreeSlice';
+import approvalsSliceReducer from '../controllers/slices/approvalSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     statements: statementsSliceReducer,
     isEdit: isEditSliceReducer,
     subscriptions: subscriptionsSliceReducer,
+    approvals: approvalsSliceReducer,
   },
 })
 

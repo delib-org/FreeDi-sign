@@ -17,9 +17,6 @@ export const RoleContext = createContext<Role>(Role.unsubscribed);
 
 const Document = () => {
   const { statementId } = useParams<{ statementId: string }>();
-
-  //get path params
-  const location = useLocation();
  
 
   const { isLoading, isError, statement, isAuthorized, role } =

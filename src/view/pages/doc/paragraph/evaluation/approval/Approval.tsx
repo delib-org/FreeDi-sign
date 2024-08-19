@@ -8,6 +8,8 @@ import RejectWhite from "../../../../../../assets/icons/rejectWhite.svg?react";
 import { setApprovalToDB } from "../../../../../../controllers/db/approval/setApproval";
 import { getUserApprovalFromDB } from "../../../../../../controllers/db/approval/getApproval";
 import { RoleContext } from "../../../Document";
+import { useSelector } from "react-redux";
+import { selectApprovalById } from "../../../../../../controllers/slices/approvalSlice";
 
 interface Props {
   statement: Statement;
@@ -17,7 +19,8 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
   try {
     const role = useContext(RoleContext);
 
-    const [approved, setApproved] = useState<boolean | undefined>(true);
+    const approval:Approval|undefined = useSelector(selectApprovalById(statement.statementId));
+    const [approved, setApproved] = useState<boolean | undefined>(approval?approval.approval:true);
     const [showApproval, setShowApproval] = useState<boolean>(false);
     const [close, setClose] = useState<boolean>(false);
 
