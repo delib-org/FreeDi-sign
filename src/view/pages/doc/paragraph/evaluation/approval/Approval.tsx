@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectApprovalById,
   setApproval,
+  updateApproval,
 } from "../../../../../../controllers/slices/approvalSlice";
 import { ApprovalClass } from "./approvalCont";
 import { store } from "../../../../../../model/store";
@@ -29,7 +30,6 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
       selectApprovalById(statement.statementId)
     );
     const approved = approval ? approval.approval : true;
-    // const [approved, setApproved] = useState<boolean | undefined>(approval?approval.approval:true);
     const [showApproval, setShowApproval] = useState<boolean>(false);
     const [close, setClose] = useState<boolean>(false);
 
@@ -54,25 +54,12 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
     }, [showApproval]);
 
     function handleApprove(_approval: boolean) {
-      console.log("handleApprove", _approval);
+     
       try {
         // debugger;
-        const user = store.getState().user.user;
-        if (!user) throw new Error("User not found");
-        if (!statement.documentSettings?.parentDocumentId)
-          throw new Error("Document not found");
-        const __approval =
-          approval ||
-          new ApprovalClass({
-            statementId: statement.statementId,
-            topParentId: statement.topParentId,
-            user,
-            approval: true,
-            documentId: statement.documentSettings?.parentDocumentId,
-          }).approvalObj;
-        if (!__approval) throw new Error("Approval Id not found");
+        
         setApprovalToDB({ statement, approval: _approval });
-        if(__approval !== undefined) dispatch(setApproval(__approval));
+        dispatch(updateApproval({ approved: _approval, statementId: statement.statementId }));
         setShowApproval(false);
       } catch (error) {
         console.error(error);
