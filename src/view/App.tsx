@@ -7,14 +7,13 @@ import { selectUser } from "../controllers/slices/userSlice";
 import { navigateToDocument } from "./appCont";
 import { useLanguage } from "../controllers/hooks/useLanguage";
 
-
 function App() {
   const user = useSelector(selectUser);
   const params = useParams();
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
   const pathElements = pathname.split("/");
 
-  const {dir} = useLanguage();
+  const { dir } = useLanguage();
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -33,10 +32,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-
-    if(pathElements.includes("doc-anonymous")){
-    
-      anonymousLogin();
+    if (pathElements.includes("doc-anonymous")) {
+      if (!user) anonymousLogin();
       navigate(`/doc-anonymous/${params.statementId}`);
     }
 
@@ -48,7 +45,7 @@ function App() {
   }, [user]);
 
   return (
-    <div style={{direction:dir, fontFamily:"Assistant, sans-serif"}}>
+    <div style={{ direction: dir, fontFamily: "Assistant, sans-serif" }}>
       <Outlet />
     </div>
   );

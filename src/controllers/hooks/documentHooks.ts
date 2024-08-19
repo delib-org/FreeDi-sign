@@ -46,6 +46,9 @@ export function useDocument(statementId: string | undefined): Props {
         }, [statementId]);
 
         useEffect(()=>{
+            console.log("statement:",statement)
+            console.log("allow anonymous:",statement?.membership?.typeOfMembersAllowed)
+            console.log("allow anonymous:",statement?.membership?.typeOfMembersAllowed === membersAllowed.all)
             if(statement?.membership?.typeOfMembersAllowed === membersAllowed.all && user?.isAnonymous){
                 setIsAuthorized(true);
                 setRole(Role.unsubscribed);

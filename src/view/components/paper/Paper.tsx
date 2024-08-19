@@ -5,15 +5,19 @@ import { useDocument } from "../../../controllers/hooks/documentHooks";
 import AdminBottomButtons from "./bottomButtons/AdminBottomButtons";
 import NewSection from "../../pages/doc/newSection/NewSection";
 import { useSelector } from "react-redux";
-import { sectionsSelector } from "../../../controllers/slices/statementsSlice";
+import { documentParagraphsSelector, paragraphsSelector, sectionsSelector } from "../../../controllers/slices/statementsSlice";
 import { useLanguage } from "../../../controllers/hooks/useLanguage";
 import { Role } from "delib-npm";
 import UserButtons from "./bottomButtons/userButtons/UserButtons";
+import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlice";
 
 
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
   const sections = useSelector(sectionsSelector(statementId || ""));
+  const paragraphs = useSelector(documentParagraphsSelector(statementId || ""));
+  const rejected = useSelector(selectApprovalsByDocId(statementId || "")).filter((approval) => approval.approval === false);
+  const approved =paragraphs.length-rejected.length;
   const {dir} = useLanguage();
 
   const { isLoading, isError, statement, isAuthorized, role } =
@@ -45,7 +49,7 @@ const Paper = () => {
             />
           </div>
         )}
-        {role === Role.admin? <AdminBottomButtons />:<UserButtons />}
+        {role === Role.admin? <AdminBottomButtons />:<UserButtons paragraphsLength={paragraphs.length} approved={approved} />}
       </div>
     </div>
   );

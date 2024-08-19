@@ -13,7 +13,7 @@ const initialState: StatementsState = {
 }
 
 export const counterSlice = createSlice({
-    name: 'counter',
+    name: 'statements',
     initialState,
     reducers: {
         setStatements: (state, action: PayloadAction<Statement[]>) => {
@@ -95,6 +95,10 @@ export const paragraphsSelector = (statementId: string) => createSelector(
     (statements) => statements.filter((statement) => statement.parentId === statementId && statement.documentSettings?.type === DocumentType.paragraph)
 );
 
+export const documentParagraphsSelector = (documentId: string) => createSelector(
+    (state: { statements: StatementsState }) => state.statements.statements,
+    (statements) => statements.filter((statement) => statement.documentSettings?.parentDocumentId === documentId && statement.documentSettings?.type === DocumentType.paragraph)
+);
 //comments selector
 export const commentsSelector = (statementId: string) => createSelector(
     (state: { statements: StatementsState }) => state.statements.statements,

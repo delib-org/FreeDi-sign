@@ -8,8 +8,11 @@ import RejectWhite from "../../../../../../assets/icons/rejectWhite.svg?react";
 import { setApprovalToDB } from "../../../../../../controllers/db/approval/setApproval";
 import { getUserApprovalFromDB } from "../../../../../../controllers/db/approval/getApproval";
 import { RoleContext } from "../../../Document";
-import { useSelector } from "react-redux";
-import { selectApprovalById } from "../../../../../../controllers/slices/approvalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectApprovalById,
+  setApproval,
+} from "../../../../../../controllers/slices/approvalSlice";
 
 interface Props {
   statement: Statement;
@@ -18,9 +21,13 @@ interface Props {
 const ApprovalComp: FC<Props> = ({ statement }) => {
   try {
     const role = useContext(RoleContext);
+    const dispatch = useDispatch();
 
-    const approval:Approval|undefined = useSelector(selectApprovalById(statement.statementId));
-    const [approved, setApproved] = useState<boolean | undefined>(approval?approval.approval:true);
+    const approval: Approval | undefined = useSelector(
+      selectApprovalById(statement.statementId)
+    );
+    const approved = approval ? approval.approval : true;
+    // const [approved, setApproved] = useState<boolean | undefined>(approval?approval.approval:true);
     const [showApproval, setShowApproval] = useState<boolean>(false);
     const [close, setClose] = useState<boolean>(false);
 
@@ -30,9 +37,7 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
       getUserApprovalFromDB({ statement })
         .then((approval: Approval | undefined) => {
           if (approval) {
-            setApproved(approval.approval);
-          } else {
-            setApproved(true);
+            dispatch(setApproval(approval));
           }
         })
         .catch((error) => {
@@ -46,10 +51,19 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
       }
     }, [showApproval]);
 
-    function handleApprove(approval: boolean) {
+    function handleApprove(_approval: boolean) {
       try {
-        setApprovalToDB({ statement, approval });
-        setApproved(approval);
+        const __approval: Approval = {
+          statementId: approval?.statementId ?? "",
+          topParentId: approval?.topParentId ?? "",
+          userId: approval?.userId ?? "",
+          approval: approval?.approval ?? false,
+          documentId: approval?.documentId ?? "",
+          approvalId: approval?.approvalId ?? "",
+        };
+        if (!__approval.approvalId) throw new Error("Approval not found");
+        setApprovalToDB({ statement, approval: _approval });
+        dispatch(setApproval(__approval));
         setShowApproval(false);
       } catch (error) {
         console.error(error);
@@ -63,10 +77,14 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
       return (
         <div className={styles.admin}>
           {approved}
-          <div className={`${styles["admin__approve"]} ${styles["admin__approve--approve"]}`}>
+          <div
+            className={`${styles["admin__approve"]} ${styles["admin__approve--approve"]}`}
+          >
             <ApproveWhite />
-          </div> 
-          <div className={`${styles["admin__approve"]} ${styles["admin__approve--reject"]}`}>
+          </div>
+          <div
+            className={`${styles["admin__approve"]} ${styles["admin__approve--reject"]}`}
+          >
             <RejectWhite />
           </div>
           {rejected}

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { AgreeDisagree, AgreeDisagreeEnum, Approval, updateArray } from 'delib-npm'
-import { UserState } from './userSlice';
+import { Approval, updateArray } from 'delib-npm'
+
 
 
 export interface ApprovalState {
