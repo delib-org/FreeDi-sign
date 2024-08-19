@@ -18,22 +18,25 @@
         }
        
     }
-    span {
-        position: absolute;
-        background-color: red;
-        top: -.5rem;
-        left: 50%;
-        border-radius: 100px;
-        width: 1.2rem;
-        height: 1.2rem;
-        color: white;
-        cursor: pointer;
-        font-size: .9rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1;
-    }
+  
 
     
+}
+
+.commentsCounter{ 
+    position: absolute;
+    background-color: var(--notification-color);
+    top: -.5rem;
+    left: 30%;
+ 
+    border-radius: 100px;
+    width: 1.2rem;
+    height: 1.2rem;
+    color: white;
+    cursor: pointer;
+    font-size: .7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
 }

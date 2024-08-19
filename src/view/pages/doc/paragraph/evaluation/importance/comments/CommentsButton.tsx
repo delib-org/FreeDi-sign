@@ -12,9 +12,10 @@ const CommentsButton:FC<Props> = ({numberOfComments,showComments,setShowComments
     <div className={styles.comments}>
       {numberOfComments > 0 && (
         <span
+          className={styles.commentsCounter}
           style={{
-            width: numberOfComments < 10 ? "1.3rem" : "1.5rem",
-            height: numberOfComments < 10 ? "1.3rem" : "1.5rem",
+            width: numberOfComments < 10 ? "1.2rem" : "1.4rem",
+            height: numberOfComments < 10 ? "1.2rem" : "1.4rem",
           }}
         >
           {numberOfComments < 100 ? numberOfComments : 99}

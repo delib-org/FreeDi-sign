@@ -1,9 +1,22 @@
+$mobile:1000px;
+
 .section {
-    width: 100%;
+    max-width: 100%;
+    width: fit-content;
     display: flex;
     flex-direction: column;
-  
+    margin: 0rem 0rem 0rem 1rem;
     padding: 3px 3px 1rem 3px;
+
+    &--rtl {
+        margin: 0rem 1rem 0rem 0rem;
+    }
+
+    @media screen and (max-width: $mobile) {
+        margin: 0rem 0rem;
+
+
+    }
 
     .sectionTitle {
         font-weight: 500;
@@ -17,23 +30,33 @@
         flex-direction: column;
         padding-left: 1.3rem;
 
+        @media screen and (max-width: $mobile) {
+            padding-left: 0rem;
+
+        }
+
         &--rtl {
-            padding-right: 1.3rem;
+            @media screen and (max-width: $mobile) {
+                padding-right: 0rem;
+
+            }
+
             padding-left: 0;
         }
 
     }
 }
 
-.paragraphs{
+.paragraphs {
     padding: 0rem 0rem 1rem 0rem;
 }
-.sections{
+
+.sections {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.edit{
+.edit {
     box-shadow: 0 0 4px 0 rgba(80, 1, 114, 0.3);
 }

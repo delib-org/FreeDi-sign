@@ -31,13 +31,17 @@ const Section: FC<Props> = ({
     const [subSectionsLength, setSubSectionsLength] = useState<number>(0);
     const { statementId } = statement;
     if (!statementId) throw new Error("statementId is required");
-    const {dir} = useLanguage();
+    const { dir } = useLanguage();
 
     const bullet = getBullet(parentBullet, order);
     const level = parentLevel + 1;
 
     return (
-      <section className={`${styles.section} ${isEdit ? styles.edit : null}`}>
+      <section
+        className={`${styles.section} ${
+          dir === "rtl" && styles["section--rtl"]
+        } ${isEdit && styles.edit}`}
+      >
         <SectionTitle
           bullet={bullet}
           level={level}
@@ -46,7 +50,11 @@ const Section: FC<Props> = ({
           isTitleReady={isTitleReady}
         />
         {isTitleReady && (
-          <div className={`${styles.sectionsWrapper} ${dir === 'rtl' && styles["sectionsWrapper--rtl"]}`}>
+          <div
+            className={`${styles.sectionsWrapper} ${
+              dir === "rtl" && styles["sectionsWrapper--rtl"]
+            }`}
+          >
             <div className={styles.paragraphs}>
               <SubParagraphs parentStatement={statement} />
               {statement && (
@@ -63,7 +71,7 @@ const Section: FC<Props> = ({
             </div>
             <NewSection
               statement={statement}
-              order={subSectionsLength+1}
+              order={subSectionsLength + 1}
               parentBullet={bullet}
             />
           </div>

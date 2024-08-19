@@ -5,7 +5,7 @@ import { useDocument } from "../../../controllers/hooks/documentHooks";
 import AdminBottomButtons from "./bottomButtons/AdminBottomButtons";
 import NewSection from "../../pages/doc/newSection/NewSection";
 import { useSelector } from "react-redux";
-import { documentParagraphsSelector, paragraphsSelector, sectionsSelector } from "../../../controllers/slices/statementsSlice";
+import { documentParagraphsSelector, sectionsSelector } from "../../../controllers/slices/statementsSlice";
 import { useLanguage } from "../../../controllers/hooks/useLanguage";
 import { Role } from "delib-npm";
 import UserButtons from "./bottomButtons/userButtons/UserButtons";

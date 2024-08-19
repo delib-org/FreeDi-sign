@@ -13,6 +13,8 @@ import {
   selectApprovalById,
   setApproval,
 } from "../../../../../../controllers/slices/approvalSlice";
+import { ApprovalClass } from "./approvalCont";
+import { store } from "../../../../../../model/store";
 
 interface Props {
   statement: Statement;
@@ -52,18 +54,25 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
     }, [showApproval]);
 
     function handleApprove(_approval: boolean) {
+      console.log("handleApprove", _approval);
       try {
-        const __approval: Approval = {
-          statementId: approval?.statementId ?? "",
-          topParentId: approval?.topParentId ?? "",
-          userId: approval?.userId ?? "",
-          approval: approval?.approval ?? false,
-          documentId: approval?.documentId ?? "",
-          approvalId: approval?.approvalId ?? "",
-        };
-        if (!__approval.approvalId) throw new Error("Approval not found");
+        // debugger;
+        const user = store.getState().user.user;
+        if (!user) throw new Error("User not found");
+        if (!statement.documentSettings?.parentDocumentId)
+          throw new Error("Document not found");
+        const __approval =
+          approval ||
+          new ApprovalClass({
+            statementId: statement.statementId,
+            topParentId: statement.topParentId,
+            user,
+            approval: true,
+            documentId: statement.documentSettings?.parentDocumentId,
+          }).approvalObj;
+        if (!__approval) throw new Error("Approval Id not found");
         setApprovalToDB({ statement, approval: _approval });
-        dispatch(setApproval(__approval));
+        if(__approval !== undefined) dispatch(setApproval(__approval));
         setShowApproval(false);
       } catch (error) {
         console.error(error);

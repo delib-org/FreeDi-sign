@@ -2,18 +2,18 @@
     display: flex;
     flex-direction: column;
     box-shadow: 0px 2px 10px 0px #2827271a;
-    padding: 1rem;
+    padding: 0  0.5rem 1rem .5rem;
 
     a{
         text-decoration: none;
-        color: var(--headline);
+      
     }
 
     .top{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 1rem;
+        
 
         @media screen and (max-width: 1030px) {
            flex-direction: column;
