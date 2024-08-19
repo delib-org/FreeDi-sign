@@ -2,61 +2,57 @@ import { useParams } from "react-router-dom";
 import Section from "../../pages/doc/section/Section";
 import styles from "./paper.module.scss";
 import { useDocument } from "../../../controllers/hooks/documentHooks";
-import {
-  DocumentObject,
-  statementsToDocument,
-} from "../../../controllers/general.ts/statement_helpers";
-import PaperHeader from "./header/PaperHeader";
-import PaperBottomButtons from "./bottomButtons/PaperBottomButtons";
+import AdminBottomButtons from "./bottomButtons/AdminBottomButtons";
 import NewSection from "../../pages/doc/newSection/NewSection";
+import { useSelector } from "react-redux";
+import { documentParagraphsSelector, sectionsSelector } from "../../../controllers/slices/statementsSlice";
+import { useLanguage } from "../../../controllers/hooks/useLanguage";
+import { Role } from "delib-npm";
+import UserButtons from "./bottomButtons/userButtons/UserButtons";
+import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlice";
 
-
-
-
-// toggle edit mode is inside the EditButton Component.
-// the section edit is not working + its changing the main statement of the room name, making it invisible.
-// the subsection edit is not working but we going to change and delete the sub section anyway.
-// the paragraph section is working good.
-// this is the main component where i connect everything.
 
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
-  const { statements, isLoading, isError, docStatement, isAuthorized } =
+  const sections = useSelector(sectionsSelector(statementId || ""));
+  const paragraphs = useSelector(documentParagraphsSelector(statementId || ""));
+  const rejected = useSelector(selectApprovalsByDocId(statementId || "")).filter((approval) => approval.approval === false);
+  const approved =paragraphs.length-rejected.length;
+  const {dir} = useLanguage();
+
+  const { isLoading, isError, statement, isAuthorized, role } =
     useDocument(statementId);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: An error occurred.</div>;
 
-  const document: DocumentObject | undefined = statementsToDocument({
-    section: docStatement,
-    statements,
-  });
-
   if (!isAuthorized) return <div>Not authorized</div>;
 
-  const title = docStatement?.statement.split("\n")[0].split("*")[1];
+  if(!statement) return null;
 
   return (
     <div className={styles.paper}>
-      <PaperHeader title={title} />
-      {docStatement &&  (
-        <div className={styles.mainContainer}>
-          {document &&
-            document.sections.map((d) => (
+      <div className={`wrapper wrapper--paper ${dir === "rtl" && "wrapper--rtl"}`}>
+        {statement && (
+          <div className={styles.mainContainer}>
+            {sections.map((section, index) => (
               <Section
-                key={d.statementId}
-                document={d}
-                docStatement={docStatement}
-                statement={docStatement}
+                key={section.statementId}
+                statement={section}
+                order={index + 1}
+                parentLevel={0}
+                parentBullet=""
               />
             ))}
-            <NewSection 
-            docStatement={docStatement}
-            order={document?.sections.length || 0}
-            parentId={docStatement.statementId}
-            isTop={true}  />
-        </div>
-      )}
-      <PaperBottomButtons />
+
+            <NewSection
+              statement={statement}
+              order={sections.length + 1}
+              parentBullet=""
+            />
+          </div>
+        )}
+        {role === Role.admin? <AdminBottomButtons />:<UserButtons paragraphsLength={paragraphs.length} approved={approved} document={statement}/>}
+      </div>
     </div>
   );
 };

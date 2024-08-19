@@ -1,5 +1,8 @@
 
-$size:40px;
+$size:28px;
+
+
+
 .button {
     display: flex;
     justify-content: center;
@@ -19,6 +22,7 @@ $size:40px;
 
 }
 
+
 .nonActive {
     color: #739EE4;
     cursor: pointer;
@@ -36,7 +40,10 @@ $size:40px;
     width: $size;
     height:$size;
     border-radius: $size;
-
+    svg{
+        transform: scale(.8);
+    }
+   
     div {
         position: absolute;
         cursor: pointer;
@@ -69,7 +76,7 @@ $size:40px;
     }
 
     &Approve {
-        bottom: 35px;
+        bottom: 15px;
         left: -30px;
         background-color: #78d2c2;
 
@@ -77,7 +84,7 @@ $size:40px;
     }
 
     &Reject {
-        bottom: 35px;
+        bottom: 15px;
         left: 30px;
         background-color: #f16982;
 
@@ -93,6 +100,11 @@ $size:40px;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    svg{
+        transform: scale(.8);
+    }
+
 }
 
 @keyframes moveOutLeft {
@@ -101,8 +113,8 @@ $size:40px;
         left: 0px;
     }
     100% {
-        bottom: 35px;
-        left: -30px;
+        bottom: 25px;
+        left: -20px;
     }
 }
 
@@ -112,7 +124,33 @@ $size:40px;
         left: 0px;
     }
     100% {
-        bottom: 35px;
-        left: 30px;
+        bottom: 25px;
+        left: 20px;
+    }
+}
+
+.admin{
+    display: flex;
+    gap: .2rem;
+
+    &__approve{
+        display: flex;       
+        align-items: center;
+        justify-content: center;
+        border-radius: 4rem;
+        width: var(--small-circle);
+        height: var(--small-circle);
+        svg{
+            transform: scale(.8);
+        }
+       
+
+        &--approve{
+            background-color: var(--agree);
+        }
+
+        &--reject{
+            background-color: var(--reject);
+        }
     }
 }

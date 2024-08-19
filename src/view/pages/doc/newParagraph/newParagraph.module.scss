@@ -1,22 +1,23 @@
-.form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 2rem;
-    &__text{
-        background-color: initial;
-        border: none;
-        height: 2.47rem;
-        font-size: 1.64rem;
-        color: var(--headline);
-        &:hover, 
-        &:focus, 
-        &:active {
-            outline:auto;
-        }
+.newParagraph {
+    resize: none;
+    overflow-y: hidden;
+    background-color: transparent;
+    // border: none;
+    height: 2.47rem;
+    font-size: 1rem;
+    color: var(--headline);
+    padding: .5rem;
+    border:none;
+    border-bottom: 1px solid var(--disabled-paragraph);
+    width: 90%;
 
-        &::placeholder{
-            color: var(--disabled-paragraph);
-        }
+    &:hover,
+    &:focus,
+    &:active {
+        outline: auto;
+    }
+
+    &::placeholder {
+        color: var(--disabled-paragraph);
     }
 }

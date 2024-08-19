@@ -1,19 +1,42 @@
 import { Collections, Statement } from "delib-npm";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { DB } from "../config";
-import { DocumentObject } from "../../general.ts/statement_helpers";
 
-interface EditSectionProps {
-    document: DocumentObject;
-    newText?:string;
+
+
+
+export function setSectionToDB(newSection: Statement): void {
+    try {
+
+
+        if (!newSection) throw new Error("Error creating new section");
+
+        const { statementId } = newSection;
+
+        const newSectionRef = doc(DB, Collections.statements, statementId);
+        setDoc(newSectionRef, newSection, { merge: true });
+  
+
+
+    } catch (error) {
+        console.error(error)
+    }
 }
 
-export function updateSectionTextToDB({document,newText}:EditSectionProps):void {
+
+interface EditSectionProps {
+    statement: Statement;
+    newText: string;
+}
+
+export function updateSectionTitleToDB({ statement, newText }: EditSectionProps): void {
     try {
-        const statementRef = doc(DB, Collections.statements, document.statementId);
-        updateDoc(statementRef,{
-            statement: newText !== "" ? newText : "New Section" 
-        }); 
+        const { statementId } = statement;
+        if (!statementId) throw new Error("statementId is required");
+        if (!newText) throw new Error("newText is required");
+
+        const statementRef = doc(DB, Collections.statements, statementId);
+        updateDoc(statementRef, { statement: newText });
     } catch (error) {
         console.error(error);
     }

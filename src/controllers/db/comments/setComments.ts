@@ -1,7 +1,8 @@
-import { Collections, DocumentType, Statement, StatementType } from "delib-npm";
+import { Collections, DocumentType, Statement } from "delib-npm";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { DB } from "../config";
 import { store } from "../../../model/store";
+import { createNewStatement } from "../../general.ts/statement_helpers";
 
 interface EditCommentProps {
     statement: Statement;
@@ -11,14 +12,10 @@ interface EditCommentProps {
 export function addCommentToDB({
     text,
     parentStatement,
-    paragraphStatement,
-    docStatement,
     order = 0 }:
     {
         text: string,
         parentStatement: Statement,
-        paragraphStatement: Statement,
-        docStatement: Statement,
         order: number
     }): void {
     try {
@@ -26,28 +23,18 @@ export function addCommentToDB({
         const user = store.getState().user.user;
         if (!user) throw new Error("User not found");
 
-        const statementId = crypto.randomUUID();
-        console.log("statementId", statementId);
-        const statementRef = doc(DB, Collections.statements, statementId);
-        const newStatement: Statement = {
-            statementId,
-            statement: text,
-            topParentId: paragraphStatement.topParentId,
-            parentId: parentStatement.statementId,
-            consensus: 0,
-            creator: user,
-            creatorId: user.uid,
-            createdAt: new Date().getTime(),
-            lastUpdate: new Date().getTime(),
-            statementType: StatementType.document,
-            documentSettings: {
-                type: DocumentType.comment,
-                parentDocumentId: docStatement.statementId,
-                order,
-                isTop:false
+           
+        const newStatement: Statement | undefined = createNewStatement({
+            text,
+            statement: parentStatement,
+            order,
+            type: DocumentType.comment,
+            isTop: false
+        });
+        if(!newStatement) throw new Error("Error creating new comment");
+        const { statementId } = newStatement;
 
-            }
-        };
+        const statementRef = doc(DB, Collections.statements, statementId);
         setDoc(statementRef, newStatement, { merge: true });
 
     } catch (error) {

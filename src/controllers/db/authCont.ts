@@ -1,4 +1,4 @@
-import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut, signInAnonymously } from "firebase/auth";
 import { app } from "./config";
 import { store } from "../../model/store";
 import { parseUserFromFirebase } from "delib-npm";
@@ -52,4 +52,14 @@ export function logOut() {
 			// An error happened.
 			console.error(error);
 		});
+}
+
+export function anonymousLogin(){
+    signInAnonymously(auth)
+    .then(() => {
+        console.info("user signed in anonymously ");
+    })
+    .catch((error) => {
+        console.error(error);
+    });
 }

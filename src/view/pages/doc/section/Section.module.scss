@@ -1,10 +1,22 @@
-.sections {
-    width: 100%;
+$mobile:1000px;
+
+.section {
+    max-width: 100%;
+    width: fit-content;
     display: flex;
     flex-direction: column;
-    padding-left: .8rem;
-    gap: 2rem;
-    padding-bottom: 2rem;
+    margin: 0rem 0rem 0rem 1rem;
+    padding: 3px 3px 1rem 3px;
+
+    &--rtl {
+        margin: 0rem 1rem 0rem 0rem;
+    }
+
+    @media screen and (max-width: $mobile) {
+        margin: 0rem 0rem;
+
+
+    }
 
     .sectionTitle {
         font-weight: 500;
@@ -12,10 +24,39 @@
         color: var(--text-blue);
         margin: 0;
     }
-    .sectionWrapper {
+
+    .sectionsWrapper {
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        
+        padding-left: 1.3rem;
+
+        @media screen and (max-width: $mobile) {
+            padding-left: 0rem;
+
+        }
+
+        &--rtl {
+            @media screen and (max-width: $mobile) {
+                padding-right: 0rem;
+
+            }
+
+            padding-left: 0;
+        }
+
     }
+}
+
+.paragraphs {
+    padding: 0rem 0rem 1rem 0rem;
+}
+
+.sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.edit {
+    box-shadow: 0 0 4px 0 rgba(80, 1, 114, 0.3);
 }

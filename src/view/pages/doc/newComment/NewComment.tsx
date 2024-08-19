@@ -9,16 +9,12 @@ import ProfileImage from "../../../components/profileImage/ProfileImage";
 import { store } from "../../../../model/store";
 
 interface Props {
-  docStatement: Statement;
-  paragraphStatement: Statement;
   parentStatement: Statement;
   order: number;
   show: boolean;
   setShow: (show: boolean) => void;
 }
 const NewComment: FC<Props> = ({
-  docStatement,
-  paragraphStatement,
   parentStatement,
   order,
   setShow,
@@ -32,10 +28,8 @@ const NewComment: FC<Props> = ({
         if (text) {
           addCommentToDB({
             text,
-            paragraphStatement,
             parentStatement,
-            docStatement,
-            order,
+            order
           });
           setShow(false);
         }

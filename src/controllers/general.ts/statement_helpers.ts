@@ -1,4 +1,4 @@
-import { DocumentType, Statement, StatementType } from "delib-npm";
+import { DocumentType, Statement, StatementSchema, StatementType } from "delib-npm";
 import { store } from "../../model/store";
 
 
@@ -96,7 +96,8 @@ export function newParagraph({ sectionId, statement, parentId, topParentId, pare
 }
 
 export interface DocumentObject {
-    statement:Statement
+    statement: Statement
+    level: number;
     statementId: string;
     title: string;
     paragraphs: Statement[];
@@ -106,19 +107,21 @@ export interface DocumentObject {
 interface StatementsToDocumentProps {
     section?: Statement;
     statements: Statement[];
+    level?: number;
+
 
 }
 
-export function statementsToDocument({ section, statements }: StatementsToDocumentProps): DocumentObject | undefined {
+export function statementsToDocument({ section, statements, level = 1 }: StatementsToDocumentProps): DocumentObject | undefined {
     try {
         if (!section) return undefined;
-        
+
         // Get all document statements that are children of the current statement
         const levelStatements = statements.filter((st) => st.statementType === StatementType.document &&
             st.parentId === section.statementId) as Statement[];
-        
+
         const sections = levelStatements.filter((st) => st.documentSettings?.type === DocumentType.section).sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0)) as Statement[];
-        
+
         const paragraphs = levelStatements.filter((st) => st.documentSettings?.type === DocumentType.paragraph).sort((a, b) => (a.documentSettings?.order || 0) - (b.documentSettings?.order || 0)) as Statement[];
 
         const document: DocumentObject = {
@@ -126,7 +129,8 @@ export function statementsToDocument({ section, statements }: StatementsToDocume
             title: section.statement,
             statementId: section.statementId,
             paragraphs,
-            sections: sections.map((section) => statementsToDocument({ section, statements })).filter((d) => d !== undefined) as DocumentObject[]
+            level,
+            sections: sections.map((section) => statementsToDocument({ section, statements, level: level + 1 })).filter((d) => d !== undefined) as DocumentObject[]
         }
         return document
 
@@ -136,3 +140,46 @@ export function statementsToDocument({ section, statements }: StatementsToDocume
     }
 
 }
+
+export function createNewStatement({ text, statement, order, isTop, type }: { text: string, statement: Statement, order: number, isTop?: boolean, type:DocumentType}): Statement | undefined {
+    try {
+        const user = store.getState().user.user;
+        if (!user) throw new Error("User not found");
+
+        const statementId: string = crypto.randomUUID();
+    
+        const parentDocumentId = statement.documentSettings?.parentDocumentId || statement.statementId;
+   
+
+        const newStatement: Statement = {
+            statement: text,
+            statementId,
+            parentId: statement.statementId,
+            creatorId: user.uid,
+            creator: user,
+            topParentId: statement.topParentId,
+            lastUpdate: new Date().getTime(),
+            createdAt: new Date().getTime(),
+            statementType: StatementType.document,
+            consensus: 0,
+            statementSettings: {
+                show: true
+            },
+            documentSettings: {
+                parentDocumentId,
+                order,
+                type,
+                isTop: isTop||false
+            }
+
+        };
+        StatementSchema.parse(newStatement);
+        return newStatement;
+    } catch (error) {
+        console.error(error);
+        return undefined;
+
+    }
+}
+
+

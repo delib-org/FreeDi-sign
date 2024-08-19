@@ -1,27 +1,33 @@
-import { FC } from "react";
-import { setParagraphToDB } from "../../../../controllers/db/statements/setStatements";
+import { FC, useRef } from "react";
+import { setParagraphToDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import { Statement } from "delib-npm";
-import StrongMainButton from "../../../components/buttons/StrongMainButton";
 import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
+import styles from "./newParagraph.module.scss";
+import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general";
+
 interface Props {
-  docStatement: Statement;
-  parentId: string;
+  statement: Statement;
   order: number;
 }
-const NewParagraph: FC<Props> = ({ docStatement, parentId, order }) => {
+const NewParagraph: FC<Props> = ({ statement, order }) => {
+  const textarea = useRef<HTMLTextAreaElement>(null);
   const isEditing = useSelector(isEditSelector);
 
-  function handleAddNewParagraph() {
-    const text = "New Paragraph";
-    
-    if (text) {
-      setParagraphToDB({
-        text,
-        parentId,
-        docStatement,
-        order,
-      });
+  function handleAddNewParagraph(ev: any) {
+    if (ev.key !== "Enter") {
+      if (textarea.current) adjustTextAreaHeight(textarea.current);
+    } else {
+      const text = ev.target.value;
+
+      if (text) {
+        setParagraphToDB({
+          text,
+          statement,
+          order,
+        });
+        ev.target.value = "";
+      }
     }
   }
 
@@ -30,11 +36,11 @@ const NewParagraph: FC<Props> = ({ docStatement, parentId, order }) => {
   }
 
   return (
-    <StrongMainButton
-      backgroundColor="var(--cinnamon)"
-      color="#fff"
-      value="Add paragraph"
-      onClick={handleAddNewParagraph}
+    <textarea
+      ref={textarea}
+      className={styles.newParagraph}
+      placeholder="New Paragraph"
+      onKeyUp={handleAddNewParagraph}
     />
   );
 };

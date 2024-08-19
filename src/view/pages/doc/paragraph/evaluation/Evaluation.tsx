@@ -1,50 +1,53 @@
-import { Statement } from "delib-npm";
-import { FC } from "react";
+import { Role, Statement } from "delib-npm";
+import { FC, useContext } from "react";
 import styles from "./Evaluation.module.scss";
-import Importance from "../importance/Importance";
-import AddComment from "../../../../../assets/icons/addCommentIcon.svg?react";
+import Importance from "./importance/Importance";
+import ApprovalComp from "./approval/Approval";
+import VerticalHR from "../../../../components/VerticalHR/VerticalHR";
+import CommentsButton from "./importance/comments/CommentsButton";
+import { RoleContext } from "../../Document";
 
 //icons
 
-import ApprovalComp from "../../approval/Approval";
-import VerticalHR from "../../../../components/VerticalHR/VerticalHR";
 interface Props {
   statement: Statement;
-  docStatement: Statement;
   showComments: boolean;
   setShowComments: (show: boolean) => void;
   numberOfComments: number;
 }
 const Evaluation: FC<Props> = ({
   statement,
-  docStatement,
   showComments,
   setShowComments,
   numberOfComments,
 }) => {
-  return (
-    <div className={styles.evaluation}>
-      <Importance statement={statement} document={docStatement} />
-      <VerticalHR />
-      <div className={styles.comments}>
-        {numberOfComments > 0 && (
-          <span
-            style={{
-              width: numberOfComments < 10 ? "1.3rem" : "1.5rem",
-              height: numberOfComments < 10 ? "1.3rem" : "1.5rem",
-            }}
-          >
-            {numberOfComments < 100 ? numberOfComments : 99}
-          </span>
+  const role = useContext(RoleContext);
+  try {
+    return (
+      <div
+        className={`${styles.evaluation} ${
+          role === Role.admin ? styles.evaluationAdmin : null
+        }`}
+      >
+        {role !== Role.admin && (
+          <>
+            <Importance statement={statement} />
+            <VerticalHR />
+          </>
         )}
-        <button>
-          <AddComment onClick={() => setShowComments(!showComments)} />
-        </button>
+        <CommentsButton
+          numberOfComments={numberOfComments}
+          showComments={showComments}
+          setShowComments={setShowComments}
+        />
+        <VerticalHR />
+        <ApprovalComp statement={statement} />
       </div>
-      <VerticalHR />
-      <ApprovalComp statement={statement} docStatement={docStatement} />
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };
 
 export default Evaluation;

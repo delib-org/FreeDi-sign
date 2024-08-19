@@ -1,84 +1,86 @@
-import { FC } from "react";
-// import Paragraph from "../paragraph/Paragraph";
-
+import { FC, useState } from "react";
 import styles from "./Section.module.scss";
-import { DocumentObject } from "../../../../controllers/general.ts/statement_helpers";
-import NewSection from "../newSection/NewSection";
 import NewParagraph from "../newParagraph/NewParagraph";
-import Paragraph from "../paragraph/Paragraph";
 import { Statement } from "delib-npm";
 import { useSelector } from "react-redux";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
-import { updateSectionTextToDB } from "../../../../controllers/db/sections/setSections";
-import EditInput from "../../../components/editInput/EditInput";
-import { adjustTextAreaHeight } from "../paragraph/paragraphCont";
+import SubParagraphs from "./subParagraphs/SubParagraphs";
+import SubSections from "./subSections/SubSections";
+import SectionTitle from "./sectionTitle/SectionTitle";
+import NewSection from "../newSection/NewSection";
+import { getBullet } from "../../../../controllers/general.ts/helpers";
+import { useLanguage } from "../../../../controllers/hooks/useLanguage";
 
 interface Props {
-  docStatement: Statement;
   statement: Statement;
-  document: DocumentObject;
+  order: number;
+  parentLevel: number;
+  parentBullet: string;
 }
 
-const Section: FC<Props> = ({ docStatement, document, statement }) => {
+const Section: FC<Props> = ({
+  statement,
+  order,
+  parentBullet,
+  parentLevel,
+}) => {
   try {
     const isEdit = useSelector(isEditSelector);
-    if (!docStatement) throw new Error("Parent statement id is required");
-    const { statementId } = document;
+    const [_isEdit, _setIsEdit] = useState(false);
+    const [isTitleReady, setIsTitleReady] = useState(true);
+    const [subSectionsLength, setSubSectionsLength] = useState<number>(0);
+    const { statementId } = statement;
     if (!statementId) throw new Error("statementId is required");
+    const { dir } = useLanguage();
+
+    const bullet = getBullet(parentBullet, order);
+    const level = parentLevel + 1;
 
     return (
-      <section className={styles.sections}>
-        {isEdit ? (
-          <EditInput
-            placeHolder={document.title ? document.title : "New Section"}
-            onChange={(e) => {
-              adjustTextAreaHeight(e.target);
-              updateSectionTextToDB({ document, newText: e.target.value });
-            }}
-            onBlur={(e) =>
-              updateSectionTextToDB({ document, newText: e.target.value })
-            }
-          />
-        ) : (
-          <h2 className={styles.sectionTitle}>{document.title}</h2>
-        )}
-
-        <div className={styles.sectionWrapper}>
-          {document.paragraphs.map((paragraph) => (
-            <Paragraph
-              key={`p-${paragraph.statementId}`}
-              statement={paragraph}
-              docStatement={docStatement}
-            />
-          ))}
-          {docStatement && (
-            <NewParagraph
-              docStatement={docStatement}
-              parentId={statementId}
-              order={document.sections.length}
-            />
-          )}
-        </div>
-
-        {document.sections.map((section, index) => (
-          <Section
-            key={index}
-            document={section}
-            docStatement={docStatement}
-            statement={statement}
-          />
-        ))}
-        <NewSection
-          docStatement={docStatement}
-          parentId={statementId}
-          order={document.sections.length}
-          buttonValue="Add new sub section"
+      <section
+        className={`${styles.section} ${
+          dir === "rtl" && styles["section--rtl"]
+        } ${isEdit && styles.edit}`}
+      >
+        <SectionTitle
+          bullet={bullet}
+          level={level}
+          statement={statement}
+          setIsTitleReady={setIsTitleReady}
+          isTitleReady={isTitleReady}
         />
+        {isTitleReady && (
+          <div
+            className={`${styles.sectionsWrapper} ${
+              dir === "rtl" && styles["sectionsWrapper--rtl"]
+            }`}
+          >
+            <div className={styles.paragraphs}>
+              <SubParagraphs parentStatement={statement} />
+              {statement && (
+                <NewParagraph statement={statement} order={order} />
+              )}
+            </div>
+            <div className={styles.sections}>
+              <SubSections
+                setSubSectionsLength={setSubSectionsLength}
+                statement={statement}
+                parentBullet={bullet}
+                parentLevel={level}
+              />
+            </div>
+            <NewSection
+              statement={statement}
+              order={subSectionsLength + 1}
+              parentBullet={bullet}
+            />
+          </div>
+        )}
       </section>
     );
   } catch (error: any) {
     console.error(error);
-    return <div>Error: An error occurred: {error.message}</div>;
+    return null;
   }
 };
 
