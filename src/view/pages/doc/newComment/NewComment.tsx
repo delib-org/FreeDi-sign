@@ -7,6 +7,7 @@ import MainButton from "../../../components/buttons/MainButton";
 import { addCommentToDB } from "../../../../controllers/db/comments/setComments";
 import ProfileImage from "../../../components/profileImage/ProfileImage";
 import { store } from "../../../../model/store";
+import { useLanguage } from "../../../../controllers/hooks/useLanguage";
 
 interface Props {
   parentStatement: Statement;
@@ -20,6 +21,7 @@ const NewComment: FC<Props> = ({
   setShow,
 }) => {
   try {
+    const { t } = useLanguage();
     function handleAddNewComment(ev: any) {
       try {
         ev.preventDefault();
@@ -59,7 +61,7 @@ const NewComment: FC<Props> = ({
           />
           <div className={styles.wrapper__descriptionWrapper__buttonsWrapper}>
             <StrongMainButton
-              value="Save comment"
+              value={t("Add Comment")}
               color="white"
               backgroundColor="var(--active-btn)"
               padding="0.23rem 1.41rem"
@@ -69,7 +71,7 @@ const NewComment: FC<Props> = ({
               type="submit"
             />
             <MainButton
-              value="Cancel"
+              value={t("Cancel")}
               color="var(--icon-blue)"
               backgroundColor="var(--inactive-btn)"
               padding="0.23rem 1.41rem"
