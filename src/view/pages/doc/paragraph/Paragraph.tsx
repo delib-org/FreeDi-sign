@@ -81,14 +81,14 @@ const Paragraph: FC<Props> = ({ statement }) => {
               </div>
             )}
             <div className={styles.paragraphText}>
-              <div
+              <p
                 className={`${styles.textArea} ${styles.textAreaP}`}
                 onClick={() => {
                   _setIsEdit(true);
                 }}
               >
                 {statement.statement}
-              </div>
+              </p>
               {isEdit && (
                 <button onClick={handleDelete}>
                   <DeleteIcon />

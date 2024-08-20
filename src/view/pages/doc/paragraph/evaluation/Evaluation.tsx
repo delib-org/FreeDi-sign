@@ -29,6 +29,8 @@ const Evaluation: FC<Props> = ({
           role === Role.admin ? styles.evaluationAdmin : null
         }`}
       >
+        <ApprovalComp statement={statement} />
+        <VerticalHR />
         {role !== Role.admin && (
           <>
             <Importance statement={statement} />
@@ -40,8 +42,8 @@ const Evaluation: FC<Props> = ({
           showComments={showComments}
           setShowComments={setShowComments}
         />
-        <VerticalHR />
-        <ApprovalComp statement={statement} />
+       
+        
       </div>
     );
   } catch (error) {

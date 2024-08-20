@@ -10,6 +10,7 @@ import { useLanguage } from "../../../controllers/hooks/useLanguage";
 import { Role } from "delib-npm";
 import UserButtons from "./bottomButtons/userButtons/UserButtons";
 import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlice";
+import Text from "../text/Text";
 
 
 const Paper = () => {
@@ -34,6 +35,9 @@ const Paper = () => {
       <div className={`wrapper wrapper--paper ${dir === "rtl" && "wrapper--rtl"}`}>
         {statement && (
           <div className={styles.mainContainer}>
+            <div style={{color:"#57688F"}}>
+            <Text description={statement.description||""} />
+            </div>
             {sections.map((section, index) => (
               <Section
                 key={section.statementId}
