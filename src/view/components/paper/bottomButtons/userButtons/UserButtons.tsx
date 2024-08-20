@@ -5,6 +5,7 @@ import { Signature, Statement } from "delib-npm";
 import { setSignatureToDB } from "../../../../../controllers/db/sign/setSignature";
 import CheckIcon from "../../../../../assets/icons/check.svg?react";
 import { getSignature } from "../../../../../controllers/db/sign/getSignature";
+import { useLanguage } from "../../../../../controllers/hooks/useLanguage";
 
 interface Props {
   paragraphsLength: number;
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
+  const {t} = useLanguage();
   const [isChecked, setIsChecked] = useState(false);
   const [isRejected, setIsRejected] = useState(false);
   const [_signature, setSignature] = useState<Signature | undefined>(undefined);
@@ -64,14 +66,14 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
   return (
     <div className={styles.buttons}>
       <Button
-        text="Reject Document"
+        text={t("Disagree")} 
         onClick={handleReset}
         backgroundColor="var(--paragraph-light)"
       >
         {isRejected && <CheckIcon />}
         </Button>
       <Button
-        text={`Sign (${approved}/${paragraphsLength})`}
+        text={`${t("Confirm")} (${approved}/${paragraphsLength})`}
         onClick={handleSign}
         backgroundColor="var(--icon-blue)"
       >

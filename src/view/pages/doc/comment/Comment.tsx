@@ -1,9 +1,7 @@
 import { AgreeDisagreeEnum, Statement } from "delib-npm";
-import { FC, useState, useEffect } from "react";
+import { FC, useEffect } from "react";
 import styles from "./Comment.module.scss";
 import ThumbsUpIcon from "../../../../assets/icons/thumbUp.svg?react";
-import MainButton from "../../../components/buttons/MainButton";
-import ThumbsDownIcon from "../../../../assets/icons/thumbDown.svg?react";
 import ProfileImage from "../../../components/profileImage/ProfileImage";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../../../controllers/slices/userSlice";
@@ -13,12 +11,16 @@ import {
   selectAgree,
   updateAgree,
 } from "../../../../controllers/slices/agreeSlice";
+import Button from "../../../components/buttons/button/Button";
+import { useLanguage } from "../../../../controllers/hooks/useLanguage";
+import Text from "../../../components/text/Text";
 
 interface Props {
   statement: Statement;
 }
 
 const Comment: FC<Props> = ({ statement }) => {
+  const {t} = useLanguage();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const agree = useSelector(selectAgree(statement.statementId));
@@ -59,8 +61,8 @@ const Comment: FC<Props> = ({ statement }) => {
       <div className={styles.wrapper__descriptionWrapper}>
         <div className={styles.wrapper__descriptionWrapper__nameWrapper}></div>
         <p className={styles.wrapper__descriptionWrapper__description}>
-          {statement.statement}<br />
-          {statement.statementId}
+          <Text statement={statement.statement} />
+          
         </p>
         <div className={styles.wrapper__descriptionWrapper__buttonsContainer}>
           <div />
@@ -75,8 +77,8 @@ const Comment: FC<Props> = ({ statement }) => {
                   styles.wrapper__descriptionWrapper__buttonsContainer__buttons__buttonWrapper
                 }
               >
-                <MainButton
-                  value="Disagree"
+                <Button
+                  text={t("Disagree")}
                   color={
                     agree?.agree === AgreeDisagreeEnum.Disagree
                       ? "white"
@@ -87,7 +89,6 @@ const Comment: FC<Props> = ({ statement }) => {
                       ? "var(--reject)"
                       : "var(--inactive-btn)"
                   }
-                  icon={<ThumbsDownIcon />}
                   onClick={() => handleAgree(AgreeDisagreeEnum.Disagree)}
                 />
                 <p
@@ -103,8 +104,8 @@ const Comment: FC<Props> = ({ statement }) => {
                   styles.wrapper__descriptionWrapper__buttonsContainer__buttons__buttonWrapper
                 }
               >
-                <MainButton
-                  value="Agree"
+                <Button
+                  text={t("Agree")}
                   color={
                     agree?.agree === AgreeDisagreeEnum.Agree
                       ? "white"

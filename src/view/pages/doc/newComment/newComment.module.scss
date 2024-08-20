@@ -1,5 +1,5 @@
 .wrapper {
-    width: 100%;
+    
     position: relative;
   
     display: flex;
@@ -7,8 +7,8 @@
     align-items: end;
     gap: 0.70rem;
     margin-left: 4.4rem;
-    padding-right: 4.4rem;
-  
+    margin-bottom: 1rem;
+    padding-right: 4.4rem;  
     animation: starting 0.5s ease-in-out;
 
     &__profileImage {
