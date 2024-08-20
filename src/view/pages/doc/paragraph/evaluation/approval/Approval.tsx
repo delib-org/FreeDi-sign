@@ -1,4 +1,9 @@
-import { Approval, Role, Statement } from "delib-npm";
+import {
+  Approval,
+  getStatementSubscriptionId,
+  Role,
+  Statement,
+} from "delib-npm";
 import { FC, useState, useEffect, useRef, useContext } from "react";
 import styles from "./Approval.module.scss";
 //icons
@@ -16,6 +21,7 @@ import {
 } from "../../../../../../controllers/slices/approvalSlice";
 import { ApprovalClass } from "./approvalCont";
 import { store } from "../../../../../../model/store";
+import { getSubscription } from "../../../../../../controllers/db/subscriptions/getSubscriptions";
 
 interface Props {
   statement: Statement;
@@ -38,8 +44,33 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
     useEffect(() => {
       getUserApprovalFromDB({ statement })
         .then((approval: Approval | undefined) => {
-          if (approval) {
-            dispatch(setApproval(approval));
+          try {
+            if (approval) {
+              dispatch(setApproval(approval));
+            } else {
+              const user = store.getState().user.user;
+              if (!user) throw new Error("User not found");
+              const documentId = statement.documentSettings?.parentDocumentId;
+              if (!documentId) throw new Error("Document Id not found");
+              const approvalId = getStatementSubscriptionId(
+                statement.statementId,
+                user
+              );
+              if (!approvalId) throw new Error("Approve Id not found");
+
+              const newApproval: Approval = {
+                approvalId,
+                statementId: statement.statementId,
+                topParentId: statement.topParentId,
+                userId: user.uid,
+                approval: true,
+                documentId,
+              };
+
+              dispatch(setApproval(newApproval));
+            }
+          } catch (error) {
+            console.error(error);
           }
         })
         .catch((error) => {
@@ -54,12 +85,14 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
     }, [showApproval]);
 
     function handleApprove(_approval: boolean) {
-     
       try {
-        // debugger;
-        
         setApprovalToDB({ statement, approval: _approval });
-        dispatch(updateApproval({ approved: _approval, statementId: statement.statementId }));
+        dispatch(
+          updateApproval({
+            approved: _approval,
+            statementId: statement.statementId,
+          })
+        );
         setShowApproval(false);
       } catch (error) {
         console.error(error);
