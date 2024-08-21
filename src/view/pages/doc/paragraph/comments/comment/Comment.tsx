@@ -19,10 +19,11 @@ interface Props {
 }
 
 const Comment: FC<Props> = ({ statement }) => {
-  const {t} = useLanguage();
+  const { t } = useLanguage();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const agree = useSelector(selectAgree(statement.statementId));
+  const isCreator = user?.uid === statement.creatorId;
 
   useEffect(() => {
     let unsub = () => {};
@@ -35,10 +36,12 @@ const Comment: FC<Props> = ({ statement }) => {
   }, []);
 
   function handleAgree(_agree: AgreeDisagreeEnum) {
+    if(isCreator) return;
+
     let __agree = AgreeDisagreeEnum.NoOpinion;
     if (agree?.agree !== _agree) {
       __agree = _agree;
-    } 
+    }
     dispatch(
       updateAgree({
         agree: __agree,
@@ -51,84 +54,35 @@ const Comment: FC<Props> = ({ statement }) => {
   const isAuthor = user?.uid === statement.creatorId;
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.comment}>
       {isAuthor && (
-        <div className={styles.wrapper__profileImage}>
+        <div className={styles.profileImage}>
           <ProfileImage user={statement.creator} />
         </div>
       )}
-      <div className={styles.wrapper__descriptionWrapper}>
-        <div className={styles.wrapper__descriptionWrapper__nameWrapper}></div>
-        <p className={styles.wrapper__descriptionWrapper__description}>
-          <Text statement={statement.statement} />
-          
-        </p>
-        <div className={styles.wrapper__descriptionWrapper__buttonsContainer}>
-          <div />
-          {user?.uid !== statement.creatorId && (
-            <div
-              className={
-                styles.wrapper__descriptionWrapper__buttonsContainer__buttons
-              }
-            >
-              <div
-                className={
-                  styles.wrapper__descriptionWrapper__buttonsContainer__buttons__buttonWrapper
-                }
-              >
-                <Button
-                  text={t("Disagree")}
-                  color={
-                    agree?.agree === AgreeDisagreeEnum.Disagree
-                      ? "white"
-                      : "var(--icon-blue)"
-                  }
-                  backgroundColor={
-                    agree?.agree === AgreeDisagreeEnum.Disagree
-                      ? "var(--reject)"
-                      : "var(--inactive-btn)"
-                  }
-                  onClick={() => handleAgree(AgreeDisagreeEnum.Disagree)}
-                />
-                <p
-                  className={
-                    styles.wrapper__descriptionWrapper__buttonsContainer__buttons__buttonWrapper__text
-                  }
-                >
-                  {statement.documentAgree?.disagree || 0}
-                </p>
-              </div>
-              <div
-                className={
-                  styles.wrapper__descriptionWrapper__buttonsContainer__buttons__buttonWrapper
-                }
-              >
-                <Button
-                  text={t("Agree")}
-                  color={
-                    agree?.agree === AgreeDisagreeEnum.Agree
-                      ? "white"
-                      : "var(--icon-blue)"
-                  }
-                  backgroundColor={
-                    agree?.agree === AgreeDisagreeEnum.Agree
-                      ? "var(--agree)"
-                      : "var(--inactive-btn)"
-                  }
-                
-                  onClick={() => handleAgree(AgreeDisagreeEnum.Agree)}
-                />
-                <p
-                  className={
-                    styles.wrapper__descriptionWrapper__buttonsContainer__buttons__buttonWrapper__text
-                  }
-                >
-                  {statement.documentAgree?.agree || 0}
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
+      <div className={styles.description}>
+        <Text statement={statement.statement} />
+        
+          <div className={styles.btns}>
+           {statement.documentAgree?.disagree ||0}
+            <Button
+              text={t("Disagree")}
+              onClick={() => handleAgree(AgreeDisagreeEnum.Disagree)}
+              isSelected={agree?.agree === AgreeDisagreeEnum.Disagree ||isCreator }
+              backgroundColor="var(--reject)"
+              isDisabled={isCreator}
+            />
+            {/* onClick={() => handleAgree(AgreeDisagreeEnum.Agree)} */}
+            <Button
+              text={t("Agree")}
+              onClick={() => handleAgree(AgreeDisagreeEnum.Agree)}
+              isSelected={agree?.agree === AgreeDisagreeEnum.Agree ||isCreator }
+              backgroundColor="var(--agree)"
+              isDisabled={isCreator}
+            />
+            {statement.documentAgree?.agree ||0}
+          </div>
+        
       </div>
     </div>
 

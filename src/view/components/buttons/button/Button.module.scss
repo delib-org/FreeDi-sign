@@ -8,6 +8,10 @@
     justify-content: center;
     gap: .5rem;
 
+    &--notActive{
+        cursor: not-allowed;
+    }
+
     &:hover{
         background-color: #f0f0f0;
     }

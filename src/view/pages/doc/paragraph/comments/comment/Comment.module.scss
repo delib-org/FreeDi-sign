@@ -1,4 +1,4 @@
-.wrapper {
+.comment {
     position: relative;
     width: fit-content;
     margin-bottom:.5rem;
@@ -7,7 +7,7 @@
     align-items: center;
     
 
-    &__profileImage {
+    .profileImage {
         position: absolute;
         left: -2rem;
         top: 1rem;
@@ -17,7 +17,7 @@
         border: 2px solid var(--icon-blue);
     }
 
-    &__descriptionWrapper {
+    .description {
         display: flex;
         flex-direction: column;
         border: 1px solid var(--icon-blue);
@@ -36,52 +36,17 @@
         }
 
         
-        &__nameWrapper{
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 0.47rem;
 
-            &__name{
-                color: var(--text-body-dark);
-                font-size: 0.94rem;
-                font-weight: 400;
-            }
-        }
-
-        &__buttonsContainer{
+        .btns{
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap:1rem;
             
-            &__description {
-                font-weight: 400;
-                color: var(--paragraph-light);
-                font-size: var(--button-text);
-            }
+           @media screen and (max-width: 768px){
+               gap:0.1rem;
             
-            &__buttons {
-                display: flex;
-                justify-content: end;
-                align-items: center;
-                gap: 1.64rem;
-                
-    
-                &__buttonWrapper {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    gap: 0.70rem;
-    
-                    &__text{
-                        color: var(--text-body-dark);
-                        font-size: var(--button-text);
-                        font-weight: 400;
-
-                        
-                    }
-                }
-            }
+           }
         }
 
 
