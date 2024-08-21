@@ -36,7 +36,7 @@ const Comment: FC<Props> = ({ statement }) => {
   }, []);
 
   function handleAgree(_agree: AgreeDisagreeEnum) {
-    if(isCreator) return;
+    if (isCreator) return;
 
     let __agree = AgreeDisagreeEnum.NoOpinion;
     if (agree?.agree !== _agree) {
@@ -61,40 +61,30 @@ const Comment: FC<Props> = ({ statement }) => {
         </div>
       )}
       <div className={styles.description}>
-        <Text statement={statement.statement} />
-        
-          <div className={styles.btns}>
-           {statement.documentAgree?.disagree ||0}
-            <Button
-              text={t("Disagree")}
-              onClick={() => handleAgree(AgreeDisagreeEnum.Disagree)}
-              isSelected={agree?.agree === AgreeDisagreeEnum.Disagree ||isCreator }
-              backgroundColor="var(--reject)"
-              isDisabled={isCreator}
-            />
-            {/* onClick={() => handleAgree(AgreeDisagreeEnum.Agree)} */}
-            <Button
-              text={t("Agree")}
-              onClick={() => handleAgree(AgreeDisagreeEnum.Agree)}
-              isSelected={agree?.agree === AgreeDisagreeEnum.Agree ||isCreator }
-              backgroundColor="var(--agree)"
-              isDisabled={isCreator}
-            />
-            {statement.documentAgree?.agree ||0}
-          </div>
-        
+        <Text statement={statement} allowEditing={true}/>
+        <div className={styles.btns}>
+          {statement.documentAgree?.disagree || 0}
+          <Button
+            text={t("Disagree")}
+            onClick={() => handleAgree(AgreeDisagreeEnum.Disagree)}
+            isSelected={
+              agree?.agree === AgreeDisagreeEnum.Disagree || isCreator
+            }
+            backgroundColor="var(--reject)"
+            isDisabled={isCreator}
+          />
+          {/* onClick={() => handleAgree(AgreeDisagreeEnum.Agree)} */}
+          <Button
+            text={t("Agree")}
+            onClick={() => handleAgree(AgreeDisagreeEnum.Agree)}
+            isSelected={agree?.agree === AgreeDisagreeEnum.Agree || isCreator}
+            backgroundColor="var(--agree)"
+            isDisabled={isCreator}
+          />
+          {statement.documentAgree?.agree || 0}
+        </div>
       </div>
     </div>
-
-    // <div className={styles.comment}>
-    //   <div className={styles.comment__approval}>
-    //     <p>comment: {statement.statement}</p>
-    //     <div className={styles.comment__approval__buttons}>
-    //       <button>Approve</button>
-    //       <button>Reject</button>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 

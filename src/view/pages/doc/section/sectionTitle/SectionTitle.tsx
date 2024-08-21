@@ -71,7 +71,7 @@ const SectionTitle: FC<Props> = ({
 
         setIsTitleReady(true);
 
-        updateStatementText(statement.statementId, value);
+        updateStatementText({statement, title: value});
 
         _setIsEdit(false);
       }
