@@ -9,13 +9,15 @@ import styles from "./Paragraph.module.scss";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { updateParagraphTextToDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import Evaluation from "./evaluation/Evaluation";
-import Comment from "../comment/Comment";
-import NewComment from "../newComment/NewComment";
+import Comment from "./comments/comment/Comment";
+import NewComment from "./comments/newComment/NewComment";
 import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general";
 import { deleteParagraphFromDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import DeleteIcon from "../../../../assets/icons/trash.svg?react";
 import { RoleContext } from "../Document";
 import { fromImportanceToIcon } from "./evaluation/importance/Importance";
+import Comments from "./comments/Comments";
+
 
 interface Props {
   statement: Statement;
@@ -23,10 +25,12 @@ interface Props {
 const Paragraph: FC<Props> = ({ statement }) => {
   try {
     const dispatch = useDispatch();
+   
     const textarea = useRef<HTMLTextAreaElement>(null);
     const comments = useSelector(commentsSelector(statement.statementId)).sort(
       (a, b) => b.createdAt - a.createdAt
     );
+   
     const role = useContext(RoleContext);
     const [showComments, setShowComments] = useState<boolean>(false);
     const [showNewComment, setShowNewComment] = useState<boolean>(false);
@@ -107,23 +111,14 @@ const Paragraph: FC<Props> = ({ statement }) => {
         )}
 
         {showComments && !isEdit && (
-          <>
-            {role !== Role.admin && <NewComment
-              parentStatement={statement}
-              order={comments.length}
-              show={showNewComment}
-              setShow={setShowNewComment}
-            />}
-            <div
-              className={`${styles.comments} ${
-                showComments ? styles.commentsOpen : styles.commentsClose
-              }`}
-            >
-              {comments.map((comment) => (
-                <Comment key={`c-${comment.statementId}`} statement={comment} />
-              ))}
-            </div>
-          </>
+          <Comments
+            role={role}
+            statement={statement}
+            comments={comments}
+            showComments={showComments}
+            showNewComment={showNewComment}
+            setShowNewComment={setShowNewComment}
+          />
         )}
       </div>
     );

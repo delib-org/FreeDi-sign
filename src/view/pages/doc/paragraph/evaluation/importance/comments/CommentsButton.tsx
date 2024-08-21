@@ -13,10 +13,9 @@ const CommentsButton: FC<Props> = ({
   setShowComments,
 }) => {
   return (
-    <div className={styles.comments}>
+    <div className={styles.comments} onClick={() => setShowComments(!showComments)}>
       {numberOfComments > 0 && (
         <span
-          onClick={() => setShowComments(!showComments)}
           className={styles.commentsCounter}
           style={{
             width: numberOfComments < 10 ? "1.2rem" : "1.4rem",
@@ -26,7 +25,7 @@ const CommentsButton: FC<Props> = ({
           {numberOfComments < 100 ? numberOfComments : 99}
         </span>
       )}
-      <button onClick={() => setShowComments(!showComments)}>
+      <button>
         <AddComment />
       </button>
     </div>

@@ -2,12 +2,12 @@ import { Statement } from "delib-npm";
 import { FC } from "react";
 
 import styles from "./newComment.module.scss";
-import StrongMainButton from "../../../components/buttons/StrongMainButton";
-import MainButton from "../../../components/buttons/MainButton";
-import { addCommentToDB } from "../../../../controllers/db/comments/setComments";
-import ProfileImage from "../../../components/profileImage/ProfileImage";
-import { store } from "../../../../model/store";
-import { useLanguage } from "../../../../controllers/hooks/useLanguage";
+import StrongMainButton from "../../../../../components/buttons/StrongMainButton";
+import MainButton from "../../../../../components/buttons/MainButton";
+import { addCommentToDB } from "../../../../../../controllers/db/comments/setComments";
+import ProfileImage from "../../../../../components/profileImage/ProfileImage";
+import { store } from "../../../../../../model/store";
+import { useLanguage } from "../../../../../../controllers/hooks/useLanguage";
 
 interface Props {
   parentStatement: Statement;
