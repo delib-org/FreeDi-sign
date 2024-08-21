@@ -19,9 +19,8 @@ import {
   setApproval,
   updateApproval,
 } from "../../../../../../controllers/slices/approvalSlice";
-import { ApprovalClass } from "./approvalCont";
 import { store } from "../../../../../../model/store";
-import { getSubscription } from "../../../../../../controllers/db/subscriptions/getSubscriptions";
+
 
 interface Props {
   statement: Statement;

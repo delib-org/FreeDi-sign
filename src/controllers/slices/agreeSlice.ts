@@ -1,6 +1,6 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { AgreeDisagree, AgreeDisagreeEnum, Statement, updateArray } from 'delib-npm'
+import { AgreeDisagree, AgreeDisagreeEnum, updateArray } from 'delib-npm'
 import { UserState } from './userSlice';
 
 

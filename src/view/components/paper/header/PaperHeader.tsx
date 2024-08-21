@@ -2,7 +2,6 @@ import { FC, useContext } from "react";
 import MainEditButton from "../../buttons/edit/MainEditButton";
 import styles from "./PaperHeader.module.scss";
 import InfoButton from "../../buttons/InfoButton";
-import Checkbox from "../../checkbox/Checkbox";
 import { Role, Statement } from "delib-npm";
 import { RoleContext } from "../../../pages/doc/Document";
 import {

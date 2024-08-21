@@ -7,7 +7,7 @@ interface Props {
 }
 const Text: FC<Props> = ({ statement, description }) => {
 	try {
-		if (!statement && !description) throw new Error("No text provided");
+		if (statement === undefined && description === undefined) throw new Error("No text provided");
 
 		const textId = `${Math.random()}`.replace(".", "");
 

@@ -1,5 +1,5 @@
 import styles from "./document.module.scss";
-import { useLocation, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { useDocument } from "../../../controllers/hooks/documentHooks";
 import Aside from "./aside/Aside";
 import Paper from "../../components/paper/Paper";

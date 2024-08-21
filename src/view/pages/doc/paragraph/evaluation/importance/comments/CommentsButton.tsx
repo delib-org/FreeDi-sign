@@ -7,11 +7,16 @@ interface Props {
   showComments: boolean;
   setShowComments: (show: boolean) => void;
 }
-const CommentsButton:FC<Props> = ({numberOfComments,showComments,setShowComments}) => {
+const CommentsButton: FC<Props> = ({
+  numberOfComments,
+  showComments,
+  setShowComments,
+}) => {
   return (
     <div className={styles.comments}>
       {numberOfComments > 0 && (
         <span
+          onClick={() => setShowComments(!showComments)}
           className={styles.commentsCounter}
           style={{
             width: numberOfComments < 10 ? "1.2rem" : "1.4rem",
@@ -21,8 +26,8 @@ const CommentsButton:FC<Props> = ({numberOfComments,showComments,setShowComments
           {numberOfComments < 100 ? numberOfComments : 99}
         </span>
       )}
-      <button>
-        <AddComment onClick={() => setShowComments(!showComments)} />
+      <button onClick={() => setShowComments(!showComments)}>
+        <AddComment />
       </button>
     </div>
   );

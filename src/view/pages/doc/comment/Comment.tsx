@@ -1,7 +1,6 @@
 import { AgreeDisagreeEnum, Statement } from "delib-npm";
 import { FC, useEffect } from "react";
 import styles from "./Comment.module.scss";
-import ThumbsUpIcon from "../../../../assets/icons/thumbUp.svg?react";
 import ProfileImage from "../../../components/profileImage/ProfileImage";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../../../controllers/slices/userSlice";
@@ -116,7 +115,7 @@ const Comment: FC<Props> = ({ statement }) => {
                       ? "var(--agree)"
                       : "var(--inactive-btn)"
                   }
-                  icon={<ThumbsUpIcon />}
+                
                   onClick={() => handleAgree(AgreeDisagreeEnum.Agree)}
                 />
                 <p
