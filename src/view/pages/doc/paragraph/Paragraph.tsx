@@ -9,8 +9,6 @@ import styles from "./Paragraph.module.scss";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
 import { updateParagraphTextToDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import Evaluation from "./evaluation/Evaluation";
-import Comment from "./comments/comment/Comment";
-import NewComment from "./comments/newComment/NewComment";
 import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general";
 import { deleteParagraphFromDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import DeleteIcon from "../../../../assets/icons/trash.svg?react";

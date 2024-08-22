@@ -36,7 +36,7 @@ const Paper = () => {
         {statement && (
           <div className={styles.mainContainer}>
             <div style={{color:"#57688F"}}>
-            <Text description={statement.description||" "} />
+            <Text statement={statement} />
             </div>
             {sections.map((section, index) => (
               <Section
