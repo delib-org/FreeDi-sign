@@ -1,12 +1,18 @@
 {
     "Add Comment": "Add Comment",
     "Agree": "Agree",
+    "Approved": "Approved",
+    "Average": "Average",
+     "Consent Average": "Consent Average",
     "Cancel": "Cancel",
+    "Close": "Close",
     "Content": "Content",
      "Confirm": "Confirm",
     "Disagree": "Disagree",
     "Fostering Collaboration": "Fostering Collaboration",
     "From the Deliberative Democracy Institute": "From the Deliberative Democracy Institute",
-    "Save": "Save"
+    "Rejected": "Rejected",
+    "Save": "Save",
+    "Signatures Information": "Signatures Information"
    
 }

@@ -15,7 +15,7 @@ export interface SetSectionToDBProps {
 export async function setParagraphToDB({ statement, order, text }: SetSectionToDBProps): Promise<void> {
     try {
 
-        const newSection: Statement | undefined = createNewStatement({ text, statement, order, isTop: false, type: DocumentType.paragraph });
+        const newSection: Statement | undefined = createNewStatement({ title:text, statement, order, isTop: false, type: DocumentType.paragraph });
         if (!newSection) throw new Error("Error creating new section");
         const { statementId } = newSection;
       

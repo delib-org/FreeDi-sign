@@ -68,14 +68,20 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
       <Button
         text={t("Disagree")} 
         onClick={handleReset}
-        backgroundColor="var(--paragraph-light)"
+        backgroundColor="var(--reject)"
+        unselectedBackgroundColor="rgb(223, 223, 223)"
+        unselectedColor="black"
+        isSelected={isRejected}
       >
         {isRejected && <CheckIcon />}
         </Button>
       <Button
         text={`${t("Confirm")} (${approved}/${paragraphsLength})`}
         onClick={handleSign}
-        backgroundColor="var(--icon-blue)"
+        backgroundColor="var(--agree)"
+        unselectedBackgroundColor="rgb(223, 223, 223)"
+        unselectedColor="black"
+        isSelected={isChecked}
       >
         {isChecked && <CheckIcon />}
       </Button>

@@ -16,17 +16,17 @@ import USAFlag from "../../../../assets/icons/usaFlag.svg?react";
 import IsraelFlag from "../../../../assets/icons/israelFlag.svg?react";
 import GoogleIcon from "../../../../assets/icons/google.svg?react";
 
-
 interface Props {
   statement?: Statement;
+  setShowInfo: (showInfo: boolean) => void;
 }
 
-const PaperHeader: FC<Props> = ({ statement }) => {
+const PaperHeader: FC<Props> = ({ statement,setShowInfo }) => {
   const role = useContext(RoleContext);
   const { currentLanguage, changeLanguage } = useLanguage();
   if (!statement) return null;
   const title = statement.statement.split("\n")[0].replace("*", "").trim();
-  
+
   //TODO: remove
   function handleToggleLanguage() {
     if (currentLanguage === LanguagesEnum.he) changeLanguage(LanguagesEnum.en);
@@ -50,12 +50,22 @@ const PaperHeader: FC<Props> = ({ statement }) => {
         </h1>
         <div className={styles.buttons}>
           <button className={styles.button} onClick={handleToggleLanguage}>
-          {currentLanguage === LanguagesEnum.en ?<IsraelFlag />: <USAFlag />}
+            {currentLanguage === LanguagesEnum.en ? (
+              <IsraelFlag />
+            ) : (
+              <USAFlag />
+            )}
           </button>
           {role === Role.admin && <MainEditButton title="Edit" />}
-          {role === Role.admin && <InfoButton />}
+          {role === Role.admin && <InfoButton onClick={()=>setShowInfo(true)}/>}
           {/* <Checkbox /> */}
-          <Button text="Google" onClick={handleGoogleLogin} backgroundColor="var(--blue-primary)"><GoogleIcon /></Button>
+          <Button
+            text="Google"
+            onClick={handleGoogleLogin}
+            backgroundColor="var(--blue-primary)"
+          >
+            <GoogleIcon />
+          </Button>
         </div>
       </div>
       {/* <div className={styles.bottom}>

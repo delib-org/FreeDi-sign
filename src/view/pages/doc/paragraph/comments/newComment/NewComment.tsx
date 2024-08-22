@@ -15,11 +15,7 @@ interface Props {
   show: boolean;
   setShow: (show: boolean) => void;
 }
-const NewComment: FC<Props> = ({
-  parentStatement,
-  order,
-  setShow,
-}) => {
+const NewComment: FC<Props> = ({ parentStatement, order, setShow }) => {
   try {
     const { t } = useLanguage();
     function handleAddNewComment(ev: any) {
@@ -28,10 +24,14 @@ const NewComment: FC<Props> = ({
         const target = ev.target;
         const text = target["new-comment"].value;
         if (text) {
+          const title = text.split("\n")[0];
+          const description = text.split("\n").slice(1).join("\n");
+
           addCommentToDB({
-            text,
+            title,
+            description,
             parentStatement,
-            order
+            order,
           });
           setShow(false);
         }

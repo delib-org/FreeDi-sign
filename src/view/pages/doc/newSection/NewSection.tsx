@@ -33,7 +33,7 @@ const NewSection: FC<Props> = ({ statement, order,parentBullet }) => {
         if (!text || text === "") return;
 
         const newSection = createNewStatement({
-          text,
+          title:text,
           statement,
           order,
           type: DocumentType.section, // Replace "someType" with the actual type value

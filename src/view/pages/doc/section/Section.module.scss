@@ -2,7 +2,7 @@ $mobile:1000px;
 
 .section {
     max-width: 100%;
-    width: fit-content;
+    width: -webkit-fill-available;
     display: flex;
     flex-direction: column;
     margin: 0rem 0rem 0rem 1rem;
@@ -58,5 +58,5 @@ $mobile:1000px;
 }
 
 .edit {
-    box-shadow: 0 0 4px 0 rgba(80, 1, 114, 0.3);
+   background-color: #a0a0a036;
 }

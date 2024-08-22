@@ -1,11 +1,17 @@
 {
     "Add Comment": "הוספת תגובה",
     "Agree": "מסכים/ה",
+    "Approved": "אושר",
+    "Average": "ממוצע",
+    "Consent Average": "ממוצע הסכמה",
     "Cancel": "ביטול",
+    "Close": "סגירה",
     "Confirm": "מאשר/ת",
     "Content": "תוכן עניינים",
     "Disagree": "מתנגד/ת",
     "Fostering Collaboration": "מקדמים שיתופי פעולה",
     "From the Deliberative Democracy Institute": "מהמכון לדמוקרטיה דיונית",
-    "Save": "שמירה"
+    "Rejected": "נדחה",
+    "Save": "שמירה",
+    "Signatures Information": "מידע על חתימות"
 }
