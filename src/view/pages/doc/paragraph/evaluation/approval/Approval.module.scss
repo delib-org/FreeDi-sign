@@ -131,7 +131,7 @@ $size:28px;
 
 .admin{
     display: flex;
-    gap: .2rem;
+    gap: .5rem;
 
     &__approve{
         display: flex;       
@@ -151,6 +151,10 @@ $size:28px;
 
         &--reject{
             background-color: var(--reject);
+        }
+
+        &--unselected{
+            background-color: lightgray;
         }
     }
 }

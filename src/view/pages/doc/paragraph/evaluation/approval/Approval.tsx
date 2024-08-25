@@ -21,7 +21,6 @@ import {
 } from "../../../../../../controllers/slices/approvalSlice";
 import { store } from "../../../../../../model/store";
 
-
 interface Props {
   statement: Statement;
 }
@@ -85,6 +84,7 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
 
     function handleApprove(_approval: boolean) {
       try {
+        if(role === Role.admin) return;
         setApprovalToDB({ statement, approval: _approval });
         dispatch(
           updateApproval({
@@ -98,63 +98,30 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
       }
     }
 
-    if (role === Role.admin) {
-      const approved = statement.documentApproval?.approved || 0;
-      const rejected =
-        (statement.documentApproval?.totalVoters || approved) - approved || 0;
-      return (
-        <div className={styles.admin}>
-          {approved}
-          <div
-            className={`${styles["admin__approve"]} ${styles["admin__approve--approve"]}`}
-          >
-            <ApproveWhite />
-          </div>
-          <div
-            className={`${styles["admin__approve"]} ${styles["admin__approve--reject"]}`}
-          >
-            <RejectWhite />
-          </div>
-          {rejected}
-        </div>
-      );
-    }
+    const stApproved = statement.documentApproval?.approved || 0;
+    const stRejected = (statement.documentApproval?.totalVoters || stApproved) - stApproved || 0;
 
-    if (approved === undefined && !showApproval)
-      return (
-        <div className={styles.nonActive} onClick={() => setShowApproval(true)}>
-          <Approve />
-        </div>
-      );
 
-    return showApproval ? (
-      <div className={styles.appButton}>
-        <div className={styles.appButtonBase}></div>
+    return (
+      <div className={styles.admin}>
+        {role === Role.admin && stApproved}
         <div
-          className={styles.appButtonApprove}
-          onClick={() => handleApprove(true)}
-          style={{
-            left: close ? "0px" : "-30px",
-            bottom: close ? "0px" : "-30px",
-            transition: "left 0.5s, bottom 0.5s",
-          }}
-          ref={approvedRef}
+        onClick={() => handleApprove(true)}
+          className={`${styles["admin__approve"]} ${styles[approved || role === Role.admin?"admin__approve--approve":"admin__approve--unselected"]}`}
         >
           <ApproveWhite />
         </div>
         <div
-          className={styles.appButtonReject}
-          onClick={() => handleApprove(false)}
-          style={{
-            left: close ? "0px" : "-30px",
-            bottom: close ? "0px" : "-30px",
-            transition: "left 0.5s, bottom 0.5s",
-          }}
+        onClick={() => handleApprove(false)}
+          className={`${styles["admin__approve"]} ${styles[(!approved || role === Role.admin)?"admin__approve--reject":"admin__approve--unselected"]}`}
         >
           <RejectWhite />
         </div>
+        {role === Role.admin && stRejected}
       </div>
-    ) : (
+    );
+
+    return (
       <div
         className={styles.selected}
         style={{
