@@ -10,18 +10,18 @@ interface setSignatureToDBProps {
     signed: boolean;
 }
 
-export async function setSignatureToDB({ document, paragraphsLength, approved , signed}: setSignatureToDBProps): Promise<boolean> {
+export async function setSignatureToDB({ document, paragraphsLength, approved, signed }: setSignatureToDBProps): Promise<boolean> {
     try {
         const user = store.getState().user.user;
-        if(!user) throw new Error("User not found");
+        if (!user) throw new Error("User not found");
         const userId = user.uid;
         const signatureId = getStatementSubscriptionId(document.statementId, user);
-        if(!signatureId) throw new Error("Signature Id not found");
-        const signature:Signature = {
+        if (!signatureId) throw new Error("Signature Id not found");
+        const signature: Signature = {
             userId,
             documentId: document.statementId,
             date: new Date().toISOString(),
-            levelOfSignature: approved/paragraphsLength,
+            levelOfSignature: signed ? (approved / paragraphsLength) : 0,
             signatureId: signatureId,
             signed
         }
