@@ -74,14 +74,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
           />
         ) : (
           <div className={styles.paragraphLine}>
-            {role === Role.admin && (
-              <div className={styles.importance}>
-                {fromImportanceToIcon(
-                  statement.documentImportance?.averageImportance || 0
-                )}
-                <span>{statement.documentImportance?.sumImportance}</span>
-              </div>
-            )}
+           
             <div className={styles.paragraphText}>
               <p
                 className={`${styles.textArea} ${styles.textAreaP}`}

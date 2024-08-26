@@ -4,10 +4,10 @@ import {
   Role,
   Statement,
 } from "delib-npm";
-import { FC, useState, useEffect, useRef, useContext } from "react";
+import { FC, useEffect, useContext } from "react";
 import styles from "./Approval.module.scss";
 //icons
-import Approve from "../../../../../../assets/icons/approve.svg?react";
+
 import ApproveWhite from "../../../../../../assets/icons/approveWhite.svg?react";
 import RejectWhite from "../../../../../../assets/icons/rejectWhite.svg?react";
 import { setApprovalToDB } from "../../../../../../controllers/db/approval/setApproval";
@@ -34,10 +34,6 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
       selectApprovalById(statement.statementId)
     );
     const approved = approval ? approval.approval : true;
-    const [showApproval, setShowApproval] = useState<boolean>(false);
-    const [close, setClose] = useState<boolean>(false);
-
-    const approvedRef = useRef(null);
 
     useEffect(() => {
       getUserApprovalFromDB({ statement })
@@ -76,15 +72,9 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
         });
     }, []);
 
-    useEffect(() => {
-      if (showApproval) {
-        setClose(false);
-      }
-    }, [showApproval]);
-
     function handleApprove(_approval: boolean) {
       try {
-        if(role === Role.admin) return;
+        if (role === Role.admin) return;
         setApprovalToDB({ statement, approval: _approval });
         dispatch(
           updateApproval({
@@ -92,45 +82,43 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
             statementId: statement.statementId,
           })
         );
-        setShowApproval(false);
       } catch (error) {
         console.error(error);
       }
     }
 
     const stApproved = statement.documentApproval?.approved || 0;
-    const stRejected = (statement.documentApproval?.totalVoters || stApproved) - stApproved || 0;
-
+    const stRejected =
+      (statement.documentApproval?.totalVoters || stApproved) - stApproved || 0;
 
     return (
       <div className={styles.admin}>
         {role === Role.admin && stApproved}
         <div
-        onClick={() => handleApprove(true)}
-          className={`${styles["admin__approve"]} ${styles[approved || role === Role.admin?"admin__approve--approve":"admin__approve--unselected"]}`}
+          onClick={() => handleApprove(true)}
+          className={`${styles["admin__approve"]} ${
+            styles[
+              approved || role === Role.admin
+                ? "admin__approve--approve"
+                : "admin__approve--unselected"
+            ]
+          }`}
         >
           <ApproveWhite />
         </div>
         <div
-        onClick={() => handleApprove(false)}
-          className={`${styles["admin__approve"]} ${styles[(!approved || role === Role.admin)?"admin__approve--reject":"admin__approve--unselected"]}`}
+          onClick={() => handleApprove(false)}
+          className={`${styles["admin__approve"]} ${
+            styles[
+              !approved || role === Role.admin
+                ? "admin__approve--reject"
+                : "admin__approve--unselected"
+            ]
+          }`}
         >
           <RejectWhite />
         </div>
         {role === Role.admin && stRejected}
-      </div>
-    );
-
-    return (
-      <div
-        className={styles.selected}
-        style={{
-          backgroundColor: approved ? "var(--agree)" : "var(--reject)",
-          transition: "background-color 0.5s",
-        }}
-        onClick={() => setShowApproval(true)}
-      >
-        {approved ? <ApproveWhite /> : <RejectWhite />}
       </div>
     );
   } catch (error) {

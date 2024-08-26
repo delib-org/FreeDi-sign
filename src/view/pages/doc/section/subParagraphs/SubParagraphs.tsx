@@ -11,7 +11,7 @@ interface Props {
 const SubParagraphs:FC<Props> = ({parentStatement}) => {
   const { statementId } = parentStatement;
  
-  const paragraphs = useSelector(paragraphsSelector(statementId));
+  const paragraphs = useSelector(paragraphsSelector(statementId)).sort((a, b) => a.createdAt - b.createdAt);
 
   return (
     <>

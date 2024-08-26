@@ -6,6 +6,9 @@ import { setSignatureToDB } from "../../../../../controllers/db/sign/setSignatur
 import CheckIcon from "../../../../../assets/icons/check.svg?react";
 import { getSignature } from "../../../../../controllers/db/sign/getSignature";
 import { useLanguage } from "../../../../../controllers/hooks/useLanguage";
+import { useSelector } from "react-redux";
+import { selectApprovalsByDocId } from "../../../../../controllers/slices/approvalSlice";
+import { setApprovalToDB } from "../../../../../controllers/db/approval/setApproval";
 
 interface Props {
   paragraphsLength: number;
@@ -14,7 +17,8 @@ interface Props {
 }
 
 const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
-  const {t} = useLanguage();
+  const approvals = useSelector(selectApprovalsByDocId(document.statementId));
+  const { t } = useLanguage();
   const [isChecked, setIsChecked] = useState(false);
   const [isRejected, setIsRejected] = useState(false);
   const [_signature, setSignature] = useState<Signature | undefined>(undefined);
@@ -25,20 +29,20 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
         setSignature(signature);
         setIsChecked(signature.signed);
       }
-    })
+    });
   }, []);
 
   useEffect(() => {
     const levelOfSignature = approved / paragraphsLength;
-   
-    if(_signature && _signature.levelOfSignature !== levelOfSignature) {
+
+    if (_signature && _signature.levelOfSignature !== levelOfSignature) {
       setIsChecked(false);
     }
   }, [_signature, approved, paragraphsLength]);
 
-  function handleReset() {
-   
+  function handleReject() {
     setIsChecked(false);
+
     setSignatureToDB({
       document,
       paragraphsLength,
@@ -52,6 +56,14 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
 
   function handleSign() {
     setIsRejected(false);
+
+    approvals.forEach(async (approval) => {
+      await setApprovalToDB({
+        statementId: approval.statementId,
+        approval: approval.approval,
+      });
+    });
+
     setSignatureToDB({
       document,
       paragraphsLength,
@@ -66,15 +78,15 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
   return (
     <div className={styles.buttons}>
       <Button
-        text={t("Disagree")} 
-        onClick={handleReset}
+        text={t("Disagree")}
+        onClick={handleReject}
         backgroundColor="var(--reject)"
         unselectedBackgroundColor="rgb(223, 223, 223)"
         unselectedColor="black"
         isSelected={isRejected}
       >
         {isRejected && <CheckIcon />}
-        </Button>
+      </Button>
       <Button
         text={`${t("Confirm")} (${approved}/${paragraphsLength})`}
         onClick={handleSign}
