@@ -1,4 +1,4 @@
-import { Role, Statement } from "delib-npm";
+import { Statement } from "delib-npm";
 import { FC, useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,7 +13,6 @@ import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general
 import { deleteParagraphFromDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import DeleteIcon from "../../../../assets/icons/trash.svg?react";
 import { RoleContext } from "../Document";
-import { fromImportanceToIcon } from "./evaluation/importance/Importance";
 import Comments from "./comments/Comments";
 
 
