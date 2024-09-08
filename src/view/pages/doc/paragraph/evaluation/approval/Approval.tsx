@@ -8,8 +8,8 @@ import { FC, useEffect, useContext } from "react";
 import styles from "./Approval.module.scss";
 //icons
 
-import ApproveWhite from "../../../../../../assets/icons/approveWhite.svg?react";
-import RejectWhite from "../../../../../../assets/icons/rejectWhite.svg?react";
+import ApproveFAB from "../../../../../../assets/icons/approveFAB.svg?react";
+import RejectFAB from "../../../../../../assets/icons/rejectFAB.svg?react";
 import { setApprovalToDB } from "../../../../../../controllers/db/approval/setApproval";
 import { getUserApprovalFromDB } from "../../../../../../controllers/db/approval/getApproval";
 import { RoleContext } from "../../../Document";
@@ -93,32 +93,25 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
 
     return (
       <div className={styles.admin}>
-        {role === Role.admin && stApproved}
-        <div
-          onClick={() => handleApprove(true)}
-          className={`${styles["admin__approve"]} ${
-            styles[
-              approved || role === Role.admin
-                ? "admin__approve--approve"
-                : "admin__approve--unselected"
-            ]
-          }`}
-        >
-          <ApproveWhite />
+        <div className={styles.admin__btns}>
+          {role === Role.admin && stApproved}
+          <div
+            onClick={() => handleApprove(true)}
+            className={approved ? styles["admin--approved"] : styles["admin--unselected"]}
+          >
+            <ApproveFAB />
+          </div>
+          <div
+            onClick={() => handleApprove(false)}
+            className={!approved ? styles["admin--rejected"] : styles["admin--unselected"]}
+          >
+            <RejectFAB />
+          </div>
+          {role === Role.admin && stRejected}
         </div>
-        <div
-          onClick={() => handleApprove(false)}
-          className={`${styles["admin__approve"]} ${
-            styles[
-              !approved || role === Role.admin
-                ? "admin__approve--reject"
-                : "admin__approve--unselected"
-            ]
-          }`}
-        >
-          <RejectWhite />
+        <div className={styles.admin__title}>
+          <span>Do You approve?</span>
         </div>
-        {role === Role.admin && stRejected}
       </div>
     );
   } catch (error) {

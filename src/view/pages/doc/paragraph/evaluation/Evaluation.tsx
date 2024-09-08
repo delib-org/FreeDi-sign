@@ -34,7 +34,6 @@ const Evaluation: FC<Props> = ({
         {role !== Role.admin? (
           <>
             <Importance statement={statement} />
-            <VerticalHR />
           </>
         ):
         (

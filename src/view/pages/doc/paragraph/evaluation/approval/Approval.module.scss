@@ -1,4 +1,3 @@
-
 $size:28px;
 
 
@@ -28,7 +27,7 @@ $size:28px;
     cursor: pointer;
     user-select: none;
     transform: scale(1.4);
-    
+
 }
 
 .reject {
@@ -36,14 +35,15 @@ $size:28px;
 }
 
 .appButton {
-   position: relative;
+    position: relative;
     width: $size;
-    height:$size;
+    height: $size;
     border-radius: $size;
-    svg{
+
+    svg {
         transform: scale(.8);
     }
-   
+
     div {
         position: absolute;
         cursor: pointer;
@@ -69,7 +69,7 @@ $size:28px;
         align-items: center;
         justify-content: center;
         z-index: 4;
-     
+
         cursor: pointer;
         user-select: none;
         color: white
@@ -101,7 +101,8 @@ $size:28px;
     align-items: center;
     justify-content: center;
     position: relative;
-    svg{
+
+    svg {
         transform: scale(.8);
     }
 
@@ -112,6 +113,7 @@ $size:28px;
         bottom: 0px;
         left: 0px;
     }
+
     100% {
         bottom: 25px;
         left: -20px;
@@ -123,38 +125,50 @@ $size:28px;
         bottom: 0px;
         left: 0px;
     }
+
     100% {
         bottom: 25px;
         left: 20px;
     }
 }
 
-.admin{
+.admin {
     display: flex;
-    gap: .5rem;
+    gap: .1rem;
+    flex-direction: column;
 
-    &__approve{
-        display: flex;       
+    &__btns {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    &__title {
+        text-align: center;
+        font-size: .8rem;
+        opacity: .7;
+    }
+
+    &__approve {
+        display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 4rem;
         width: var(--small-circle);
         height: var(--small-circle);
-        svg{
-            transform: scale(.8);
-        }
-       
 
-        &--approve{
-            background-color: var(--agree);
-        }
+    }
 
-        &--reject{
-            background-color: var(--reject);
-        }
 
-        &--unselected{
-            background-color: lightgray;
-        }
+    &--approve {
+        color: var(--agree);
+    }
+
+    &--reject {
+        color: var(--reject);
+    }
+
+    &--unselected {
+        color: lightgray;
     }
 }
