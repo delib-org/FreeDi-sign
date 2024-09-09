@@ -1,4 +1,4 @@
-import { Role, Statement } from "delib-npm";
+import { Statement } from "delib-npm";
 import { FC, useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,9 +13,7 @@ import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general
 import { deleteParagraphFromDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import DeleteIcon from "../../../../assets/icons/trash.svg?react";
 import { RoleContext } from "../Document";
-import { fromImportanceToIcon } from "./evaluation/importance/Importance";
 import Comments from "./comments/Comments";
-
 
 interface Props {
   statement: Statement;
@@ -23,12 +21,12 @@ interface Props {
 const Paragraph: FC<Props> = ({ statement }) => {
   try {
     const dispatch = useDispatch();
-   
+
     const textarea = useRef<HTMLTextAreaElement>(null);
     const comments = useSelector(commentsSelector(statement.statementId)).sort(
       (a, b) => b.createdAt - a.createdAt
     );
-   
+
     const role = useContext(RoleContext);
     const [showComments, setShowComments] = useState<boolean>(false);
     const [showNewComment, setShowNewComment] = useState<boolean>(false);
@@ -74,7 +72,6 @@ const Paragraph: FC<Props> = ({ statement }) => {
           />
         ) : (
           <div className={styles.paragraphLine}>
-           
             <div className={styles.paragraphText}>
               <p
                 className={`${styles.textArea} ${styles.textAreaP}`}
@@ -82,7 +79,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
                   _setIsEdit(true);
                 }}
               >
-                {statement.statement}
+                {renderText(statement.statement)}
               </p>
               {isEdit && (
                 <button onClick={handleDelete}>
@@ -124,6 +121,22 @@ const Paragraph: FC<Props> = ({ statement }) => {
         //remove new lines
         textarea.value = textarea.value.replace(/\n/g, " ");
         updateParagraphTextToDB({ statement, newText: textarea.value });
+      }
+    }
+
+    function renderText(text: string) {
+      //if * is found, render the text as bold
+      if (text.includes("*")) {
+        const parts = text.split("*");
+        return parts.map((part, index) => {
+          if (index % 2 === 0) {
+            return <span key={index}>{part}</span>;
+          } else {
+            return <b key={index}>{part}</b>;
+          }
+        });
+      } else {
+        return text;
       }
     }
   } catch (e) {

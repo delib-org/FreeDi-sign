@@ -1,94 +1,51 @@
-.importanceBox{
-   
-    height: var(--small-circle);
-    width: var(--small-circle);
-    position: relative;
-}
-
 .importance {
-    background-color: transparent;
-    position: absolute;
-    border-radius: 3rem;
+
+    
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: var(--small-circle);
-    height: var(--small-circle);
+    flex-direction: column;
+    gap:.1rem;
+    
 
-}
+    &__items {
+        display: flex;
+        gap: .5rem;
 
-.imp0 {
-    animation: imp0 550ms;
-    animation-fill-mode: forwards;
-}
-
-
-
-.imp1 {
-    animation: imp1 550ms;
-    animation-fill-mode: forwards;
-}
-
-
-.imp2 {
-    animation: imp2 550ms;
-    animation-fill-mode: forwards;
-}
-
-.unchecked {
-    width: var(--small-circle);
-    height:  var(--small-circle);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--blue-primary);
-    position: absolute;
- 
-
-
-  
-}
-
-
-
-@keyframes imp0 {
-    from {
-        transform: scale(.6) translate(0%, -50%);
-        left: 0px;
-        bottom: 0px;
+        svg{
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        transition: all .3s;
+        }
     }
 
-    to {
-        transform: scale(1) translate(0%, -50%);
-        left: -30px;
-        bottom: 0px;
+    &__title{
+        text-align: center;
+        font-size: .8rem;
+        opacity: .7;
+    }
+
+    .notSelected{
+        color: #d8d8d8;
+    }
+    .imp0{
+        color: #facf3a;
+    }
+    .imp1{
+        color: #ff976f;
+    }
+    .imp2{
+        color: #f16982;
     }
 }
 
-@keyframes imp1 {
-    from {
-        transform: scale(.6);
-        left: 0px;
-        bottom: 0px;
-    }
+// .importance {
+//     background-color: transparent;
+//     position: absolute;
+//     border-radius: 3rem;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     width: var(--small-circle);
+//     height: var(--small-circle);
 
-    to {
-        transform: scale(1) translate(0%, -50%);
-        left: 0px;
-        bottom: 16px;
-    }
-}
-
-@keyframes imp2 {
-    from {
-        transform: scale(.6);
-        left: 0px;
-        bottom: 0px;
-    }
-
-    to {
-        transform: scale(1) translate(0%, -50%);
-        left: 30px;
-        bottom: 0px;
-    }
-}
+// }

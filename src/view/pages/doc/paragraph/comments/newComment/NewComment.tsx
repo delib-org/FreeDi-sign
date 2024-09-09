@@ -47,15 +47,12 @@ const NewComment: FC<Props> = ({ parentStatement, order, setShow }) => {
 
     return (
       <div className={styles.wrapper}>
-        <div className={styles.wrapper__profileImage}>
-          <ProfileImage user={user} />
-        </div>
         <form
           className={styles.wrapper__descriptionWrapper}
           onSubmit={handleAddNewComment}
         >
           <textarea
-            placeholder="Please, provide your thoughts in this space..."
+            placeholder={t("Please provide your thoughts...")}
             className={styles.wrapper__descriptionWrapper__description}
             name="new-comment"
           />

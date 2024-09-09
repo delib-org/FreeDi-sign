@@ -14,7 +14,7 @@ export function listenToAuth() {
             try {
                 const dispatch = store.dispatch;
                 if (userFB) {
-                    console.info("User is logged in", userFB.uid);
+                 
                     const user = parseUserFromFirebase(userFB);
 
                     dispatch(setUser(user));
