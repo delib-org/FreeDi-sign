@@ -4,6 +4,7 @@ import Button from "../../../buttons/button/Button";
 import { Signature, Statement } from "delib-npm";
 import { setSignatureToDB } from "../../../../../controllers/db/sign/setSignature";
 import CheckIcon from "../../../../../assets/icons/check.svg?react";
+import DisAgreeIcon from "../../../../../assets/icons/disApprove.svg?react";
 import { getSignature } from "../../../../../controllers/db/sign/getSignature";
 import { useLanguage } from "../../../../../controllers/hooks/useLanguage";
 import { useSelector } from "react-redux";
@@ -26,8 +27,10 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
   useEffect(() => {
     getSignature({ documentId: document.statementId }).then((signature) => {
       if (signature) {
+     
         setSignature(signature);
         setIsChecked(signature.signed);
+        if (!signature.signed) setIsRejected(true);
       }
     });
   }, []);
@@ -85,7 +88,7 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
         unselectedColor="black"
         isSelected={isRejected}
       >
-        {isRejected && <CheckIcon />}
+        {isRejected && <DisAgreeIcon />}
       </Button>
       <Button
         text={`${t("Confirm")} (${approved}/${paragraphsLength})`}
