@@ -28,7 +28,7 @@
         }
 
         &__button {
-            width: 100%;
+            width: fit-content;
             padding: 10px;
             background-color: #007bff;
             color: #fff;
@@ -44,7 +44,7 @@
 }
 
 .googleButton{
-    width: 100%;
+    width:fit-content;
     padding: 10px;
     background-color: #007bff;
     color: #fff;

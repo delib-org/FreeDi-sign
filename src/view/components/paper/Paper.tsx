@@ -21,12 +21,12 @@ const Paper = () => {
   const approved =paragraphs.length-rejected.length;
   const {dir} = useLanguage();
 
-  const { isLoading, isError, statement, isAuthorized, role } =
+  const { isLoading, isError, statement, role } =
     useDocument(statementId);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: An error occurred.</div>;
 
-  if (!isAuthorized) return <div>Not authorized</div>;
+
 
   if(!statement) return null;
 

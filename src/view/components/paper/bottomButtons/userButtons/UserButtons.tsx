@@ -45,6 +45,7 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
 
   function handleReject() {
     setIsChecked(false);
+    setIsRejected(true);
 
     setSignatureToDB({
       document,
@@ -59,6 +60,7 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
 
   function handleSign() {
     setIsRejected(false);
+    setIsChecked(true);
 
     approvals.forEach(async (approval) => {
       await setApprovalToDB({

@@ -15,7 +15,7 @@ interface Props {
 
 const Importance: FC<Props> = ({ statement }) => {
   const [importance, setImportance] = useState<number | undefined>(undefined);
-  const [isEdit, setIsEdit] = useState<boolean>(false);
+
 
   const { t } = useLanguage();
 

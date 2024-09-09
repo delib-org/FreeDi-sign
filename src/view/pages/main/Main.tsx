@@ -10,7 +10,7 @@ function Main() {
 
   
 
-  if (isLoading) return <div>Loading...99</div>;
+  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: An error occurred.</div>;
 
   return (
