@@ -5,19 +5,19 @@ import { store } from "../../../model/store";
 
 export async function setApprovalToDB({ statementId, statement, approval }: { statementId?: string, statement?: Statement, approval: boolean }): Promise<void> {
     try {
-        if (!statementId && !statement) throw new Error("Statement not found");
+      
+        statementId = statementId || statement?.statementId;
+        if (!statementId) throw new Error("Statement Id not found");
 
         const user = store.getState().user.user;
         if (!user) throw new Error("User not found");
 
-        if (!statement && statementId) {
-            const statementRef = doc(DB, Collections.statements, statementId);
-            const statementDB = await getDoc(statementRef);
-            if (!statementDB.exists()) throw new Error("Statement not found");
-            statement = statementDB.data() as Statement;
-        } else {
-            throw new Error("Statement not found");
-        }
+
+        const statementRef = doc(DB, Collections.statements, statementId);
+        const statementDB = await getDoc(statementRef);
+        if (!statementDB.exists()) throw new Error("Statement not found");
+        statement = statementDB.data() as Statement;
+
 
 
         const approvalId = getStatementSubscriptionId(statement.statementId, user);

@@ -20,6 +20,7 @@ import {
   updateApproval,
 } from "../../../../../../controllers/slices/approvalSlice";
 import { store } from "../../../../../../model/store";
+import { useLanguage } from "../../../../../../controllers/hooks/useLanguage";
 
 interface Props {
   statement: Statement;
@@ -27,6 +28,7 @@ interface Props {
 
 const ApprovalComp: FC<Props> = ({ statement }) => {
   try {
+    const {t} = useLanguage();
     const role = useContext(RoleContext);
     const dispatch = useDispatch();
 
@@ -97,20 +99,20 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
           {role === Role.admin && stApproved}
           <div
             onClick={() => handleApprove(true)}
-            className={approved ? styles["admin--approved"] : styles["admin--unselected"]}
+            className={approved ? styles["admin--approve"] : styles["admin--unselected"]}
           >
             <ApproveFAB />
           </div>
           <div
             onClick={() => handleApprove(false)}
-            className={!approved ? styles["admin--rejected"] : styles["admin--unselected"]}
+            className={!approved ? styles["admin--reject"] : styles["admin--unselected"]}
           >
             <RejectFAB />
           </div>
           {role === Role.admin && stRejected}
         </div>
         <div className={styles.admin__title}>
-          <span>Do You approve?</span>
+          <span>{t("Approve?")}</span>
         </div>
       </div>
     );

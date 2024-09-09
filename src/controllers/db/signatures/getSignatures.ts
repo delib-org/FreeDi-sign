@@ -10,11 +10,11 @@ export function listenToSignatures(statementId: string): Unsubscribe {
      
         const dispatch = store.dispatch;
         const signaturesRef = doc(DB, Collections.documentsSigns, statementId);
-        console.log("listenToSignatures", statementId);
+       
         return onSnapshot(signaturesRef, (doc) => {
             try {
-                console.log("listen..................")
-                if(!doc.exists()) throw new Error("Document does not exist");
+               
+                if(!doc.exists()) return;
                 const signaturesDB = doc.data() as DocumentSigns;
                 console.log(signaturesDB)
                 DocumentSignsSchema.parse(signaturesDB);
