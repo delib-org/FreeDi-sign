@@ -1,5 +1,5 @@
 import { Role, Statement } from "delib-npm";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import NewComment from "./newComment/NewComment";
 import Comment from "./comment/Comment";
 import styles from "./Comments.module.scss";
@@ -26,9 +26,13 @@ const Comments: FC<Props> = ({
   const userId = useSelector(selectUser)?.uid;
   const didUserCommented = comments.some((cm) => cm.creatorId === userId);
 
+  useEffect(()=>{
+    setShowNewComment(true)
+  },[showComments])
+
   return (
     <div>
-      {role !== Role.admin && !didUserCommented && (
+      {role !== Role.admin && !didUserCommented && showNewComment && (
         <NewComment
           parentStatement={statement}
           order={comments.length}

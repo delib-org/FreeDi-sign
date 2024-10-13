@@ -43,7 +43,9 @@ const Paragraph: FC<Props> = ({ statement }) => {
       }
     }, [isEdit, textarea, _isEdit]);
 
-    useEffect(() => {}, [textarea]);
+    useEffect(() => {
+      if(showNewComment === false) setShowComments(false)
+    }, [showNewComment]);
 
     function handleDelete() {
       const shouldDelete = confirm(
