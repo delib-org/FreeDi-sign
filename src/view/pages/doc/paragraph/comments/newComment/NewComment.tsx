@@ -7,6 +7,7 @@ import MainButton from "../../../../../components/buttons/MainButton";
 import { addCommentToDB } from "../../../../../../controllers/db/comments/setComments";
 import { store } from "../../../../../../model/store";
 import { useLanguage } from "../../../../../../controllers/hooks/useLanguage";
+import Button, { ButtonType } from "../../../../../components/buttons/button/Button";
 
 interface Props {
   parentStatement: Statement;
@@ -58,17 +59,7 @@ const NewComment: FC<Props> = ({ parentStatement, order, setShow, show }) => {
               name="new-comment"
             />
             <div className={styles.wrapper__descriptionWrapper__buttonsWrapper}>
-              <StrongMainButton
-                value={t("Add Comment")}
-                color="white"
-                backgroundColor="var(--active-btn)"
-                padding="0.23rem 1.41rem"
-                width="8.11rem"
-                height="1.88rem"
-                fontSize="0.94rem"
-                type="submit"
-              />
-              <div
+            <div
                 className={styles.cancel}
                 onClick={() => {
                   console.log("click");
@@ -80,6 +71,8 @@ const NewComment: FC<Props> = ({ parentStatement, order, setShow, show }) => {
               >
                 {t("Cancel")}
               </div>
+              <Button type={"submit"} text={t("Add Comment")} buttonType={ButtonType.primary} isSelected={true}/>
+              
             </div>
           </form>
         )}
