@@ -1,5 +1,5 @@
 import { Statement } from "delib-npm";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import styles from "./newComment.module.scss";
 import StrongMainButton from "../../../../../components/buttons/StrongMainButton";
@@ -14,8 +14,9 @@ interface Props {
   show: boolean;
   setShow: (show: boolean) => void;
 }
-const NewComment: FC<Props> = ({ parentStatement, order, setShow }) => {
+const NewComment: FC<Props> = ({ parentStatement, order, setShow, show }) => {
   try {
+    const [showUserComment, setShowUserComment] = useState(true);
     const { t } = useLanguage();
     function handleAddNewComment(ev: any) {
       try {
@@ -46,36 +47,42 @@ const NewComment: FC<Props> = ({ parentStatement, order, setShow }) => {
 
     return (
       <div className={styles.wrapper}>
-        <form
-          className={styles.wrapper__descriptionWrapper}
-          onSubmit={handleAddNewComment}
-        >
-          <textarea
-            placeholder={t("Please provide your thoughts...")}
-            className={styles.wrapper__descriptionWrapper__description}
-            name="new-comment"
-          />
-          <div className={styles.wrapper__descriptionWrapper__buttonsWrapper}>
-            <StrongMainButton
-              value={t("Add Comment")}
-              color="white"
-              backgroundColor="var(--active-btn)"
-              padding="0.23rem 1.41rem"
-              width="9.11rem"
-              height="1.88rem"
-              fontSize="0.94rem"
-              type="submit"
+        {showUserComment && (
+          <form
+            className={styles.wrapper__descriptionWrapper}
+            onSubmit={handleAddNewComment}
+          >
+            <textarea
+              placeholder={t("Please provide your thoughts...")}
+              className={styles.wrapper__descriptionWrapper__description}
+              name="new-comment"
             />
-            <MainButton
-              value={t("Cancel")}
-              color="var(--icon-blue)"
-              backgroundColor="var(--inactive-btn)"
-              padding="0.23rem 1.41rem"
-              height="1.88rem"
-              fontSize="0.94rem"
-            />
-          </div>
-        </form>
+            <div className={styles.wrapper__descriptionWrapper__buttonsWrapper}>
+              <StrongMainButton
+                value={t("Add Comment")}
+                color="white"
+                backgroundColor="var(--active-btn)"
+                padding="0.23rem 1.41rem"
+                width="8.11rem"
+                height="1.88rem"
+                fontSize="0.94rem"
+                type="submit"
+              />
+              <div
+                className={styles.cancel}
+                onClick={() => {
+                  console.log("click");
+                  // setShowUserComment(false);
+                  setShowUserComment(false);
+                  setShow(false)
+                  console.log(show)
+                }}
+              >
+                {t("Cancel")}
+              </div>
+            </div>
+          </form>
+        )}
       </div>
     );
   } catch (error) {
