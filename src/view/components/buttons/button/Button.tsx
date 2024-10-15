@@ -5,7 +5,7 @@ interface Props {
   text: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   buttonType?: ButtonType;
-  type: "button" | "submit" | "reset" | undefined;
+  type?: "button" | "submit" | "reset" | undefined;
   backgroundColor?: string;
   color?: string;
   unselectedColor?: string;
@@ -20,7 +20,7 @@ const Button: FC<Props> = ({
   text,
   onClick,
   buttonType = ButtonType.primary,
-  type,
+  type = "button",
   backgroundColor = "teal",
   color = "white",
   borderRadius = "50px",

@@ -92,7 +92,7 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
       >
         {isRejected && <DisAgreeIcon />}
       </Button>
-      <Button
+      <Button  
         text={`${t("Confirm")} (${approved}/${paragraphsLength})`}
         onClick={handleSign}
         backgroundColor="var(--agree)"
