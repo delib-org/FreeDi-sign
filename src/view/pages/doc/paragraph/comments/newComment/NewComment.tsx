@@ -2,8 +2,6 @@ import { Statement } from "delib-npm";
 import { FC, useState } from "react";
 
 import styles from "./newComment.module.scss";
-import StrongMainButton from "../../../../../components/buttons/StrongMainButton";
-import MainButton from "../../../../../components/buttons/MainButton";
 import { addCommentToDB } from "../../../../../../controllers/db/comments/setComments";
 import { store } from "../../../../../../model/store";
 import { useLanguage } from "../../../../../../controllers/hooks/useLanguage";

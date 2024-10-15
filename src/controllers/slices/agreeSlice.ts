@@ -1,6 +1,6 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { AgreeDisagree, AgreeDisagreeEnum, updateArray } from 'delib-npm'
+import { AgreeDisagree, updateArray } from 'delib-npm'
 import { UserState } from './userSlice';
 
 
@@ -19,7 +19,7 @@ export const agreesSlice = createSlice({
         setAgree: (state, action: PayloadAction<AgreeDisagree>) => {
             state.agrees = updateArray(state.agrees, action.payload, "agreeId");
         },
-        updateAgree: (state, action: PayloadAction<({agree:AgreeDisagreeEnum, statementId:string})>) => {
+        updateAgree: (state, action: PayloadAction<({agree:number, statementId:string})>) => {
             const agree = state.agrees.find(agree => agree.agreeId === action.payload.statementId);
             if (agree) {
                 agree.agree = action.payload.agree;

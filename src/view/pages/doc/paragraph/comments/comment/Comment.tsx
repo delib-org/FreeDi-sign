@@ -1,7 +1,6 @@
 import { AgreeDisagreeEnum, Statement } from "delib-npm";
 import { FC, useEffect } from "react";
 import styles from "./Comment.module.scss";
-import ProfileImage from "../../../../../components/profileImage/ProfileImage";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../../../../../controllers/slices/userSlice";
 import { setAgreesToDB } from "../../../../../../controllers/db/agree/setAgrees";
@@ -35,10 +34,10 @@ const Comment: FC<Props> = ({ statement }) => {
     };
   }, []);
 
-  function handleAgree(_agree: AgreeDisagreeEnum) {
+  function handleAgree(_agree: number) {
     if (isCreator) return;
 
-    let __agree = AgreeDisagreeEnum.NoOpinion;
+    let __agree =0;
     if (agree?.agree !== _agree) {
       __agree = _agree;
     }
@@ -74,9 +73,9 @@ const Comment: FC<Props> = ({ statement }) => {
             <Button
               type="button"
               text={t("Disagree")}
-              onClick={() => handleAgree(AgreeDisagreeEnum.Disagree)}
+              onClick={() => handleAgree(-1)}
               isSelected={
-                agree?.agree === AgreeDisagreeEnum.Disagree || isCreator
+                agree && agree?.agree <0  || isCreator
               }
               backgroundColor="var(--reject)"
               isDisabled={isCreator}
@@ -89,8 +88,8 @@ const Comment: FC<Props> = ({ statement }) => {
             <Button
               type="button"
               text={t("Agree")}
-              onClick={() => handleAgree(AgreeDisagreeEnum.Agree)}
-              isSelected={agree?.agree === AgreeDisagreeEnum.Agree || isCreator}
+              onClick={() => handleAgree(1)}
+              isSelected={agree && agree?.agree >0 || isCreator}
               backgroundColor="var(--agree)"
               isDisabled={isCreator}
             />
