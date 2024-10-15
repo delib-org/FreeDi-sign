@@ -1,4 +1,4 @@
-import { AgreeDisagreeEnum, Statement } from "delib-npm";
+import { Statement } from "delib-npm";
 import { FC, useEffect } from "react";
 import styles from "./Comment.module.scss";
 import { useDispatch, useSelector } from "react-redux";
