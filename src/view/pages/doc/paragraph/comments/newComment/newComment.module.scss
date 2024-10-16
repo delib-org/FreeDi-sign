@@ -11,6 +11,8 @@
     padding-right: 4.4rem;  
     animation: starting 0.5s ease-in-out;
 
+
+
     &__profileImage {
         position: absolute;
         left: -3rem;
@@ -55,9 +57,21 @@
 
         &__buttonsWrapper {
             display: flex;
-            justify-content: space-between;
+            justify-content:end;
             align-items: center;
             padding: 1rem;
+            gap:3rem;
+           
+
+            .cancel{
+                background-color: white;
+                border:1px solid var(--primary);
+                border-radius: 50px;
+                padding:0.23rem 1.41rem;
+                color: var(--icon-blue);
+                user-select: none;
+                cursor: pointer;
+            }
         }
     }
 }

@@ -1,9 +1,9 @@
-import { AgreeDisagree, AgreeDisagreeEnum, Collections, getStatementSubscriptionId, Statement } from "delib-npm";
+import { AgreeDisagree, Collections, getStatementSubscriptionId, Statement } from "delib-npm";
 import { store } from "../../../model/store";
 import { doc, setDoc } from "firebase/firestore";
 import { DB } from "../config";
 
-export function setAgreesToDB({ statement, agree }: { statement: Statement, agree: AgreeDisagreeEnum }): void {
+export function setAgreesToDB({ statement, agree }: { statement: Statement, agree: number }): void {
     try {
         const user = store.getState().user.user;
         if (!user) throw new Error("User not found");
