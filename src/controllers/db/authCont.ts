@@ -14,7 +14,7 @@ export function listenToAuth() {
             try {
                 const dispatch = store.dispatch;
                 if (userFB) {
-                 
+
                     const user = parseUserFromFirebase(userFB);
 
                     dispatch(setUser(user));
@@ -42,24 +42,24 @@ export function googleLogin() {
 }
 
 export function logOut() {
-	signOut(auth)
-		.then(() => {
-			// Sign-out successful.
-			console.info("Sign-out successful.");
-		
-		})
-		.catch((error) => {
-			// An error happened.
-			console.error(error);
-		});
+    signOut(auth)
+        .then(() => {
+            // Sign-out successful.
+            console.info("Sign-out successful.");
+
+        })
+        .catch((error) => {
+            // An error happened.
+            console.error(error);
+        });
 }
 
-export function anonymousLogin(){
+export function anonymousLogin() {
     signInAnonymously(auth)
-    .then(() => {
-        console.info("user signed in anonymously ");
-    })
-    .catch((error) => {
-        console.error(error);
-    });
+        .then(() => {
+            console.info("user signed in anonymously ");
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 }

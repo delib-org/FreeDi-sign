@@ -27,6 +27,10 @@
     }
 
     &__btn {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
         position: absolute;
         margin-top: 1rem;
         width: 394px;
@@ -42,6 +46,11 @@
             width: 217px;
             height: 37px;
         }
+
+       
+            color: white;
+            text-decoration: none;
+       
     }
 
     &__img {

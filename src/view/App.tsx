@@ -32,6 +32,7 @@ function App() {
   }, []);
 
   useEffect(() => {
+  
     if (pathElements.includes("doc-anonymous")) {
       if (!user) anonymousLogin();
       navigate(`/doc-anonymous/${params.statementId}`);
@@ -40,7 +41,7 @@ function App() {
     if (!user) {
       navigate("/login");
     } else {
-      navigateToDocument(params, navigate);
+      
     }
   }, [user]);
 

@@ -19,45 +19,77 @@ interface Props {
   statement: Statement;
 }
 const Paragraph: FC<Props> = ({ statement }) => {
-  try {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const textarea = useRef<HTMLTextAreaElement>(null);
-    const comments = useSelector(commentsSelector(statement.statementId)).sort(
-      (a, b) => b.createdAt - a.createdAt
-    );
+  const textarea = useRef<HTMLTextAreaElement>(null);
+  const comments = useSelector(commentsSelector(statement.statementId)).sort(
+    (a, b) => b.createdAt - a.createdAt
+  );
 
-    const role = useContext(RoleContext);
-    const [showComments, setShowComments] = useState<boolean>(false);
-    const [showNewComment, setShowNewComment] = useState<boolean>(false);
-    const isEdit = useSelector(isEditSelector);
-    const [_isEdit, _setIsEdit] = useState(false);
+  const [showComments, setShowComments] = useState<boolean>(false);
+  const [showNewComment, setShowNewComment] = useState<boolean>(false);
+  const isEdit = useSelector(isEditSelector);
+  const [_isEdit, _setIsEdit] = useState(false);
 
-    useEffect(() => {
-      //get the previous value of isEdit
-    }, [isEdit]);
+  useEffect(() => {
+    //get the previous value of isEdit
+  }, [isEdit]);
 
-    useEffect(() => {
-      if (isEdit && textarea.current) {
-        adjustTextAreaHeight(textarea.current);
-      }
-    }, [isEdit, textarea, _isEdit]);
-
-    useEffect(() => {
-      if(showNewComment === false) setShowComments(false)
-    }, [showNewComment]);
-
-    function handleDelete() {
-      const shouldDelete = confirm(
-        "Are you sure you want to delete this paragraph?"
-      );
-      if (!shouldDelete) return;
-      deleteParagraphFromDB(statement);
-      dispatch(deleteStatement(statement.statementId));
+  useEffect(() => {
+    if (isEdit && textarea.current) {
+      adjustTextAreaHeight(textarea.current);
     }
+  }, [isEdit, textarea, _isEdit]);
 
+  useEffect(() => {
+    if (showNewComment === false) setShowComments(false);
+  }, [showNewComment]);
+  const role = useContext(RoleContext);
+
+  function handleDelete() {
+    const shouldDelete = confirm(
+      "Are you sure you want to delete this paragraph?"
+    );
+    if (!shouldDelete) return;
+    deleteParagraphFromDB(statement);
+    dispatch(deleteStatement(statement.statementId));
+  }
+
+  function handleOver() {
+    console.log("over");
+  }
+
+  function handleUpdate(e: React.KeyboardEvent<HTMLTextAreaElement> | React.FocusEvent<HTMLTextAreaElement>) {
+    if (e.type === "keyup" && (e as React.KeyboardEvent).key !== "Enter") return;
+    _setIsEdit(false);
+    const textarea = e.target as HTMLTextAreaElement;
+    if (textarea.value === "") {
+      textarea.value = statement.statement;
+    }
+    //remove new lines
+    textarea.value = textarea.value.replace(/\n/g, " ");
+    updateParagraphTextToDB({ statement, newText: textarea.value });
+  }
+
+  function renderText(text: string) {
+    //if * is found, render the text as bold
+    if (text.includes("*")) {
+      const parts = text.split("*");
+      return parts.map((part, index) => {
+        if (index % 2 === 0) {
+          return <span key={index}>{part}</span>;
+        } else {
+          return <b key={index}>{part}</b>;
+        }
+      });
+    } else {
+      return text;
+    }
+  }
+
+  try {
     return (
-      <div className={styles.paragraph}>
+      <div className={styles.paragraph} onMouseOver={handleOver}>
         {isEdit && _isEdit ? (
           <textarea
             ref={textarea}
@@ -112,35 +144,6 @@ const Paragraph: FC<Props> = ({ statement }) => {
         )}
       </div>
     );
-
-    function handleUpdate(e: any) {
-      if (e.key === "Enter" || e.type === "blur") {
-        _setIsEdit(false);
-        const textarea = e.target as HTMLTextAreaElement;
-        if (textarea.value === "") {
-          textarea.value = statement.statement;
-        }
-        //remove new lines
-        textarea.value = textarea.value.replace(/\n/g, " ");
-        updateParagraphTextToDB({ statement, newText: textarea.value });
-      }
-    }
-
-    function renderText(text: string) {
-      //if * is found, render the text as bold
-      if (text.includes("*")) {
-        const parts = text.split("*");
-        return parts.map((part, index) => {
-          if (index % 2 === 0) {
-            return <span key={index}>{part}</span>;
-          } else {
-            return <b key={index}>{part}</b>;
-          }
-        });
-      } else {
-        return text;
-      }
-    }
   } catch (e) {
     console.error(e);
     return null;
