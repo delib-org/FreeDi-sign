@@ -1,15 +1,23 @@
-import "./page401.scss";
+
+import styles from "./page401.module.scss";
+
 
 const Page401 = () => {
+
+
+
   return (
-    <div className="page401">
-      <h1>Checking for authorization</h1>
-      <p className="page401__stamp">
-        From the Institute for Deliberative Democracy
-      </p>
-      <a href="https://freedi.tech" className="page401__btn">
-        Go to Homepage
-      </a>
+    <div className={styles.page}>
+      <div className={styles.wrapper}>
+        <h1>401 - Unauthorized page</h1>
+        
+        <a href="https://freedi.tech" className={styles.btn}>
+          Go to Homepage
+        </a>
+		<p >
+          From the <a href="https://delib.org">Institute for Deliberative Democracy</a>
+        </p>
+      </div>
     </div>
   );
 };
