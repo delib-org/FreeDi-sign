@@ -28,6 +28,7 @@ export function listenToAuth() {
         });
     } catch (error) {
         console.error("Error getting statements: ", error);
+        return () => { };
     }
 }
 

@@ -16,7 +16,7 @@ export function listenToSignatures(statementId: string): Unsubscribe {
                
                 if(!doc.exists()) return;
                 const signaturesDB = doc.data() as DocumentSigns;
-                console.log(signaturesDB)
+                
                 DocumentSignsSchema.parse(signaturesDB);
                 dispatch(setSignatures(signaturesDB));
             } catch (error) {

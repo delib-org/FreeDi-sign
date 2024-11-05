@@ -8,14 +8,12 @@ export async function getSubscription(statementId:string):Promise<StatementSubsc
         const user = store.getState().user.user;
         if(!user) return undefined;
         const subscriptionId = getStatementSubscriptionId(statementId, user);
-        console.log(subscriptionId)
+        
         if(!subscriptionId) return undefined;
         const subscriptionRef = doc(DB, Collections.statementsSubscribe, subscriptionId);
        
         const subscriptionDB = await getDoc(subscriptionRef);
-        console.log(subscriptionDB)
-        console.log("subscriptionDB",subscriptionDB)
-        console.log(subscriptionDB.exists())
+   
         if(subscriptionDB.exists()){
             return subscriptionDB.data() as StatementSubscription;
         }

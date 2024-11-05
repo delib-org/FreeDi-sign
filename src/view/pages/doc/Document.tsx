@@ -19,7 +19,7 @@ const Document = () => {
 
   const { statementId } = useParams<{ statementId: string }>();
   const { isLoading, isError, statement, isAuthorized, role } =
-    useDocument(statementId);
+    useDocument();
   const signatures = useSignatures(statementId);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: An error occurred.</div>;
