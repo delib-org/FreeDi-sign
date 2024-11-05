@@ -11,6 +11,7 @@ import { Role } from "delib-npm";
 import UserButtons from "./bottomButtons/userButtons/UserButtons";
 import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlice";
 import Text from "../text/Text";
+import HourGlassLoader from "../loaders/HourGlassLoader";
 
 
 const Paper = () => {
@@ -22,8 +23,8 @@ const Paper = () => {
   const {dir} = useLanguage();
 
   const { isLoading, isError, statement, role } =
-    useDocument(statementId);
-  if (isLoading) return <div>Loading...</div>;
+    useDocument();
+  if (isLoading) return <HourGlassLoader />;
   if (isError) return <div>Error: An error occurred.</div>;
 
 

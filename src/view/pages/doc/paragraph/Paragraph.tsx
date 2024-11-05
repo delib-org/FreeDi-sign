@@ -55,9 +55,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
     dispatch(deleteStatement(statement.statementId));
   }
 
-  function handleOver() {
-    console.log("over");
-  }
+  
 
   function handleUpdate(e: React.KeyboardEvent<HTMLTextAreaElement> | React.FocusEvent<HTMLTextAreaElement>) {
     if (e.type === "keyup" && (e as React.KeyboardEvent).key !== "Enter") return;
@@ -89,7 +87,8 @@ const Paragraph: FC<Props> = ({ statement }) => {
 
   try {
     return (
-      <div className={styles.paragraph} onMouseOver={handleOver}>
+      <div className={styles.paragraph}>
+       
         {isEdit && _isEdit ? (
           <textarea
             ref={textarea}

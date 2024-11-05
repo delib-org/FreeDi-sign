@@ -103,7 +103,7 @@ export function useDocument(): Props {
             });
         }
         return () => {
-            unsubscribe();
+            if(unsubscribe) unsubscribe();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuthorized, statementId])

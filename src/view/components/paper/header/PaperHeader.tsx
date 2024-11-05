@@ -8,13 +8,10 @@ import {
   LanguagesEnum,
   useLanguage,
 } from "../../../../controllers/hooks/useLanguage";
-import { googleLogin } from "../../../../controllers/db/authCont";
-import Button from "../../buttons/button/Button";
 
 //icons
 import USAFlag from "../../../../assets/icons/usaFlag.svg?react";
 import IsraelFlag from "../../../../assets/icons/israelFlag.svg?react";
-import GoogleIcon from "../../../../assets/icons/google.svg?react";
 
 interface Props {
   statement?: Statement;
@@ -33,9 +30,7 @@ const PaperHeader: FC<Props> = ({ statement,setShowInfo }) => {
     else changeLanguage(LanguagesEnum.he);
   }
 
-  function handleGoogleLogin() {
-    googleLogin();
-  }
+
 
   return (
     <header className={styles.header}>
@@ -59,13 +54,6 @@ const PaperHeader: FC<Props> = ({ statement,setShowInfo }) => {
           {role === Role.admin && <MainEditButton title="Edit" />}
           {role === Role.admin && <InfoButton onClick={()=>setShowInfo(true)}/>}
           {/* <Checkbox /> */}
-          <Button
-            text="Google"
-            onClick={handleGoogleLogin}
-            backgroundColor="var(--blue-primary)"
-          >
-            <GoogleIcon />
-          </Button>
         </div>
       </div>
       {/* <div className={styles.bottom}>

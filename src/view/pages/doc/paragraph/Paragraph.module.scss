@@ -1,11 +1,11 @@
 .paragraph {
+    position:relative;
     display: flex;
     flex-direction: column;
-    margin-bottom: 0rem;
+    cursor: pointer;
     p{
         margin-bottom: 0rem;
     }
-
 
     &Text {
         display: grid;
