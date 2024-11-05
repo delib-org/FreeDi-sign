@@ -1,4 +1,4 @@
-import { Statement } from "delib-npm";
+import { Approval, Statement } from "delib-npm";
 import { FC, useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,6 +14,7 @@ import { deleteParagraphFromDB } from "../../../../controllers/db/paragraphs/set
 import DeleteIcon from "../../../../assets/icons/trash.svg?react";
 import { RoleContext } from "../Document";
 import Comments from "./comments/Comments";
+import { selectApprovalById } from "../../../../controllers/slices/approvalSlice";
 
 interface Props {
   statement: Statement;
@@ -24,6 +25,9 @@ const Paragraph: FC<Props> = ({ statement }) => {
   const textarea = useRef<HTMLTextAreaElement>(null);
   const comments = useSelector(commentsSelector(statement.statementId)).sort(
     (a, b) => b.createdAt - a.createdAt
+  );
+  const approval: Approval | undefined = useSelector(
+    selectApprovalById(statement.statementId)
   );
 
   const [showComments, setShowComments] = useState<boolean>(false);
@@ -85,6 +89,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
     }
   }
 
+
   try {
     return (
       <div className={styles.paragraph}>
@@ -107,7 +112,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
           <div className={styles.paragraphLine}>
             <div className={styles.paragraphText}>
               <p
-                className={`${styles.textArea} ${styles.textAreaP}`}
+                className={`${styles.textArea} ${styles.textAreaP} ${approval?.approval === false && styles.rejected}`}
                 onClick={() => {
                   _setIsEdit(true);
                 }}

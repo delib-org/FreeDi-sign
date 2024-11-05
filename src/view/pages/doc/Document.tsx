@@ -26,11 +26,6 @@ const Document = () => {
   if (isError) return <div>Error: An error occurred.</div>;
 
 
-  // useEffect(() => {
-  //   if (!statementId) return;
-
-  // }, [statementId]);
-
   if (!isAuthorized)
     return (<Page401 />);
 
