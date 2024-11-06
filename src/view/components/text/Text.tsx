@@ -10,7 +10,7 @@ interface Props {
   allowEditing?: boolean;
 }
 const Text: FC<Props> = ({ statement, allowEditing }) => {
-  try {
+  
     const userId = useSelector(selectUser)?.uid;
     const isCreator = userId === statement?.creatorId;
     const [edit, setEdit] = useState(false);
@@ -49,6 +49,7 @@ const Text: FC<Props> = ({ statement, allowEditing }) => {
         ></textarea>
       );
     }
+    try {
 
     //convert sentences, divided by /n to paragraphs
     const paragraphs = !description

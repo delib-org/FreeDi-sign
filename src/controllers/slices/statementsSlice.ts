@@ -111,7 +111,7 @@ export const documentParagraphsSelector = (documentId: string) => createSelector
     (statements) => statements.filter((statement) => statement.documentSettings?.parentDocumentId === documentId && statement.documentSettings?.type === DocumentType.paragraph)
 );
 //comments selector
-export const commentsSelector = (statementId: string) => createSelector(
+export const commentsSelector = (statementId: string|undefined) => createSelector(
     (state: { statements: StatementsState }) => state.statements.statements,
     (statements) => statements.filter((statement) => statement.parentId === statementId && statement.documentSettings?.type === DocumentType.comment)
 );

@@ -9,6 +9,12 @@ $gap: .5rem;
     margin-top:0rem;
     transition: all 100ms;
     opacity: 0.32;
+
+    @media screen and (max-width: 768px) {
+        opacity: 0.8;
+        margin-bottom: 1rem;
+        
+    }
    
    
     &:hover {

@@ -18,8 +18,8 @@
     font-weight: 600;
     line-height: 1.25rem;
     user-select: text;
-
     margin-bottom: 1rem;
+    width:100%;
 }
 
 .textarea{
@@ -27,5 +27,6 @@
    font-family: var(--font-main);
     min-height: 8rem;
     border:none;
-    padding: 2px
+    padding: 2px;
+    width:100%;
 }

@@ -6,7 +6,7 @@ import styles from "./Comments.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../../../controllers/slices/userSlice";
 import {
-  commentsSelector,
+  commentsSelector as cmsSelector,
   updateShowComments,
   updateShowNewComment,
 } from "../../../../controllers/slices/commentsSlice";
@@ -16,14 +16,15 @@ import Button from "../../../components/buttons/button/Button";
 
 //icons
 import BackArrow from "../../../../assets/icons/backArrow.svg?react";
+import { commentsSelector } from "../../../../controllers/slices/statementsSlice";
 
 const Comments: FC = () => {
   const dispatch = useDispatch();
   const { t, dir } = useLanguage();
 
-  const { statement, comments, showComments, showNewComment } =
-    useSelector(commentsSelector);
-
+  const { statement, showComments, showNewComment } =
+    useSelector(cmsSelector);
+const comments = useSelector(commentsSelector(statement?.statementId));
   const role = useContext(RoleContext);
   const userId = useSelector(selectUser)?.uid;
   const didUserCommented = comments.some((cm) => cm.creatorId === userId);
