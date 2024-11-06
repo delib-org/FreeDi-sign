@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { documentSelector } from "../slices/statementsSlice";
 import { getSubscription } from "../db/subscriptions/getSubscriptions";
 import { selectUser } from "../slices/userSlice";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { anonymousLogin } from "../db/authCont";
 import { selectSubscriptionByStatementId, setSubscription } from "../slices/subscriptionsSlice";
 
@@ -23,6 +23,7 @@ export function useDocument(): Props {
     const { pathname } = useLocation();
     const { statementId } = useParams<{ statementId: string }>();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const user = useSelector(selectUser);
     const subscription = useSelector(selectSubscriptionByStatementId(statementId));
@@ -73,6 +74,12 @@ export function useDocument(): Props {
                 setIsAuthorized(true);
 
                 setRole(Role.unsubscribed);
+            } else {
+                if(!user){
+                    localStorage.setItem("statementId", statementId);
+                    setIsLoading(false);
+                    navigate("/login")
+                }
             }
 
         } catch (error) {

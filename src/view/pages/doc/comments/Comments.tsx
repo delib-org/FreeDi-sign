@@ -19,7 +19,7 @@ import BackArrow from "../../../../assets/icons/backArrow.svg?react";
 
 const Comments: FC = () => {
   const dispatch = useDispatch();
-  const { t } = useLanguage();
+  const { t, dir } = useLanguage();
 
   const { statement, comments, showComments, showNewComment } =
     useSelector(commentsSelector);
@@ -47,7 +47,7 @@ const Comments: FC = () => {
 
   return (
     <div className={styles.box}>
-      <div className={styles.back}><button onClick={handleHideComments} ><BackArrow /></button></div>
+      <div className={styles.back}><button onClick={handleHideComments} style={{transform:dir==="ltr"?`rotate(0deg)`:`rotate(180deg)`}}><BackArrow /></button></div>
       <p className={styles.p}>{t("Paragraph")}:</p>
       <p className={styles.paragraph}>{statement.statement}</p>
       {role !== Role.admin && !didUserCommented && showNewComment && (
