@@ -28,6 +28,7 @@ const Comments: FC<Props> = ({
 
   useEffect(()=>{
     setShowNewComment(true)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[showComments])
 
   return (

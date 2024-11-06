@@ -15,6 +15,7 @@ import DeleteIcon from "../../../../assets/icons/trash.svg?react";
 import { RoleContext } from "../Document";
 import Comments from "./comments/Comments";
 import { selectApprovalById } from "../../../../controllers/slices/approvalSlice";
+import Modal from "../../../components/modal/Modal";
 
 interface Props {
   statement: Statement;
@@ -59,10 +60,13 @@ const Paragraph: FC<Props> = ({ statement }) => {
     dispatch(deleteStatement(statement.statementId));
   }
 
-  
-
-  function handleUpdate(e: React.KeyboardEvent<HTMLTextAreaElement> | React.FocusEvent<HTMLTextAreaElement>) {
-    if (e.type === "keyup" && (e as React.KeyboardEvent).key !== "Enter") return;
+  function handleUpdate(
+    e:
+      | React.KeyboardEvent<HTMLTextAreaElement>
+      | React.FocusEvent<HTMLTextAreaElement>
+  ) {
+    if (e.type === "keyup" && (e as React.KeyboardEvent).key !== "Enter")
+      return;
     _setIsEdit(false);
     const textarea = e.target as HTMLTextAreaElement;
     if (textarea.value === "") {
@@ -89,11 +93,9 @@ const Paragraph: FC<Props> = ({ statement }) => {
     }
   }
 
-
   try {
     return (
       <div className={styles.paragraph}>
-       
         {isEdit && _isEdit ? (
           <textarea
             ref={textarea}
@@ -112,7 +114,9 @@ const Paragraph: FC<Props> = ({ statement }) => {
           <div className={styles.paragraphLine}>
             <div className={styles.paragraphText}>
               <p
-                className={`${styles.textArea} ${styles.textAreaP} ${approval?.approval === false && styles.rejected}`}
+                className={`${styles.textArea} ${styles.textAreaP} ${
+                  approval?.approval === false && styles.rejected
+                }`}
                 onClick={() => {
                   _setIsEdit(true);
                 }}
@@ -137,14 +141,16 @@ const Paragraph: FC<Props> = ({ statement }) => {
         )}
 
         {showComments && !isEdit && (
-          <Comments
-            role={role}
-            statement={statement}
-            comments={comments}
-            showComments={showComments}
-            showNewComment={showNewComment}
-            setShowNewComment={setShowNewComment}
-          />
+          <Modal>
+            <Comments
+              role={role}
+              statement={statement}
+              comments={comments}
+              showComments={showComments}
+              showNewComment={showNewComment}
+              setShowNewComment={setShowNewComment}
+            />
+          </Modal>
         )}
       </div>
     );
