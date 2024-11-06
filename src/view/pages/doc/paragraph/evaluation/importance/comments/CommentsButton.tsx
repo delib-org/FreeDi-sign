@@ -25,7 +25,7 @@ const CommentsButton: FC<Props> = ({
   const {t} = useLanguage();
 
   function handleShowComments(){
-    dispatch(setComments({statement, role, comments, showComments:true, showNewComment:false}))
+    dispatch(setComments({statement, role, comments, showComments:true, showNewComment:true}))
   }
   return (
     <div className={styles.comments} onClick={handleShowComments}>

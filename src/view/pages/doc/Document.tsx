@@ -13,19 +13,28 @@ import { useSignatures } from "../../../controllers/hooks/signHooks";
 import Page401 from "../page401/Page401";
 import HourGlassLoader from "../../components/loaders/HourGlassLoader";
 import Comments from "./comments/Comments";
-import { useSelector } from "react-redux";
-import { commentsSelector } from "../../../controllers/slices/commentsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { commentsSelector, updateShowComments } from "../../../controllers/slices/commentsSlice";
 
 export const RoleContext = createContext<Role>(Role.unsubscribed);
 
 const Document = () => {
-
-  const {showComments} = useSelector(commentsSelector);
+  const dispatch = useDispatch();
+  const { showComments } = useSelector(commentsSelector);
   const [showInfo, setShowInfo] = useState(false);
 
   const { statementId } = useParams<{ statementId: string }>();
   const { isLoading, isError, statement, isAuthorized, role } = useDocument();
   const signatures = useSignatures(statementId);
+
+
+  function handleShowComments(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    if (event.target === event.currentTarget) {
+      event.stopPropagation();
+      dispatch(updateShowComments(!showComments));
+    }
+  }
+
   if (isLoading)
     return (
       <div className="loader-page">
@@ -57,9 +66,13 @@ const Document = () => {
             />
           </Modal>
         )}
-        {showComments && <Modal>
-          <Comments />
-        </Modal>}
+        {showComments && (
+          <div>
+            <Modal onClick={handleShowComments}>
+              <Comments />
+            </Modal>
+          </div>
+        )}
       </div>
     </RoleContext.Provider>
   );

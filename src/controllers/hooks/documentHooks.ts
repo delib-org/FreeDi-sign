@@ -37,13 +37,13 @@ export function useDocument(): Props {
 
     useEffect(() => {
         if (statementId && user) {
-            
+
             localStorage.setItem("statementId", statementId);
             setIsLoading(true);
             if (user.isAnonymous === false && !isAnonymousPage) {
                 getSubscription(statementId).then((subscription) => {
                     if (subscription) {
-                        
+
                         dispatch(setSubscription(subscription));
                     }
                     setIsLoading(false);
@@ -51,11 +51,11 @@ export function useDocument(): Props {
             }
         }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [statementId, user])
 
     useEffect(() => {
-        
+
         if (subscription) {
 
             setRole(subscription.role);
@@ -64,17 +64,13 @@ export function useDocument(): Props {
     }, [subscription])
 
     useEffect(() => {
-        
+
         try {
 
             if (!statementId) throw new Error("No statementId provided");
-            if (!user) {
-
-                return;
-            }
             if (isAnonymousPage) {
                 if (!user) anonymousLogin();
-                else setIsAuthorized(true);
+                setIsAuthorized(true);
 
                 setRole(Role.unsubscribed);
             }
@@ -93,8 +89,10 @@ export function useDocument(): Props {
     }, [statement, user])
 
     useEffect(() => {
+        console.log(statement, isAuthorized, user?.isAnonymous)
         let unsubscribe: () => void;
-        if (!statement && statementId) {
+        if (!statement && statementId && isAuthorized && user) {
+            console.log(statement, isAuthorized, user.isAnonymous)
             unsubscribe = listenToDocument(statementId);
             setIsLoading(true);
             getStatement(statementId).then((statement) => {
@@ -103,10 +101,10 @@ export function useDocument(): Props {
             });
         }
         return () => {
-            if(unsubscribe) unsubscribe();
+            if (unsubscribe) unsubscribe();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAuthorized, statementId])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAuthorized, statementId, user])
     try {
 
         const _statements = isAuthorized ? statements : [];

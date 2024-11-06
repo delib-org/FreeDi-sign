@@ -117,7 +117,7 @@ export const commentsSelector = (statementId: string) => createSelector(
 );
 
 //signatures selector
-export const signaturesSelector = (documentId: string) => createSelector(
+export const signaturesSelector = (documentId: string|undefined) => createSelector(
     (state: {  statements: StatementsState  }) => state.statements.signatures,
     (signatures) => signatures.find((signature) => signature.documentId === documentId)
 );

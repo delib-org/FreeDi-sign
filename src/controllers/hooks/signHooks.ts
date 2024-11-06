@@ -3,30 +3,28 @@ import { listenToSignatures } from "../db/signatures/getSignatures";
 import { signaturesSelector } from "../slices/statementsSlice";
 import { useEffect } from "react";
 import { DocumentSigns } from "delib-npm";
+import { selectUser } from "../slices/userSlice";
 
 export function useSignatures(statementId: string | undefined): DocumentSigns | undefined {
-    try {
+    const signatures: DocumentSigns | undefined = useSelector(signaturesSelector(statementId));
+    const user = useSelector(selectUser);
 
-        if (!statementId) return undefined;
-        const signatures: DocumentSigns | undefined = useSelector(signaturesSelector(statementId));
 
-        useEffect(() => {
-            if (!statementId) return;
 
-           
-          
-            const unsubscribe = listenToSignatures(statementId);
+    useEffect(() => {
+        if (!statementId) return;
+        if (!user) return;
 
-            return ()=>{
-                unsubscribe();
-            } 
-        }, [statementId]);
 
-        return signatures;
-    } catch (error) {
-        console.error(error);
-        return undefined;
-    }
+        const unsubscribe = listenToSignatures(statementId);
+
+        return () => {
+            unsubscribe();
+        }
+    }, [statementId, user]);
+
+    return signatures;
+
 
 
 }
