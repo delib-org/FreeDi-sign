@@ -14,6 +14,9 @@ import { RoleContext } from "../Document";
 import { useLanguage } from "../../../../controllers/hooks/useLanguage";
 import Button from "../../../components/buttons/button/Button";
 
+//icons
+import BackArrow from "../../../../assets/icons/backArrow.svg?react";
+
 const Comments: FC = () => {
   const dispatch = useDispatch();
   const { t } = useLanguage();
@@ -38,8 +41,13 @@ const Comments: FC = () => {
     dispatch(updateShowNewComment(true));
   }
 
+  function handleHideComments() {
+    dispatch(updateShowComments(false));
+  } 
+
   return (
     <div className={styles.box}>
+      <div className={styles.back}><button onClick={handleHideComments} ><BackArrow /></button></div>
       <p className={styles.p}>{t("Paragraph")}:</p>
       <p className={styles.paragraph}>{statement.statement}</p>
       {role !== Role.admin && !didUserCommented && showNewComment && (
@@ -52,17 +60,20 @@ const Comments: FC = () => {
       {!didUserCommented && !showNewComment && (
         <Button text={t("Add Comment")} isSelected={true} onClick={handleShowNewComment} />
       )}
-      {myComment && (<Comment statement={myComment} />)}
-      {otherComments.length > 0 && <p>Other comments:</p>}
       <div
         className={`${styles.comments} ${
           showComments ? styles.commentsOpen : styles.commentsClose
         }`}
       >
-      
+        {myComment && <p>{t("Your comment")}:</p>}
+        {myComment && (<Comment statement={myComment} />)}
+        {otherComments.length > 0 && <p>{t("Other comments")}:</p>}
         {otherComments.map((comment) => (
           <Comment key={`c-${comment.statementId}`} statement={comment} />
         ))}
+      </div>
+      <div className={`btns ${styles.btns}`}>
+        <Button text={t("Close")} isSelected={true} onClick={handleHideComments} />
       </div>
     </div>
   );

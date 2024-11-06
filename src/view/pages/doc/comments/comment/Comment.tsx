@@ -32,6 +32,7 @@ const Comment: FC<Props> = ({ statement }) => {
     return () => {
       unsub();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleAgree(_agree: number) {

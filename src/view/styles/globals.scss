@@ -177,3 +177,10 @@ p{
         transform: scale(3);
     }
 }
+
+.btns{
+    display: flex;
+    gap: 1rem;
+    justify-content: space-around;
+    align-items: center;
+}
