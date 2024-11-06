@@ -7,10 +7,20 @@ $gap: .5rem;
     align-items: center;
     justify-content: start;
     margin-top:0rem;
-    margin-bottom: 1rem;
-    transition: opacity 120ms;
+    transition: all 100ms;
+    opacity: 0.32;
 
+    @media screen and (max-width: 768px) {
+        opacity: 0.8;
+        margin-bottom: 1rem;
+        
+    }
    
+   
+    &:hover {
+        opacity: 1;
+       
+    }
 
 }
 

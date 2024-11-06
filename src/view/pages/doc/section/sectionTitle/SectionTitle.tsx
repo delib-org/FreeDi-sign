@@ -15,22 +15,47 @@ interface Props {
 }
 
 const SectionTitle: FC<Props> = ({
-  bullet,
+  // bullet,
   level,
   statement,
   isTitleReady,
   setIsTitleReady,
 }) => {
-  try {
-    const isEdit = useSelector(isEditSelector);
-    const [_isEdit, _setIsEdit] = useState(false);
+  const isEdit = useSelector(isEditSelector);
+  const [_isEdit, _setIsEdit] = useState(false);
 
-    useEffect(() => {
-      if (isTitleReady === false) {
-        _setIsEdit(true);
+  useEffect(() => {
+    if (isTitleReady === false) {
+      _setIsEdit(true);
+    }
+  }, [isTitleReady]);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function handleChange(e: any) {
+    const textarea = e.target as HTMLTextAreaElement;
+    adjustTextAreaHeight(textarea);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function handleUpdate(e: any) {
+    if (e.key === "Enter" || e.type === "blur") {
+      const textarea = e.target as HTMLTextAreaElement;
+      const value = textarea.value;
+
+      if (value === "") {
+        setIsTitleReady(false);
+        return;
       }
-    }, [isTitleReady]);
 
+      setIsTitleReady(true);
+
+      updateStatementText({ statement, title: value });
+
+      _setIsEdit(false);
+    }
+  }
+
+  try {
     return (
       <>
         {isEdit && _isEdit ? (
@@ -48,34 +73,11 @@ const SectionTitle: FC<Props> = ({
               if (isEdit) _setIsEdit(true);
             }}
           >
-            {sectionHeader(`${bullet} ) ${statement.statement}`, level)}
+            {sectionHeader(`${statement.statement}`, level)}
           </div>
         )}
       </>
     );
-
-    function handleChange(e: any) {
-      const textarea = e.target as HTMLTextAreaElement;
-      adjustTextAreaHeight(textarea);
-    }
-
-    function handleUpdate(e: any) {
-      if (e.key === "Enter" || e.type === "blur") {
-        const textarea = e.target as HTMLTextAreaElement;
-        const value = textarea.value;
-
-        if (value === "") {
-          setIsTitleReady(false);
-          return;
-        }
-
-        setIsTitleReady(true);
-
-        updateStatementText({statement, title: value});
-
-        _setIsEdit(false);
-      }
-    }
   } catch (error) {
     console.error(error);
     return null;

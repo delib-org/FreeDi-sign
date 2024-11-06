@@ -10,7 +10,7 @@ import { sectionsSelector } from "../../../../controllers/slices/statementsSlice
 import { useLanguage } from "../../../../controllers/hooks/useLanguage";
 
 
-function Accordion() {
+function Aside() {
 
   const {t, dir} = useLanguage();
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
@@ -43,12 +43,13 @@ function Accordion() {
           <PdfDownloadIcon />
           <h2 className={styles.pdfText}>Download PDF</h2>
         </div> */}
-        <div className={styles.ddi}>
+       
+      </div>
+      <div className={styles.ddi}>
           <a href="https://delib.org" target="_blank">{t("From the Deliberative Democracy Institute")}</a>
         </div>
-      </div>
     </aside>
   );
 }
 
-export default Accordion;
+export default Aside;

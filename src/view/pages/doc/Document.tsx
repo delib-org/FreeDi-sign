@@ -11,27 +11,40 @@ import Modal from "../../components/modal/Modal";
 import DocumentInfo from "../../components/info/DocumentInfo";
 import { useSignatures } from "../../../controllers/hooks/signHooks";
 import Page401 from "../page401/Page401";
+import HourGlassLoader from "../../components/loaders/HourGlassLoader";
+import Comments from "./comments/Comments";
+import { useDispatch, useSelector } from "react-redux";
+import { commentsSelector, updateShowComments } from "../../../controllers/slices/commentsSlice";
 
 export const RoleContext = createContext<Role>(Role.unsubscribed);
 
 const Document = () => {
+  const dispatch = useDispatch();
+  const { showComments } = useSelector(commentsSelector);
   const [showInfo, setShowInfo] = useState(false);
 
   const { statementId } = useParams<{ statementId: string }>();
-  const { isLoading, isError, statement, isAuthorized, role } =
-    useDocument(statementId);
+  const { isLoading, isError, statement, isAuthorized, role } = useDocument();
   const signatures = useSignatures(statementId);
-  if (isLoading) return <div>Loading...</div>;
+
+
+  function handleShowComments(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    if (event.target === event.currentTarget) {
+      event.stopPropagation();
+      dispatch(updateShowComments(!showComments));
+    }
+  }
+
+  if (isLoading)
+    return (
+      <div className="loader-page">
+        <HourGlassLoader />
+        Loading...
+      </div>
+    );
   if (isError) return <div>Error: An error occurred.</div>;
 
-
-  // useEffect(() => {
-  //   if (!statementId) return;
-
-  // }, [statementId]);
-
-  if (!isAuthorized)
-    return (<Page401 />);
+  if (!isAuthorized) return <Page401 />;
 
   return (
     <RoleContext.Provider value={role}>
@@ -41,7 +54,7 @@ const Document = () => {
         </div>
 
         <div className={styles.main}>
-          <PaperHeader statement={statement} setShowInfo={setShowInfo}/>
+          <PaperHeader statement={statement} setShowInfo={setShowInfo} />
           <Paper />
         </div>
         {showInfo && (
@@ -52,6 +65,13 @@ const Document = () => {
               setShowInfo={setShowInfo}
             />
           </Modal>
+        )}
+        {showComments && (
+          <div>
+            <Modal onClick={handleShowComments}>
+              <Comments />
+            </Modal>
+          </div>
         )}
       </div>
     </RoleContext.Provider>

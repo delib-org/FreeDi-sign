@@ -4,6 +4,7 @@ import Login from "../view/pages/login/Login";
 import Main from "../view/pages/main/Main";
 import Document from "../view/pages/doc/Document";
 import Page404 from "../view/pages/page404/Page404";
+import Page401 from "../view/pages/page401/Page401";
 
 export const router = createBrowserRouter([
   {
@@ -32,7 +33,10 @@ export const router = createBrowserRouter([
     path: "/404",
     element: <Page404 />,
   },
-
+  {
+    path: "/401",
+    element: <Page401 />
+  },
   {
     path: "*",
     element:  <Page404 />,

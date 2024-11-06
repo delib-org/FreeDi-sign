@@ -161,3 +161,26 @@ p{
         transform: translateX(50%);
     }
 }
+
+.loader-page{
+    background-color: var(--dark-main);
+    width:100vw;
+    height:100vh;
+    display: flex;
+    flex-direction: column;
+    color:white;
+    gap:2rem;
+    justify-content: center;
+    align-items: center;
+
+    >span{
+        transform: scale(3);
+    }
+}
+
+.btns{
+    display: flex;
+    gap: 1rem;
+    justify-content: space-around;
+    align-items: center;
+}

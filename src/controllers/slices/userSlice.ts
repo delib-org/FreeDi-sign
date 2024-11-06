@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { User } from 'delib-npm'
+import { StatementSubscription, User } from 'delib-npm'
 
 export interface UserState {
-    user: User | null
+    user: User | null;
+    subscription: StatementSubscription | null;
 }
 
 const initialState: UserState = {
-    user: null
+    user: null,
+    subscription: null,
 }
 
 export const userSlice = createSlice({
@@ -16,13 +18,14 @@ export const userSlice = createSlice({
     reducers: {
         setUser: (state, action: PayloadAction<User | undefined>) => {
             state.user = action.payload || null
-        },
+        }
     },
 })
 
 // Action creators are generated for each case reducer function
 export const { setUser } = userSlice.actions
 
-export const selectUser = (state: { user: UserState }) => state.user.user
+export const selectUser = (state: { user: UserState }) => state.user.user;
+
 
 export default userSlice.reducer

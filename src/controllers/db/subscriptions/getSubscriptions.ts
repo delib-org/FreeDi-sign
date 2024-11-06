@@ -8,11 +8,14 @@ export async function getSubscription(statementId:string):Promise<StatementSubsc
         const user = store.getState().user.user;
         if(!user) return undefined;
         const subscriptionId = getStatementSubscriptionId(statementId, user);
+        
         if(!subscriptionId) return undefined;
         const subscriptionRef = doc(DB, Collections.statementsSubscribe, subscriptionId);
-        const subscription = await getDoc(subscriptionRef);
-        if(subscription.exists()){
-            return subscription.data() as StatementSubscription;
+       
+        const subscriptionDB = await getDoc(subscriptionRef);
+   
+        if(subscriptionDB.exists()){
+            return subscriptionDB.data() as StatementSubscription;
         }
         return undefined;
     } catch (error) {

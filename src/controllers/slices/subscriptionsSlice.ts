@@ -24,5 +24,6 @@ export const subscriptionsSlice = createSlice({
 export const { setSubscription } = subscriptionsSlice.actions
 
 export const selectSubscriptionById = (subscriptionId:string) => (state: { subscriptions: SubscriptionsState }) => state.subscriptions.subscriptions.find((subscription) => subscription.statementsSubscribeId === subscriptionId);
+export const selectSubscriptionByStatementId = (statementId:string | undefined) => (state: { subscriptions: SubscriptionsState }) => state.subscriptions.subscriptions.find((subscription) => subscription.statementId === statementId);
 
 export default subscriptionsSlice.reducer

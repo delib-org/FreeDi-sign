@@ -1,6 +1,7 @@
 .comment {
     position: relative;
     width: fit-content;
+    width: 100%;
     margin-bottom:.5rem;
     display: flex;
     justify-content: center;
@@ -26,8 +27,7 @@
             0px 1px 4px 0px #0C0C0D0D,
             0px 1px 4px 0px #0C0C0D1A;
         padding:1rem;
-        width: fit-content;
-        max-width: 20rem;
+        width: 100%;
 
 
         @media screen and (max-width: 768px){

@@ -1,28 +1,34 @@
-import "./page401.scss";
-import { useNavigate } from "react-router";
-
-
+import { useNavigate } from "react-router-dom";
+import styles from "./page401.module.scss";
+import { logOut } from "../../../controllers/db/authCont";
 
 const Page401 = () => {
-	const navigate = useNavigate();
+  const navigate = useNavigate();
 
+  function handleGoToLogin() {
+    logOut();
+    setTimeout(() => {
+      navigate("/login");
+    }, 500);
+  }
 
-	function handleGoHome() {
-	
-		navigate("/");
-	}
-
-	return (
-		<div className="page401">
-			<h1>Checking for authorization</h1>
-			<p className="page401__stamp">
-                From the Institute for Deliberative Democracy
-			</p>
-			<button className="page401__btn" onClick={handleGoHome}>
-                Go to Homepage
-			</button>
-		</div>
-	);
+  return (
+    <div className={styles.page}>
+      <div className={styles.wrapper}>
+        <h1>401 - Unauthorized page</h1>
+        <button onClick={handleGoToLogin} className={styles.btn}>
+          Go to Login
+        </button>
+        <a href="https://freedi.tech" className={styles.btn}>
+          Go to Homepage
+        </a>
+        <p>
+          From the{" "}
+          <a href="https://delib.org">Institute for Deliberative Democracy</a>
+        </p>
+      </div>
+    </div>
+  );
 };
 
 export default Page401;

@@ -2,16 +2,16 @@ import { Statement } from "delib-npm";
 import { FC, useEffect } from "react";
 import styles from "./Comment.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from "../../../../../../controllers/slices/userSlice";
-import { setAgreesToDB } from "../../../../../../controllers/db/agree/setAgrees";
-import { listenToUserAgree } from "../../../../../../controllers/db/agree/getAgree";
+import { selectUser } from "../../../../../controllers/slices/userSlice";
+import { setAgreesToDB } from "../../../../../controllers/db/agree/setAgrees";
+import { listenToUserAgree } from "../../../../../controllers/db/agree/getAgree";
 import {
   selectAgree,
   updateAgree,
-} from "../../../../../../controllers/slices/agreeSlice";
-import Button from "../../../../../components/buttons/button/Button";
-import { useLanguage } from "../../../../../../controllers/hooks/useLanguage";
-import Text from "../../../../../components/text/Text";
+} from "../../../../../controllers/slices/agreeSlice";
+import Button from "../../../../components/buttons/button/Button";
+import { useLanguage } from "../../../../../controllers/hooks/useLanguage";
+import Text from "../../../../components/text/Text";
 
 interface Props {
   statement: Statement;
@@ -32,6 +32,7 @@ const Comment: FC<Props> = ({ statement }) => {
     return () => {
       unsub();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleAgree(_agree: number) {

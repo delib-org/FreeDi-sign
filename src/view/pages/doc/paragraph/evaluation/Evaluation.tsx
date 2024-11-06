@@ -11,16 +11,13 @@ import { RoleContext } from "../../Document";
 
 interface Props {
   statement: Statement;
-  showComments: boolean;
-  setShowComments: (show: boolean) => void;
-  numberOfComments: number;
+  comments: Statement[]; 
 }
 const Evaluation: FC<Props> = ({
   statement,
-  showComments,
-  setShowComments,
-  numberOfComments,
+  comments,
 }) => {
+  const numberOfComments = comments.length;
   const role = useContext(RoleContext);
   try {
     return (
@@ -47,8 +44,8 @@ const Evaluation: FC<Props> = ({
         <VerticalHR />
         <CommentsButton
           numberOfComments={numberOfComments}
-          showComments={showComments}
-          setShowComments={setShowComments}
+          statement={statement}
+          comments={comments}          
         />
        
         
