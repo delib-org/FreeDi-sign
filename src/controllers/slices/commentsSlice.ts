@@ -12,7 +12,7 @@ interface CommentsState {
 }
 
 const initialState: CommentsState = {
-    role: undefined,
+    role: Role.unsubscribed,
     statement: undefined,
     comments: [],
     showComments: false,

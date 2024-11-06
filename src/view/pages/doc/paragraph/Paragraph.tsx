@@ -1,5 +1,5 @@
 import { Approval, Statement } from "delib-npm";
-import { FC, useContext, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   commentsSelector,
@@ -12,10 +12,8 @@ import Evaluation from "./evaluation/Evaluation";
 import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general";
 import { deleteParagraphFromDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import DeleteIcon from "../../../../assets/icons/trash.svg?react";
-import { RoleContext } from "../Document";
-import Comments from "./comments/Comments";
 import { selectApprovalById } from "../../../../controllers/slices/approvalSlice";
-import Modal from "../../../components/modal/Modal";
+
 
 interface Props {
   statement: Statement;
@@ -31,8 +29,6 @@ const Paragraph: FC<Props> = ({ statement }) => {
     selectApprovalById(statement.statementId)
   );
 
-  const [showComments, setShowComments] = useState<boolean>(false);
-  const [showNewComment, setShowNewComment] = useState<boolean>(false);
   const isEdit = useSelector(isEditSelector);
   const [_isEdit, _setIsEdit] = useState(false);
 
@@ -46,10 +42,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
     }
   }, [isEdit, textarea, _isEdit]);
 
-  useEffect(() => {
-    if (showNewComment === false) setShowComments(false);
-  }, [showNewComment]);
-  const role = useContext(RoleContext);
+
 
   function handleDelete() {
     const shouldDelete = confirm(
@@ -134,23 +127,8 @@ const Paragraph: FC<Props> = ({ statement }) => {
         {!isEdit && (
           <Evaluation
             statement={statement}
-            showComments={showComments}
-            setShowComments={setShowComments}
-            numberOfComments={comments.length}
+            comments={comments}
           />
-        )}
-
-        {showComments && !isEdit && (
-          <Modal>
-            <Comments
-              role={role}
-              statement={statement}
-              comments={comments}
-              showComments={showComments}
-              showNewComment={showNewComment}
-              setShowNewComment={setShowNewComment}
-            />
-          </Modal>
         )}
       </div>
     );
