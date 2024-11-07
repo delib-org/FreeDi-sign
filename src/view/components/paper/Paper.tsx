@@ -5,7 +5,10 @@ import { useDocument } from "../../../controllers/hooks/documentHooks";
 import AdminBottomButtons from "./bottomButtons/AdminBottomButtons";
 import NewSection from "../../pages/doc/newSection/NewSection";
 import { useSelector } from "react-redux";
-import { documentParagraphsSelector, sectionsSelector } from "../../../controllers/slices/statementsSlice";
+import {
+  documentParagraphsSelector,
+  sectionsSelector,
+} from "../../../controllers/slices/statementsSlice";
 import { useLanguage } from "../../../controllers/hooks/useLanguage";
 import { Role } from "delib-npm";
 import UserButtons from "./bottomButtons/userButtons/UserButtons";
@@ -13,32 +16,32 @@ import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlic
 import Text from "../text/Text";
 import HourGlassLoader from "../loaders/HourGlassLoader";
 
-
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
   const sections = useSelector(sectionsSelector(statementId || ""));
   const paragraphs = useSelector(documentParagraphsSelector(statementId || ""));
-  const rejected = useSelector(selectApprovalsByDocId(statementId || "")).filter((approval) => approval.approval === false);
-  const approved =paragraphs.length-rejected.length;
-  const {dir} = useLanguage();
+  const rejected = useSelector(
+    selectApprovalsByDocId(statementId || "")
+  ).filter((approval) => approval.approval === false);
+  const approved = paragraphs.length - rejected.length;
+  const { dir } = useLanguage();
 
-  const { isLoading, isError, statement, role } =
-    useDocument();
+  const { isLoading, isError, statement, role } = useDocument();
   if (isLoading) return <HourGlassLoader />;
   if (isError) return <div>Error: An error occurred.</div>;
 
-
-
-  if(!statement) return null;
+  if (!statement) return null;
 
   return (
     <div className={styles.paper}>
-      <div className={`wrapper wrapper--paper ${dir === "rtl" && "wrapper--rtl"}`}>
+      <div
+        className={`wrapper wrapper--paper ${dir === "rtl" && "wrapper--rtl"}`}
+      >
         {statement && (
           <div className={styles.mainContainer}>
-            <div style={{color:"#57688F"}}>
-            <Text statement={statement} />
-            </div>
+            <h1>
+              {statement.statement}
+            </h1>
             {sections.map((section, index) => (
               <Section
                 key={section.statementId}
@@ -56,7 +59,15 @@ const Paper = () => {
             />
           </div>
         )}
-        {role === Role.admin? <AdminBottomButtons />:<UserButtons paragraphsLength={paragraphs.length} approved={approved} document={statement}/>}
+        {role === Role.admin ? (
+          <AdminBottomButtons />
+        ) : (
+          <UserButtons
+            paragraphsLength={paragraphs.length}
+            approved={approved}
+            document={statement}
+          />
+        )}
       </div>
     </div>
   );

@@ -7,15 +7,24 @@ import LogoAndNameIcon from "../../../components/icons/LogoAndNameIcon";
 import styles from "./Aside.module.scss";
 import { useSelector } from "react-redux";
 import { sectionsSelector } from "../../../../controllers/slices/statementsSlice";
-import { useLanguage } from "../../../../controllers/hooks/useLanguage";
+import { LanguagesEnum, useLanguage } from "../../../../controllers/hooks/useLanguage";
 
+//icons
+import USAFlag from "../../../../assets/icons/usaFlag.svg?react";
+import IsraelFlag from "../../../../assets/icons/israelFlag.svg?react";
 
 function Aside() {
 
-  const {t, dir} = useLanguage();
+  const {t, dir, currentLanguage, changeLanguage} = useLanguage();
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
   const { statementId } = useParams<{ statementId: string }>();
   const sections = useSelector(sectionsSelector(statementId));
+ 
+  function handleToggleLanguage() {
+    if (currentLanguage === LanguagesEnum.he) changeLanguage(LanguagesEnum.en);
+    else changeLanguage(LanguagesEnum.he);
+  }
+
 
 
   return (
@@ -46,6 +55,13 @@ function Aside() {
        
       </div>
       <div className={styles.ddi}>
+      <button className={styles.button} onClick={handleToggleLanguage}>
+            {currentLanguage === LanguagesEnum.en ? (
+              <IsraelFlag />
+            ) : (
+              <USAFlag />
+            )}
+          </button>
           <a href="https://delib.org" target="_blank">{t("From the Deliberative Democracy Institute")}</a>
         </div>
     </aside>
