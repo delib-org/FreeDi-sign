@@ -45,55 +45,10 @@ export function useDocument(): Props {
 
     useEffect(() => {
    
-        let unsubscribe: () => void;
-        let unsubscribe2: () => void;
-        if (statementId) {
-            if (isAnonymousPage) {
-                if (user) {
-
-                    setIsLoading(true);
-                    setIsAuthorized(true);
-                    unsubscribe2 = listenToStatement(statementId);
-                    unsubscribe = listenToDocument(statementId);
-                } else {
-  
-                    anonymousLogin();
-                }
-            } else {
-          
-                if (!user) {
-                    navigate("/login");
-                } else if (user.isAnonymous === false) {
-                    getSubscription(statementId).then((subscription) => {
-                        if (subscription) {
-                           
-                            dispatch(setSubscription(subscription));
-                            if (subscription.role === Role.admin) {
-                             
-                                setRole(Role.admin);
-                                setIsAuthorized(true);
-                                setIsLoading(false);
-                                unsubscribe2 = listenToStatement(statementId);
-                                unsubscribe = listenToDocument(statementId);
-                            } else {
-                                setIsAuthorized(false);
-                                setRole(Role.unsubscribed);
-                                setIsLoading(false);
-                            }
-                        } else {
-                         
-                            setIsAuthorized(false);
-                            setRole(Role.unsubscribed);
-                            setIsLoading(false);
-                        }
-                    });
-                } else {
-                    setIsAuthorized(false);
-                    setRole(Role.unsubscribed);
-                    setIsLoading(false);
-                }
-            }
-        }
+        let unsubscribe: () => void = () => {};
+        let unsubscribe2: () => void = () => {};
+        // eslint-disable-next-line prefer-const
+        ({ unsubscribe2, unsubscribe } = authorize(unsubscribe2, unsubscribe));
         return () => {
             if (unsubscribe) unsubscribe();
             if (unsubscribe2) unsubscribe2();
@@ -125,5 +80,56 @@ export function useDocument(): Props {
     } catch (error) {
         console.error(error)
         return { statements: [], isError: true, isLoading: false, statement: undefined, isAuthorized: false, role: Role.unsubscribed }
+    }
+
+    function authorize(unsubscribe2: () => void, unsubscribe: () => void) {
+        if (statementId) {
+            if (isAnonymousPage) {
+                if (user) {
+
+                    setIsLoading(true);
+                    setIsAuthorized(true);
+                    unsubscribe2 = listenToStatement(statementId);
+                    unsubscribe = listenToDocument(statementId);
+                } else {
+
+                    anonymousLogin();
+                }
+            } else {
+
+                if (!user) {
+                    navigate("/login");
+                } else if (user.isAnonymous === false) {
+                    getSubscription(statementId).then((subscription) => {
+                        if (subscription) {
+
+                            dispatch(setSubscription(subscription));
+                            if (subscription.role === Role.admin) {
+
+                                setRole(Role.admin);
+                                setIsAuthorized(true);
+                                setIsLoading(false);
+                                unsubscribe2 = listenToStatement(statementId);
+                                unsubscribe = listenToDocument(statementId);
+                            } else {
+                                setIsAuthorized(false);
+                                setRole(Role.unsubscribed);
+                                setIsLoading(false);
+                            }
+                        } else {
+
+                            setIsAuthorized(false);
+                            setRole(Role.unsubscribed);
+                            setIsLoading(false);
+                        }
+                    });
+                } else {
+                    setIsAuthorized(false);
+                    setRole(Role.unsubscribed);
+                    setIsLoading(false);
+                }
+            }
+        }
+        return { unsubscribe2, unsubscribe };
     }
 }
