@@ -84,6 +84,7 @@ export function useDocument(): Props {
 
     function authorize(unsubscribe2: () => void, unsubscribe: () => void) {
         if (statementId) {
+           
             if (isAnonymousPage) {
                 if (user) {
 
