@@ -1,5 +1,6 @@
 import { FC, MouseEventHandler } from "react";
 import styles from "./Button.module.scss";
+import { ButtonType } from "../../../../model/enumsModel";
 
 interface Props {
   text: string;
@@ -38,13 +39,23 @@ const Button: FC<Props> = ({
     },
     secondary: {
       backgroundColor: "white",
-      color: "black",
-      border:"1px solid black"
+      color: "var(--primary)",
+      border:"1px solid var(--primary)"
     },
     other:{
       backgroundColor,
       color,
-      border:backgroundColor
+      border:`1px solid ${backgroundColor}`
+    },
+    approve:{
+      backgroundColor:"var(--approve)",
+      color:"white",
+      border:"1px solid var(--approve)"
+    },
+    reject:{
+      backgroundColor:"var(--reject)",
+      color:"white",
+      border:"1px solid var(--reject)"
     }
   };
 
@@ -59,6 +70,7 @@ const Button: FC<Props> = ({
           ? types[buttonType].backgroundColor
           : unselectedBackgroundColor,
         color: isSelected ? types[buttonType].color : unselectedColor,
+        border:isSelected?types[buttonType].border: unselectedBackgroundColor,
         borderRadius,
       }}
       type={type}
@@ -70,8 +82,4 @@ const Button: FC<Props> = ({
 
 export default Button;
 
-export enum ButtonType {
-  primary = "primary",
-  secondary = "secondary",
-  other = "other",
-}
+

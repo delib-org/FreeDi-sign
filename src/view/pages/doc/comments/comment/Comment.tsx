@@ -12,6 +12,7 @@ import {
 import Button from "../../../../components/buttons/button/Button";
 import { useLanguage } from "../../../../../controllers/hooks/useLanguage";
 import Text from "../../../../components/text/Text";
+import { ButtonType } from "../../../../../model/enumsModel";
 
 interface Props {
   statement: Statement;
@@ -38,7 +39,7 @@ const Comment: FC<Props> = ({ statement }) => {
   function handleAgree(_agree: number) {
     if (isCreator) return;
 
-    let __agree =0;
+    let __agree = 0;
     if (agree?.agree !== _agree) {
       __agree = _agree;
     }
@@ -75,10 +76,8 @@ const Comment: FC<Props> = ({ statement }) => {
               type="button"
               text={t("Disagree")}
               onClick={() => handleAgree(-1)}
-              isSelected={
-                agree && agree?.agree <0  || isCreator
-              }
-              backgroundColor="var(--reject)"
+              isSelected={(agree && agree?.agree < 0) || isCreator}
+              buttonType={ButtonType.reject}
               isDisabled={isCreator}
             />
           )}
@@ -90,8 +89,8 @@ const Comment: FC<Props> = ({ statement }) => {
               type="button"
               text={t("Agree")}
               onClick={() => handleAgree(1)}
-              isSelected={agree && agree?.agree >0 || isCreator}
-              backgroundColor="var(--agree)"
+              isSelected={(agree && agree?.agree > 0) || isCreator}
+             buttonType={ButtonType.approve}
               isDisabled={isCreator}
             />
           )}

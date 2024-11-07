@@ -5,11 +5,10 @@ import styles from "./newComment.module.scss";
 import { addCommentToDB } from "../../../../../controllers/db/comments/setComments";
 import { store } from "../../../../../model/store";
 import { useLanguage } from "../../../../../controllers/hooks/useLanguage";
-import Button, {
-  ButtonType,
-} from "../../../../components/buttons/button/Button";
+import Button from "../../../../components/buttons/button/Button";
 import { useDispatch } from "react-redux";
 import { updateShowNewComment } from "../../../../../controllers/slices/commentsSlice";
+import { ButtonType } from "../../../../../model/enumsModel";
 
 interface Props {
   parentStatement: Statement;
@@ -76,7 +75,7 @@ const NewComment: FC<Props> = ({ parentStatement, order, show }) => {
               </div>
               <Button
                 type={"submit"}
-                text={t("Add Comment")}
+              text={t("Add Comment")}
                 buttonType={ButtonType.primary}
                 isSelected={true}
               />

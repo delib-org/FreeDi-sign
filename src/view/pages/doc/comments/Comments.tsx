@@ -17,6 +17,8 @@ import Button from "../../../components/buttons/button/Button";
 //icons
 import BackArrow from "../../../../assets/icons/backArrow.svg?react";
 import { commentsSelector } from "../../../../controllers/slices/statementsSlice";
+import { ButtonType } from "../../../../model/enumsModel";
+
 
 const Comments: FC = () => {
   const dispatch = useDispatch();
@@ -74,7 +76,7 @@ const comments = useSelector(commentsSelector(statement?.statementId));
         ))}
       </div>
       <div className={`btns ${styles.btns}`}>
-        <Button text={t("Close")} isSelected={true} onClick={handleHideComments} />
+        <Button text={t("Close")} isSelected={true} onClick={handleHideComments} buttonType={ButtonType.secondary} />
       </div>
     </div>
   );

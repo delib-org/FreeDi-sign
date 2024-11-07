@@ -10,6 +10,7 @@ import { useLanguage } from "../../../../../controllers/hooks/useLanguage";
 import { useSelector } from "react-redux";
 import { selectApprovalsByDocId } from "../../../../../controllers/slices/approvalSlice";
 import { setApprovalToDB } from "../../../../../controllers/db/approval/setApproval";
+import { ButtonType } from "../../../../../model/enumsModel";
 
 interface Props {
   paragraphsLength: number;
@@ -85,9 +86,7 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
       <Button
         text={t("Disagree")}
         onClick={handleReject}
-        backgroundColor="var(--reject)"
-        unselectedBackgroundColor="rgb(223, 223, 223)"
-        unselectedColor="black"
+        buttonType={ButtonType.reject}
         isSelected={isRejected}
       >
         {isRejected && <DisAgreeIcon />}
@@ -95,10 +94,8 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
       <Button  
         text={`${t("Confirm")} (${approved}/${paragraphsLength})`}
         onClick={handleSign}
-        backgroundColor="var(--agree)"
-        unselectedBackgroundColor="rgb(223, 223, 223)"
-        unselectedColor="black"
         isSelected={isChecked}
+        buttonType={ButtonType.approve}
       >
         {isChecked && <CheckIcon />}
       </Button>
