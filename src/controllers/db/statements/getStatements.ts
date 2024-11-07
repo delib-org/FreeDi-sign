@@ -160,7 +160,6 @@ export async function getStatement(statementId:string):Promise<Statement | undef
 export function listenToDocument(statementId: string|undefined): Unsubscribe {
   try {
     if (!statementId) throw new Error("No statementId provided");
-    
     const dispatch = store.dispatch;
     const statementRef = collection(DB, Collections.statements);
     const q = query(statementRef, where("documentSettings.parentDocumentId", "==", statementId), where("statementSettings.show", "==", true), orderBy("documentSettings.order", "asc"));

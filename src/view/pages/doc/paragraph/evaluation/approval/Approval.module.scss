@@ -17,7 +17,7 @@ $size:28px;
 
 
 .approve {
-    background-color: var(--agree);
+    background-color: var(--approve);
 
 }
 
@@ -78,7 +78,7 @@ $size:28px;
     &Approve {
         bottom: 15px;
         left: -30px;
-        background-color: #78d2c2;
+        background-color: var(--approve);
 
         animation: moveOutLeft 500ms ease-in-out 0s 1 forwards normal;
     }
@@ -86,7 +86,7 @@ $size:28px;
     &Reject {
         bottom: 15px;
         left: 30px;
-        background-color: #f16982;
+        background-color: var(--reject);
 
         animation: moveOutRight 500ms ease-in-out 0s 1 forwards normal;
     }
@@ -161,7 +161,7 @@ $size:28px;
 
 
     &--approve {
-        color: var(--agree);
+        color: var(--approve);
     }
 
     &--reject {

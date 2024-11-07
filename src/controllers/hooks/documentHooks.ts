@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { membersAllowed, Role, Statement } from "delib-npm";
-import { getStatement, listenToDocument } from "../db/statements/getStatements";
+import { getStatement, listenToDocument, listenToStatement } from "../db/statements/getStatements";
 import { useDispatch, useSelector } from "react-redux";
-import { documentSelector } from "../slices/statementsSlice";
+import { documentSelector, statementSelector } from "../slices/statementsSlice";
 import { getSubscription } from "../db/subscriptions/getSubscriptions";
 import { selectUser } from "../slices/userSlice";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -26,9 +26,9 @@ export function useDocument(): Props {
     const navigate = useNavigate();
 
     const user = useSelector(selectUser);
-    const subscription = useSelector(selectSubscriptionByStatementId(statementId));
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [statement, setStatement] = useState<Statement | undefined>(undefined);
+    const statement = useSelector(statementSelector(statementId));
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
     const statements: Statement[] = useSelector(documentSelector(statementId || ""));
     const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
     const [role, setRole] = useState<Role>(Role.unsubscribed);
@@ -37,74 +37,77 @@ export function useDocument(): Props {
     const isAnonymousPage = pathElements.includes("doc-anonymous");
 
     useEffect(() => {
-        if (statementId){
-            console.log("check for statementId", statementId)
+        if (statementId) {
             localStorage.setItem("statementId", statementId);
         }
     }, [statementId])
 
+
     useEffect(() => {
+   
         let unsubscribe: () => void;
+        let unsubscribe2: () => void;
+        if (statementId) {
+            if (isAnonymousPage) {
+                if (user) {
 
-        if (statementId && user && isAnonymousPage) {
-            console.log("we have got a statementId and a user")
-            setIsLoading(true);
-            unsubscribe = listenToDocument(statementId);
-
-        } else {
-            //in case the user is not logged in
-            //in case this is an anonymous page
-            if (anonymousLogin)
-                anonymousLogin();
-            else {
-                //in case the user is not logged in and this is not an anonymous page
-                setIsLoading(false);
-                navigate("/login");
+                    setIsLoading(true);
+                    setIsAuthorized(true);
+                    unsubscribe2 = listenToStatement(statementId);
+                    unsubscribe = listenToDocument(statementId);
+                } else {
+  
+                    anonymousLogin();
+                }
+            } else {
+          
+                if (!user) {
+                    navigate("/login");
+                } else if (user.isAnonymous === false) {
+                    getSubscription(statementId).then((subscription) => {
+                        if (subscription) {
+                           
+                            dispatch(setSubscription(subscription));
+                            if (subscription.role === Role.admin) {
+                             
+                                setRole(Role.admin);
+                                setIsAuthorized(true);
+                                setIsLoading(false);
+                                unsubscribe2 = listenToStatement(statementId);
+                                unsubscribe = listenToDocument(statementId);
+                            } else {
+                                setIsAuthorized(false);
+                                setRole(Role.unsubscribed);
+                                setIsLoading(false);
+                            }
+                        } else {
+                         
+                            setIsAuthorized(false);
+                            setRole(Role.unsubscribed);
+                            setIsLoading(false);
+                        }
+                    });
+                } else {
+                    setIsAuthorized(false);
+                    setRole(Role.unsubscribed);
+                    setIsLoading(false);
+                }
             }
         }
         return () => {
             if (unsubscribe) unsubscribe();
+            if (unsubscribe2) unsubscribe2();
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [statementId, user])
 
-    useEffect(() => {
-        let unsubscribe: () => void;
-        if (!isAnonymousPage && user) {
-            if (user.isAnonymous) {
-                navigate("/401")
-                return;
-            }
 
-            getSubscription(statementId).then((subscription) => {
-                if (subscription) {
-                    dispatch(setSubscription(subscription));
-                    if (subscription.role === Role.admin) {
-                        setRole(Role.admin);
-                        setIsAuthorized(true);
-                        listenToDocument(statementId);
-                    } else {
-                        setIsAuthorized(false);
-                        navigate("/401")
-                        return;
-                    }
-                } else {
-                    setIsAuthorized(false);
-                    navigate("/401")
-                    return;
-                }
-            });
-        }
-        return () => {
-            if (unsubscribe) unsubscribe();
-        }
-    }, [dispatch, isAnonymousPage, navigate, statementId, user])
 
     useEffect(() => {
 
         if (statement) {
-            console.log("we have a statement")
+         
             setIsLoading(false);
         } else {
             setIsLoading(true);
@@ -112,7 +115,7 @@ export function useDocument(): Props {
 
     }, [statement])
 
-   
+
     try {
 
         const _statements = isAuthorized ? statements : [];
