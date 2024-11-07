@@ -96,10 +96,10 @@ export function useDocument(): Props {
     }, [statement, user])
 
     useEffect(() => {
-        console.log(statement, isAuthorized, user?.isAnonymous)
+        
         let unsubscribe: () => void;
         if (!statement && statementId && isAuthorized && user) {
-            console.log(statement, isAuthorized, user.isAnonymous)
+            
             unsubscribe = listenToDocument(statementId);
             setIsLoading(true);
             getStatement(statementId).then((statement) => {

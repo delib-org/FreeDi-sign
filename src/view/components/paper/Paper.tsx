@@ -42,6 +42,7 @@ const Paper = () => {
             <h1>
               {statement.statement}
             </h1>
+            <Text statement={statement} showTitle={false} showDescription={true}/>
             {sections.map((section, index) => (
               <Section
                 key={section.statementId}
