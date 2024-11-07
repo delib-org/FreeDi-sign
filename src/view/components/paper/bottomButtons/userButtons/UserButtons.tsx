@@ -5,12 +5,12 @@ import { Signature, Statement } from "delib-npm";
 import { setSignatureToDB } from "../../../../../controllers/db/sign/setSignature";
 import CheckIcon from "../../../../../assets/icons/check.svg?react";
 import DisAgreeIcon from "../../../../../assets/icons/disApprove.svg?react";
-import { getSignature } from "../../../../../controllers/db/sign/getSignature";
 import { useLanguage } from "../../../../../controllers/hooks/useLanguage";
 import { useSelector } from "react-redux";
 import { selectApprovalsByDocId } from "../../../../../controllers/slices/approvalSlice";
 import { setApprovalToDB } from "../../../../../controllers/db/approval/setApproval";
 import { ButtonType } from "../../../../../model/enumsModel";
+import { mySignaturesSelector } from "../../../../../controllers/slices/statementsSlice";
 
 interface Props {
   paragraphsLength: number;
@@ -20,29 +20,26 @@ interface Props {
 
 const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
   const approvals = useSelector(selectApprovalsByDocId(document.statementId));
+  const mySignature: Signature|undefined = useSelector(
+    mySignaturesSelector(document.statementId)
+  );
+  console.log("mySignature", mySignature);
   const { t } = useLanguage();
-  const [isChecked, setIsChecked] = useState(false);
-  const [isRejected, setIsRejected] = useState(false);
-  const [_signature, setSignature] = useState<Signature | undefined>(undefined);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isRejected, setIsRejected] = useState<boolean>(false);
 
   useEffect(() => {
-    getSignature({ documentId: document.statementId }).then((signature) => {
-      if (signature) {
-     
-        setSignature(signature);
-        setIsChecked(signature.signed);
-        if (!signature.signed) setIsRejected(true);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    const levelOfSignature = approved / paragraphsLength;
-
-    if (_signature && _signature.levelOfSignature !== levelOfSignature) {
+    if (!mySignature) {
       setIsChecked(false);
+      setIsRejected(false);
+    } else if (mySignature.signed) {
+      setIsChecked(true);
+      setIsRejected(false);
+    } else if (mySignature.signed === false) {
+      setIsChecked(false);
+      setIsRejected(true);
     }
-  }, [_signature, approved, paragraphsLength]);
+  }, [mySignature]);
 
   function handleReject() {
     setIsChecked(false);
@@ -87,14 +84,22 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
         text={t("Disagree")}
         onClick={handleReject}
         buttonType={ButtonType.reject}
+        fontWight="bold"
+        unselectedColor="var(--home)"
+        unselectedBackgroundColor="white"
+        unselectedBorderColor="var(--home)"
         isSelected={isRejected}
       >
         {isRejected && <DisAgreeIcon />}
       </Button>
-      <Button  
+      <Button
         text={`${t("Confirm")} (${approved}/${paragraphsLength})`}
         onClick={handleSign}
         isSelected={isChecked}
+        fontWight="bold"
+        unselectedColor="var(--home)"
+        unselectedBackgroundColor="white"
+        unselectedBorderColor="var(--home)"
         buttonType={ButtonType.approve}
       >
         {isChecked && <CheckIcon />}

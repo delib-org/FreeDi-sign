@@ -9,8 +9,10 @@ interface Props {
   type?: "button" | "submit" | "reset" | undefined;
   backgroundColor?: string;
   color?: string;
+  fontWight?: "normal" | "bold";
   unselectedColor?: string;
   unselectedBackgroundColor?: string;
+  unselectedBorderColor?: string;
   isSelected?: boolean;
   isDisabled?: boolean;
   borderRadius?: string;
@@ -27,9 +29,11 @@ const Button: FC<Props> = ({
   borderRadius = "50px",
   children,
   unselectedBackgroundColor = "var(--inactive-btn)",
+  unselectedBorderColor = "var(--inactive-btn)",
   unselectedColor = "darkgray",
   isSelected = false,
   isDisabled = false,
+  fontWight = "normal",
 }) => {
   const types = {
     primary: {
@@ -66,11 +70,12 @@ const Button: FC<Props> = ({
       }`}
       onClick={onClick}
       style={{
+        fontWeight:fontWight,
         backgroundColor: isSelected
           ? types[buttonType].backgroundColor
           : unselectedBackgroundColor,
         color: isSelected ? types[buttonType].color : unselectedColor,
-        border:isSelected?types[buttonType].border: unselectedBackgroundColor,
+        border:isSelected?`2px solid ${types[buttonType].border}`:`2px solid ${ unselectedBorderColor}`,
         borderRadius,
       }}
       type={type}

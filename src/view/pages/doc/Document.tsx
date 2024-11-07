@@ -5,7 +5,7 @@ import Aside from "./aside/Aside";
 import Paper from "../../components/paper/Paper";
 
 import PaperHeader from "../../components/paper/header/PaperHeader";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { Role } from "delib-npm";
 import Modal from "../../components/modal/Modal";
 import DocumentInfo from "../../components/info/DocumentInfo";
@@ -16,6 +16,8 @@ import Comments from "./comments/Comments";
 import { useDispatch, useSelector } from "react-redux";
 import { commentsSelector, updateShowComments } from "../../../controllers/slices/commentsSlice";
 import { useLanguage } from "../../../controllers/hooks/useLanguage";
+import Popup from "../../components/popup/Popup";
+import { listenToMySignature } from "../../../controllers/db/signatures/getSignatures";
 
 export const RoleContext = createContext<Role>(Role.unsubscribed);
 
@@ -24,17 +26,32 @@ const Document = () => {
   const {t} = useLanguage();
   const { showComments } = useSelector(commentsSelector);
   const [showInfo, setShowInfo] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
 
   const { statementId } = useParams<{ statementId: string }>();
   const { isLoading, isError, statement, isAuthorized, role } = useDocument();
   const signatures = useSignatures(statementId);
 
+useEffect(() => {
+  let unsubscribed = ()=>{return;};
+  if(isAuthorized && statementId){
+    unsubscribed = listenToMySignature(statementId);
+  }
+
+  return ()=>{
+    unsubscribed();
+  }
+},[isAuthorized, statementId]);
 
   function handleShowComments(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     if (event.target === event.currentTarget) {
       event.stopPropagation();
       dispatch(updateShowComments(!showComments));
     }
+  }
+
+  function handleShowPopup(show:boolean){
+    setShowPopup(show);
   }
 
   if (isLoading)
@@ -76,6 +93,7 @@ const Document = () => {
             </Modal>
           </div>
         )}
+        {showPopup&&<Popup setShowPopup={handleShowPopup} />}
       </div>
     </RoleContext.Provider>
   );

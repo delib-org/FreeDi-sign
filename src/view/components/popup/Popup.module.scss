@@ -1,0 +1,21 @@
+.popup {
+    position: fixed;
+    bottom: 10rem;
+    right: 7rem;
+   
+   width: fit-content;
+    padding: 20px;
+    background-color: var(--approve);
+    color:white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 1000;
+
+    &-content{
+      
+        p{
+            color: white;
+            font-size: 1.3rem;
+        }
+    }
+}
