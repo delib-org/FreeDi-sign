@@ -15,11 +15,13 @@ import HourGlassLoader from "../../components/loaders/HourGlassLoader";
 import Comments from "./comments/Comments";
 import { useDispatch, useSelector } from "react-redux";
 import { commentsSelector, updateShowComments } from "../../../controllers/slices/commentsSlice";
+import { useLanguage } from "../../../controllers/hooks/useLanguage";
 
 export const RoleContext = createContext<Role>(Role.unsubscribed);
 
 const Document = () => {
   const dispatch = useDispatch();
+  const {t} = useLanguage();
   const { showComments } = useSelector(commentsSelector);
   const [showInfo, setShowInfo] = useState(false);
 
@@ -37,9 +39,10 @@ const Document = () => {
 
   if (isLoading)
     return (
-      <div className="loader-page">
+      <div className={styles.loader}>
+        <h2>FreeDi - sign</h2>
         <HourGlassLoader />
-        Loading...
+        <div>{t("Loading")}...</div>
       </div>
     );
   if (isError) return <div>Error: An error occurred.</div>;

@@ -37,81 +37,82 @@ export function useDocument(): Props {
     const isAnonymousPage = pathElements.includes("doc-anonymous");
 
     useEffect(() => {
-        if (statementId && user) {
-
+        if (statementId){
+            console.log("check for statementId", statementId)
             localStorage.setItem("statementId", statementId);
-            setIsLoading(true);
-            if (user.isAnonymous === false && !isAnonymousPage) {
-                getSubscription(statementId).then((subscription) => {
-                    if (subscription) {
+        }
+    }, [statementId])
 
-                        dispatch(setSubscription(subscription));
-                    }
-                    setIsLoading(false);
-                });
+    useEffect(() => {
+        let unsubscribe: () => void;
+
+        if (statementId && user && isAnonymousPage) {
+            console.log("we have got a statementId and a user")
+            setIsLoading(true);
+            unsubscribe = listenToDocument(statementId);
+
+        } else {
+            //in case the user is not logged in
+            //in case this is an anonymous page
+            if (anonymousLogin)
+                anonymousLogin();
+            else {
+                //in case the user is not logged in and this is not an anonymous page
+                setIsLoading(false);
+                navigate("/login");
             }
+        }
+        return () => {
+            if (unsubscribe) unsubscribe();
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [statementId, user])
 
     useEffect(() => {
-
-        if (subscription) {
-
-            setRole(subscription.role);
-            if (subscription.role === Role.admin) setIsAuthorized(true);
-        }
-    }, [subscription])
-
-    useEffect(() => {
-
-        try {
-
-            if (!statementId) throw new Error("No statementId provided");
-            if (isAnonymousPage) {
-                if (!user) anonymousLogin();
-                setIsAuthorized(true);
-
-                setRole(Role.unsubscribed);
-            } else {
-                if(!user){
-                    localStorage.setItem("statementId", statementId);
-                    setIsLoading(false);
-                    navigate("/login")
-                }
+        let unsubscribe: () => void;
+        if (!isAnonymousPage && user) {
+            if (user.isAnonymous) {
+                navigate("/401")
+                return;
             }
 
-        } catch (error) {
-            console.error(error);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [statementId, user]);
-
-    useEffect(() => {
-        if (statement?.membership?.typeOfMembersAllowed === membersAllowed.all && user?.isAnonymous) {
-            setIsAuthorized(true);
-            setRole(Role.unsubscribed);
-        }
-    }, [statement, user])
-
-    useEffect(() => {
-        
-        let unsubscribe: () => void;
-        if (!statement && statementId && isAuthorized && user) {
-            
-            unsubscribe = listenToDocument(statementId);
-            setIsLoading(true);
-            getStatement(statementId).then((statement) => {
-                setIsLoading(false);
-                if (statement) setStatement(statement);
+            getSubscription(statementId).then((subscription) => {
+                if (subscription) {
+                    dispatch(setSubscription(subscription));
+                    if (subscription.role === Role.admin) {
+                        setRole(Role.admin);
+                        setIsAuthorized(true);
+                        listenToDocument(statementId);
+                    } else {
+                        setIsAuthorized(false);
+                        navigate("/401")
+                        return;
+                    }
+                } else {
+                    setIsAuthorized(false);
+                    navigate("/401")
+                    return;
+                }
             });
         }
         return () => {
             if (unsubscribe) unsubscribe();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAuthorized, statementId, user])
+    }, [dispatch, isAnonymousPage, navigate, statementId, user])
+
+    useEffect(() => {
+
+        if (statement) {
+            console.log("we have a statement")
+            setIsLoading(false);
+        } else {
+            setIsLoading(true);
+        }
+
+    }, [statement])
+
+   
     try {
 
         const _statements = isAuthorized ? statements : [];
