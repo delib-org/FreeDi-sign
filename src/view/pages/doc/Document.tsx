@@ -6,7 +6,7 @@ import Paper from "../../components/paper/Paper";
 
 import PaperHeader from "../../components/paper/header/PaperHeader";
 import { createContext, useEffect, useState } from "react";
-import { Role } from "delib-npm";
+import { Role, Signature } from "delib-npm";
 import Modal from "../../components/modal/Modal";
 import DocumentInfo from "../../components/info/DocumentInfo";
 import { useSignatures } from "../../../controllers/hooks/signHooks";
@@ -18,17 +18,22 @@ import { commentsSelector, updateShowComments } from "../../../controllers/slice
 import { useLanguage } from "../../../controllers/hooks/useLanguage";
 import Popup from "../../components/popup/Popup";
 import { listenToMySignature } from "../../../controllers/db/signatures/getSignatures";
+import { mySignaturesSelector } from "../../../controllers/slices/statementsSlice";
 
 export const RoleContext = createContext<Role>(Role.unsubscribed);
 
 const Document = () => {
   const dispatch = useDispatch();
   const {t} = useLanguage();
+  const { statementId } = useParams<{ statementId: string }>();
   const { showComments } = useSelector(commentsSelector);
+  const mySignature: Signature|undefined = useSelector(
+    mySignaturesSelector(statementId)
+  );
   const [showInfo, setShowInfo] = useState(false);
   const [showPopup, setShowPopup] = useState(true);
 
-  const { statementId } = useParams<{ statementId: string }>();
+ 
   const { isLoading, isError, statement, isAuthorized, role } = useDocument();
   const signatures = useSignatures(statementId);
 
@@ -42,6 +47,9 @@ useEffect(() => {
     unsubscribed();
   }
 },[isAuthorized, statementId]);
+
+useEffect(() => {
+}, [mySignature]);
 
   function handleShowComments(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     if (event.target === event.currentTarget) {
