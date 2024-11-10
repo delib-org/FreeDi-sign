@@ -11,6 +11,7 @@ import { selectApprovalsByDocId } from "../../../../../controllers/slices/approv
 import { setApprovalToDB } from "../../../../../controllers/db/approval/setApproval";
 import { ButtonType } from "../../../../../model/enumsModel";
 import { mySignaturesSelector } from "../../../../../controllers/slices/statementsSlice";
+import Popup from "../../../popup/Popup";
 
 interface Props {
   paragraphsLength: number;
@@ -19,12 +20,14 @@ interface Props {
 }
 
 const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
+
   const approvals = useSelector(selectApprovalsByDocId(document.statementId));
-  const mySignature: Signature|undefined = useSelector(
+  const mySignature: Signature | undefined = useSelector(
     mySignaturesSelector(document.statementId)
   );
-  console.log("mySignature", mySignature);
+ 
   const { t } = useLanguage();
+
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isRejected, setIsRejected] = useState<boolean>(false);
 
@@ -67,6 +70,8 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
       });
     });
 
+    
+
     setSignatureToDB({
       document,
       paragraphsLength,
@@ -78,8 +83,13 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
     });
   }
 
+
+
+  
+
   return (
     <div className={styles.buttons}>
+      <Popup statementId={document.statementId} />
       <Button
         text={t("Disagree")}
         onClick={handleReject}

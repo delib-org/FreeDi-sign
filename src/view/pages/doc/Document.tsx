@@ -16,7 +16,7 @@ import Comments from "./comments/Comments";
 import { useDispatch, useSelector } from "react-redux";
 import { commentsSelector, updateShowComments } from "../../../controllers/slices/commentsSlice";
 import { useLanguage } from "../../../controllers/hooks/useLanguage";
-import Popup from "../../components/popup/Popup";
+
 import { listenToMySignature } from "../../../controllers/db/signatures/getSignatures";
 import { mySignaturesSelector } from "../../../controllers/slices/statementsSlice";
 
@@ -31,7 +31,7 @@ const Document = () => {
     mySignaturesSelector(statementId)
   );
   const [showInfo, setShowInfo] = useState(false);
-  const [showPopup, setShowPopup] = useState(true);
+ 
 
  
   const { isLoading, isError, statement, isAuthorized, role } = useDocument();
@@ -58,9 +58,6 @@ useEffect(() => {
     }
   }
 
-  function handleShowPopup(show:boolean){
-    setShowPopup(show);
-  }
 
   if (isLoading)
     return (
@@ -101,7 +98,7 @@ useEffect(() => {
             </Modal>
           </div>
         )}
-        {showPopup&&<Popup setShowPopup={handleShowPopup} />}
+      
       </div>
     </RoleContext.Provider>
   );

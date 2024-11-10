@@ -1,21 +1,43 @@
 .popup {
-    position: fixed;
-    bottom: 10rem;
-    right: 7rem;
-   
-   width: fit-content;
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translate(-50%, -120%);
+
+    width: fit-content;
     padding: 20px;
     background-color: var(--approve);
-    color:white;
+    color: white;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     z-index: 1000;
+    animation: show 0.5s ease-in-out forwards;
 
-    &-content{
-      
-        p{
+
+    &-content {
+
+        p {
             color: white;
             font-size: 1.3rem;
         }
     }
+
+    &--approve {
+        background-color: var(--approve);
+    }
+
+    &--reject {
+        background-color: var(--reject);
+    }
+}
+
+@keyframes show {
+    from{
+        opacity: 0;
+        transform: translate(-50%, 0%) scale(0.5);
+    } to{
+        opacity: 1;
+        transform: translate(-50%, -120%) scale(1);
+    }
+    
 }

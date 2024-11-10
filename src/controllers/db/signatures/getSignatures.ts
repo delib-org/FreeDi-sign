@@ -3,7 +3,7 @@ import { DB } from "../config";
 import { Collections, DocumentSigns, DocumentSignsSchema, getStatementSubscriptionId, Signature, SignatureSchema, User } from "delib-npm";
 import { onSnapshot, doc } from "firebase/firestore";
 import { store } from "../../../model/store";
-import { setMySignature, setSignatures } from "../../slices/statementsSlice";
+import { setMySignature, setMySignatureUpdate, setSignatures } from "../../slices/statementsSlice";
 
 export function listenToSignatures(statementId: string): Unsubscribe {
     try {
@@ -49,7 +49,9 @@ export function listenToMySignature(statementId: string, ): Unsubscribe {
                 if(!sigDB.exists()) return;
                 const signature = sigDB.data() as Signature;
                 SignatureSchema.parse(signature);
+                const isSigned = signature.signed;
                 dispatch(setMySignature(signature));
+                dispatch(setMySignatureUpdate({signed:isSigned, statementId}));
             } catch (error) {
                 console.error(error);
             }

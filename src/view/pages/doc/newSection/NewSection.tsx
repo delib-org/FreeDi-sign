@@ -23,6 +23,8 @@ const NewSection: FC<Props> = ({ statement, order,parentBullet }) => {
 
   const [isEdit, setIsEdit] = useState(false);
 
+  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleSubmitText(e: any) {
     try {
       if (!statement) throw new Error("parentStatementId is required");
