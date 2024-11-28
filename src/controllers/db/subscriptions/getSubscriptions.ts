@@ -11,10 +11,12 @@ export async function getSubscription(statementId:string|undefined):Promise<Stat
         if(!user) return undefined;
         const subscriptionId = getStatementSubscriptionId(statementId, user);
         
+        
         if(!subscriptionId) return undefined;
         const subscriptionRef = doc(DB, Collections.statementsSubscribe, subscriptionId);
        
         const subscriptionDB = await getDoc(subscriptionRef);
+   
    
         if(subscriptionDB.exists()){
             return subscriptionDB.data() as StatementSubscription;

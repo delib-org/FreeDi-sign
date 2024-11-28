@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { membersAllowed, Role, Statement } from "delib-npm";
-import { getStatement, listenToDocument, listenToStatement } from "../db/statements/getStatements";
+import {  Role, Statement } from "delib-npm";
+import {  listenToDocument, listenToStatement } from "../db/statements/getStatements";
 import { useDispatch, useSelector } from "react-redux";
 import { documentSelector, statementSelector } from "../slices/statementsSlice";
 import { getSubscription } from "../db/subscriptions/getSubscriptions";
 import { selectUser } from "../slices/userSlice";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { anonymousLogin } from "../db/authCont";
-import { selectSubscriptionByStatementId, setSubscription } from "../slices/subscriptionsSlice";
+import {  setSubscription } from "../slices/subscriptionsSlice";
 
 interface Props {
     statements: Statement[];
@@ -101,8 +101,11 @@ export function useDocument(): Props {
                 if (!user) {
                     navigate("/login");
                 } else if (user.isAnonymous === false) {
+                    
                     getSubscription(statementId).then((subscription) => {
+                        
                         if (subscription) {
+                            
 
                             dispatch(setSubscription(subscription));
                             if (subscription.role === Role.admin) {

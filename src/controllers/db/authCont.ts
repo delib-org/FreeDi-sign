@@ -16,6 +16,7 @@ export function listenToAuth() {
                 if (userFB) {
 
                     const user = parseUserFromFirebase(userFB);
+                    
 
                     dispatch(setUser(user));
                 } else {
