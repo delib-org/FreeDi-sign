@@ -18,6 +18,7 @@ const Popup: FC<Props> = ({ statementId }) => {
   const dispatch = useDispatch();
   const { t } = useLanguage();
   const signatureUpdate = useSelector(mySignatureUpdateSelector(statementId));
+ 
   const showPopup =
     signatureUpdate &&
     (signatureUpdate.signed === SignatureType.signed ||
@@ -25,7 +26,7 @@ const Popup: FC<Props> = ({ statementId }) => {
   if (!showPopup) return null;
 
   function handleHidePopup() {
-    dispatch(setMySignatureUpdate({ statementId, signed: undefined }));
+    dispatch(setMySignatureUpdate({ statementId, signed:undefined}));
   }
 
   const popupBackground = (() => {

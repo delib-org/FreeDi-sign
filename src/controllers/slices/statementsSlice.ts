@@ -4,7 +4,7 @@ import { Statement, updateArray, StatementSchema, writeZodError, StatementType, 
 
 export interface UpdateSignature{
     statementId: string,
-    signed: SignatureType
+    signed: SignatureType | undefined
 }
 export interface StatementsState {
     statements: Statement[]

@@ -60,7 +60,9 @@ const Paper = () => {
             />
           </div>
         )}
-        {role === Role.admin ? (
+        
+      </div>
+      {role === Role.admin ? (
           <AdminBottomButtons />
         ) : (
           <UserButtons
@@ -69,7 +71,6 @@ const Paper = () => {
             document={statement}
           />
         )}
-      </div>
     </div>
   );
 };

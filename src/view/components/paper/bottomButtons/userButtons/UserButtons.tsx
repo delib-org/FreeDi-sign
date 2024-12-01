@@ -44,7 +44,9 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
   }, [mySignature]);
 
   function handleReject() {
-    const newSignatureType = isRejected ? SignatureType.viewed : SignatureType.rejected;
+    const newSignatureType = isRejected
+      ? SignatureType.viewed
+      : SignatureType.rejected;
 
     setIsChecked(false);
     setIsRejected(!isRejected);
@@ -65,12 +67,14 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
 
     approvals.forEach(async (approval) => {
       await setApprovalToDB({
-      statementId: approval.statementId,
-      approval: approval.approval,
+        statementId: approval.statementId,
+        approval: approval.approval,
       });
     });
 
-    const newSignatureType = isChecked ? SignatureType.viewed : SignatureType.signed;
+    const newSignatureType = isChecked
+      ? SignatureType.viewed
+      : SignatureType.signed;
 
     setSignatureToDB({
       document,
@@ -85,30 +89,32 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
   return (
     <div className={styles.buttons}>
       <Popup statementId={document.statementId} />
-      <Button
-        text={t("Disagree")}
-        onClick={handleReject}
-        buttonType={ButtonType.reject}
-        fontWight="bold"
-        unselectedColor="var(--home)"
-        unselectedBackgroundColor="white"
-        unselectedBorderColor="var(--home)"
-        isSelected={isRejected}
-      >
-        {isRejected && <DisAgreeIcon />}
-      </Button>
-      <Button
-        text={`${t("Confirm")} (${approved}/${paragraphsLength})`}
-        onClick={handleSign}
-        isSelected={isChecked}
-        fontWight="bold"
-        unselectedColor="var(--home)"
-        unselectedBackgroundColor="white"
-        unselectedBorderColor="var(--home)"
-        buttonType={ButtonType.approve}
-      >
-        {isChecked && <CheckIcon />}
-      </Button>
+      <div className={styles.buttonsBox}>
+        <Button
+          text={t("Disagree")}
+          onClick={handleReject}
+          buttonType={ButtonType.reject}
+          fontWight="bold"
+          unselectedColor="var(--home)"
+          unselectedBackgroundColor="white"
+          unselectedBorderColor="var(--home)"
+          isSelected={isRejected}
+        >
+          {isRejected && <DisAgreeIcon />}
+        </Button>
+        <Button
+          text={`${t("Confirm")} (${approved}/${paragraphsLength})`}
+          onClick={handleSign}
+          isSelected={isChecked}
+          fontWight="bold"
+          unselectedColor="var(--home)"
+          unselectedBackgroundColor="white"
+          unselectedBorderColor="var(--home)"
+          buttonType={ButtonType.approve}
+        >
+          {isChecked && <CheckIcon />}
+        </Button>
+      </div>
     </div>
   );
 };
