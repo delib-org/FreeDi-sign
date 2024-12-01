@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./UserButtons.module.scss";
 import Button from "../../../buttons/button/Button";
-import { Signature, Statement } from "delib-npm";
+import { Signature, SignatureType, Statement } from "delib-npm";
 import { setSignatureToDB } from "../../../../../controllers/db/sign/setSignature";
 import CheckIcon from "../../../../../assets/icons/check.svg?react";
 import DisAgreeIcon from "../../../../../assets/icons/disApprove.svg?react";
@@ -20,72 +20,67 @@ interface Props {
 }
 
 const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
-
   const approvals = useSelector(selectApprovalsByDocId(document.statementId));
   const mySignature: Signature | undefined = useSelector(
     mySignaturesSelector(document.statementId)
   );
- 
+
   const { t } = useLanguage();
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isRejected, setIsRejected] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!mySignature) {
+    if (!mySignature || mySignature.signed === SignatureType.viewed) {
       setIsChecked(false);
       setIsRejected(false);
-    } else if (mySignature.signed) {
+    } else if (mySignature.signed === SignatureType.signed) {
       setIsChecked(true);
       setIsRejected(false);
-    } else if (mySignature.signed === false) {
+    } else if (mySignature.signed === SignatureType.rejected) {
       setIsChecked(false);
       setIsRejected(true);
     }
   }, [mySignature]);
 
   function handleReject() {
+    const newSignatureType = isRejected ? SignatureType.viewed : SignatureType.rejected;
+
     setIsChecked(false);
-    setIsRejected(true);
+    setIsRejected(!isRejected);
 
     setSignatureToDB({
       document,
       paragraphsLength,
       approved,
-      signed: false,
-    }).then((isSigned) => {
-      console.log("isSigned", isSigned);
-      setIsRejected(true);
+      signed: newSignatureType,
+    }).then(() => {
+      setIsRejected(!isRejected);
     });
   }
 
   function handleSign() {
     setIsRejected(false);
-    setIsChecked(true);
+    setIsChecked(!isChecked);
 
     approvals.forEach(async (approval) => {
       await setApprovalToDB({
-        statementId: approval.statementId,
-        approval: approval.approval,
+      statementId: approval.statementId,
+      approval: approval.approval,
       });
     });
 
-    
+    const newSignatureType = isChecked ? SignatureType.viewed : SignatureType.signed;
 
     setSignatureToDB({
       document,
       paragraphsLength,
       approved,
-      signed: true,
+      signed: newSignatureType,
     }).then((isSigned) => {
-      console.log("isSigned", isSigned);
-      setIsChecked(isSigned);
+      if (isSigned) setIsChecked(!isChecked);
     });
   }
-
-
-
-  
 
   return (
     <div className={styles.buttons}>

@@ -33,7 +33,7 @@ export function listenToSignatures(statementId: string): Unsubscribe {
 
 export function listenToMySignature(statementId: string, ): Unsubscribe {
     try {
-        console.log("listening to my signature", statementId);
+     
         const user:User|null = store.getState().user.user;
         if(!user) throw new Error("User not found");
 
@@ -42,10 +42,10 @@ export function listenToMySignature(statementId: string, ): Unsubscribe {
         if(!signatureId) throw new Error("Signature Id not found");
 
         const signatureRef = doc(DB, Collections.signatures, signatureId);
-        console.log(signatureId)
+     
         return onSnapshot(signatureRef, (sigDB) => {
             try {
-                console.log("sigDB.exists()",sigDB.exists())
+             
                 if(!sigDB.exists()) return;
                 const signature = sigDB.data() as Signature;
                 SignatureSchema.parse(signature);

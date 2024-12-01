@@ -1,10 +1,10 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { Statement, updateArray, StatementSchema, writeZodError, StatementType, DocumentType, DocumentSigns, Signature } from 'delib-npm'
+import { Statement, updateArray, StatementSchema, writeZodError, StatementType, DocumentType, DocumentSigns, Signature, SignatureType } from 'delib-npm'
 
 export interface UpdateSignature{
     statementId: string,
-    signed: boolean|undefined
+    signed: SignatureType
 }
 export interface StatementsState {
     statements: Statement[]

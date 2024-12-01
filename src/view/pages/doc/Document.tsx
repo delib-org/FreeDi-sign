@@ -18,7 +18,9 @@ import { commentsSelector, updateShowComments } from "../../../controllers/slice
 import { useLanguage } from "../../../controllers/hooks/useLanguage";
 
 import { listenToMySignature } from "../../../controllers/db/signatures/getSignatures";
-import { mySignaturesSelector } from "../../../controllers/slices/statementsSlice";
+import { documentParagraphsSelector, mySignaturesSelector } from "../../../controllers/slices/statementsSlice";
+import { handleSetUserEnteredPage } from "./documentCont";
+import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlice";
 
 export const RoleContext = createContext<Role>(Role.unsubscribed);
 
@@ -30,6 +32,12 @@ const Document = () => {
   const mySignature: Signature|undefined = useSelector(
     mySignaturesSelector(statementId)
   );
+  const paragraphs = useSelector(documentParagraphsSelector(statementId || ""));
+  const rejected = useSelector(
+    selectApprovalsByDocId(statementId || "")
+  ).filter((approval) => approval.approval === false);
+  const approved = paragraphs.length - rejected.length;
+
   const [showInfo, setShowInfo] = useState(false);
  
 
@@ -49,7 +57,9 @@ useEffect(() => {
 },[isAuthorized, statementId]);
 
 useEffect(() => {
-}, [mySignature]);
+  console.log(mySignature)
+  if(!mySignature && statement) handleSetUserEnteredPage(statement, paragraphs.length, approved);
+}, [mySignature, paragraphs.length, statement]);
 
   function handleShowComments(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     if (event.target === event.currentTarget) {

@@ -26,7 +26,7 @@ const DocumentInfo: FC<Props> = ({ statement, signatures, setShowInfo }) => {
   return (
     <div className={styles.info}>
       <h4 className={styles.title}>{t("Signatures Information")}</h4>
-
+      <p>{t("Viewed")}: {signatures.viewed}</p>
       <p>{t("Approved")}: {signatures.signed || 0} </p>
       <p>{t("Rejected")}: {signatures.rejected || 0} </p>
       <p>{t("Consent Average")}: {((signatures.avgSignatures || 0)*100).toFixed(1) || 0}% </p>
