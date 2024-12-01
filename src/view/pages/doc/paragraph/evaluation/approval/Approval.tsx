@@ -91,13 +91,14 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
 
   try {
     const stApproved = statement.documentApproval?.approved || 0;
+    console.log(statement.statement, stApproved);
     const stRejected =
       (statement.documentApproval?.totalVoters || stApproved) - stApproved || 0;
 
     return (
       <div className={styles.admin}>
         <div className={styles.admin__btns}>
-          {role === Role.admin && stApproved}
+          {role === Role.admin && stRejected}
           
           <div
             onClick={() => handleApprove(false)}
@@ -115,7 +116,7 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
           >
             <ApproveFAB />
           </div>
-          {role === Role.admin && stRejected}
+          {role === Role.admin && stApproved}
         </div>
         <div className={styles.admin__title}>
           <span>{t("Approve?")}</span>
