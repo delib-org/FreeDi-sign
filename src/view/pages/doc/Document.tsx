@@ -57,9 +57,8 @@ useEffect(() => {
 },[isAuthorized, statementId]);
 
 useEffect(() => {
-  console.log(mySignature)
   if(!mySignature && statement) handleSetUserEnteredPage(statement, paragraphs.length, approved);
-}, [mySignature, paragraphs.length, statement]);
+}, [mySignature, paragraphs.length, statement, approved]);
 
   function handleShowComments(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     if (event.target === event.currentTarget) {
@@ -67,7 +66,6 @@ useEffect(() => {
       dispatch(updateShowComments(!showComments));
     }
   }
-
 
   if (isLoading)
     return (
