@@ -15,7 +15,7 @@ import UserButtons from "./bottomButtons/userButtons/UserButtons";
 import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlice";
 import Text from "../text/Text";
 import HourGlassLoader from "../loaders/HourGlassLoader";
-import Aside from "../../pages/doc/aside/Aside";
+import TOC from "../../pages/doc/toc/TOC";
 
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
@@ -48,7 +48,7 @@ const Paper = () => {
             />
             <div id="toc" />
             <div className={styles.TOC} >
-              <Aside isTOC={true} />
+             <TOC />
             </div>
             {sections.map((section, index) => (
               <Section

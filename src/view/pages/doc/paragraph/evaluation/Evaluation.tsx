@@ -2,8 +2,8 @@ import { Role, Statement } from "delib-npm";
 import { FC, useContext } from "react";
 import styles from "./Evaluation.module.scss";
 // import Importance, { fromImportanceToIcon } from "./importance/Importance";
-import ApprovalComp from "./approval/Approval";
-import VerticalHR from "../../../../components/VerticalHR/VerticalHR";
+// import ApprovalComp from "./approval/Approval";
+// import VerticalHR from "../../../../components/VerticalHR/VerticalHR";
 import CommentsButton from "./importance/comments/CommentsButton";
 import { RoleContext } from "../../Document";
 
@@ -26,7 +26,7 @@ const Evaluation: FC<Props> = ({
           role === Role.admin ? styles.evaluationAdmin : null
         }`}
       >
-        <ApprovalComp statement={statement} />
+        {/* <ApprovalComp statement={statement} /> */}
         {/* <VerticalHR />
         {role !== Role.admin? (
           <>
@@ -41,7 +41,7 @@ const Evaluation: FC<Props> = ({
             <span>{statement.documentImportance?.sumImportance}</span>
           </div>
         )} */}
-        <VerticalHR />
+        {/* <VerticalHR /> */}
         <CommentsButton
           numberOfComments={numberOfComments}
           statement={statement}
