@@ -46,7 +46,8 @@ const Paper = () => {
               showTitle={false}
               showDescription={true}
             />
-            <div className={styles.TOC} id="toc">
+            <div id="toc" />
+            <div className={styles.TOC} >
               <Aside isTOC={true} />
             </div>
             {sections.map((section, index) => (
