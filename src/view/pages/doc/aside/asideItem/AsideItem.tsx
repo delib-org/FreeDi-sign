@@ -3,6 +3,7 @@ import { Statement } from "delib-npm";
 import { useSelector } from "react-redux";
 import { sectionsSelector } from "../../../../../controllers/slices/statementsSlice";
 import { useLanguage } from "../../../../../controllers/hooks/useLanguage";
+import { setViewToDB } from "../../../../../controllers/db/views/setViews";
 
 interface Props {
   isActiveSection: boolean;
@@ -25,12 +26,17 @@ function AsideItem({
   const sections = useSelector(sectionsSelector(statement.statementId));
   const title = statement.statement.split("\n")[0];
 
+  function handleView() {
+    setViewToDB(statement.statementId);
+  }
+
   return (
     <>
       <div
-        className={`${styles["asideItem"]} ${styles[isTOC?"asideItem--toc":""]} ${
-          dir === "rtl" && styles["asideItem--rtl"]
-        }`}
+        onClick={handleView}
+        className={`${styles["asideItem"]} ${
+          styles[isTOC ? "asideItem--toc" : ""]
+        } ${dir === "rtl" && styles["asideItem--rtl"]}`}
       >
         <div className={styles.titleWrapper}>
           {isActiveSection ? (

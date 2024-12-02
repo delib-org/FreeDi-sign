@@ -1,4 +1,4 @@
-import { DocumentType, Statement, StatementSchema, StatementType } from "delib-npm";
+import { DocumentType, getRandomUID, Statement, StatementSchema, StatementType } from "delib-npm";
 import { store } from "../../model/store";
 
 
@@ -18,15 +18,16 @@ export function newSection({ parentSectionId, sectionId, statement, parentId, to
         if (!creator) throw new Error("User not found");
         const creatorId = creator.uid;
         const lastUpdate: number = new Date().getTime();
-        if (!sectionId) sectionId = crypto.randomUUID();
+        if (!sectionId) sectionId = getRandomUID();
         if (!parentSectionId) parentSectionId = "top";
 
-        const documentSettings: any = {
+        const documentSettings = {
             parentDocumentId,
             order,
             sectionId,
             parentSectionId,
-            type: DocumentType.section
+            type: DocumentType.section,
+            isTop: false
         }
 
         const statementId = sectionId;
@@ -67,15 +68,16 @@ export function newParagraph({ sectionId, statement, parentId, topParentId, pare
 
 
 
-        const documentSettings: any = {
+        const documentSettings = {
             parentDocumentId,
             order,
             sectionId,
             parentSectionId: sectionId,
-            type: DocumentType.paragraph
+            type: DocumentType.paragraph,
+            isTop: false
         }
 
-        const statementId = crypto.randomUUID();
+        const statementId = getRandomUID();
         return {
             statement,
             statementId,
@@ -146,7 +148,7 @@ export function createNewStatement({ title, description = "", statement, order, 
         const user = store.getState().user.user;
         if (!user) throw new Error("User not found");
 
-        const statementId: string = crypto.randomUUID();
+        const statementId: string = getRandomUID();
     
         const parentDocumentId = statement.documentSettings?.parentDocumentId || statement.statementId;
    
