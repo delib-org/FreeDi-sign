@@ -10,6 +10,7 @@ interface Props {
   sectionIndex: number;
   statement: Statement;
   level: number;
+  isTOC?: boolean;
 }
 
 function AsideItem({
@@ -17,27 +18,43 @@ function AsideItem({
   setActiveIndex,
   sectionIndex,
   statement,
-  level
+  level,
+  isTOC,
 }: Props) {
- 
-const {dir} = useLanguage();
+  const { dir } = useLanguage();
   const sections = useSelector(sectionsSelector(statement.statementId));
   const title = statement.statement.split("\n")[0];
 
   return (
     <>
-      <div className={`${styles.asideItem} ${dir === 'rtl'&& styles["asideItem--rtl"]}`}>
+      <div
+        className={`${styles["asideItem"]} ${styles[isTOC?"asideItem--toc":""]} ${
+          dir === "rtl" && styles["asideItem--rtl"]
+        }`}
+      >
         <div className={styles.titleWrapper}>
           {isActiveSection ? (
-            <a href={`#id-${statement.statementId}`}  className={`${styles.active} ${styles.title} ${styles["h"+(level+1)]}`}>{title}</a>
+            <a
+              href={`#id-${statement.statementId}`}
+              className={`${styles.active} ${styles.title} ${
+                styles["h" + (level + 1)]
+              }`}
+            >
+              {title}
+            </a>
           ) : (
-            <a href={`#id-${statement.statementId}`}  className={`${styles.title} ${styles["h"+(level+1)]}`}>{title}</a>
+            <a
+              href={`#id-${statement.statementId}`}
+              className={`${styles.title} ${styles["h" + (level + 1)]}`}
+            >
+              {title}
+            </a>
           )}
-          
         </div>
         <div className={styles.descriptionWrapper}>
           {sections.map((section, index) => (
             <AsideItem
+              isTOC={isTOC}
               key={`as-${section.statementId}`}
               statement={section}
               isActiveSection={index === sectionIndex}

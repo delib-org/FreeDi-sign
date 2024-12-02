@@ -15,6 +15,7 @@ import UserButtons from "./bottomButtons/userButtons/UserButtons";
 import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlice";
 import Text from "../text/Text";
 import HourGlassLoader from "../loaders/HourGlassLoader";
+import Aside from "../../pages/doc/aside/Aside";
 
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
@@ -39,10 +40,15 @@ const Paper = () => {
       >
         {statement && (
           <div className={styles.mainContainer}>
-            <h1>
-              {statement.statement}
-            </h1>
-            <Text statement={statement} showTitle={false} showDescription={true}/>
+            <h1>{statement.statement}</h1>
+            <Text
+              statement={statement}
+              showTitle={false}
+              showDescription={true}
+            />
+            <div className={styles.TOC} id="toc">
+              <Aside isTOC={true} />
+            </div>
             {sections.map((section, index) => (
               <Section
                 key={section.statementId}
@@ -60,17 +66,16 @@ const Paper = () => {
             />
           </div>
         )}
-        
       </div>
       {role === Role.admin ? (
-          <AdminBottomButtons />
-        ) : (
-          <UserButtons
-            paragraphsLength={paragraphs.length}
-            approved={approved}
-            document={statement}
-          />
-        )}
+        <AdminBottomButtons />
+      ) : (
+        <UserButtons
+          paragraphsLength={paragraphs.length}
+          approved={approved}
+          document={statement}
+        />
+      )}
     </div>
   );
 };

@@ -21,6 +21,11 @@
         z-index: 1;
         color: white;
         height: 100vh;
+
+        @media screen and (max-width: 1030px) {
+            display: none;
+            
+        }
     }
 
     .main{

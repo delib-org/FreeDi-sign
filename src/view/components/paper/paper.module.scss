@@ -10,7 +10,12 @@
     padding: 3rem 1rem 0 1rem;
 
   
-    
+.TOC{
+    @media screen and (min-width: 1030px) {
+        display: none;
+        
+    }
+}
   
   
     

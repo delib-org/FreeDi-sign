@@ -24,15 +24,16 @@ const Section: FC<Props> = ({
   parentBullet,
   parentLevel,
 }) => {
-  try {
-    const isEdit = useSelector(isEditSelector);
-    const [_isEdit, _setIsEdit] = useState(false);
-    const [isTitleReady, setIsTitleReady] = useState(true);
-    const [subSectionsLength, setSubSectionsLength] = useState<number>(0);
-    const { statementId } = statement;
-    if (!statementId) throw new Error("statementId is required");
-    const { dir } = useLanguage();
 
+  const isEdit = useSelector(isEditSelector);
+  const [isTitleReady, setIsTitleReady] = useState(true);
+  const [subSectionsLength, setSubSectionsLength] = useState<number>(0);
+  const { statementId } = statement;
+  if (!statementId) throw new Error("statementId is required");
+  const { dir } = useLanguage();
+
+
+  try {
     const bullet = getBullet(parentBullet, order);
     const level = parentLevel + 1;
 
@@ -61,6 +62,7 @@ const Section: FC<Props> = ({
                 <NewParagraph statement={statement} order={order} />
               )}
             </div>
+            <a href="#toc">Bac to home</a>
             <div className={styles.sections}>
               <SubSections
                 setSubSectionsLength={setSubSectionsLength}
@@ -78,7 +80,7 @@ const Section: FC<Props> = ({
         )}
       </section>
     );
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
     return null;
   }
