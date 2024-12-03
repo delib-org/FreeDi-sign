@@ -28,6 +28,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
 
   const paragraphRef = useRef<HTMLDivElement>(null);
   const textarea = useRef<HTMLTextAreaElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const comments = useSelector(commentsSelector(statement.statementId)).sort(
     (a, b) => b.createdAt - a.createdAt
   );
@@ -53,10 +54,17 @@ const Paragraph: FC<Props> = ({ statement }) => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          // Clear any existing timeout when visibility changes
+          if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+          }
+
           if (entry.isIntersecting && !hasBeenViewed) {
-            // If paragraph is visible and hasn't been counted yet
-            setHasBeenViewed(true);    
-            setViewToDB(statement);
+            // Set a 4-second delay before triggering the view count
+            timeoutRef.current = setTimeout(() => {
+              setHasBeenViewed(true);    
+              setViewToDB(statement);
+            }, 4000);
           }
         });
       },
@@ -71,11 +79,13 @@ const Paragraph: FC<Props> = ({ statement }) => {
       observer.observe(paragraphRef.current);
     }
 
-    // Cleanup observer on component unmount
+    // Cleanup observer and timeout on component unmount
     return () => {
       if (paragraphRef.current) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         observer.unobserve(paragraphRef.current);
+      }
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
       }
     };
   }, [hasBeenViewed, statement]);
