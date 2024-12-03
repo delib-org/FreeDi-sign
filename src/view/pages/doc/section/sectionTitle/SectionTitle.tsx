@@ -3,9 +3,10 @@ import { isEditSelector } from "../../../../../controllers/slices/editSlice";
 import { useSelector } from "react-redux";
 import { adjustTextAreaHeight } from "../../../../../controllers/general.ts/general";
 import EditInput from "../../../../components/editInput/EditInput";
-import { Statement } from "delib-npm";
+import { Role, Statement } from "delib-npm";
 import { updateStatementText } from "../../../../../controllers/db/statements/setStatements";
-
+import { useRole } from "../../../../../controllers/hooks/useRole";
+import styles from './SectionTitle.module.scss';
 interface Props {
   bullet: string;
   level: number;
@@ -21,6 +22,10 @@ const SectionTitle: FC<Props> = ({
   isTitleReady,
   setIsTitleReady,
 }) => {
+  // const { statementId } = useParams();
+  // const role:Role | undefined = useSelector(selectSubscriptionByDocumentId(statementId))?.role;
+  const role = useRole();
+  const isAdmin = role === Role.admin;
   const isEdit = useSelector(isEditSelector);
   const [_isEdit, _setIsEdit] = useState(false);
 
@@ -56,6 +61,7 @@ const SectionTitle: FC<Props> = ({
   }
 
   try {
+    const viewed = statement.viewed?.individualViews || 0;
     return (
       <>
         {isEdit && _isEdit ? (
@@ -68,12 +74,13 @@ const SectionTitle: FC<Props> = ({
           />
         ) : (
           <div
+          className={styles.title}
             id={`id-${statement.statementId}`}
             onClick={() => {
               if (isEdit) _setIsEdit(true);
             }}
           >
-            {sectionHeader(`${statement.statement}`, level)}
+            {sectionHeader(`${statement.statement}`, level)} {isAdmin && `(${viewed})`}
           </div>
         )}
       </>

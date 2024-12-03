@@ -1,4 +1,4 @@
-import { Approval, Statement } from "delib-npm";
+import { Approval, Role, Statement } from "delib-npm";
 import { FC, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,14 +13,19 @@ import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general
 import { deleteParagraphFromDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import DeleteIcon from "../../../../assets/icons/trash.svg?react";
 import { selectApprovalById } from "../../../../controllers/slices/approvalSlice";
-
+import { useRole } from "../../../../controllers/hooks/useRole";
+import { setViewToDB } from "../../../../controllers/db/views/setViews";
 
 interface Props {
   statement: Statement;
 }
+
 const Paragraph: FC<Props> = ({ statement }) => {
   const dispatch = useDispatch();
+  const role = useRole();
+  const isAdmin = role === Role.admin;
 
+  const paragraphRef = useRef<HTMLDivElement>(null);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const comments = useSelector(commentsSelector(statement.statementId)).sort(
     (a, b) => b.createdAt - a.createdAt
@@ -31,18 +36,56 @@ const Paragraph: FC<Props> = ({ statement }) => {
 
   const isEdit = useSelector(isEditSelector);
   const [_isEdit, _setIsEdit] = useState(false);
+  const [hasBeenViewed, setHasBeenViewed] = useState(false);
 
   useEffect(() => {
-    //get the previous value of isEdit
-  }, [isEdit]);
+    // Create Intersection Observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasBeenViewed) {
+            // If paragraph is visible and hasn't been counted yet
+            setHasBeenViewed(true);
+            console.log(statement.statement, "has been viewed");
+            
+            // Here you would typically update your backend/database
+            // For example, you might want to create a function like:
+            // updateParagraphViews(statement.statementId);
+            
+            // You might also want to update your local state/redux store
+          
+            
+            // Update your database with the new view count
+            // This is a placeholder - implement according to your backend structure
+           setViewToDB(statement);
+          }
+        });
+      },
+      {
+        // Configure the observer:
+        threshold: 0.7, // Trigger when 50% of the element is visible
+        rootMargin: '0px' // No margin around the viewport
+      }
+    );
+
+    // Start observing the paragraph
+    if (paragraphRef.current) {
+      observer.observe(paragraphRef.current);
+    }
+
+    // Cleanup observer on component unmount
+    return () => {
+      if (paragraphRef.current) {
+        observer.unobserve(paragraphRef.current);
+      }
+    };
+  }, [hasBeenViewed, statement]);
 
   useEffect(() => {
     if (isEdit && textarea.current) {
       adjustTextAreaHeight(textarea.current);
     }
   }, [isEdit, textarea, _isEdit]);
-
-
 
   function handleDelete() {
     const shouldDelete = confirm(
@@ -65,13 +108,11 @@ const Paragraph: FC<Props> = ({ statement }) => {
     if (textarea.value === "") {
       textarea.value = statement.statement;
     }
-    //remove new lines
     textarea.value = textarea.value.replace(/\n/g, " ");
     updateParagraphTextToDB({ statement, newText: textarea.value });
   }
 
   function renderText(text: string) {
-    //if * is found, render the text as bold
     if (text.includes("*")) {
       const parts = text.split("*");
       return parts.map((part, index) => {
@@ -87,8 +128,10 @@ const Paragraph: FC<Props> = ({ statement }) => {
   }
 
   try {
+    const viewed = statement.viewed?.individualViews || 0;
+
     return (
-      <div className={styles.paragraph}>
+      <div className={styles.paragraph} ref={paragraphRef}>
         {isEdit && _isEdit ? (
           <textarea
             ref={textarea}
@@ -114,7 +157,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
                   _setIsEdit(true);
                 }}
               >
-                {renderText(statement.statement)}
+                {renderText(statement.statement)} {isAdmin && `(${viewed})`}
               </p>
               {isEdit && (
                 <button onClick={handleDelete}>

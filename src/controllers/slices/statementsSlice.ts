@@ -70,9 +70,7 @@ export const counterSlice = createSlice({
             try {
                 const signature = action.payload
                 if (signature) {
-                    console.log(signature)
                     state.mySignatures = updateArray(state.mySignatures, signature, "signatureId");
-                    console.log(state.mySignatures)
                 }
             } catch (error) {
                 console.error("Error setting my signature: ", error);

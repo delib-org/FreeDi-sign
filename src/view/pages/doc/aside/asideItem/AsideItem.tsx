@@ -27,7 +27,7 @@ function AsideItem({
   const title = statement.statement.split("\n")[0];
 
   function handleView() {
-    setViewToDB(statement.statementId);
+    setViewToDB(statement);
   }
 
   return (
