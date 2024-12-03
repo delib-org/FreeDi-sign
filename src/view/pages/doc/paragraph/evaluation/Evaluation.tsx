@@ -1,9 +1,9 @@
 import { Role, Statement } from "delib-npm";
 import { FC, useContext } from "react";
 import styles from "./Evaluation.module.scss";
-// import Importance, { fromImportanceToIcon } from "./importance/Importance";
+import Importance, { fromImportanceToIcon } from "./importance/Importance";
 // import ApprovalComp from "./approval/Approval";
-// import VerticalHR from "../../../../components/VerticalHR/VerticalHR";
+import VerticalHR from "../../../../components/VerticalHR/VerticalHR";
 import CommentsButton from "./importance/comments/CommentsButton";
 import { RoleContext } from "../../Document";
 
@@ -11,12 +11,9 @@ import { RoleContext } from "../../Document";
 
 interface Props {
   statement: Statement;
-  comments: Statement[]; 
+  comments: Statement[];
 }
-const Evaluation: FC<Props> = ({
-  statement,
-  comments,
-}) => {
+const Evaluation: FC<Props> = ({ statement, comments }) => {
   const numberOfComments = comments.length;
   const role = useContext(RoleContext);
   try {
@@ -27,28 +24,25 @@ const Evaluation: FC<Props> = ({
         }`}
       >
         {/* <ApprovalComp statement={statement} /> */}
-        {/* <VerticalHR />
-        {role !== Role.admin? (
+        {/* <VerticalHR /> */}
+        {role !== Role.admin ? (
           <>
             <Importance statement={statement} />
           </>
-        ):
-        (
+        ) : (
           <div className={styles.importance}>
             {fromImportanceToIcon(
               statement.documentImportance?.averageImportance || 0
             )}
             <span>{statement.documentImportance?.sumImportance}</span>
           </div>
-        )} */}
-        {/* <VerticalHR /> */}
+        )}
+        <VerticalHR />
         <CommentsButton
           numberOfComments={numberOfComments}
           statement={statement}
-          comments={comments}          
+          comments={comments}
         />
-       
-        
       </div>
     );
   } catch (error) {
