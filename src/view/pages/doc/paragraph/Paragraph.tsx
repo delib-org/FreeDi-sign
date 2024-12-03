@@ -1,4 +1,4 @@
-import { Approval, Role, Statement } from "delib-npm";
+import { Approval, Role, Statement, StatementView } from "delib-npm";
 import { FC, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -15,6 +15,7 @@ import DeleteIcon from "../../../../assets/icons/trash.svg?react";
 import { selectApprovalById } from "../../../../controllers/slices/approvalSlice";
 import { useRole } from "../../../../controllers/hooks/useRole";
 import { setViewToDB } from "../../../../controllers/db/views/setViews";
+import { getViewsFromDB } from "../../../../controllers/db/views/getViews";
 
 interface Props {
   statement: Statement;
@@ -36,7 +37,16 @@ const Paragraph: FC<Props> = ({ statement }) => {
 
   const isEdit = useSelector(isEditSelector);
   const [_isEdit, _setIsEdit] = useState(false);
-  const [hasBeenViewed, setHasBeenViewed] = useState(false);
+  const [hasBeenViewed, setHasBeenViewed] = useState(true);
+
+  useEffect(() => {
+    const fetchView = async () => {
+      const view = await getViewsFromDB(statement.statementId);
+      if (view && view?.viewed > 0) setHasBeenViewed(true);
+      else setHasBeenViewed(false);
+    };
+    fetchView();
+  }, [statement.statementId]);
 
   useEffect(() => {
     // Create Intersection Observer
@@ -47,24 +57,23 @@ const Paragraph: FC<Props> = ({ statement }) => {
             // If paragraph is visible and hasn't been counted yet
             setHasBeenViewed(true);
             console.log(statement.statement, "has been viewed");
-            
+
             // Here you would typically update your backend/database
             // For example, you might want to create a function like:
             // updateParagraphViews(statement.statementId);
-            
+
             // You might also want to update your local state/redux store
-          
-            
+
             // Update your database with the new view count
             // This is a placeholder - implement according to your backend structure
-           setViewToDB(statement);
+            setViewToDB(statement);
           }
         });
       },
       {
         // Configure the observer:
         threshold: 0.7, // Trigger when 50% of the element is visible
-        rootMargin: '0px' // No margin around the viewport
+        rootMargin: "0px", // No margin around the viewport
       }
     );
 
@@ -167,12 +176,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
             </div>
           </div>
         )}
-        {!isEdit && (
-          <Evaluation
-            statement={statement}
-            comments={comments}
-          />
-        )}
+        {!isEdit && <Evaluation statement={statement} comments={comments} />}
       </div>
     );
   } catch (e) {
