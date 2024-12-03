@@ -14,22 +14,29 @@ import Page401 from "../page401/Page401";
 import HourGlassLoader from "../../components/loaders/HourGlassLoader";
 import Comments from "./comments/Comments";
 import { useDispatch, useSelector } from "react-redux";
-import { commentsSelector, updateShowComments } from "../../../controllers/slices/commentsSlice";
+import {
+  commentsSelector,
+  updateShowComments,
+} from "../../../controllers/slices/commentsSlice";
 import { useLanguage } from "../../../controllers/hooks/useLanguage";
 
 import { listenToMySignature } from "../../../controllers/db/signatures/getSignatures";
-import { documentParagraphsSelector, mySignaturesSelector } from "../../../controllers/slices/statementsSlice";
+import {
+  documentParagraphsSelector,
+  mySignaturesSelector,
+} from "../../../controllers/slices/statementsSlice";
 import { handleSetUserEnteredPage } from "./documentCont";
 import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlice";
+import { setEvaluation } from "../../../controllers/slices/evaluationSlice";
 
 export const RoleContext = createContext<Role>(Role.unsubscribed);
 
 const Document = () => {
   const dispatch = useDispatch();
-  const {t} = useLanguage();
+  const { t } = useLanguage();
   const { statementId } = useParams<{ statementId: string }>();
   const { showComments } = useSelector(commentsSelector);
-  const mySignature: Signature|undefined = useSelector(
+  const mySignature: Signature | undefined = useSelector(
     mySignaturesSelector(statementId)
   );
   const paragraphs = useSelector(documentParagraphsSelector(statementId || ""));
@@ -39,28 +46,45 @@ const Document = () => {
   const approved = paragraphs.length - rejected.length;
 
   const [showInfo, setShowInfo] = useState(false);
- 
 
- 
   const { isLoading, isError, statement, isAuthorized, role } = useDocument();
   const signatures = useSignatures(statementId);
 
-useEffect(() => {
-  let unsubscribed = ()=>{return;};
-  if(isAuthorized && statementId){
-    unsubscribed = listenToMySignature(statementId);
-  }
+  //use effects
+  useEffect(() => {
+    //TODO: remove this when the the settings can be achieved from the db
+    if (statementId)
+      dispatch(
+        setEvaluation({
+          statementId: statementId,
+          approve: false,
+          comment: true,
+          importance: true,
+        })
+      );
+  }, [statementId, dispatch]);
 
-  return ()=>{
-    unsubscribed();
-  }
-},[isAuthorized, statementId]);
+  useEffect(() => {
+    let unsubscribed = () => {
+      return;
+    };
+    if (isAuthorized && statementId) {
+      unsubscribed = listenToMySignature(statementId);
+    }
 
-useEffect(() => {
-  if(!mySignature && statement) handleSetUserEnteredPage(statement, paragraphs.length, approved);
-}, [mySignature, paragraphs.length, statement, approved]);
+    return () => {
+      unsubscribed();
+    };
+  }, [isAuthorized, statementId]);
 
-  function handleShowComments(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  useEffect(() => {
+    if (!mySignature && statement)
+      handleSetUserEnteredPage(statement, paragraphs.length, approved);
+  }, [mySignature, paragraphs.length, statement, approved]);
+
+  function handleShowComments(
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) {
     if (event.target === event.currentTarget) {
       event.stopPropagation();
       dispatch(updateShowComments(!showComments));
@@ -106,7 +130,6 @@ useEffect(() => {
             </Modal>
           </div>
         )}
-      
       </div>
     </RoleContext.Provider>
   );

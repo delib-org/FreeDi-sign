@@ -6,6 +6,7 @@ import subscriptionsSliceReducer from '../controllers/slices/subscriptionsSlice'
 import agreesSliceReducer from '../controllers/slices/agreeSlice';
 import approvalsSliceReducer from '../controllers/slices/approvalSlice';
 import commentsSliceReducer from '../controllers/slices/commentsSlice';
+import evaluationsSliceReducer from '../controllers/slices/evaluationSlice';
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     subscriptions: subscriptionsSliceReducer,
     approvals: approvalsSliceReducer,
     comments: commentsSliceReducer,
+    evaluations: evaluationsSliceReducer,
   },
 })
 

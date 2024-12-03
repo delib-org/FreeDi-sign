@@ -91,7 +91,7 @@ const ApprovalComp: FC<Props> = ({ statement }) => {
 
   try {
     const stApproved = statement.documentApproval?.approved || 0;
-    console.log(statement.statement, stApproved);
+  
     const stRejected =
       (statement.documentApproval?.totalVoters || stApproved) - stApproved || 0;
 

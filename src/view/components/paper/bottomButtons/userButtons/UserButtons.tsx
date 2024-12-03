@@ -12,6 +12,8 @@ import { setApprovalToDB } from "../../../../../controllers/db/approval/setAppro
 import { ButtonType } from "../../../../../model/enumsModel";
 import { mySignaturesSelector } from "../../../../../controllers/slices/statementsSlice";
 import Popup from "../../../popup/Popup";
+import { selectEvaluation } from "../../../../../controllers/slices/evaluationSlice";
+import { useParams } from "react-router-dom";
 
 interface Props {
   paragraphsLength: number;
@@ -20,10 +22,12 @@ interface Props {
 }
 
 const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
+  const { statementId } = useParams();
   const approvals = useSelector(selectApprovalsByDocId(document.statementId));
   const mySignature: Signature | undefined = useSelector(
     mySignaturesSelector(document.statementId)
   );
+  const approve = useSelector(selectEvaluation(statementId))?.approve;
 
   const { t } = useLanguage();
 
@@ -86,6 +90,12 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
     });
   }
 
+  const approveText = approve
+    ? `${t("Confirm")} (${approved}/${paragraphsLength})`
+    : t("Confirm");
+
+  if (!approve) return null;
+
   return (
     <div className={styles.buttons}>
       <Popup statementId={document.statementId} />
@@ -103,7 +113,7 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
           {isRejected && <DisAgreeIcon />}
         </Button>
         <Button
-          text={`${t("Confirm")} (${approved}/${paragraphsLength})`}
+          text={approveText}
           onClick={handleSign}
           isSelected={isChecked}
           fontWight="bold"
