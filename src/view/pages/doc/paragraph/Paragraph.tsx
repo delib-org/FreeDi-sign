@@ -1,4 +1,4 @@
-import { Approval, Role, Statement, StatementView } from "delib-npm";
+import { Approval, Role, Statement } from "delib-npm";
 import { FC, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -55,25 +55,14 @@ const Paragraph: FC<Props> = ({ statement }) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !hasBeenViewed) {
             // If paragraph is visible and hasn't been counted yet
-            setHasBeenViewed(true);
-            console.log(statement.statement, "has been viewed");
-
-            // Here you would typically update your backend/database
-            // For example, you might want to create a function like:
-            // updateParagraphViews(statement.statementId);
-
-            // You might also want to update your local state/redux store
-
-            // Update your database with the new view count
-            // This is a placeholder - implement according to your backend structure
+            setHasBeenViewed(true);    
             setViewToDB(statement);
           }
         });
       },
-      {
-        // Configure the observer:
-        threshold: 0.7, // Trigger when 50% of the element is visible
-        rootMargin: "0px", // No margin around the viewport
+      {    
+        threshold: 0.7, 
+        rootMargin: "0px", 
       }
     );
 
@@ -85,6 +74,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
     // Cleanup observer on component unmount
     return () => {
       if (paragraphRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         observer.unobserve(paragraphRef.current);
       }
     };
