@@ -52,6 +52,12 @@ const Document = () => {
 
   //use effects
   useEffect(() => {
+    if(statement){
+      //set the title of the page
+      document.title = `FreeDi-sign - ${statement.statement}`;
+    }
+  },[statement]);
+  useEffect(() => {
     //TODO: remove this when the the settings can be achieved from the db
     if (statementId)
       dispatch(

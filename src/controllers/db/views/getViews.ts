@@ -10,7 +10,7 @@ export async function getViewsFromDB(statementId: string) {
 
     const viewRef =  doc(DB, Collections.statementViews, `${userId}--${statementId}`);
     const viewDB = await getDoc(viewRef);
-    if(!viewDB.exists()) throw new Error("View not found");
+    if(!viewDB.exists()) return undefined;
 
     const view = viewDB.data() as StatementView;
     const results = StatementViewSchema.safeParse(view);
@@ -23,6 +23,6 @@ export async function getViewsFromDB(statementId: string) {
 
   } catch (error) {
     console.error(error);
-    
+    return undefined;
   }
 }
