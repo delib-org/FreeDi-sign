@@ -11,7 +11,8 @@ import NewSection from "../newSection/NewSection";
 import { getBullet } from "../../../../controllers/general.ts/helpers";
 import { useLanguage } from "../../../../controllers/hooks/useLanguage";
 
-
+//icons
+import ArrowUpIcon from '../../../../assets/icons/arrowUp.svg?react';
 
 
 interface Props {
@@ -33,7 +34,7 @@ const Section: FC<Props> = ({
   const [subSectionsLength, setSubSectionsLength] = useState<number>(0);
   const { statementId } = statement;
   if (!statementId) throw new Error("statementId is required");
-  const { dir } = useLanguage();
+  const { dir,t } = useLanguage();
 
 
   try {
@@ -65,7 +66,7 @@ const Section: FC<Props> = ({
                 <NewParagraph statement={statement} order={order} />
               )}
             </div>
-            <a href="#toc">Bac to home</a>
+            <a href="#toc" className={styles.back}>{t("Back to table of contents")}<ArrowUpIcon /></a>
             <div className={styles.sections}>
               <SubSections
                 setSubSectionsLength={setSubSectionsLength}

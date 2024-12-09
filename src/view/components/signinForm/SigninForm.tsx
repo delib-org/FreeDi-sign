@@ -1,43 +1,62 @@
-import { FormEvent } from 'react';
+import { FormEvent, useEffect, useState } from "react";
 import Button from "../buttons/button/Button";
 import { ButtonType } from "../../../model/enumsModel";
-import styles from './SignupForm.module.scss';
+import styles from "./SignupForm.module.scss";
 import { useDispatch } from "react-redux";
 import { setUserDataToDB } from "../../../controllers/db/user/setUserData";
 import { setUserData } from "../../../controllers/slices/userSlice";
-import { UserData } from 'delib-npm';
+import { Segmentation, UserData } from "delib-npm";
+import { useParams } from "react-router-dom";
+import { getSegments } from "../../../controllers/db/segmentation/getSegmentation";
+import InputFields from "./inputFields/InputFields";
 
 const SigninForm = () => {
-    const dispatch = useDispatch(); 
+  const { statementId } = useParams<{ statementId: string }>();
+  const dispatch = useDispatch();
 
+  const [segments, setSegments] = useState<Segmentation[]>([]);
 
-    async function handleSetUserData(ev: FormEvent<HTMLFormElement>): Promise<void> {
-        try {
-            ev.preventDefault();
-            const formData = new FormData(ev.target as HTMLFormElement);
-            const displayName = String(formData.get("displayName"));
-            if (!displayName) throw new Error("Full name is required");
-            const city = String(formData.get("city"));
-            if (!city) throw new Error("City is required");
-
-            const _userData: UserData|undefined = await setUserDataToDB({ displayName, city, userId: "" });
-            dispatch(setUserData(_userData));
-        } catch (error) {
-            console.error(error);
-        }
+  useEffect(() => {
+    if (statementId) {
+      getSegments(statementId)
+        .then((segments) => setSegments(segments))
+        .catch((e) => console.error(e));
     }
+  }, [statementId]);
+
+  async function handleSetUserData(
+    ev: FormEvent<HTMLFormElement>
+  ): Promise<void> {
+    try {
+      ev.preventDefault();
+      const values: any = {};
+    
+      for (const segment of segments) {
+        const fieldMandatoryName = segment.fieldMandatoryName? segment.fieldMandatoryName : segment.title;
+        console.log(fieldMandatoryName)
+        const form = ev.target as HTMLFormElement;
+        const value = form[fieldMandatoryName].value;
+        if (!value) {
+          throw new Error("אנא מלא/י את כל השדות");
+        }
+        values[fieldMandatoryName] = value;
+      }
+
+      console.log(values);
+
+      const _userData: UserData | undefined = await setUserDataToDB(values);
+      dispatch(setUserData(_userData));
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <div className={styles.sign}>
-        <h1>טופס הרשמה</h1>
+      <h1>טופס הרשמה</h1>
       <form onSubmit={handleSetUserData}>
-        <div className="input-element">
-          <label>שם מלא</label>
-          <input type="text" name="displayName" placeholder="Full name" autoFocus={true} required={true}/>
-        </div>
-        <div className="input-element">
-          <label>ישוב</label>
-          <input type="text" name="city" placeholder="ישוב" required={true} />
-        </div>
+        {segments.map((segmentation, i:number) => (
+          <InputFields segmentation={segmentation} key={`field-${i}`}/>
+        ))}
         <div className="btns">
           <Button
             text="הרשמה"

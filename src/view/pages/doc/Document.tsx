@@ -35,6 +35,7 @@ import {
 } from "../../../controllers/slices/userSlice";
 import SigninForm from "../../components/signinForm/SigninForm";
 import { getUserData } from "../../../controllers/db/user/getUserData";
+import { setSegmentation } from "../../../controllers/db/segmentation/setSegmentation";
 
 export const RoleContext = createContext<Role>(Role.unsubscribed);
 
@@ -60,6 +61,10 @@ const Document = () => {
   const signatures = useSignatures(statementId);
 
   //use effects
+  useEffect(() => { //TODO: remove this when the the settings can be achieved from the db
+    if (statementId && role === Role.admin) setSegmentation(statementId);
+  }, [statementId, role]);
+
   useEffect(() => {
     if (statement) {
       //set the title of the page
@@ -68,15 +73,14 @@ const Document = () => {
   }, [statement]);
 
   useEffect(() => {
-   
     if (user && !userData) {
-      console.log('role', user);
+      console.log("role", user);
       getUserData().then((userData) => {
         console.log(userData);
         dispatch(setUserData(userData));
       });
     }
-  }, [user,userData, dispatch]);
+  }, [user, userData, dispatch]);
 
   useEffect(() => {
     //TODO: remove this when the the settings can be achieved from the db
@@ -157,9 +161,11 @@ const Document = () => {
             </Modal>
           </div>
         )}
-        {(!userData && role !== Role.admin)  && <Modal>
-          <SigninForm />
-        </Modal>}
+        {!userData && role !== Role.admin && (
+          <Modal>
+            <SigninForm />
+          </Modal>
+        )}
       </div>
     </RoleContext.Provider>
   );

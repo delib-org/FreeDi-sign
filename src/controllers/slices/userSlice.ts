@@ -2,6 +2,10 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { StatementSubscription, updateArray, User, UserData } from 'delib-npm'
 
+interface UserObjectInterface {
+    userId: string;
+    [key: string]: unknown;
+}
 export interface UserState {
     user: User | null;
     usersData:UserData[]; //data of other users
@@ -21,7 +25,7 @@ export const userSlice = createSlice({
         setUser: (state, action: PayloadAction<User | undefined>) => {
             state.user = action.payload || null
         },
-        setUserData: (state, action: PayloadAction<UserData | undefined>) => {
+        setUserData: (state, action: PayloadAction<UserObjectInterface | undefined>) => {
             if(!action.payload) return;
             state.usersData = updateArray(state.usersData, action.payload, "userId");
         },
