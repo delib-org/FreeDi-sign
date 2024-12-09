@@ -48,14 +48,14 @@ const Comment: FC<Props> = ({ statement }) => {
     if (creatorData) return;
     if (statement.creatorId === user?.uid) return;
     if (!tyredToGeUserData) {
-      getUserData(statement.creatorId).then((userData) => {
+      getUserData(statement.creatorId, statement.statementId).then((userData) => {
         if (userData) {
           dispatch(setUserData(userData));
           setTriedToGetUserData(true);
         }
       });
     }
-  }, [creatorData, dispatch, statement.creatorId, tyredToGeUserData, user?.uid]);
+  }, [creatorData, dispatch, statement.creatorId, statement.statementId, tyredToGeUserData, user?.uid]);
 
   function handleAgree(_agree: number) {
     if (isCreator) return;

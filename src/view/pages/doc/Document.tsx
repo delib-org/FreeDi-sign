@@ -75,7 +75,7 @@ const Document = () => {
   useEffect(() => {
     if (user && !userData) {
       console.log("role", user);
-      getUserData().then((userData) => {
+      getUserData(undefined, statementId).then((userData) => {
         console.log(userData);
         dispatch(setUserData(userData));
       });
@@ -90,7 +90,7 @@ const Document = () => {
           statementId: statementId,
           approve: false,
           comment: true,
-          importance: true,
+          importance: false,
         })
       );
   }, [statementId, dispatch]);
