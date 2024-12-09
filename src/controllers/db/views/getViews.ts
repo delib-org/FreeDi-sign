@@ -9,6 +9,7 @@ export async function getViewsFromDB(statementId: string) {
     if(!userId) throw new Error("User not found");
 
     const viewRef =  doc(DB, Collections.statementViews, `${userId}--${statementId}`);
+   
     const viewDB = await getDoc(viewRef);
     if(!viewDB.exists()) return undefined;
 

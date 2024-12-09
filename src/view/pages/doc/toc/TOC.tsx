@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
-import styles from './TOC.module.scss'
+import styles from './TOC.module.scss';
+import "./TOC.scss";
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { sectionsSelector } from '../../../../controllers/slices/statementsSlice';
@@ -19,7 +20,7 @@ function TableOfContent({isAside}: Props) {
 
   return (
     <div
-    className={`${styles.content} ${
+    className={`${isAside?styles.content:styles.toc} ${
       dir === "rtl" ? styles["content--rtl"] : null
     }`}
   >
@@ -31,6 +32,7 @@ function TableOfContent({isAside}: Props) {
         isTOC={isAside? false : true}
         key={`as-${st.statementId}`}
         statement={st}
+        isAside={isAside}
         isActiveSection={index === activeIndex}
         setActiveIndex={setActiveIndex}
         sectionIndex={index}

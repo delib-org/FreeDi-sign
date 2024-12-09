@@ -28,6 +28,13 @@ import {
 import { handleSetUserEnteredPage } from "./documentCont";
 import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlice";
 import { setEvaluation } from "../../../controllers/slices/evaluationSlice";
+import {
+  selectUser,
+  selectUserData,
+  setUserData,
+} from "../../../controllers/slices/userSlice";
+import SigninForm from "../../components/signinForm/SigninForm";
+import { getUserData } from "../../../controllers/db/user/getUserData";
 
 export const RoleContext = createContext<Role>(Role.unsubscribed);
 
@@ -35,6 +42,8 @@ const Document = () => {
   const dispatch = useDispatch();
   const { t } = useLanguage();
   const { statementId } = useParams<{ statementId: string }>();
+  const user = useSelector(selectUser);
+  const userData = useSelector(selectUserData);
   const { showComments } = useSelector(commentsSelector);
   const mySignature: Signature | undefined = useSelector(
     mySignaturesSelector(statementId)
@@ -52,11 +61,23 @@ const Document = () => {
 
   //use effects
   useEffect(() => {
-    if(statement){
+    if (statement) {
       //set the title of the page
       document.title = `FreeDi-sign - ${statement.statement}`;
     }
-  },[statement]);
+  }, [statement]);
+
+  useEffect(() => {
+   
+    if (user && !userData) {
+      console.log('role', user);
+      getUserData().then((userData) => {
+        console.log(userData);
+        dispatch(setUserData(userData));
+      });
+    }
+  }, [user,userData, dispatch]);
+
   useEffect(() => {
     //TODO: remove this when the the settings can be achieved from the db
     if (statementId)
@@ -136,6 +157,9 @@ const Document = () => {
             </Modal>
           </div>
         )}
+        {(!userData && role !== Role.admin)  && <Modal>
+          <SigninForm />
+        </Modal>}
       </div>
     </RoleContext.Provider>
   );

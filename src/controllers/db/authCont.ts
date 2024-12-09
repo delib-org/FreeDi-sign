@@ -17,7 +17,7 @@ export function listenToAuth() {
 
                     const user = parseUserFromFirebase(userFB);
                     
-                    console.log(user?.uid)
+                    console.log(user)
                     dispatch(setUser(user));
                 } else {
                     console.info("User is logged out");

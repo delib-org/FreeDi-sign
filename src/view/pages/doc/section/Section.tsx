@@ -11,6 +11,9 @@ import NewSection from "../newSection/NewSection";
 import { getBullet } from "../../../../controllers/general.ts/helpers";
 import { useLanguage } from "../../../../controllers/hooks/useLanguage";
 
+
+
+
 interface Props {
   statement: Statement;
   order: number;

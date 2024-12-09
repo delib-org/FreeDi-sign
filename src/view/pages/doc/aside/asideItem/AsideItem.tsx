@@ -8,6 +8,7 @@ import { setViewToDB } from "../../../../../controllers/db/views/setViews";
 interface Props {
   isActiveSection: boolean;
   setActiveIndex: (index: number | null) => void;
+  isAside?: boolean;
   sectionIndex: number;
   statement: Statement;
   level: number;
@@ -18,6 +19,7 @@ function AsideItem({
   isActiveSection,
   setActiveIndex,
   sectionIndex,
+  isAside = true,
   statement,
   level,
   isTOC,
@@ -29,6 +31,9 @@ function AsideItem({
   function handleView() {
     setViewToDB(statement);
   }
+  const minLevel = Math.min(level, 5);
+  const levelCss = isAside?`aside-h${minLevel}`: `toc-h${minLevel}`;
+
 
   return (
     <>
@@ -42,17 +47,14 @@ function AsideItem({
           {isActiveSection ? (
             <a
               href={`#id-${statement.statementId}`}
-              className={`${styles.active} ${styles.title} ${
-                styles["h" + (level + 1)]
-              }`}
+              className={`${styles.active} ${styles.title} ${levelCss}`}
             >
               {title}
             </a>
           ) : (
             <a
               href={`#id-${statement.statementId}`}
-              className={`${styles.title} ${styles["h" + (level + 1)]}`}
-            >
+              className={`${styles.title} ${levelCss}`} >
               {title}
             </a>
           )}
@@ -62,6 +64,7 @@ function AsideItem({
             <AsideItem
               isTOC={isTOC}
               key={`as-${section.statementId}`}
+              isAside={isAside}
               statement={section}
               isActiveSection={index === sectionIndex}
               setActiveIndex={setActiveIndex}

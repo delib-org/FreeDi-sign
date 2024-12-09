@@ -7,6 +7,10 @@ import { Role, Statement } from "delib-npm";
 import { updateStatementText } from "../../../../../controllers/db/statements/setStatements";
 import { useRole } from "../../../../../controllers/hooks/useRole";
 import styles from './SectionTitle.module.scss';
+
+//icons
+import EyeIcon from "../../../../../assets/icons/eye.svg?react";
+
 interface Props {
   bullet: string;
   level: number;
@@ -80,7 +84,7 @@ const SectionTitle: FC<Props> = ({
               if (isEdit) _setIsEdit(true);
             }}
           >
-            {sectionHeader(`${statement.statement}`, level)} {isAdmin && `(${viewed})`}
+           {isAdmin && <h2 className={styles.adminH2}><span className={styles.viewed}><EyeIcon /></span><span >{viewed}</span></h2>} {sectionHeader(`${statement.statement}`, level)} 
           </div>
         )}
       </>

@@ -17,6 +17,9 @@ import { useRole } from "../../../../controllers/hooks/useRole";
 import { setViewToDB } from "../../../../controllers/db/views/setViews";
 import { getViewsFromDB } from "../../../../controllers/db/views/getViews";
 
+//icons
+import EyeIcon from "../../../../assets/icons/eye.svg?react";
+
 interface Props {
   statement: Statement;
 }
@@ -166,7 +169,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
                   _setIsEdit(true);
                 }}
               >
-                {renderText(statement.statement)} {isAdmin && `(${viewed})`}
+               {isAdmin && (<><span><EyeIcon /></span> <span className={styles.viewed}>{viewed}</span></>)} <span>{renderText(statement.statement)} </span>
               </p>
               {isEdit && (
                 <button onClick={handleDelete}>

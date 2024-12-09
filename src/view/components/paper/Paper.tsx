@@ -16,6 +16,8 @@ import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlic
 import Text from "../text/Text";
 import HourGlassLoader from "../loaders/HourGlassLoader";
 import TOC from "../../pages/doc/toc/TOC";
+import { useState } from "react";
+import { getViewWidth } from "../../../controllers/general.ts/helpers";
 
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
@@ -27,11 +29,19 @@ const Paper = () => {
   const approved = paragraphs.length - rejected.length;
   const { dir } = useLanguage();
 
+  const [isAside, setIsAside] = useState<boolean>(getViewWidth()>1024);
+
   const { isLoading, isError, statement, role } = useDocument();
   if (isLoading) return <HourGlassLoader />;
   if (isError) return <div>Error: An error occurred.</div>;
 
   if (!statement) return null;
+
+  //onresize
+  window.addEventListener("resize", () => {
+    //view width
+    setIsAside(getViewWidth()>1024);
+  });
 
   return (
     <div className={styles.paper}>
@@ -48,7 +58,7 @@ const Paper = () => {
             />
             <div id="toc" />
             <div className={styles.TOC} >
-             <TOC />
+             <TOC isAside={isAside} />
             </div>
             {sections.map((section, index) => (
               <Section

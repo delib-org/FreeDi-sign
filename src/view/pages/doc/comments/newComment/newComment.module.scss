@@ -21,6 +21,7 @@
     }
 
     &__descriptionWrapper {
+      
         display: flex;
         flex-direction: column;
         border: 1px solid var(--icon-blue);
@@ -29,7 +30,6 @@
             0px 1px 4px 0px #0C0C0D0D,
             0px 1px 4px 0px #0C0C0D1A;
         padding: 8px;
-       min-width: 40vw;
        width:90%;
        @media screen and (max-width: 768px){
          
