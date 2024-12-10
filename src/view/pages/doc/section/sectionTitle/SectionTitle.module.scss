@@ -1,0 +1,20 @@
+.title{
+    display: flex;
+    align-items: center;
+    gap:1rem;
+    
+
+    .adminH2{
+        display: flex;
+        gap:.5rem;
+        font-size: 1rem;
+        font-weight: 400;
+        .viewed{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+}

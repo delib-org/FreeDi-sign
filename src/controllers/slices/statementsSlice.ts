@@ -1,17 +1,23 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { Statement, updateArray, StatementSchema, writeZodError, StatementType, DocumentType, DocumentSigns } from 'delib-npm'
+import { Statement, updateArray, StatementSchema, writeZodError, StatementType, DocumentType, DocumentSigns, Signature, SignatureType } from 'delib-npm'
 
-
-
+export interface UpdateSignature{
+    statementId: string,
+    signed: SignatureType | undefined
+}
 export interface StatementsState {
     statements: Statement[]
-    signatures: DocumentSigns[]
+    signatures: DocumentSigns[],
+    mySignatures: Signature[],
+    mySignatureUpdate:UpdateSignature[]
 }
 
 const initialState: StatementsState = {
     statements: [],
-    signatures: []
+    signatures: [],
+    mySignatures: [],
+    mySignatureUpdate: []
 }
 
 export const counterSlice = createSlice({
@@ -60,11 +66,29 @@ export const counterSlice = createSlice({
                 console.error("Error setting signatures: ", error);
             }
         },
+        setMySignature: (state, action: PayloadAction<Signature>) => {
+            try {
+                const signature = action.payload
+                if (signature) {
+                    state.mySignatures = updateArray(state.mySignatures, signature, "signatureId");
+                }
+            } catch (error) {
+                console.error("Error setting my signature: ", error);
+            }
+        },
+        setMySignatureUpdate: (state, action: PayloadAction<UpdateSignature>) => {
+            try {
+                const {signed, statementId} = action.payload
+                state.mySignatureUpdate = updateArray(state.mySignatureUpdate, {signed, statementId}, "statementId");
+            } catch (error) {
+                console.error("Error setting my signature update: ", error);
+            }
+        }
     }
 })
 
 // Action creators are generated for each case reducer function
-export const { setStatements, setStatement, deleteStatement,setSignatures } = counterSlice.actions
+export const { setStatements, setStatement, deleteStatement, setSignatures, setMySignature, setMySignatureUpdate } = counterSlice.actions
 
 export const selectStatements = (state: { statements: StatementsState }) => state.statements.statements;
 export const selectTopStatements = createSelector(
@@ -111,15 +135,26 @@ export const documentParagraphsSelector = (documentId: string) => createSelector
     (statements) => statements.filter((statement) => statement.documentSettings?.parentDocumentId === documentId && statement.documentSettings?.type === DocumentType.paragraph)
 );
 //comments selector
-export const commentsSelector = (statementId: string) => createSelector(
+export const commentsSelector = (statementId: string | undefined) => createSelector(
     (state: { statements: StatementsState }) => state.statements.statements,
     (statements) => statements.filter((statement) => statement.parentId === statementId && statement.documentSettings?.type === DocumentType.comment)
 );
 
 //signatures selector
-export const signaturesSelector = (documentId: string) => createSelector(
-    (state: {  statements: StatementsState  }) => state.statements.signatures,
+export const signaturesSelector = (documentId: string | undefined) => createSelector(
+    (state: { statements: StatementsState }) => state.statements.signatures,
     (signatures) => signatures.find((signature) => signature.documentId === documentId)
+);
+
+//my signatures selector
+export const mySignaturesSelector = (statementId: string | undefined) => createSelector(
+    (state: { statements: StatementsState }) => state.statements.mySignatures,
+    (signatures) => signatures.find((signature) => signature.documentId === statementId)
+);
+
+export const mySignatureUpdateSelector = (statementId: string | undefined) => createSelector(
+    (state: { statements: StatementsState }) => state.statements.mySignatureUpdate,
+    (signatures) => signatures.find((signature) => signature.statementId === statementId)
 );
 
 export const selectStatement = (state: { statements: StatementsState }, statementId: string) => state.statements.statements.find((statement) => statement.statementId === statementId);

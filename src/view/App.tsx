@@ -1,23 +1,18 @@
-import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import "./styles/globals.scss";
 import { useEffect } from "react";
-import { anonymousLogin, listenToAuth } from "../controllers/db/authCont";
-import { useSelector } from "react-redux";
-import { selectUser } from "../controllers/slices/userSlice";
-import { navigateToDocument } from "./appCont";
+import { listenToAuth } from "../controllers/db/authCont";
 import { useLanguage } from "../controllers/hooks/useLanguage";
 
-function App() {
-  const user = useSelector(selectUser);
+function App(){ 
   const params = useParams();
-  const { pathname } = useLocation();
-  const pathElements = pathname.split("/");
 
   const { dir } = useLanguage();
 
-  const navigate = useNavigate();
   useEffect(() => {
     const { statementId } = params;
+
+    listenToAuth();
 
     //set to local storage
     if (statementId) {
@@ -27,22 +22,10 @@ function App() {
     const unsubscribe = listenToAuth();
 
     return () => {
-      if (unsubscribe) unsubscribe();
+      unsubscribe();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (pathElements.includes("doc-anonymous")) {
-      if (!user) anonymousLogin();
-      navigate(`/doc-anonymous/${params.statementId}`);
-    }
-
-    if (!user) {
-      navigate("/login");
-    } else {
-      navigateToDocument(params, navigate);
-    }
-  }, [user]);
 
   return (
     <div style={{ direction: dir, fontFamily: "Assistant, sans-serif" }}>

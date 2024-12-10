@@ -8,15 +8,19 @@ import { updateStatementText } from "../../../controllers/db/statements/setState
 interface Props {
   statement?: Statement;
   allowEditing?: boolean;
+  showTitle?: boolean;
+  showDescription?: boolean;
 }
-const Text: FC<Props> = ({ statement, allowEditing }) => {
-  try {
+const Text: FC<Props> = ({ statement, allowEditing, showDescription = true, showTitle= true }) => {
+  
     const userId = useSelector(selectUser)?.uid;
     const isCreator = userId === statement?.creatorId;
     const [edit, setEdit] = useState(false);
-    const { statement: title, description } = statement || {};
+    let { statement: title, description } = statement || {};
+    if (showTitle === false) title = undefined;
+    if (showDescription === false) description = undefined;
     
-    if (title === undefined || description === undefined) return null;
+    if (title === undefined && description === undefined) return null;
 
     const textId = `${Math.random()}`.replace(".", "");
 
@@ -49,6 +53,7 @@ const Text: FC<Props> = ({ statement, allowEditing }) => {
         ></textarea>
       );
     }
+    try {
 
     //convert sentences, divided by /n to paragraphs
     const paragraphs = !description

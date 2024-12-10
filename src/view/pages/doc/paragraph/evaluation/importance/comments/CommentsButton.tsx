@@ -1,21 +1,34 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import styles from "./CommentsButton.module.scss";
 import AddComment from "../../../../../../../assets/icons/addCommentIcon.svg?react";
 import { useLanguage } from "../../../../../../../controllers/hooks/useLanguage";
+import { useDispatch } from "react-redux";
+import {  setComments } from "../../../../../../../controllers/slices/commentsSlice";
+import {  Statement } from "delib-npm";
+import { RoleContext } from "../../../../Document";
 
 interface Props {
   numberOfComments: number;
-  showComments: boolean;
-  setShowComments: (show: boolean) => void;
+  statement:Statement,
+
+  comments:Statement[]
+
 }
 const CommentsButton: FC<Props> = ({
   numberOfComments,
-  showComments,
-  setShowComments,
+  statement,
+  comments=[]
+
 }) => {
+  const role = useContext(RoleContext);
+  const dispatch = useDispatch();
   const {t} = useLanguage();
+
+  function handleShowComments(){
+    dispatch(setComments({statement, role, comments, showComments:true, showNewComment:true}))
+  }
   return (
-    <div className={styles.comments} onClick={() => setShowComments(!showComments)}>
+    <div className={styles.comments} onClick={handleShowComments}>
       {numberOfComments > 0 && (
         <span
           className={styles.commentsCounter}

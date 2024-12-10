@@ -1,0 +1,100 @@
+.commentBox {
+
+    display: flex;
+    gap:0.5rem;
+
+    @media screen and (max-width: 768px){
+        flex-direction: column;
+        gap: 1rem;
+        
+    }
+    .name{
+       
+        max-width: 12ch;
+        word-break: break-all;
+        color:#838996;
+        font-size: .85rem;
+        // word-wrap: break-word;
+        // white-space: nowrap;
+
+        @media screen and (max-width: 768px){
+          
+            max-width: 100%;
+
+            //add after ::after
+            &::after{
+                content: ":";
+            }
+            
+        }
+    }
+
+    .comment {
+        position: relative;
+        width: fit-content;
+       flex:1;
+        margin-bottom: .5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+
+        .profileImage {
+            position: absolute;
+            left: -2rem;
+            top: 1rem;
+            border-radius: 50%;
+            width: 1.88rem;
+            height: 1.88rem;
+            border: 2px solid var(--icon-blue);
+        }
+
+        .description {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--icon-blue);
+            border-radius: 10px;
+            box-shadow:
+                0px 1px 4px 0px #0C0C0D0D,
+                0px 1px 4px 0px #0C0C0D1A;
+            padding: 1rem;
+            width: 100%;
+
+
+            @media screen and (max-width: 768px) {
+                max-width: 17rem;
+
+            }
+
+            .text {
+                font-size: 0.8rem;
+                color: var(--icon-blue);
+                margin-bottom: 1.2rem;
+            }
+
+
+            .btns {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 1rem;
+
+                .agree {
+                    color: var(--agree);
+                }
+
+                .disagree {
+                    color: var(--reject);
+                }
+
+                @media screen and (max-width: 768px) {
+                    gap: 0.3rem;
+
+                }
+            }
+
+
+
+        }
+    }
+}

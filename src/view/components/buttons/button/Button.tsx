@@ -1,5 +1,6 @@
 import { FC, MouseEventHandler } from "react";
 import styles from "./Button.module.scss";
+import { ButtonType } from "../../../../model/enumsModel";
 
 interface Props {
   text: string;
@@ -8,8 +9,10 @@ interface Props {
   type?: "button" | "submit" | "reset" | undefined;
   backgroundColor?: string;
   color?: string;
+  fontWight?: "normal" | "bold";
   unselectedColor?: string;
   unselectedBackgroundColor?: string;
+  unselectedBorderColor?: string;
   isSelected?: boolean;
   isDisabled?: boolean;
   borderRadius?: string;
@@ -26,9 +29,11 @@ const Button: FC<Props> = ({
   borderRadius = "50px",
   children,
   unselectedBackgroundColor = "var(--inactive-btn)",
+  unselectedBorderColor = "var(--inactive-btn)",
   unselectedColor = "darkgray",
   isSelected = false,
   isDisabled = false,
+  fontWight = "normal",
 }) => {
   const types = {
     primary: {
@@ -38,13 +43,23 @@ const Button: FC<Props> = ({
     },
     secondary: {
       backgroundColor: "white",
-      color: "black",
-      border:"1px solid black"
+      color: "var(--primary)",
+      border:"1px solid var(--primary)"
     },
     other:{
       backgroundColor,
       color,
-      border:backgroundColor
+      border:`1px solid ${backgroundColor}`
+    },
+    approve:{
+      backgroundColor:"var(--approve)",
+      color:"white",
+      border:"1px solid var(--approve)"
+    },
+    reject:{
+      backgroundColor:"var(--reject)",
+      color:"white",
+      border:"1px solid var(--reject)"
     }
   };
 
@@ -55,10 +70,12 @@ const Button: FC<Props> = ({
       }`}
       onClick={onClick}
       style={{
+        fontWeight:fontWight,
         backgroundColor: isSelected
           ? types[buttonType].backgroundColor
           : unselectedBackgroundColor,
         color: isSelected ? types[buttonType].color : unselectedColor,
+        border:isSelected?`2px solid ${types[buttonType].border}`:`2px solid ${ unselectedBorderColor}`,
         borderRadius,
       }}
       type={type}
@@ -70,8 +87,4 @@ const Button: FC<Props> = ({
 
 export default Button;
 
-export enum ButtonType {
-  primary = "primary",
-  secondary = "secondary",
-  other = "other",
-}
+

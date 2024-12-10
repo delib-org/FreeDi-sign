@@ -1,4 +1,4 @@
-.paper{
+.paper {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -7,24 +7,32 @@
     height: 100vh;
     overflow-y: auto;
     scroll-behavior: smooth;
-    padding: 1rem;
+    padding: 2rem 1rem 0 1rem;
 
-  
-    
-  
-  
-    
-    .headerWrapper{
+
+    .TOC {
+        max-width: 100%;
+        border-radius: 5px;
+        background-color: var(--toc-bkg);
+        @media screen and (min-width: 1030px) {
+            display: none;
+
+        }
+    }
+
+
+
+    .headerWrapper {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
 
 
-        .title{
+        .title {
             background-color: transparent;
         }
 
-        .buttons{
+        .buttons {
             display: flex;
             justify-content: end;
             align-items: center;
@@ -32,26 +40,27 @@
         }
     }
 
-    .mainContainer{
+    .mainContainer {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-     
+
         padding-bottom: 5rem;
-      
+
     }
 
-    .bottomWrapper{
+    .bottomWrapper {
         display: flex;
         flex-direction: column;
         justify-content: center;
         gap: 4rem;
 
-        
+
     }
-    .buttonWrapper{
-        position:sticky;
+
+    .buttonWrapper {
+        position: sticky;
         bottom: 30px;
         display: flex;
         justify-content: center;

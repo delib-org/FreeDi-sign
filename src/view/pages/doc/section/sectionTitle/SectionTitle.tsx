@@ -3,8 +3,13 @@ import { isEditSelector } from "../../../../../controllers/slices/editSlice";
 import { useSelector } from "react-redux";
 import { adjustTextAreaHeight } from "../../../../../controllers/general.ts/general";
 import EditInput from "../../../../components/editInput/EditInput";
-import { Statement } from "delib-npm";
+import { Role, Statement } from "delib-npm";
 import { updateStatementText } from "../../../../../controllers/db/statements/setStatements";
+import { useRole } from "../../../../../controllers/hooks/useRole";
+import styles from './SectionTitle.module.scss';
+
+//icons
+import EyeIcon from "../../../../../assets/icons/eye.svg?react";
 
 interface Props {
   bullet: string;
@@ -15,22 +20,52 @@ interface Props {
 }
 
 const SectionTitle: FC<Props> = ({
-  bullet,
+  // bullet,
   level,
   statement,
   isTitleReady,
   setIsTitleReady,
 }) => {
-  try {
-    const isEdit = useSelector(isEditSelector);
-    const [_isEdit, _setIsEdit] = useState(false);
+  // const { statementId } = useParams();
+  // const role:Role | undefined = useSelector(selectSubscriptionByDocumentId(statementId))?.role;
+  const role = useRole();
+  const isAdmin = role === Role.admin;
+  const isEdit = useSelector(isEditSelector);
+  const [_isEdit, _setIsEdit] = useState(false);
 
-    useEffect(() => {
-      if (isTitleReady === false) {
-        _setIsEdit(true);
+  useEffect(() => {
+    if (isTitleReady === false) {
+      _setIsEdit(true);
+    }
+  }, [isTitleReady]);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function handleChange(e: any) {
+    const textarea = e.target as HTMLTextAreaElement;
+    adjustTextAreaHeight(textarea);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function handleUpdate(e: any) {
+    if (e.key === "Enter" || e.type === "blur") {
+      const textarea = e.target as HTMLTextAreaElement;
+      const value = textarea.value;
+
+      if (value === "") {
+        setIsTitleReady(false);
+        return;
       }
-    }, [isTitleReady]);
 
+      setIsTitleReady(true);
+
+      updateStatementText({ statement, title: value });
+
+      _setIsEdit(false);
+    }
+  }
+
+  try {
+    const viewed = statement.viewed?.individualViews || 0;
     return (
       <>
         {isEdit && _isEdit ? (
@@ -43,39 +78,17 @@ const SectionTitle: FC<Props> = ({
           />
         ) : (
           <div
+          className={styles.title}
             id={`id-${statement.statementId}`}
             onClick={() => {
               if (isEdit) _setIsEdit(true);
             }}
           >
-            {sectionHeader(`${bullet} ) ${statement.statement}`, level)}
+           {isAdmin && <h2 className={styles.adminH2}><span className={styles.viewed}><EyeIcon /></span><span >{viewed}</span></h2>} {sectionHeader(`${statement.statement}`, level)} 
           </div>
         )}
       </>
     );
-
-    function handleChange(e: any) {
-      const textarea = e.target as HTMLTextAreaElement;
-      adjustTextAreaHeight(textarea);
-    }
-
-    function handleUpdate(e: any) {
-      if (e.key === "Enter" || e.type === "blur") {
-        const textarea = e.target as HTMLTextAreaElement;
-        const value = textarea.value;
-
-        if (value === "") {
-          setIsTitleReady(false);
-          return;
-        }
-
-        setIsTitleReady(true);
-
-        updateStatementText({statement, title: value});
-
-        _setIsEdit(false);
-      }
-    }
   } catch (error) {
     console.error(error);
     return null;
