@@ -74,13 +74,13 @@ const Document = () => {
 
   useEffect(() => {
     if (user && !userData) {
-      console.log("role", user);
+    
       getUserData(undefined, statementId).then((userData) => {
-        console.log(userData);
+     
         dispatch(setUserData(userData));
       });
     }
-  }, [user, userData, dispatch]);
+  }, [user, userData, dispatch, statementId]);
 
   useEffect(() => {
     //TODO: remove this when the the settings can be achieved from the db
@@ -90,7 +90,7 @@ const Document = () => {
           statementId: statementId,
           approve: false,
           comment: true,
-          importance: false,
+          importance: true,
         })
       );
   }, [statementId, dispatch]);

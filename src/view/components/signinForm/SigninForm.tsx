@@ -29,11 +29,12 @@ const SigninForm = () => {
   ): Promise<void> {
     try {
       ev.preventDefault();
-      const values: any = {};
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const values:any = {};
     
       for (const segment of segments) {
         const fieldMandatoryName = segment.fieldMandatoryName? segment.fieldMandatoryName : segment.title;
-        console.log(fieldMandatoryName)
+     
         const form = ev.target as HTMLFormElement;
         const value = form[fieldMandatoryName].value;
         if (!value) {
@@ -41,8 +42,6 @@ const SigninForm = () => {
         }
         values[fieldMandatoryName] = value;
       }
-
-      console.log(values);
 
       const _userData: UserData | undefined = await setUserDataToDB(values, statementId);
       dispatch(setUserData(_userData));
@@ -52,7 +51,7 @@ const SigninForm = () => {
   }
   return (
     <div className={styles.sign}>
-      <h1>טופס הרשמה</h1>
+      <h1 className={styles.h1}>טופס הרשמה</h1>
       <form onSubmit={handleSetUserData}>
         {segments.map((segmentation, i:number) => (
           <InputFields segmentation={segmentation} key={`field-${i}`}/>

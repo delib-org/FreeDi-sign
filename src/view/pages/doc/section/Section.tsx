@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./Section.module.scss";
 import NewParagraph from "../newParagraph/NewParagraph";
 import { Statement } from "delib-npm";
@@ -8,12 +8,15 @@ import SubParagraphs from "./subParagraphs/SubParagraphs";
 import SubSections from "./subSections/SubSections";
 import SectionTitle from "./sectionTitle/SectionTitle";
 import NewSection from "../newSection/NewSection";
-import { getBullet } from "../../../../controllers/general.ts/helpers";
+import {
+  getBullet,
+  getViewWidth,
+} from "../../../../controllers/general.ts/helpers";
 import { useLanguage } from "../../../../controllers/hooks/useLanguage";
 
 //icons
-import ArrowUpIcon from '../../../../assets/icons/arrowUp.svg?react';
-
+import ArrowUpIcon from "../../../../assets/icons/arrowUp.svg?react";
+import { TOC_WIDTH } from "../../../../model/toc";
 
 interface Props {
   statement: Statement;
@@ -28,14 +31,19 @@ const Section: FC<Props> = ({
   parentBullet,
   parentLevel,
 }) => {
-
   const isEdit = useSelector(isEditSelector);
   const [isTitleReady, setIsTitleReady] = useState(true);
   const [subSectionsLength, setSubSectionsLength] = useState<number>(0);
+  const [isTOC, setIsTOC] = useState<boolean>(getViewWidth() < TOC_WIDTH);
   const { statementId } = statement;
   if (!statementId) throw new Error("statementId is required");
-  const { dir,t } = useLanguage();
+  const { dir, t } = useLanguage();
 
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setIsTOC(getViewWidth() < TOC_WIDTH);
+    });
+  }, []);
 
   try {
     const bullet = getBullet(parentBullet, order);
@@ -66,7 +74,12 @@ const Section: FC<Props> = ({
                 <NewParagraph statement={statement} order={order} />
               )}
             </div>
-            <a href="#toc" className={styles.back}>{t("Back to table of contents")}<ArrowUpIcon /></a>
+            {isTOC && (
+              <a href="#toc" className={styles.back}>
+                {t("Back to table of contents")}
+                <ArrowUpIcon />
+              </a>
+            )}
             <div className={styles.sections}>
               <SubSections
                 setSubSectionsLength={setSubSectionsLength}

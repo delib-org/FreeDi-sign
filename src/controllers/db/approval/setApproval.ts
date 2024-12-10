@@ -5,7 +5,7 @@ import { store } from "../../../model/store";
 
 export async function setApprovalToDB({ statementId, statement, approval }: { statementId?: string, statement?: Statement, approval: boolean }): Promise<void> {
     try {
-      console.log("approval", approval);
+     
         statementId = statementId || statement?.statementId;
         if (!statementId) throw new Error("Statement Id not found");
 

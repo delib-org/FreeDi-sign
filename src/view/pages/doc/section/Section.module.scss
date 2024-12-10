@@ -63,6 +63,9 @@ $mobile:1000px;
 
 .back{
    margin-top: 1rem;
-    color: #7484A9;
+    color: #3e3e3e;
     text-decoration: none;
+    font-weight: 400;
+    background-color: var(--toc-bkg);
+    padding: 0 0.5rem;
 }

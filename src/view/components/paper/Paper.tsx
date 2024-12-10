@@ -48,15 +48,17 @@ const Paper = () => {
       <div
         className={`wrapper wrapper--paper ${dir === "rtl" && "wrapper--rtl"}`}
       >
+         <div id="toc" />
         {statement && (
           <div className={styles.mainContainer}>
             <h1>{statement.statement}</h1>
+           
             <Text
               statement={statement}
               showTitle={false}
               showDescription={true}
             />
-            <div id="toc" />
+           
             <div className={styles.TOC} >
              <TOC isAside={isAside} />
             </div>

@@ -7,7 +7,7 @@ export function setViewToDB(statement: Statement | undefined) {
     try {
         if (!statement) throw new Error("Statement not found")
         const { statementId, documentSettings } = statement;
-    console.log(statement)
+   
         if (!documentSettings) throw new Error("Document settings not found")
         const { parentDocumentId } = documentSettings;
         if (!parentDocumentId) throw new Error("Parent document id not found")

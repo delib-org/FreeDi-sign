@@ -1,0 +1,1 @@
+export const TOC_WIDTH = 1030;
