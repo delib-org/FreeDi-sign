@@ -1,17 +1,20 @@
-import { Collections, getStatementSubscriptionId, Signature, Statement } from "delib-npm";
+import { Collections, getStatementSubscriptionId, Signature, SignatureSchema, SignatureType, Statement } from "delib-npm";
 import { store } from "../../../model/store";
 import { DB } from "../config";
 import { doc, setDoc } from "firebase/firestore";
+import { setMySignature } from "../../slices/statementsSlice";
 
 interface setSignatureToDBProps {
     document: Statement;
     paragraphsLength: number;
     approved: number;
-    signed: boolean;
+    signed: SignatureType;
 }
 
 export async function setSignatureToDB({ document, paragraphsLength, approved, signed }: setSignatureToDBProps): Promise<boolean> {
     try {
+        if(paragraphsLength === 0) paragraphsLength = 1;
+        const dispatch = store.dispatch;
         const user = store.getState().user.user;
         if (!user) throw new Error("User not found");
         const userId = user.uid;
@@ -21,10 +24,15 @@ export async function setSignatureToDB({ document, paragraphsLength, approved, s
             userId,
             documentId: document.statementId,
             date: new Date().toISOString(),
-            levelOfSignature: signed ? (approved / paragraphsLength) : 0,
+            levelOfSignature: signed === SignatureType.signed ? (approved / paragraphsLength) : 0,
             signatureId: signatureId,
             signed
         }
+
+        const results = SignatureSchema.safeParse(signature);
+        if (!results.success) throw new Error(JSON.stringify(results.error));
+
+        dispatch(setMySignature(signature));
 
         const signatureRef = doc(DB, Collections.signatures, signatureId);
         await setDoc(signatureRef, signature);
@@ -34,3 +42,4 @@ export async function setSignatureToDB({ document, paragraphsLength, approved, s
         return false;
     }
 }
+

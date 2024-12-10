@@ -1,0 +1,81 @@
+.content {
+    width: fit-content;
+    padding-left: 1.2rem;
+    height: -webkit-fill-available;
+    overflow-y: auto;
+    padding-bottom: 4rem;
+
+    &--rtl {
+        padding-left: 0;
+        padding-right: 1.2rem;
+    }
+
+    .contentTitle {
+        box-sizing: border-box;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        gap: 0.70rem;
+        width: 100%;
+        text-align: start;
+        font-size: 1.4rem;
+        font-weight: 700;
+        // margin-inline: auto;
+        padding: .6rem;
+        background-color: rgba(41, 86, 160, 0.25);
+        border-radius: 0.23rem;
+
+
+    }
+
+    .docTitle {
+        font-weight: 500;
+        font-size: 1.17rem;
+
+    }
+
+    .h2 {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    .h3 {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    .h4 {
+        font-size: 1.125rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    .h5 {
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    .h6 {
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+}
+
+.toc {
+
+    max-width: 100%;
+
+    .contentTitle {
+        color: #191E29;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+   
+}

@@ -1,4 +1,4 @@
-import { Approval, Statement } from "delib-npm";
+import { Approval, Role, Statement } from "delib-npm";
 import { FC, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,15 +13,25 @@ import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general
 import { deleteParagraphFromDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import DeleteIcon from "../../../../assets/icons/trash.svg?react";
 import { selectApprovalById } from "../../../../controllers/slices/approvalSlice";
+import { useRole } from "../../../../controllers/hooks/useRole";
+import { setViewToDB } from "../../../../controllers/db/views/setViews";
+import { getViewsFromDB } from "../../../../controllers/db/views/getViews";
 
+//icons
+import EyeIcon from "../../../../assets/icons/eye.svg?react";
 
 interface Props {
   statement: Statement;
 }
+
 const Paragraph: FC<Props> = ({ statement }) => {
   const dispatch = useDispatch();
+  const role = useRole();
+  const isAdmin = role === Role.admin;
 
+  const paragraphRef = useRef<HTMLDivElement>(null);
   const textarea = useRef<HTMLTextAreaElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const comments = useSelector(commentsSelector(statement.statementId)).sort(
     (a, b) => b.createdAt - a.createdAt
   );
@@ -31,18 +41,63 @@ const Paragraph: FC<Props> = ({ statement }) => {
 
   const isEdit = useSelector(isEditSelector);
   const [_isEdit, _setIsEdit] = useState(false);
+  const [hasBeenViewed, setHasBeenViewed] = useState(true);
 
   useEffect(() => {
-    //get the previous value of isEdit
-  }, [isEdit]);
+    const fetchView = async () => {
+      const view = await getViewsFromDB(statement.statementId);
+      if (view && view?.viewed > 0) setHasBeenViewed(true);
+      else setHasBeenViewed(false);
+    };
+    fetchView();
+  }, [statement.statementId]);
+
+  useEffect(() => {
+    // Create Intersection Observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Clear any existing timeout when visibility changes
+          if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+          }
+
+          if (entry.isIntersecting && !hasBeenViewed) {
+            // Set a 4-second delay before triggering the view count
+            timeoutRef.current = setTimeout(() => {
+              setHasBeenViewed(true);    
+              setViewToDB(statement);
+            }, 4000);
+          }
+        });
+      },
+      {    
+        threshold: 0.7, 
+        rootMargin: "0px", 
+      }
+    );
+
+    // Start observing the paragraph
+    if (paragraphRef.current) {
+      observer.observe(paragraphRef.current);
+    }
+
+    // Cleanup observer and timeout on component unmount
+    return () => {
+      if (paragraphRef.current) {
+        observer.unobserve(paragraphRef.current);
+      }
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [hasBeenViewed, statement]);
 
   useEffect(() => {
     if (isEdit && textarea.current) {
       adjustTextAreaHeight(textarea.current);
     }
   }, [isEdit, textarea, _isEdit]);
-
-
 
   function handleDelete() {
     const shouldDelete = confirm(
@@ -65,13 +120,11 @@ const Paragraph: FC<Props> = ({ statement }) => {
     if (textarea.value === "") {
       textarea.value = statement.statement;
     }
-    //remove new lines
     textarea.value = textarea.value.replace(/\n/g, " ");
     updateParagraphTextToDB({ statement, newText: textarea.value });
   }
 
   function renderText(text: string) {
-    //if * is found, render the text as bold
     if (text.includes("*")) {
       const parts = text.split("*");
       return parts.map((part, index) => {
@@ -87,8 +140,10 @@ const Paragraph: FC<Props> = ({ statement }) => {
   }
 
   try {
+    const viewed = statement.viewed?.individualViews || 0;
+
     return (
-      <div className={styles.paragraph}>
+      <div className={styles.paragraph} ref={paragraphRef}>
         {isEdit && _isEdit ? (
           <textarea
             ref={textarea}
@@ -114,7 +169,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
                   _setIsEdit(true);
                 }}
               >
-                {renderText(statement.statement)}
+               {isAdmin && (<><span><EyeIcon /></span> <span className={styles.viewed}>{viewed}</span></>)} <span>{renderText(statement.statement)} </span>
               </p>
               {isEdit && (
                 <button onClick={handleDelete}>
@@ -124,12 +179,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
             </div>
           </div>
         )}
-        {!isEdit && (
-          <Evaluation
-            statement={statement}
-            comments={comments}
-          />
-        )}
+        {!isEdit && <Evaluation statement={statement} comments={comments} />}
       </div>
     );
   } catch (e) {

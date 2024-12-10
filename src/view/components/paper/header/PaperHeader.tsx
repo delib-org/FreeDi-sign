@@ -9,7 +9,7 @@ import { toggleIsEdit } from "../../../../controllers/slices/editSlice";
 //icons
 import InfoIcon from "../../../../assets/icons/info.svg?react";
 import EditIcon from "../../../../assets/icons/edit.svg?react";
-import QuestionIcon from "../../../../assets/icons/question.svg?react";
+// import QuestionIcon from "../../../../assets/icons/question.svg?react";
 
 interface Props {
   statement?: Statement;
@@ -25,13 +25,15 @@ const PaperHeader: FC<Props> = ({ statement, setShowInfo }) => {
     dispatch(toggleIsEdit());
   };
 
+  if (role !== Role.admin) return null;
+
   return (
     <header className={styles.header}>
     
         <div className={styles.buttons}>
-          <button>
+          {/* <button>
             <QuestionIcon />
-          </button>
+          </button> */}
           {role === Role.admin && (
             <button onClick={handleToggleEdit}>
               <EditIcon />

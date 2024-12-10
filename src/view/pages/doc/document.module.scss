@@ -21,6 +21,11 @@
         z-index: 1;
         color: white;
         height: 100vh;
+
+        @media screen and (max-width: 1030px) {
+            display: none;
+            
+        }
     }
 
     .main{
@@ -29,5 +34,20 @@
         flex: 1;
         overflow-y: auto;
       
+    }
+}
+
+.loader{
+    background-color: var(--home);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column  ;
+    color:white;
+    gap:1rem;
+    h2{
+        color: white;
     }
 }

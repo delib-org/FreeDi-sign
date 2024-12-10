@@ -15,7 +15,7 @@ interface Props {
   order: number;
   show: boolean;
 }
-const NewComment: FC<Props> = ({ parentStatement, order, show }) => {
+const NewComment: FC<Props> = ({ parentStatement, order }) => {
   const [showUserComment, setShowUserComment] = useState(true);
   const { t } = useLanguage();
   const dispatch = useDispatch();
@@ -64,11 +64,8 @@ const NewComment: FC<Props> = ({ parentStatement, order, show }) => {
               <div
                 className={styles.cancel}
                 onClick={() => {
-                  console.log("click");
-                  // setShowUserComment(false);
                   setShowUserComment(false);
                   dispatch(updateShowNewComment(false));
-                  console.log(show);
                 }}
               >
                 {t("Cancel")}

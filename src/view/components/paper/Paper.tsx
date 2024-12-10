@@ -15,6 +15,9 @@ import UserButtons from "./bottomButtons/userButtons/UserButtons";
 import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlice";
 import Text from "../text/Text";
 import HourGlassLoader from "../loaders/HourGlassLoader";
+import TOC from "../../pages/doc/toc/TOC";
+import { useState } from "react";
+import { getViewWidth } from "../../../controllers/general.ts/helpers";
 
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
@@ -26,23 +29,39 @@ const Paper = () => {
   const approved = paragraphs.length - rejected.length;
   const { dir } = useLanguage();
 
+  const [isAside, setIsAside] = useState<boolean>(getViewWidth()>1024);
+
   const { isLoading, isError, statement, role } = useDocument();
   if (isLoading) return <HourGlassLoader />;
   if (isError) return <div>Error: An error occurred.</div>;
 
   if (!statement) return null;
 
+  //onresize
+  window.addEventListener("resize", () => {
+    //view width
+    setIsAside(getViewWidth()>1024);
+  });
+
   return (
     <div className={styles.paper}>
       <div
         className={`wrapper wrapper--paper ${dir === "rtl" && "wrapper--rtl"}`}
       >
+         <div id="toc" />
         {statement && (
           <div className={styles.mainContainer}>
-            <h1>
-              {statement.statement}
-            </h1>
-            <Text statement={statement} showTitle={false} showDescription={true}/>
+            <h1>{statement.statement}</h1>
+           
+            <Text
+              statement={statement}
+              showTitle={false}
+              showDescription={true}
+            />
+           
+            <div className={styles.TOC} >
+             <TOC isAside={isAside} />
+            </div>
             {sections.map((section, index) => (
               <Section
                 key={section.statementId}
@@ -60,16 +79,16 @@ const Paper = () => {
             />
           </div>
         )}
-        {role === Role.admin ? (
-          <AdminBottomButtons />
-        ) : (
-          <UserButtons
-            paragraphsLength={paragraphs.length}
-            approved={approved}
-            document={statement}
-          />
-        )}
       </div>
+      {role === Role.admin ? (
+        <AdminBottomButtons />
+      ) : (
+        <UserButtons
+          paragraphsLength={paragraphs.length}
+          approved={approved}
+          document={statement}
+        />
+      )}
     </div>
   );
 };

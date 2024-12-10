@@ -4,6 +4,7 @@ import { Collections, Statement, StatementSubscription } from "delib-npm";
 import { store } from "../../../model/store";
 import { deleteStatement, setStatement, setStatements } from "../../slices/statementsSlice";
 import { UnsubscribeObject } from "../../../model/unsubscribeModel";
+import { QuerySnapshot, DocumentData } from "firebase/firestore";
 
 export async function getStatements(): Promise<Statement[]> {
   try {
@@ -14,7 +15,7 @@ export async function getStatements(): Promise<Statement[]> {
     const q = query(statementsRef, where("creatorId", "==", user.uid));
     const querySnapshot = await getDocs(q);
     const statements: Statement[] = [];
-    querySnapshot.forEach((doc: any) => {
+    querySnapshot.forEach((doc) => {
       statements.push(doc.data() as Statement);
     });
 
@@ -26,7 +27,7 @@ export async function getStatements(): Promise<Statement[]> {
   }
 }
 
-export function listenToStatements(setIsLoading: Function, setError: Function) {
+export function listenToStatements(setIsLoading: (isLoading: boolean) => void, setError: (error: string) => void) {
   try {
     const user = store.getState().user.user;
     if (!user) throw new Error("User not found");
@@ -40,7 +41,7 @@ export function listenToStatements(setIsLoading: Function, setError: Function) {
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const statements: Statement[] = [];
       setIsLoading(false);
-      querySnapshot.forEach((doc: any) => {
+      querySnapshot.forEach((doc) => {
         statements.push(doc.data() as Statement);
       });
       dispatch(setStatements(statements));
@@ -71,7 +72,7 @@ export function listenToUserTopStatements(unsubscribes: UnsubscribeObject[], set
 
 
 
-    return onSnapshot(q, (subscriptionsDB) => {
+    return onSnapshot(q, (subscriptionsDB: QuerySnapshot<DocumentData>) => {
       subscriptionsDB.docChanges().forEach((change) => {
         const statementSubscription = change.doc.data() as StatementSubscription;
         setIsLoading(false);
@@ -157,8 +158,9 @@ export async function getStatement(statementId:string):Promise<Statement | undef
   }
 }
 
-export function listenToDocument(statementId: string): Unsubscribe {
+export function listenToDocument(statementId: string|undefined): Unsubscribe {
   try {
+    if (!statementId) throw new Error("No statementId provided");
     const dispatch = store.dispatch;
     const statementRef = collection(DB, Collections.statements);
     const q = query(statementRef, where("documentSettings.parentDocumentId", "==", statementId), where("statementSettings.show", "==", true), orderBy("documentSettings.order", "asc"));

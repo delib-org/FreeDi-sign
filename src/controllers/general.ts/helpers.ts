@@ -4,9 +4,16 @@ export function getBullet(parentBullet: string, order: number) {
 
 export function round(number:number, digits: number) {
   try {
-    
+    return parseFloat(number.toFixed(digits));
   } catch (error) {
-    
+    console.error(error);
   }
-  return parseFloat(number.toFixed(digits));
+
+}
+
+export function getViewWidth(){
+  return Math.max(
+    document.documentElement.clientWidth || 0,
+    window.innerWidth || 0
+  );
 }

@@ -1,9 +1,20 @@
-.buttons{
+.buttons {
+    position: sticky;
+    bottom: 0; 
+    left: 0; 
+    width: 100%;
+    padding: 2rem;
     display: flex;
     justify-content: center;
-    gap:2rem;
-    position: sticky;
-    bottom: 30px;
-    left:50%;
-   z-index: 100;
+    background-color: var(--screen-bg);
+    
+    z-index: 100;
+
+    &Box{
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+       
+        
+    }
 }
