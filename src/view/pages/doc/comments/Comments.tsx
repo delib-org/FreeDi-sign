@@ -19,14 +19,12 @@ import BackArrow from "../../../../assets/icons/backArrow.svg?react";
 import { commentsSelector } from "../../../../controllers/slices/statementsSlice";
 import { ButtonType } from "../../../../model/enumsModel";
 
-
 const Comments: FC = () => {
   const dispatch = useDispatch();
   const { t, dir } = useLanguage();
 
-  const { statement, showComments, showNewComment } =
-    useSelector(cmsSelector);
-const comments = useSelector(commentsSelector(statement?.statementId));
+  const { statement, showComments, showNewComment } = useSelector(cmsSelector);
+  const comments = useSelector(commentsSelector(statement?.statementId));
   const role = useContext(RoleContext);
   const userId = useSelector(selectUser)?.uid;
   const didUserCommented = comments.some((cm) => cm.creatorId === userId);
@@ -46,37 +44,57 @@ const comments = useSelector(commentsSelector(statement?.statementId));
 
   function handleHideComments() {
     dispatch(updateShowComments(false));
-  } 
+  }
 
   return (
     <div className={styles.box}>
-      <div className={styles.back}><button onClick={handleHideComments} style={{transform:dir==="ltr"?`rotate(0deg)`:`rotate(180deg)`}}><BackArrow /></button></div>
-      <p className={styles.p}>{t("Paragraph")}:</p>
-      <p className={styles.paragraph}>{statement.statement}</p>
-      {role !== Role.admin && !didUserCommented && showNewComment && (
-        <NewComment
-          parentStatement={statement}
-          order={comments.length}
-          show={showNewComment}
-        />
-      )}
-      {!didUserCommented && !showNewComment && (
-        <Button text={t("Add Comment")} isSelected={true} onClick={handleShowNewComment} />
-      )}
+      <div className={styles.back}>
+        <button
+          onClick={handleHideComments}
+          style={{
+            transform: dir === "ltr" ? `rotate(0deg)` : `rotate(180deg)`,
+          }}
+        >
+          <BackArrow />
+        </button>
+      </div>
       <div
         className={`${styles.comments} ${
           showComments ? styles.commentsOpen : styles.commentsClose
         }`}
       >
+      <p className={styles.p}>{t("Paragraph")}:</p>
+      <div className={styles.paragraph}>{statement.statement}</div>
+     
+        {role !== Role.admin && !didUserCommented && showNewComment && (
+          <NewComment
+            parentStatement={statement}
+            order={comments.length}
+            show={showNewComment}
+          />
+        )}
+        {!didUserCommented && !showNewComment && (
+          <Button
+            text={t("Add Comment")}
+            isSelected={true}
+            onClick={handleShowNewComment}
+          />
+        )}
+
         {myComment && <p>{t("Your comment")}:</p>}
-        {myComment && (<Comment statement={myComment} />)}
+        {myComment && <Comment statement={myComment} />}
         {otherComments.length > 0 && <p>{t("Other comments")}:</p>}
         {otherComments.map((comment) => (
           <Comment key={`c-${comment.statementId}`} statement={comment} />
         ))}
       </div>
       <div className={`btns ${styles.btns}`}>
-        <Button text={t("Close")} isSelected={true} onClick={handleHideComments} buttonType={ButtonType.secondary} />
+        <Button
+          text={t("Close")}
+          isSelected={true}
+          onClick={handleHideComments}
+          buttonType={ButtonType.secondary}
+        />
       </div>
     </div>
   );

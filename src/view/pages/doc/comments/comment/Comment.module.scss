@@ -10,9 +10,12 @@
     }
     .name{
        
-        max-width: 10ch;
+        max-width: 12ch;
         word-break: break-all;
-        word-wrap: break-word;
+        color:#838996;
+        font-size: .85rem;
+        // word-wrap: break-word;
+        // white-space: nowrap;
 
         @media screen and (max-width: 768px){
           
