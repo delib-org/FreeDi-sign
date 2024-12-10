@@ -46,6 +46,9 @@ const Comments: FC = () => {
     dispatch(updateShowComments(false));
   }
 
+  const text = statement.statement;
+  const newText = text.replace(/\*/g, '');
+
   return (
     <div className={styles.box}>
       <div className={styles.back}>
@@ -64,7 +67,7 @@ const Comments: FC = () => {
         }`}
       >
       <p className={styles.p}>{t("Paragraph")}:</p>
-      <div className={styles.paragraph}>{statement.statement}</div>
+      <div className={styles.paragraph}>{newText}</div>
      
         {role !== Role.admin && !didUserCommented && showNewComment && (
           <NewComment
