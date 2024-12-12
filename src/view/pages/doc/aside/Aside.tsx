@@ -1,3 +1,4 @@
+import {FC} from 'react';
 import LogoAndNameIcon from "../../../components/icons/LogoAndNameIcon";
 import styles from "./Aside.module.scss";
 
@@ -11,8 +12,13 @@ import USAFlag from "../../../../assets/icons/usaFlag.svg?react";
 import IsraelFlag from "../../../../assets/icons/israelFlag.svg?react";
 import TOC from "../toc/TOC";
 import CSVDownloadButton from "../../../components/buttons/downloadCSV/DownloadCSV";
+import { Role } from "delib-npm";
 
-function Aside() {
+interface Props{
+  role: Role;
+}
+
+function Aside({role}: Props) {
   const { t, dir, currentLanguage, changeLanguage } = useLanguage();
 
   function handleToggleLanguage() {
@@ -39,7 +45,7 @@ function Aside() {
           {t("From the Deliberative Democracy Institute")}
         </a>
       </div>
-      <CSVDownloadButton />
+      {role === Role.admin && <CSVDownloadButton />}
     </aside>
   );
 }
