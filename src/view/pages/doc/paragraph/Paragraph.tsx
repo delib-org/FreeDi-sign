@@ -1,5 +1,5 @@
 import { Approval, Role, Statement } from "delib-npm";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   commentsSelector,
@@ -16,9 +16,11 @@ import { selectApprovalById } from "../../../../controllers/slices/approvalSlice
 import { useRole } from "../../../../controllers/hooks/useRole";
 import { setViewToDB } from "../../../../controllers/db/views/setViews";
 import { getViewsFromDB } from "../../../../controllers/db/views/getViews";
+import { DocumentContext } from "../documentCont";
 
 //icons
 import EyeIcon from "../../../../assets/icons/eye.svg?react";
+
 
 interface Props {
   statement: Statement;
@@ -139,8 +141,11 @@ const Paragraph: FC<Props> = ({ statement }) => {
     }
   }
 
+  const {maxViewed} = useContext(DocumentContext);
+
   try {
     const viewed = statement.viewed?.individualViews || 0;
+    const relativeViewed = viewed / maxViewed;
 
     return (
       <div className={styles.paragraph} ref={paragraphRef}>
