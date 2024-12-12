@@ -10,6 +10,7 @@ import {
 import USAFlag from "../../../../assets/icons/usaFlag.svg?react";
 import IsraelFlag from "../../../../assets/icons/israelFlag.svg?react";
 import TOC from "../toc/TOC";
+import CSVDownloadButton from "../../../components/buttons/downloadCSV/DownloadCSV";
 
 function Aside() {
   const { t, dir, currentLanguage, changeLanguage } = useLanguage();
@@ -38,6 +39,7 @@ function Aside() {
           {t("From the Deliberative Democracy Institute")}
         </a>
       </div>
+      <CSVDownloadButton />
     </aside>
   );
 }
