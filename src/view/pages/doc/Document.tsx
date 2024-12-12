@@ -138,7 +138,7 @@ const Document = () => {
     <RoleContext.Provider value={role}>
       <div className={styles.doc}>
         <div className={styles.aside}>
-          <Aside />
+          <Aside role={role} />
         </div>
 
         <div className={styles.main}>

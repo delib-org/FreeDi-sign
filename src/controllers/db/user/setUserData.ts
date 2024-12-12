@@ -7,6 +7,7 @@ type UnknownObject = Record<string, unknown>;
 
 interface UserObjectInterface {
     userId: string;
+    documentId: string;
     [key: string]: unknown;
 }
 
@@ -23,7 +24,7 @@ export async function setUserDataToDB(userData: UnknownObject, statementId: stri
         const userDataId = getStatementSubscriptionId(statementId, user);
         if (!userDataId) throw new Error("User data id not found");
 
-        const newData: UserObjectInterface = { ...userData, userId: user.uid };
+        const newData: UserObjectInterface = { ...userData, userId: user.uid, documentId: statementId };
         const userDataRef = doc(DB, Collections.usersData, userDataId);
         await setDoc(userDataRef, newData);
 
