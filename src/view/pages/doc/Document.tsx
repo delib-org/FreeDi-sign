@@ -104,7 +104,7 @@ const Document = () => {
           statementId: statementId,
           approve: false,
           comment: true,
-          importance: true,
+          importance: false,
         })
       );
   }, [statementId, dispatch]);
