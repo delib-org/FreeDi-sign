@@ -25,7 +25,7 @@ import {
   documentParagraphsSelector,
   mySignaturesSelector,
 } from "../../../controllers/slices/statementsSlice";
-import { handleSetUserEnteredPage } from "./documentCont";
+import { DocumentContext, handleSetUserEnteredPage } from "./documentCont";
 import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlice";
 import { setEvaluation } from "../../../controllers/slices/evaluationSlice";
 import {
@@ -38,6 +38,8 @@ import { getUserData } from "../../../controllers/db/user/getUserData";
 import { setSegmentation } from "../../../controllers/db/segmentation/setSegmentation";
 
 export const RoleContext = createContext<Role>(Role.unsubscribed);
+
+
 
 const Document = () => {
   const dispatch = useDispatch();
@@ -53,9 +55,14 @@ const Document = () => {
   const rejected = useSelector(
     selectApprovalsByDocId(statementId || "")
   ).filter((approval) => approval.approval === false);
+
+
+
+
   const approved = paragraphs.length - rejected.length;
 
   const [showInfo, setShowInfo] = useState(false);
+  const [maxViewed, setMaxViewed] = useState(0);
 
   const { isLoading, isError, statement, isAuthorized, role } = useDocument();
   const signatures = useSignatures(statementId);
@@ -71,6 +78,13 @@ const Document = () => {
       document.title = `FreeDi-sign - ${statement.statement}`;
     }
   }, [statement]);
+
+  useEffect(() => {
+    const newMaxViewed = Math.max(...paragraphs.map((p) => p.viewed?.individualViews || 0));
+    if (newMaxViewed !== maxViewed) {
+      setMaxViewed(newMaxViewed);
+    }
+  }, [paragraphs, maxViewed]);
 
   useEffect(() => {
     if (user && !userData) {
@@ -136,6 +150,7 @@ const Document = () => {
 
   return (
     <RoleContext.Provider value={role}>
+      <DocumentContext.Provider value={{ role, maxViewed }}>
       <div className={styles.doc}>
         <div className={styles.aside}>
           <Aside role={role} />
@@ -167,6 +182,7 @@ const Document = () => {
           </Modal>
         )}
       </div>
+      </DocumentContext.Provider>
     </RoleContext.Provider>
   );
 };

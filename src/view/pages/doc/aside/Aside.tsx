@@ -1,4 +1,3 @@
-import {FC} from 'react';
 import LogoAndNameIcon from "../../../components/icons/LogoAndNameIcon";
 import styles from "./Aside.module.scss";
 

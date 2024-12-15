@@ -1,6 +1,18 @@
-import { SignatureType, Statement } from "delib-npm";
+import { Role, SignatureType, Statement } from "delib-npm";
 import { getSignature } from "../../../controllers/db/sign/getSignature";
 import { setSignatureToDB } from "../../../controllers/db/sign/setSignature";
+import { createContext } from "react";
+
+
+interface DocumentContextProps {
+    role: Role;
+    maxViewed: number;
+  }
+
+export const DocumentContext = createContext<DocumentContextProps>({
+    role: Role.unsubscribed,
+    maxViewed: 0,
+  });
 
 
 export async function handleSetUserEnteredPage(statement: undefined | Statement, paragraphsLength: number, approved: number) {
