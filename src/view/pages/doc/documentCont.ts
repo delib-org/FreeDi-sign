@@ -1,7 +1,6 @@
-import { SignatureType, Statement } from "delib-npm";
+import { Role, SignatureType, Statement } from "delib-npm";
 import { getSignature } from "../../../controllers/db/sign/getSignature";
 import { setSignatureToDB } from "../../../controllers/db/sign/setSignature";
-import { Role } from "firebase/vertexai-preview";
 import { createContext } from "react";
 
 

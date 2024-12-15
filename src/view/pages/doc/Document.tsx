@@ -57,12 +57,12 @@ const Document = () => {
   ).filter((approval) => approval.approval === false);
 
 
-  const _maxViewed = Math.max(...paragraphs.map((p) => p.viewed?.individualViews || 0));
+
 
   const approved = paragraphs.length - rejected.length;
 
   const [showInfo, setShowInfo] = useState(false);
-  const [maxViewed, setMaxViewed] = useState(_maxViewed);
+  const [maxViewed, setMaxViewed] = useState(0);
 
   const { isLoading, isError, statement, isAuthorized, role } = useDocument();
   const signatures = useSignatures(statementId);
@@ -78,6 +78,13 @@ const Document = () => {
       document.title = `FreeDi-sign - ${statement.statement}`;
     }
   }, [statement]);
+
+  useEffect(() => {
+    const newMaxViewed = Math.max(...paragraphs.map((p) => p.viewed?.individualViews || 0));
+    if (newMaxViewed !== maxViewed) {
+      setMaxViewed(newMaxViewed);
+    }
+  }, [paragraphs, maxViewed]);
 
   useEffect(() => {
     if (user && !userData) {

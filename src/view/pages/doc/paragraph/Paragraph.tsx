@@ -20,6 +20,7 @@ import { DocumentContext } from "../documentCont";
 
 //icons
 import EyeIcon from "../../../../assets/icons/eye.svg?react";
+import { getHeatMapColor } from "../../../../controllers/general.ts/helpers";
 
 
 interface Props {
@@ -28,7 +29,7 @@ interface Props {
 
 const Paragraph: FC<Props> = ({ statement }) => {
   const dispatch = useDispatch();
-  const role = useRole();
+  const {maxViewed, role} = useContext(DocumentContext);
   const isAdmin = role === Role.admin;
 
   const paragraphRef = useRef<HTMLDivElement>(null);
@@ -141,14 +142,20 @@ const Paragraph: FC<Props> = ({ statement }) => {
     }
   }
 
-  const {maxViewed} = useContext(DocumentContext);
+ 
+  console.log("max", maxViewed)
 
   try {
     const viewed = statement.viewed?.individualViews || 0;
     const relativeViewed = viewed / maxViewed;
+    const showHeatMap = true
 
     return (
-      <div className={styles.paragraph} ref={paragraphRef}>
+      <div className={styles.paragraph} ref={paragraphRef} 
+      style={{
+        backgroundColor:showHeatMap && isAdmin?getHeatMapColor(relativeViewed):'transparent',
+        boxShadow: showHeatMap && isAdmin ?`0 0 10px ${getHeatMapColor(relativeViewed)}`:'none'
+        }}>
         {isEdit && _isEdit ? (
           <textarea
             ref={textarea}
