@@ -7,7 +7,7 @@ import ApprovalComp from "./approval/Approval";
 import CommentsButton from "./importance/comments/CommentsButton";
 import { RoleContext } from "../../Document";
 import { useSelector } from "react-redux";
-import { selectEvaluation } from "../../../../../controllers/slices/evaluationSlice";
+import { selectEvaluationSettings } from "../../../../../controllers/slices/evaluationSlice";
 
 //icons
 
@@ -17,7 +17,7 @@ interface Props {
 }
 const Evaluation: FC<Props> = ({ statement, comments }) => {
   const { comment, approve, importance } = useSelector(
-    selectEvaluation(statement.documentSettings?.parentDocumentId)
+    selectEvaluationSettings(statement.documentSettings?.parentDocumentId)
   ) || { comment: false, approve: false, importance: false };
 
   const numberOfComments = comments.length;

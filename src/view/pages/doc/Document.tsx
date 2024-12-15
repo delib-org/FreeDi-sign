@@ -27,7 +27,7 @@ import {
 } from "../../../controllers/slices/statementsSlice";
 import { DocumentContext, handleSetUserEnteredPage } from "./documentCont";
 import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlice";
-import { setEvaluation } from "../../../controllers/slices/evaluationSlice";
+import { setEvaluationSettings } from "../../../controllers/slices/evaluationSlice";
 import {
   selectUser,
   selectUserData,
@@ -100,11 +100,12 @@ const Document = () => {
     //TODO: remove this when the the settings can be achieved from the db
     if (statementId)
       dispatch(
-        setEvaluation({
+        setEvaluationSettings({
           statementId: statementId,
           approve: false,
           comment: true,
           importance: false,
+          evaluations: true,
         })
       );
   }, [statementId, dispatch]);
