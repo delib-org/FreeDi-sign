@@ -142,9 +142,6 @@ const Paragraph: FC<Props> = ({ statement }) => {
     }
   }
 
- 
-  console.log("max", maxViewed)
-
   try {
     const viewed = statement.viewed?.individualViews || 0;
     const relativeViewed = viewed / maxViewed;

@@ -21,7 +21,6 @@ export function getViewWidth(){
 export function getHeatMapColor(value: number): string {
   // Ensure value is between 0 and 1
   const clampedValue = Math.max(0, Math.min(1, value));
-  console.log("clamp", clampedValue);
   
   // Define color stops
   const colors = [
