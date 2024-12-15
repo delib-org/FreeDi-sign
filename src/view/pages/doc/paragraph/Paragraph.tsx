@@ -13,7 +13,6 @@ import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general
 import { deleteParagraphFromDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import DeleteIcon from "../../../../assets/icons/trash.svg?react";
 import { selectApprovalById } from "../../../../controllers/slices/approvalSlice";
-import { useRole } from "../../../../controllers/hooks/useRole";
 import { setViewToDB } from "../../../../controllers/db/views/setViews";
 import { getViewsFromDB } from "../../../../controllers/db/views/getViews";
 import { DocumentContext } from "../documentCont";
@@ -88,6 +87,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
     // Cleanup observer and timeout on component unmount
     return () => {
       if (paragraphRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         observer.unobserve(paragraphRef.current);
       }
       if (timeoutRef.current) {
