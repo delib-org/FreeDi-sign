@@ -6,7 +6,7 @@ import { evaluationSelector } from "@/model/evaluations/evaluationsSlice";
 import {
 	enhancedEvaluationsThumbs,
 	EnhancedEvaluationThumb,
-} from "./EnhancedEvaluationModel";
+} from "./EnhancedLikesModel";
 import { getEvaluationThumbIdByScore } from "../../../statementsEvaluationCont";
 import styles from  "./EnhancedEvaluation.module.scss";
 import { useSelector } from "react-redux";
@@ -18,7 +18,7 @@ interface EnhancedEvaluationProps {
   shouldDisplayScore: boolean;
 }
 
-const EnhancedEvaluation: FC<EnhancedEvaluationProps> = ({
+const EnhancedLikes: FC<EnhancedEvaluationProps> = ({
 	statement,
 	shouldDisplayScore,
 }) => {
@@ -71,7 +71,7 @@ const EnhancedEvaluation: FC<EnhancedEvaluationProps> = ({
 	);
 };
 
-export default EnhancedEvaluation;
+export default EnhancedLikes;
 
 interface EvaluationThumbProps {
   statement: Statement;
