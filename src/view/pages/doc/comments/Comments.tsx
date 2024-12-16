@@ -10,7 +10,6 @@ import {
   updateShowComments,
   updateShowNewComment,
 } from "../../../../controllers/slices/commentsSlice";
-import { RoleContext } from "../Document";
 import { useLanguage } from "../../../../controllers/hooks/useLanguage";
 import Button from "../../../components/buttons/button/Button";
 
@@ -18,6 +17,8 @@ import Button from "../../../components/buttons/button/Button";
 import BackArrow from "../../../../assets/icons/backArrow.svg?react";
 import { commentsSelector } from "../../../../controllers/slices/statementsSlice";
 import { ButtonType } from "../../../../model/enumsModel";
+import Evaluation from "../paragraph/evaluation/Evaluation";
+import { DocumentContext } from "../documentCont";
 
 const Comments: FC = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const Comments: FC = () => {
 
   const { statement, showComments, showNewComment } = useSelector(cmsSelector);
   const comments = useSelector(commentsSelector(statement?.statementId));
-  const role = useContext(RoleContext);
+  const {role} = useContext(DocumentContext);
   const userId = useSelector(selectUser)?.uid;
   const didUserCommented = comments.some((cm) => cm.creatorId === userId);
   const myComment = comments.find((cm) => cm.creatorId === userId);
@@ -68,13 +69,16 @@ const Comments: FC = () => {
       >
       <p className={styles.p}>{t("Paragraph")}:</p>
       <div className={styles.paragraph}>{newText}</div>
-     
+        
         {role !== Role.admin && !didUserCommented && showNewComment && (
+          <>
+          <Evaluation />
           <NewComment
             parentStatement={statement}
             order={comments.length}
             show={showNewComment}
           />
+          </>
         )}
         {!didUserCommented && !showNewComment && (
           <Button

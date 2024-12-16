@@ -37,10 +37,6 @@ import SigninForm from "../../components/signinForm/SigninForm";
 import { getUserData } from "../../../controllers/db/user/getUserData";
 import { setSegmentation } from "../../../controllers/db/segmentation/setSegmentation";
 
-export const RoleContext = createContext<Role>(Role.unsubscribed);
-
-
-
 const Document = () => {
   const dispatch = useDispatch();
   const { t } = useLanguage();
@@ -150,8 +146,7 @@ const Document = () => {
   if (!isAuthorized) return <Page401 />;
 
   return (
-    <RoleContext.Provider value={role}>
-      <DocumentContext.Provider value={{ role, maxViewed }}>
+      <DocumentContext.Provider value={{ role, maxViewed, document:statement}}>
       <div className={styles.doc}>
         <div className={styles.aside}>
           <Aside role={role} />
@@ -184,7 +179,6 @@ const Document = () => {
         )}
       </div>
       </DocumentContext.Provider>
-    </RoleContext.Provider>
   );
 };
 
