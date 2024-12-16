@@ -5,6 +5,12 @@
     justify-content: center;
     color: var(--text);
 
+    &__question{
+        font-size:0.9rem;
+        font-weight: 300;
+        color:var(--text-paragraph);
+    }
+
     .evaluation-box {
         display: flex;
         align-items: center;

@@ -1,13 +1,15 @@
+button{
+    border:none;
+    background-color: transparent;
+}
 .thumb {
     display: flex;
     align-items: center;
     justify-content: center;
 
     svg {
-        width: 27px;
-        height: 27px;
+        width: 100%;
+       
     }
-    &.inactive {
-        opacity: 0.4;
-    }
+   
 }

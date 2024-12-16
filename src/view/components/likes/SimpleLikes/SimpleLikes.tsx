@@ -21,7 +21,7 @@ const SimpleLikes: FC<Props> = ({
 	statement,
 	shouldDisplayScore = true,
 }) => {
-	const {dir:direction} = useLanguage();
+	const {dir:direction, t} = useLanguage();
 
 	const initialContVotesCount = statement.con ?? 0;
 	const initialProVotesCount = statement.pro ?? 0;
@@ -48,11 +48,23 @@ const SimpleLikes: FC<Props> = ({
 
 	return (
 		<div className="simple-evaluation">
+			<div className="simple-evaluation__question">{t("Do you agree with this paragraph?")}</div>
 			<div
 				className="evaluation-box"
 				style={{ flexDirection: direction === "ltr" ? "row" : "row-reverse" }}
 			>
 				{shouldDisplayScore && <span>{conVotesCount}</span>}
+				
+				<div className="thumb-icon">
+					
+					<Thumb
+						evaluation={like || 0}
+						upDown="up"
+						statement={statement}
+						setProVote={setProVotesCount}
+						setConVote={setConVotesCount}
+					/>
+				</div>
 				<div className="thumb-icon">
 					<Thumb
 						evaluation={like || 0}
@@ -60,15 +72,6 @@ const SimpleLikes: FC<Props> = ({
 						statement={statement}
 						setConVote={setConVotesCount}
 						setProVote={setProVotesCount}
-					/>
-				</div>
-				<div className="thumb-icon">
-					<Thumb
-						evaluation={like || 0}
-						upDown="up"
-						statement={statement}
-						setProVote={setProVotesCount}
-						setConVote={setConVotesCount}
 					/>
 				</div>
 				{shouldDisplayScore && <span>{proVotesCount}</span>}
