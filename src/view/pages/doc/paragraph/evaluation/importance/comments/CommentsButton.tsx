@@ -5,7 +5,7 @@ import { useLanguage } from "../../../../../../../controllers/hooks/useLanguage"
 import { useDispatch } from "react-redux";
 import {  setComments } from "../../../../../../../controllers/slices/commentsSlice";
 import {  Statement } from "delib-npm";
-import { RoleContext } from "../../../../Document";
+import { DocumentContext } from "../../../../documentCont";
 
 interface Props {
   numberOfComments: number;
@@ -20,7 +20,7 @@ const CommentsButton: FC<Props> = ({
   comments=[]
 
 }) => {
-  const role = useContext(RoleContext);
+  const role = useContext(DocumentContext).role;
   const dispatch = useDispatch();
   const {t} = useLanguage();
 

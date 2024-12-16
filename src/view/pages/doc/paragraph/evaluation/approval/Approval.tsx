@@ -12,7 +12,6 @@ import ApproveFAB from "../../../../../../assets/icons/approveFAB.svg?react";
 import RejectFAB from "../../../../../../assets/icons/rejectFAB.svg?react";
 import { setApprovalToDB } from "../../../../../../controllers/db/approval/setApproval";
 import { getUserApprovalFromDB } from "../../../../../../controllers/db/approval/getApproval";
-import { RoleContext } from "../../../Document";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectApprovalById,
@@ -21,6 +20,7 @@ import {
 } from "../../../../../../controllers/slices/approvalSlice";
 import { store } from "../../../../../../model/store";
 import { useLanguage } from "../../../../../../controllers/hooks/useLanguage";
+import { DocumentContext } from "../../../documentCont";
 
 interface Props {
   statement: Statement;
@@ -28,7 +28,7 @@ interface Props {
 
 const ApprovalComp: FC<Props> = ({ statement }) => {
   const { t } = useLanguage();
-  const role = useContext(RoleContext);
+  const role = useContext(DocumentContext).role;
   const dispatch = useDispatch();
 
   const approval: Approval | undefined = useSelector(
