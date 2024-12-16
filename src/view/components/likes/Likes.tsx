@@ -1,9 +1,10 @@
 import { Statement } from "delib-npm";
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect } from "react";
 import SimpleLikes from "./SimpleLikes/SimpleLikes";
 
 import { DocumentContext } from "../../pages/doc/documentCont";
 import EnhancedLikes from "./EnhancedLikes";
+import { listenToEvaluation } from "../../../controllers/db/evaluation/getEvaluation";
 
 interface EvaluationProps {
   statement: Statement;
@@ -12,6 +13,13 @@ interface EvaluationProps {
 const Likes: FC<EvaluationProps> = ({ statement }) => {
 
 	const {document} = useContext(DocumentContext);
+
+	useEffect(()=>{
+		const unsubscribe = listenToEvaluation(statement.statementId);
+		return ()=>{
+			unsubscribe();
+		}
+	},[statement.statementId])
   
 	const shouldDisplayScore: boolean = document?.statementSettings
 		?.showEvaluation
