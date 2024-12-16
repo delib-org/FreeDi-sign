@@ -1,19 +1,16 @@
 import { FC, useEffect, useState } from "react";
-
+import { useLanguage } from "../../../../controllers/hooks/useLanguage";
+import { useSelector } from "react-redux";
+import { selectLike } from "../../../../controllers/slices/evaluationSlice";
 // Third Party Imports
 import { Statement } from "delib-npm";
 
 // Custom components
 import Thumb from "./thumb/Thumb";
 
-
-// Statement helpers
-import { evaluationSelector } from "@/model/evaluations/evaluationsSlice";
-
 //css
 import "./SimpleLikes.scss";
-import { useLanguage } from "../../../../controllers/hooks/useLanguage";
-import { useSelector } from "react-redux";
+
 
 interface Props {
     statement: Statement;
@@ -35,9 +32,9 @@ const SimpleLikes: FC<Props> = ({
 	// number of people who gave a good evaluation
 	const [proVotesCount, setProVotesCount] = useState(initialProVotesCount);
 
-	const evaluation = useSelector(
-		evaluationSelector(statement.statementId),
-	);
+	const like = useSelector(
+		selectLike(statement.statementId)
+	)?.evaluation;
 
 	const { consensus } = statement;
 	const consensusToDisplay = consensus
@@ -58,7 +55,7 @@ const SimpleLikes: FC<Props> = ({
 				{shouldDisplayScore && <span>{conVotesCount}</span>}
 				<div className="thumb-icon">
 					<Thumb
-						evaluation={evaluation || 0}
+						evaluation={like || 0}
 						upDown="down"
 						statement={statement}
 						setConVote={setConVotesCount}
@@ -67,7 +64,7 @@ const SimpleLikes: FC<Props> = ({
 				</div>
 				<div className="thumb-icon">
 					<Thumb
-						evaluation={evaluation || 0}
+						evaluation={like || 0}
 						upDown="up"
 						statement={statement}
 						setProVote={setProVotesCount}
