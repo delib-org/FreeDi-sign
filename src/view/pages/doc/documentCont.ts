@@ -7,11 +7,13 @@ import { createContext } from "react";
 interface DocumentContextProps {
     role: Role;
     maxViewed: number;
+    document: Statement | undefined;
   }
 
 export const DocumentContext = createContext<DocumentContextProps>({
     role: Role.unsubscribed,
     maxViewed: 0,
+    document: undefined
   });
 
 
