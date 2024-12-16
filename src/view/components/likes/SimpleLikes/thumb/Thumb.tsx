@@ -4,8 +4,8 @@ import React, { FC, SetStateAction } from "react";
 import { Statement } from "delib-npm";
 import { setEvaluationToDB } from "../../../../../controllers/db/evaluations/setEvaluations";
 // Assets
-import SmileIcon from "@/assets/icons/smileIcon.svg?react";
-import FrownIcon from "@/assets/icons/frownIcon.svg?react";
+import SmileIcon from "../../../../../assets/icons/simpleLike/smileIcon.svg?react";
+import FrownIcon from "../../../../../assets/icons/simpleLike/frownIcon.svg?react";
 
 // Statement helpers
 

@@ -4,7 +4,7 @@ import {
 	enhancedEvaluationsThumbs,
 	EnhancedEvaluationThumb,
 } from "./EnhancedLikesModel";
-import styles from  "./EnhancedEvaluation.module.scss";
+import styles from  "./EnhancedLikes.module.scss";
 import { useSelector } from "react-redux";
 import { setEvaluationToDB } from "../../../controllers/db/evaluations/setEvaluations";
 import { selectLike } from "../../../controllers/slices/evaluationSlice";
