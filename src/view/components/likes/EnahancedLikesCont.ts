@@ -1,5 +1,7 @@
 import { enhancedEvaluationsThumbs } from "./EnhancedLikesModel";
 
+const defaultThumb = enhancedEvaluationsThumbs[2];
+
 export const getEvaluationThumbIdByScore = (
 	evaluationScore: number | undefined,
 ): string => {
