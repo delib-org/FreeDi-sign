@@ -5,7 +5,7 @@ import Aside from "./aside/Aside";
 import Paper from "../../components/paper/Paper";
 
 import PaperHeader from "../../components/paper/header/PaperHeader";
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Role, Signature } from "delib-npm";
 import Modal from "../../components/modal/Modal";
 import DocumentInfo from "../../components/info/DocumentInfo";
