@@ -3,7 +3,7 @@ import { FC, useContext, useEffect } from "react";
 import SimpleLikes from "./SimpleLikes/SimpleLikes";
 
 import { DocumentContext } from "../../pages/doc/documentCont";
-import EnhancedLikes from "./EnhancedLikes";
+// import EnhancedLikes from "./EnhancedLikes";
 import { listenToEvaluation } from "../../../controllers/db/evaluation/getEvaluation";
 
 interface EvaluationProps {
@@ -26,14 +26,14 @@ const Likes: FC<EvaluationProps> = ({ statement }) => {
 		? document.statementSettings?.showEvaluation
 		: false;
 
-	if (document?.statementSettings?.enhancedEvaluation) {
-		return (
-			<EnhancedLikes
-				statement={statement}
-				shouldDisplayScore={shouldDisplayScore}
-			/>
-		);
-	}
+	// if (document?.statementSettings?.enhancedEvaluation) {
+	// 	return (
+	// 		<EnhancedLikes
+	// 			statement={statement}
+	// 			shouldDisplayScore={shouldDisplayScore}
+	// 		/>
+	// 	);
+	// }
 
 	return (
 		<SimpleLikes

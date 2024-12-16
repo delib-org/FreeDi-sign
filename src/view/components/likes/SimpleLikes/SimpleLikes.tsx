@@ -23,28 +23,26 @@ const SimpleLikes: FC<Props> = ({
 }) => {
 	const {dir:direction, t} = useLanguage();
 
-	const initialContVotesCount = statement.con ?? 0;
-	const initialProVotesCount = statement.pro ?? 0;
-
 	// number of people who gave a bad evaluation
-	const [conVotesCount, setConVotesCount] = useState(initialContVotesCount);
+	const [conVotesCount, setConVotesCount] = useState(0);
 
 	// number of people who gave a good evaluation
-	const [proVotesCount, setProVotesCount] = useState(initialProVotesCount);
+	const [proVotesCount, setProVotesCount] = useState(0);
 
 	const like = useSelector(
 		selectLike(statement.statementId)
 	)?.evaluation;
 
-	const { consensus } = statement;
-	const consensusToDisplay = consensus
-		? Math.round(consensus * 100) / 100
-		: 0;
+	// const { consensus } = statement;
+	// const consensusToDisplay = consensus
+	// 	? Math.round(consensus * 100) / 100
+	// 	: 0;
+	console.log(statement.evaluation?.sumCon, statement.evaluation?.sumPro);	
 
 	useEffect(() => {
-		setConVotesCount(initialContVotesCount);
-		setProVotesCount(initialProVotesCount);
-	}, [initialContVotesCount, initialProVotesCount, statement.con, statement.pro]);
+		setConVotesCount(statement?.evaluation?.sumCon || 0);
+		setProVotesCount(statement.evaluation?.sumPro || 0);
+	}, [ statement.evaluation?.sumPro, statement.evaluation?.sumCon]);
 
 	return (
 		<div className="simple-evaluation">
@@ -53,8 +51,7 @@ const SimpleLikes: FC<Props> = ({
 				className="evaluation-box"
 				style={{ flexDirection: direction === "ltr" ? "row" : "row-reverse" }}
 			>
-				{shouldDisplayScore && <span>{conVotesCount}</span>}
-				
+				{shouldDisplayScore && <span>{proVotesCount}</span>}
 				<div className="thumb-icon">
 					
 					<Thumb
@@ -74,11 +71,11 @@ const SimpleLikes: FC<Props> = ({
 						setProVote={setProVotesCount}
 					/>
 				</div>
-				{shouldDisplayScore && <span>{proVotesCount}</span>}
+				{shouldDisplayScore && <span>{conVotesCount}</span>}				
 			</div>
-			{shouldDisplayScore && (
+			{/* {shouldDisplayScore && (
 				<div className="total-evaluations">{consensusToDisplay}</div>
-			)}
+			)} */}
 		</div>
 	);
 };
