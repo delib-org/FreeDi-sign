@@ -2,15 +2,16 @@ import React, { FC, SetStateAction } from "react";
 
 // Third Party Imports
 import { Statement } from "delib-npm";
-
+import { setEvaluationToDB } from "../../../../../controllers/db/evaluations/setEvaluations";
 // Assets
 import SmileIcon from "@/assets/icons/smileIcon.svg?react";
 import FrownIcon from "@/assets/icons/frownIcon.svg?react";
 
 // Statement helpers
-import { setEvaluationToDB } from "@/controllers/db/evaluation/setEvaluation";
+
 
 import styles from "./Thumb.module.scss";
+
 
 interface ThumbProps {
     evaluation: number;

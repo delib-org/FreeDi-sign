@@ -1,16 +1,14 @@
 import { Statement } from "delib-npm";
 import { FC } from "react";
-
-
-import { evaluationSelector } from "@/model/evaluations/evaluationsSlice";
 import {
 	enhancedEvaluationsThumbs,
 	EnhancedEvaluationThumb,
 } from "./EnhancedLikesModel";
-import { getEvaluationThumbIdByScore } from "../../../statementsEvaluationCont";
 import styles from  "./EnhancedEvaluation.module.scss";
 import { useSelector } from "react-redux";
 import { setEvaluationToDB } from "../../../controllers/db/evaluations/setEvaluations";
+import { selectLike } from "../../../controllers/slices/evaluationSlice";
+import { getEvaluationThumbIdByScore } from "./EnahancedLikesCont";
 
 
 interface EnhancedEvaluationProps {
@@ -22,9 +20,7 @@ const EnhancedLikes: FC<EnhancedEvaluationProps> = ({
 	statement,
 	shouldDisplayScore,
 }) => {
-	const evaluationScore = useSelector(
-		evaluationSelector(statement.statementId)
-	);
+	const like = useSelector(selectLike(statement.statementId))?.evaluation;
 
 	const { sumPro, sumCon, numberOfEvaluators } = statement.evaluation || {
 		sumPro: 0,
@@ -46,7 +42,7 @@ const EnhancedLikes: FC<EnhancedEvaluationProps> = ({
 					<EvaluationThumb
 						key={evaluationThumb.id}
 						evaluationThumb={evaluationThumb}
-						evaluationScore={evaluationScore}
+						evaluationScore={like}
 						statement={statement}
 					/>
 				))}
