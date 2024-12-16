@@ -1,23 +1,26 @@
 import { Statement } from "delib-npm";
-import { FC } from "react";
-import SimpleEvaluation from "./SimpleLikes/SimpleLikes";
-import EnhancedEvaluation from "./enhancedEvaluation/EnhancedEvaluation";
+import { FC, useContext } from "react";
+import SimpleLikes from "./SimpleLikes/SimpleLikes";
+
+import { DocumentContext } from "../../pages/doc/documentCont";
+import EnhancedLikes from "./EnhancedLikes";
 
 interface EvaluationProps {
-  parentStatement: Statement;
   statement: Statement;
 }
 
-const Likes: FC<EvaluationProps> = ({ parentStatement, statement }) => {
+const Likes: FC<EvaluationProps> = ({ statement }) => {
+
+	const {document} = useContext(DocumentContext);
   
-	const shouldDisplayScore: boolean = parentStatement.statementSettings
+	const shouldDisplayScore: boolean = document?.statementSettings
 		?.showEvaluation
-		? parentStatement.statementSettings?.showEvaluation
+		? document.statementSettings?.showEvaluation
 		: false;
 
-	if (parentStatement.statementSettings?.enhancedEvaluation) {
+	if (document?.statementSettings?.enhancedEvaluation) {
 		return (
-			<EnhancedEvaluation
+			<EnhancedLikes
 				statement={statement}
 				shouldDisplayScore={shouldDisplayScore}
 			/>
@@ -25,7 +28,7 @@ const Likes: FC<EvaluationProps> = ({ parentStatement, statement }) => {
 	}
 
 	return (
-		<SimpleEvaluation
+		<SimpleLikes
 			statement={statement}
 			shouldDisplayScore={shouldDisplayScore}
 		/>
