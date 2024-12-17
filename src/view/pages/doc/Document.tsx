@@ -25,9 +25,9 @@ import {
   documentParagraphsSelector,
   mySignaturesSelector,
 } from "../../../controllers/slices/statementsSlice";
-import { handleSetUserEnteredPage } from "./documentCont";
+import { DocumentContext, handleSetUserEnteredPage } from "./documentCont";
 import { selectApprovalsByDocId } from "../../../controllers/slices/approvalSlice";
-import { setEvaluation } from "../../../controllers/slices/evaluationSlice";
+import { setEvaluationSettings } from "../../../controllers/slices/evaluationSlice";
 import {
   selectUser,
   selectUserData,
@@ -36,12 +36,16 @@ import {
 import SigninForm from "../../components/signinForm/SigninForm";
 import { getUserData } from "../../../controllers/db/user/getUserData";
 import { setSegmentation } from "../../../controllers/db/segmentation/setSegmentation";
+import { useLocation } from "react-router-dom";
 
 export const RoleContext = createContext<Role>(Role.unsubscribed);
+import { MetaTags } from "../../components/metaTags/MetaTags";
 
 const Document = () => {
   const dispatch = useDispatch();
   const { t } = useLanguage();
+  const location = useLocation();
+  const currentUrl = `${window.location.origin}${location.pathname}`;
   const { statementId } = useParams<{ statementId: string }>();
   const user = useSelector(selectUser);
   const userData = useSelector(selectUserData);
@@ -53,15 +57,18 @@ const Document = () => {
   const rejected = useSelector(
     selectApprovalsByDocId(statementId || "")
   ).filter((approval) => approval.approval === false);
+
   const approved = paragraphs.length - rejected.length;
 
   const [showInfo, setShowInfo] = useState(false);
+  const [maxViewed, setMaxViewed] = useState(0);
 
   const { isLoading, isError, statement, isAuthorized, role } = useDocument();
   const signatures = useSignatures(statementId);
 
   //use effects
-  useEffect(() => { //TODO: remove this when the the settings can be achieved from the db
+  useEffect(() => {
+    //TODO: remove this when the the settings can be achieved from the db
     if (statementId && role === Role.admin) setSegmentation(statementId);
   }, [statementId, role]);
 
@@ -73,10 +80,17 @@ const Document = () => {
   }, [statement]);
 
   useEffect(() => {
+    const newMaxViewed = Math.max(
+      ...paragraphs.map((p) => p.viewed?.individualViews || 0)
+    );
+    if (newMaxViewed !== maxViewed) {
+      setMaxViewed(newMaxViewed);
+    }
+  }, [paragraphs, maxViewed]);
+
+  useEffect(() => {
     if (user && !userData) {
-    
       getUserData(undefined, statementId).then((userData) => {
-     
         dispatch(setUserData(userData));
       });
     }
@@ -86,11 +100,12 @@ const Document = () => {
     //TODO: remove this when the the settings can be achieved from the db
     if (statementId)
       dispatch(
-        setEvaluation({
+        setEvaluationSettings({
           statementId: statementId,
           approve: false,
           comment: true,
-          importance: true,
+          importance: false,
+          likes: true,
         })
       );
   }, [statementId, dispatch]);
@@ -136,37 +151,49 @@ const Document = () => {
 
   return (
     <RoleContext.Provider value={role}>
-      <div className={styles.doc}>
-        <div className={styles.aside}>
-          <Aside />
-        </div>
+      <DocumentContext.Provider
+        value={{ role, maxViewed, document: statement }}
+      >
+        <>
+          <MetaTags
+            title={statement?.statement?`FreeDi Sign- ${statement?.statement}`: "FreeDi-sign"}
+            description={statement?.description || "FreeDi-sign document"}
+            image="https://freedis.web.app/logo.png" // Must be an absolute URL
+            url={currentUrl}
+          />
+          <div className={styles.doc}>
+            <div className={styles.aside}>
+              <Aside role={role} />
+            </div>
 
-        <div className={styles.main}>
-          <PaperHeader statement={statement} setShowInfo={setShowInfo} />
-          <Paper />
-        </div>
-        {showInfo && (
-          <Modal>
-            <DocumentInfo
-              statement={statement}
-              signatures={signatures}
-              setShowInfo={setShowInfo}
-            />
-          </Modal>
-        )}
-        {showComments && (
-          <div>
-            <Modal onClick={handleShowComments}>
-              <Comments />
-            </Modal>
+            <div className={styles.main}>
+              <PaperHeader statement={statement} setShowInfo={setShowInfo} />
+              <Paper />
+            </div>
+            {showInfo && (
+              <Modal>
+                <DocumentInfo
+                  statement={statement}
+                  signatures={signatures}
+                  setShowInfo={setShowInfo}
+                />
+              </Modal>
+            )}
+            {showComments && (
+              <div>
+                <Modal onClick={handleShowComments}>
+                  <Comments />
+                </Modal>
+              </div>
+            )}
+            {!userData && role !== Role.admin && (
+              <Modal>
+                <SigninForm />
+              </Modal>
+            )}
           </div>
-        )}
-        {!userData && role !== Role.admin && (
-          <Modal>
-            <SigninForm />
-          </Modal>
-        )}
-      </div>
+        </>
+      </DocumentContext.Provider>
     </RoleContext.Provider>
   );
 };

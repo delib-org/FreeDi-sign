@@ -21,6 +21,7 @@ import { getViewWidth } from "../../../controllers/general.ts/helpers";
 
 const Paper = () => {
   const { statementId } = useParams<{ statementId: string }>();
+  const {t} = useLanguage();
   const sections = useSelector(sectionsSelector(statementId || ""));
   const paragraphs = useSelector(documentParagraphsSelector(statementId || ""));
   const rejected = useSelector(
@@ -79,6 +80,11 @@ const Paper = () => {
             />
           </div>
         )}
+        <div className={styles.bottom}>
+        <a href="https://delib.org" target="_blank">
+          {t("From the Deliberative Democracy Institute")}
+        </a>
+      </div>
       </div>
       {role === Role.admin ? (
         <AdminBottomButtons />
@@ -89,6 +95,7 @@ const Paper = () => {
           document={statement}
         />
       )}
+      
     </div>
   );
 };

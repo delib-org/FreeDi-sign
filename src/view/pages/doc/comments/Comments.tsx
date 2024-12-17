@@ -18,6 +18,7 @@ import Button from "../../../components/buttons/button/Button";
 import BackArrow from "../../../../assets/icons/backArrow.svg?react";
 import { commentsSelector } from "../../../../controllers/slices/statementsSlice";
 import { ButtonType } from "../../../../model/enumsModel";
+import Likes from "../../../components/likes/Likes";
 
 const Comments: FC = () => {
   const dispatch = useDispatch();
@@ -68,7 +69,7 @@ const Comments: FC = () => {
       >
       <p className={styles.p}>{t("Paragraph")}:</p>
       <div className={styles.paragraph}>{newText}</div>
-     
+        <Likes statement={statement} />
         {role !== Role.admin && !didUserCommented && showNewComment && (
           <NewComment
             parentStatement={statement}

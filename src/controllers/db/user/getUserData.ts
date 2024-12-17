@@ -1,5 +1,5 @@
 import { Collections, getStatementSubscriptionId, User, UserData, UserDataSchema } from "delib-npm";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, where, query, getDocs } from "firebase/firestore";
 import { DB } from "../config";
 import { store } from "../../../model/store";
 
@@ -34,5 +34,25 @@ export async function getUserData(userId:string|undefined, statementId:string|un
     } catch (error) {
         console.error(error);
         return undefined;        
+    }
+}
+
+export async function getUsersData(documentId:string): Promise<UserData[]> {
+    try {
+        const usersDataRef = collection(DB, Collections.usersData);
+        const q = query(usersDataRef, where("documentId", "==", documentId));
+        const usersDataDB = await getDocs(q);
+        const usersData: UserData[] = usersDataDB.docs.map((doc) => doc.data() as UserData);
+        const results = usersData.map((userData) => UserDataSchema.safeParse(userData));
+        if (!results.every((result) => result.success)) {
+            console.error(results);
+            return [];
+        }
+        return usersData;
+
+    } catch (error) {
+        console.error(error);
+        return [];
+        
     }
 }

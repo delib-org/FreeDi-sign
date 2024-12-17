@@ -1,5 +1,5 @@
 {
-    "Add Comment": "הוספת תגובה",
+    "Add Comment": "הוספת שיפור",
     "Agree": "מסכים/ה",
     "Agreed": "מסכימים",
     "Approved": "אושר",
@@ -19,7 +19,7 @@
     "Signatures Information": "מידע על חתימות",
     "Approve?": "לאשר?",
     "Comments": "תגובות",
-    "Please provide your thoughts...": "אנא כתבו את דעתכם...",
+    "Please provide your thoughts...": "אנא הציע/י שיפור לפסקה",
     "Paragraph": "פסקה",
     "Your comment": "התגובה שלך",
     "Other comments": "תגובות נוספות",
@@ -28,5 +28,6 @@
     "Your signature has been sent": "החתימה שלך נשלחה",
     "Your rejection has been sent": "הדחייה שלך נשלחה",
     "Viewed": "צפו",
-    "Back to table of contents": "חזרה לתוכן העניינים"
+    "Back to table of contents": "חזרה לתוכן העניינים",
+    "Do you agree with this paragraph?":"האם את/ה מסכים/ה עם פסקה זו?"
 }

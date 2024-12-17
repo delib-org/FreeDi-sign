@@ -1,5 +1,5 @@
 import { Approval, Role, Statement } from "delib-npm";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   commentsSelector,
@@ -13,12 +13,14 @@ import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general
 import { deleteParagraphFromDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import DeleteIcon from "../../../../assets/icons/trash.svg?react";
 import { selectApprovalById } from "../../../../controllers/slices/approvalSlice";
-import { useRole } from "../../../../controllers/hooks/useRole";
 import { setViewToDB } from "../../../../controllers/db/views/setViews";
 import { getViewsFromDB } from "../../../../controllers/db/views/getViews";
+import { DocumentContext } from "../documentCont";
 
 //icons
 import EyeIcon from "../../../../assets/icons/eye.svg?react";
+import { getHeatMapColor } from "../../../../controllers/general.ts/helpers";
+
 
 interface Props {
   statement: Statement;
@@ -26,7 +28,7 @@ interface Props {
 
 const Paragraph: FC<Props> = ({ statement }) => {
   const dispatch = useDispatch();
-  const role = useRole();
+  const {maxViewed, role} = useContext(DocumentContext);
   const isAdmin = role === Role.admin;
 
   const paragraphRef = useRef<HTMLDivElement>(null);
@@ -85,6 +87,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
     // Cleanup observer and timeout on component unmount
     return () => {
       if (paragraphRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         observer.unobserve(paragraphRef.current);
       }
       if (timeoutRef.current) {
@@ -141,9 +144,15 @@ const Paragraph: FC<Props> = ({ statement }) => {
 
   try {
     const viewed = statement.viewed?.individualViews || 0;
+    const relativeViewed = viewed / maxViewed;
+    const showHeatMap = true
 
     return (
-      <div className={styles.paragraph} ref={paragraphRef}>
+      <div className={styles.paragraph} ref={paragraphRef} 
+      style={{
+        backgroundColor:showHeatMap && isAdmin?getHeatMapColor(relativeViewed):'transparent',
+        boxShadow: showHeatMap && isAdmin ?`0 0 10px ${getHeatMapColor(relativeViewed)}`:'none'
+        }}>
         {isEdit && _isEdit ? (
           <textarea
             ref={textarea}
