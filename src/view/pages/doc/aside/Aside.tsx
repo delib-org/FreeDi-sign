@@ -23,14 +23,15 @@ function Aside() {
 
   return (
     <aside className={styles.aside}>
-      <div
+      <a
+      href="https://freedi.co" target="_blank" rel="noreferrer"
         className={`${styles.logo} ${
           dir === "rtl" ? styles["logo--rtl"] : null
         }`}
       >
         <LogoAndNameIcon />
         <div className={styles.slogan}>{t("Fostering Collaboration")}</div>
-      </div>
+      </a>
       <TOC isAside={true} />
       
      
