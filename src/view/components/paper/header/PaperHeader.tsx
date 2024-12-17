@@ -7,8 +7,9 @@ import { useDispatch } from "react-redux";
 import { toggleIsEdit } from "../../../../controllers/slices/editSlice";
 
 //icons
-import InfoIcon from "../../../../assets/icons/info.svg?react";
+// import InfoIcon from "../../../../assets/icons/info.svg?react";
 import EditIcon from "../../../../assets/icons/edit.svg?react";
+import GlobousIcon from '../../../../assets/icons/globus.svg?react';
 // import QuestionIcon from "../../../../assets/icons/question.svg?react";
 
 interface Props {
@@ -16,7 +17,7 @@ interface Props {
   setShowInfo: (showInfo: boolean) => void;
 }
 
-const PaperHeader: FC<Props> = ({ statement, setShowInfo }) => {
+const PaperHeader: FC<Props> = ({ statement }) => {
   const dispatch = useDispatch();
   const role = useContext(RoleContext);
   if (!statement) return null;
@@ -25,27 +26,28 @@ const PaperHeader: FC<Props> = ({ statement, setShowInfo }) => {
     dispatch(toggleIsEdit());
   };
 
-  if (role !== Role.admin) return null;
 
   return (
     <header className={styles.header}>
-    
-        <div className={styles.buttons}>
-          {/* <button>
+      <div className={styles.buttons}>
+        {/* <button>
             <QuestionIcon />
           </button> */}
-          {role === Role.admin && (
-            <button onClick={handleToggleEdit}>
-              <EditIcon />
-            </button>
-          )}
-          {role === Role.admin && (
-            <button onClick={() => setShowInfo(true)}>
-              <InfoIcon />
-            </button>
-          )}
-        </div>
-    
+        {role === Role.admin && (
+          <button onClick={handleToggleEdit}>
+            <EditIcon />
+          </button>
+        )}
+        {/* {role === Role.admin && (
+          <button onClick={() => setShowInfo(true)}>
+            <InfoIcon />
+          </button>
+        )} */}
+        <a href="https://freedi.co" target="_blank" rel="noreferrer">
+          Freedi
+          <GlobousIcon />
+        </a>
+      </div>
     </header>
   );
 };

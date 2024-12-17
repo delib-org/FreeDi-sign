@@ -12,7 +12,7 @@ import { setApprovalToDB } from "../../../../../controllers/db/approval/setAppro
 import { ButtonType } from "../../../../../model/enumsModel";
 import { mySignaturesSelector } from "../../../../../controllers/slices/statementsSlice";
 import Popup from "../../../popup/Popup";
-import { selectEvaluation } from "../../../../../controllers/slices/evaluationSlice";
+import { selectEvaluationSettings } from "../../../../../controllers/slices/evaluationSlice";
 import { useParams } from "react-router-dom";
 
 interface Props {
@@ -27,7 +27,7 @@ const UserButtons: FC<Props> = ({ paragraphsLength, approved, document }) => {
   const mySignature: Signature | undefined = useSelector(
     mySignaturesSelector(document.statementId)
   );
-  const approve = useSelector(selectEvaluation(statementId))?.approve;
+  const approve = useSelector(selectEvaluationSettings(statementId))?.approve;
 
   const { t } = useLanguage();
 

@@ -1,0 +1,15 @@
+button{
+    border:none;
+    background-color: transparent;
+}
+.thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        width: 100%;
+       
+    }
+   
+}

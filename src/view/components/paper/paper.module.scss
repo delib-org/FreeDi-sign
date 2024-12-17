@@ -58,6 +58,23 @@
 
 
     }
+    
+
+    .bottom{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        a{
+            text-align: center;
+            text-decoration: none;
+        }
+
+        @media screen and (min-width: 1030px) {
+            display: none;
+            
+        }
+    }
 
     .buttonWrapper {
         position: sticky;
