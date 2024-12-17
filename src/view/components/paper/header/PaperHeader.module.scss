@@ -17,6 +17,11 @@
         display: none;
 
     }
+    a{
+        display: flex;
+        align-items: center;
+        gap:0.5rem;
+    }
 
     button {
         background-color: transparent;
