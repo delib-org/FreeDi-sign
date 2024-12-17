@@ -9,7 +9,7 @@ import { useRole } from "../../../../../controllers/hooks/useRole";
 import styles from './SectionTitle.module.scss';
 
 //icons
-import EyeIcon from "../../../../../assets/icons/touch.svg?react";
+import TouchIcon from "../../../../../assets/icons/touch.svg?react";
 
 interface Props {
   bullet: string;
@@ -84,7 +84,7 @@ const SectionTitle: FC<Props> = ({
               if (isEdit) _setIsEdit(true);
             }}
           >
-           {isAdmin && <h2 className={styles.adminH2}><span className={styles.viewed}><EyeIcon /></span><span >{viewed}</span></h2>} {sectionHeader(`${statement.statement}`, level)} 
+           {isAdmin && <h2 className={styles.adminH2}><span className={styles.viewed}><TouchIcon /></span><span >{viewed}</span></h2>} {sectionHeader(`${statement.statement}`, level)} 
           </div>
         )}
       </>
