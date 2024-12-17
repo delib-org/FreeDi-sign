@@ -9,7 +9,7 @@ import { useRole } from "../../../../../controllers/hooks/useRole";
 import styles from './SectionTitle.module.scss';
 
 //icons
-import EyeIcon from "../../../../../assets/icons/eye.svg?react";
+import EyeIcon from "../../../../../assets/icons/touch.svg?react";
 
 interface Props {
   bullet: string;
