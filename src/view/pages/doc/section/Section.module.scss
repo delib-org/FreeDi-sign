@@ -36,12 +36,12 @@ $mobile:1000px;
         }
 
         &--rtl {
+            padding-left: 0;
+            
             @media screen and (max-width: $mobile) {
                 padding-right: 0rem;
 
             }
-
-            padding-left: 0;
         }
 
     }
