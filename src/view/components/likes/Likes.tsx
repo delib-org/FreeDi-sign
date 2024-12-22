@@ -26,14 +26,7 @@ const Likes: FC<EvaluationProps> = ({ statement }) => {
 		? document.statementSettings?.showEvaluation
 		: false;
 
-	// if (document?.statementSettings?.enhancedEvaluation) {
-	// 	return (
-	// 		<EnhancedLikes
-	// 			statement={statement}
-	// 			shouldDisplayScore={shouldDisplayScore}
-	// 		/>
-	// 	);
-	// }
+
 
 	return (
 		<SimpleLikes
