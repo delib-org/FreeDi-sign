@@ -1,4 +1,4 @@
-import { Collections, DocumentType, Statement } from "delib-npm";
+import { Collections, DocumentType, Statement, User } from "delib-npm";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { DB } from "../config";
 import { store } from "../../../model/store";
@@ -20,6 +20,19 @@ export function addCommentToDB({
 
         const user = store.getState().user.user;
         if (!user) throw new Error("User not found");
+        console.log(store.getState().user.usersData)
+
+        const userAnonymous:User = (user.isAnonymous) ? {
+            displayName: store.getState().user.usersData.find(u => u.userId === user?.uid)?.displayName || "Anonymous",
+            uid: user.uid,
+            photoURL: ""
+        } : user;
+        if (!userAnonymous) throw new Error("User not found");
+        console.log(userAnonymous)
+
+        if (!title) {
+            throw new Error("Title is required");
+        }
 
 
         const newStatement: Statement | undefined = createNewStatement({
@@ -28,7 +41,8 @@ export function addCommentToDB({
             statement: parentStatement,
             order,
             type: DocumentType.comment,
-            isTop: false
+            isTop: false,
+            user: userAnonymous
         });
         if (!newStatement) throw new Error("Error creating new comment");
         const { statementId } = newStatement;

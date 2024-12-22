@@ -1,4 +1,4 @@
-import { DocumentType, getRandomUID, Statement, StatementSchema, StatementType } from "delib-npm";
+import { DocumentType, getRandomUID, Statement, StatementSchema, StatementType, User } from "delib-npm";
 import { store } from "../../model/store";
 
 
@@ -143,23 +143,23 @@ export function statementsToDocument({ section, statements, level = 1 }: Stateme
 
 }
 
-export function createNewStatement({ title, description = "", statement, order, isTop, type }: { title: string, description?:string, statement: Statement, order: number, isTop?: boolean, type:DocumentType}): Statement | undefined {
+export function createNewStatement({ title, description = "", statement, order, isTop, type, user }: { title: string, description?:string, statement: Statement, order: number, isTop?: boolean, type:DocumentType, user:User}): Statement | undefined {
     try {
-        const user = store.getState().user.user;
-        if (!user) throw new Error("User not found");
+        const _user = user || store.getState().user.user;
+        if (!_user) throw new Error("User not found");
 
         const statementId: string = getRandomUID();
     
         const parentDocumentId = statement.documentSettings?.parentDocumentId || statement.statementId;
-   
+        console.log(_user)
 
         const newStatement: Statement = {
             statement: title,
             description,
             statementId,
             parentId: statement.statementId,
-            creatorId: user.uid,
-            creator: user,
+            creatorId: _user.uid,
+            creator: _user,
             topParentId: statement.topParentId,
             lastUpdate: new Date().getTime(),
             createdAt: new Date().getTime(),

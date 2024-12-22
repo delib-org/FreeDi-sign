@@ -30,7 +30,7 @@ const Comment: FC<Props> = ({ statement }) => {
   const creatorData = useSelector(selectUserDataByUserId(statement.creatorId));
   const agree = useSelector(selectAgree(statement.statementId));
   const isCreator = user?.uid === statement.creatorId;
-  const [tyredToGeUserData, setTriedToGetUserData] = useState(false);
+  // const [tyredToGeUserData, setTriedToGetUserData] = useState(false);
 
   useEffect(() => {
     let unsubscribe = () => {};
@@ -42,20 +42,6 @@ const Comment: FC<Props> = ({ statement }) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    //get commentator data
-    if (creatorData) return;
-    if (statement.creatorId === user?.uid) return;
-    if (!tyredToGeUserData) {
-      getUserData(statement.creatorId, statement.statementId).then((userData) => {
-        if (userData) {
-          dispatch(setUserData(userData));
-          setTriedToGetUserData(true);
-        }
-      });
-    }
-  }, [creatorData, dispatch, statement.creatorId, statement.statementId, tyredToGeUserData, user?.uid]);
 
   function handleAgree(_agree: number) {
     if (isCreator) return;
@@ -74,7 +60,7 @@ const Comment: FC<Props> = ({ statement }) => {
   }
 
   const isAuthor = user?.uid === statement.creatorId;
-  const displayName = creatorData?.displayName || t("Anonymous");
+  const displayName = statement.creator?.displayName || t("Anonymous");
 
   return (
     <div className={styles.commentBox}>
