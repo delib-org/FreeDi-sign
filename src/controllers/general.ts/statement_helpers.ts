@@ -150,7 +150,7 @@ export function createNewStatement({ title, description = "", statement, order, 
 
         const statementId: string = getRandomUID();
     
-        const parentDocumentId = statement.documentSettings?.parentDocumentId || statement.statementId;
+        const parentDocumentId = statement.documentSettings?.parentDocumentId ?? statement.statementId;
    
 
         const newStatement: Statement = {

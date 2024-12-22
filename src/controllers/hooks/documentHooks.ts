@@ -29,7 +29,7 @@ export function useDocument(): Props {
     const statement = useSelector(statementSelector(statementId));
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    const statements: Statement[] = useSelector(documentSelector(statementId || ""));
+    const statements: Statement[] = useSelector(documentSelector(statementId ?? ""));
     const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
     const [role, setRole] = useState<Role>(Role.unsubscribed);
 
