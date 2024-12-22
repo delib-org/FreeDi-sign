@@ -9,7 +9,7 @@ This document outlines the technical specifications for implementing a document 
 ```typescript
 interface DocumentWithComments {
   documentId: string;
-  originalContent: {
+  content: {
     sections: Section[];
   };
   metadata: DocumentMetadata;
@@ -17,9 +17,18 @@ interface DocumentWithComments {
 
 interface Section {
   sectionId: string;
-  content: string;
-  comments: Comment[];
+  title: string;
+  subsections?: Section[];
+  paragraphs?: Paragraph[];
   metadata?: SectionMetadata;
+  order: number;
+}
+
+interface Paragraph {
+  paragraphId: string;
+  content: string;
+  order: number;
+  comments: Comment[];
 }
 
 interface Comment {
@@ -31,6 +40,24 @@ interface Comment {
   sentiment?: 'positive' | 'negative' | 'neutral';
   suggestedEdit?: string;
   priority?: 'high' | 'medium' | 'low';
+  reactions: CommentReaction[];
+}
+
+interface CommentReaction {
+  reactionId: string;
+  userId: string;
+  type: 'agree' | 'disagree';
+  timestamp: Timestamp;
+  userDemographics?: UserDemographics;
+}
+
+interface UserDemographics {
+  age?: number;
+  location?: string;
+  gender?: string;
+  occupation?: string;
+  education?: string;
+  customFields?: Record<string, string>;
 }
 
 interface DocumentMetadata {
@@ -45,6 +72,7 @@ interface SectionMetadata {
   type: 'legal' | 'technical' | 'general';
   complianceRequirements?: string[];
   lastModified: Timestamp;
+  depth: number; // Indicates nesting level
 }
 
 type CommentCategory = 
