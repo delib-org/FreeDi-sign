@@ -20,16 +20,14 @@ export function addCommentToDB({
 
         const user = store.getState().user.user;
         if (!user) throw new Error("User not found");
-        console.log(store.getState().user.usersData)
-
+  
         const userAnonymous:User = (user.isAnonymous) ? {
             displayName: store.getState().user.usersData.find(u => u.userId === user?.uid)?.displayName || "Anonymous",
             uid: user.uid,
             photoURL: ""
         } : user;
         if (!userAnonymous) throw new Error("User not found");
-        console.log(userAnonymous)
-
+    
         if (!title) {
             throw new Error("Title is required");
         }
