@@ -262,3 +262,229 @@ interface ErrorHandling {
 3. Machine learning improvements
 4. Integration with external tools
 5. Enhanced collaboration features
+
+
+# LLM Data Analysis Format
+
+## Overview
+This document specifies how to prepare your document data for LLM analysis, focusing on efficient data representation and contextual preservation.
+
+## Data Export Format
+
+### Basic Structure
+```typescript
+interface LLMAnalysisPayload {
+  documentInfo: {
+    documentId: string;
+    title: string;
+    version: number;
+    language: string;
+  };
+  contentAnalysisRequest: {
+    type: 'full_analysis' | 'section_analysis' | 'targeted_analysis';
+    focus?: string[]; // Specific aspects to analyze
+    constraints?: string[]; // Any specific requirements or limitations
+  };
+  documentContent: DocumentSection[];
+  commentStats?: CommentStatistics; // Optional pre-calculated statistics
+}
+
+interface DocumentSection {
+  sectionId: string;
+  title: string;
+  depth: number;
+  paragraphs: AnalysisParagraph[];
+  subsections?: DocumentSection[];
+}
+
+interface AnalysisParagraph {
+  paragraphId: string;
+  content: string;
+  comments: EnrichedComment[];
+}
+
+interface EnrichedComment {
+  text: string;
+  category?: string;
+  suggestedEdit?: string;
+  reactionSummary: {
+    agrees: number;
+    disagrees: number;
+    demographicBreakdown?: {
+      [key: string]: {
+        agrees: number;
+        disagrees: number;
+      };
+    };
+  };
+}
+
+interface CommentStatistics {
+  totalComments: number;
+  commentsByCategory: Record<string, number>;
+  mostDiscussedParagraphs: Array<{
+    paragraphId: string;
+    commentCount: number;
+    agreementRate: number;
+  }>;
+}
+```
+
+## Example JSON Structure
+
+```json
+{
+  "documentInfo": {
+    "documentId": "doc123",
+    "title": "Privacy Policy",
+    "version": 2,
+    "language": "en"
+  },
+  "contentAnalysisRequest": {
+    "type": "full_analysis",
+    "focus": ["clarity", "legal_compliance"],
+    "constraints": ["maintain_legal_terms"]
+  },
+  "documentContent": [
+    {
+      "sectionId": "sec1",
+      "title": "Data Collection",
+      "depth": 0,
+      "paragraphs": [
+        {
+          "paragraphId": "p1",
+          "content": "We collect personal information that you provide directly to us.",
+          "comments": [
+            {
+              "text": "This needs to be more specific about types of personal information",
+              "category": "clarity",
+              "suggestedEdit": "We collect personal information such as name, email, and address that you provide directly to us.",
+              "reactionSummary": {
+                "agrees": 15,
+                "disagrees": 3,
+                "demographicBreakdown": {
+                  "legal_professional": {
+                    "agrees": 8,
+                    "disagrees": 1
+                  },
+                  "general_public": {
+                    "agrees": 7,
+                    "disagrees": 2
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "subsections": [
+        {
+          "sectionId": "sec1.1",
+          "title": "Types of Data",
+          "depth": 1,
+          "paragraphs": []
+        }
+      ]
+    }
+  ],
+  "commentStats": {
+    "totalComments": 45,
+    "commentsByCategory": {
+      "clarity": 20,
+      "legal": 15,
+      "suggestion": 10
+    },
+    "mostDiscussedParagraphs": [
+      {
+        "paragraphId": "p1",
+        "commentCount": 5,
+        "agreementRate": 0.83
+      }
+    ]
+  }
+}
+```
+
+## Best Practices for Data Preparation
+
+1. **Data Aggregation**
+   - Pre-calculate comment statistics when possible
+   - Aggregate demographic data into meaningful groups
+   - Summarize reaction patterns
+
+2. **Content Organization**
+   - Maintain hierarchical structure
+   - Include context with each section
+   - Preserve paragraph ordering
+
+3. **Comment Enrichment**
+   - Group related comments
+   - Include reaction summaries
+   - Aggregate demographic insights
+
+4. **Performance Optimization**
+   - Remove unnecessary metadata
+   - Combine related comments
+   - Exclude inactive/deleted content
+
+## Implementation in TypeScript
+
+```typescript
+// Function to prepare data for LLM analysis
+export async function prepareLLMAnalysisData(
+  documentId: string,
+  analysisType: 'full_analysis' | 'section_analysis' | 'targeted_analysis',
+  focus?: string[]
+): Promise<LLMAnalysisPayload> {
+  // Fetch document and related data
+  const document = await fetchDocument(documentId);
+  const comments = await fetchComments(documentId);
+  const reactions = await fetchReactions(documentId);
+
+  // Process and structure the data
+  const enrichedContent = enrichDocumentContent(document, comments, reactions);
+  const statistics = calculateCommentStatistics(comments, reactions);
+
+  return {
+    documentInfo: {
+      documentId: document.id,
+      title: document.title,
+      version: document.version,
+      language: document.language
+    },
+    contentAnalysisRequest: {
+      type: analysisType,
+      focus: focus
+    },
+    documentContent: enrichedContent,
+    commentStats: statistics
+  };
+}
+```
+
+## Firebase Integration
+
+```typescript
+// Example of data fetching from Firebase
+async function fetchDocument(documentId: string) {
+  const docRef = doc(db, 'documents', documentId);
+  const docSnap = await getDoc(docRef);
+  return docSnap.data();
+}
+
+async function fetchComments(documentId: string) {
+  const commentsQuery = query(
+    collection(db, 'comments'),
+    where('documentId', '==', documentId)
+  );
+  const commentSnap = await getDocs(commentsQuery);
+  return commentSnap.docs.map(doc => doc.data());
+}
+
+async function calculateCommentStatistics(
+  comments: Comment[],
+  reactions: CommentReaction[]
+): Promise<CommentStatistics> {
+  // Implementation of statistics calculation
+}
+```
