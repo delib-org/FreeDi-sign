@@ -71,16 +71,12 @@ const Thumb: FC<ThumbProps> = ({
       onClick={() => handleVote(isUpVote)}
     >
       {isUpVote ? (
-        isActive ? (
-          <LikeIcon />
-        ) : (
-          <LikeUnelectedIcon />
-        )
-      ) : isActive ? (
+       <div style={{color: isActive? "var(--approve)": "var(--not-selected)"}}>
+        <LikeIcon />
+       </div>
+      ) :(<div style={{color: isActive? "var(--reject)": "var(--not-selected)"}}>
         <DislikeIcon />
-      ) : (
-        <DislikeUnselectedIcon />
-      )}
+        </div>)}
     </button>
   );
 };

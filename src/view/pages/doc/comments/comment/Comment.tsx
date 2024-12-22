@@ -1,12 +1,8 @@
 import { Statement } from "delib-npm";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import styles from "./Comment.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectUser,
-  selectUserDataByUserId,
-  setUserData,
-} from "../../../../../controllers/slices/userSlice";
+import { selectUser} from "../../../../../controllers/slices/userSlice";
 import { setAgreesToDB } from "../../../../../controllers/db/agree/setAgrees";
 import { listenToUserAgree } from "../../../../../controllers/db/agree/getAgree";
 import {
@@ -17,7 +13,6 @@ import Button from "../../../../components/buttons/button/Button";
 import { useLanguage } from "../../../../../controllers/hooks/useLanguage";
 import Text from "../../../../components/text/Text";
 import { ButtonType } from "../../../../../model/enumsModel";
-import { getUserData } from "../../../../../controllers/db/user/getUserData";
 
 interface Props {
   statement: Statement;
@@ -27,10 +22,8 @@ const Comment: FC<Props> = ({ statement }) => {
   const { t } = useLanguage();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const creatorData = useSelector(selectUserDataByUserId(statement.creatorId));
   const agree = useSelector(selectAgree(statement.statementId));
   const isCreator = user?.uid === statement.creatorId;
-  const [tyredToGeUserData, setTriedToGetUserData] = useState(false);
 
   useEffect(() => {
     let unsubscribe = () => {};
@@ -42,20 +35,6 @@ const Comment: FC<Props> = ({ statement }) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    //get commentator data
-    if (creatorData) return;
-    if (statement.creatorId === user?.uid) return;
-    if (!tyredToGeUserData) {
-      getUserData(statement.creatorId, statement.statementId).then((userData) => {
-        if (userData) {
-          dispatch(setUserData(userData));
-          setTriedToGetUserData(true);
-        }
-      });
-    }
-  }, [creatorData, dispatch, statement.creatorId, statement.statementId, tyredToGeUserData, user?.uid]);
 
   function handleAgree(_agree: number) {
     if (isCreator) return;
@@ -74,7 +53,7 @@ const Comment: FC<Props> = ({ statement }) => {
   }
 
   const isAuthor = user?.uid === statement.creatorId;
-  const displayName = creatorData?.displayName || t("Anonymous");
+  const displayName = statement.creator?.displayName || t("Anonymous");
 
   return (
     <div className={styles.commentBox}>

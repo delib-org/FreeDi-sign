@@ -33,11 +33,7 @@ const SimpleLikes: FC<Props> = ({
 		selectLike(statement.statementId)
 	)?.evaluation;
 
-	// const { consensus } = statement;
-	// const consensusToDisplay = consensus
-	// 	? Math.round(consensus * 100) / 100
-	// 	: 0;
-	console.log(statement.evaluation?.sumCon, statement.evaluation?.sumPro);	
+
 
 	useEffect(() => {
 		setConVotesCount(statement?.evaluation?.sumCon || 0);
