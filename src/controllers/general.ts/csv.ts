@@ -5,7 +5,7 @@ export class CSV {
         if (data.length === 0) return '';
 
         // Get headers from the first object
-        const headers = Object.keys(data[0]);
+        const headers = this.getHeaders(data);
 
         // Create CSV header row with explicit encoding
         const csvRows = [
@@ -32,6 +32,17 @@ export class CSV {
         }
 
         return csvRows.join('\r\n'); // Use Windows-style line endings for better Excel compatibility
+    }
+
+    static getHeaders(data: Record<string, unknown>[]): string[] {
+        if (data.length === 0) return [];
+        const headers = new Set<string>();
+        for (const row of data) {
+            for (const header of Object.keys(row)) {
+                headers.add(header);
+            }
+        }
+        return Array.from(headers);
     }
 
     static async downloadCSV(documentId: string|undefined): Promise<void> {
