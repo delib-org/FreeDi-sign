@@ -9,8 +9,10 @@ import { Segmentation, UserData } from "delib-npm";
 import { useParams } from "react-router-dom";
 import { getSegments } from "../../../controllers/db/segmentation/getSegmentation";
 import InputFields from "./inputFields/InputFields";
+import { useLanguage } from "../../../controllers/hooks/useLanguage";
 
 const SigninForm = () => {
+  const { t } = useLanguage();
   const { statementId } = useParams<{ statementId: string }>();
   const dispatch = useDispatch();
 
@@ -30,11 +32,11 @@ const SigninForm = () => {
     try {
       ev.preventDefault();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const values:any = {};
-    
+      const values: any = {};
+
       for (const segment of segments) {
-        const fieldMandatoryName = segment.fieldMandatoryName? segment.fieldMandatoryName : segment.title;
-     
+        const fieldMandatoryName = segment.fieldMandatoryName ? segment.fieldMandatoryName : segment.title;
+
         const form = ev.target as HTMLFormElement;
         const value = form[fieldMandatoryName].value;
         if (!value) {
@@ -49,18 +51,40 @@ const SigninForm = () => {
       console.error(error);
     }
   }
+
+  async function handleSetUserDataAnonymous(): Promise<void> {
+    try {
+
+      const _userData: UserData | undefined = await setUserDataToDB({ displayName: t("Anonymous") }, statementId);
+      dispatch(setUserData(_userData));
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <div className={styles.sign}>
       <h1 className={styles.h1}>טופס הרשמה</h1>
       <form onSubmit={handleSetUserData}>
-        {segments.map((segmentation, i:number) => (
-          <InputFields segmentation={segmentation} key={`field-${i}`}/>
+        {segments.map((segmentation, i: number) => (
+          <InputFields segmentation={segmentation} key={`field-${i}`} />
         ))}
         <div className="btns">
           <Button
             text="הרשמה"
             type="submit"
             buttonType={ButtonType.primary}
+            isSelected={true}
+          />
+        </div>
+        <div className="btns">
+          --- {t("Or")} ---
+        </div>
+        <div className="btns">
+          <Button
+            onClick={handleSetUserDataAnonymous}
+            text={t("Login as anonymous")}
+            type="button"
+            buttonType={ButtonType.secondary}
             isSelected={true}
           />
         </div>
