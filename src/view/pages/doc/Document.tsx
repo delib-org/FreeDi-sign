@@ -163,7 +163,7 @@ const Document = () => {
           />
           <div className={styles.doc}>
             <div className={styles.aside}>
-              <Aside role={role} />
+              <Aside />
             </div>
 
             <div className={styles.main}>
