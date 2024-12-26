@@ -42,7 +42,7 @@ export function addCommentToDB({
             type: DocumentType.comment,
             isTop: false,
             user: userAnonymous,
-            userData
+            userData:userData||undefined
         });
         if (!newStatement) throw new Error("Error creating new comment");
         const { statementId } = newStatement;

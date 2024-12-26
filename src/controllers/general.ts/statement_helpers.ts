@@ -143,7 +143,7 @@ export function statementsToDocument({ section, statements, level = 1 }: Stateme
 
 }
 
-interface CreateNewStatementProps { title: string, description ?: string, statement: Statement, order: number, isTop ?: boolean, type: DocumentType, user: User, userData:UserData }
+interface CreateNewStatementProps { title: string, description ?: string, statement: Statement, order: number, isTop ?: boolean, type: DocumentType, user: User, userData:UserData|undefined }
 
 export function createNewStatement({ title, description = "", statement, order, isTop, type, user, userData }: CreateNewStatementProps): Statement | undefined {
     try {
@@ -176,7 +176,7 @@ export function createNewStatement({ title, description = "", statement, order, 
                 type,
                 isTop: isTop||false
             },
-            userData
+            creatorData:userData
 
         };
         StatementSchema.parse(newStatement);
