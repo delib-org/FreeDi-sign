@@ -11,13 +11,15 @@ const InputFields: FC<Props> = ({ segmentation }) => {
 
 
     const fieldMandatoryName = segmentation.fieldMandatoryName? segmentation.fieldMandatoryName : segmentation.title;
+  const label = `${segmentation.title}${segmentation.isRequired === true ? " *" : ""}`
+
 
   if (segmentation.type === SegmentationType.array) {
     return (
       <div className="input-element">
-        <label>{segmentation.title}</label>
-        <select defaultValue="opening" name={fieldMandatoryName}>
-          <option value="opening" defaultChecked disabled>
+        <label>{label}</label>
+        <select defaultValue="" name={fieldMandatoryName}>
+          <option value="" defaultChecked disabled>
             בחר/י
           </option>
           {segmentation.array?.map((option: string, i:number) => (
@@ -27,16 +29,16 @@ const InputFields: FC<Props> = ({ segmentation }) => {
       </div>
     );
   }
-
+  console.log(segmentation.filedType)
   return (
     <div className="input-element">
-      <label>{segmentation.title}</label>
+      <label>{label}</label>
       <input
-        type="text"
+        type={segmentation.filedType}
         name={fieldMandatoryName}
-        placeholder="Full name"
+        placeholder={segmentation.title}
         autoFocus={segmentation.order === 0}
-        required={true}
+        required={segmentation.isRequired}
       />
     </div>
   );

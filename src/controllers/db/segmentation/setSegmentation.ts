@@ -1,4 +1,4 @@
-import { Collections, fieldMandatoryName, Segmentation, SegmentationType } from "delib-npm"
+import { Collections, FieldMandatoryName, FieldType, Segmentation, SegmentationType } from "delib-npm"
 import { collection, doc, setDoc } from "firebase/firestore"
 import { DB } from "../config"
 
@@ -10,9 +10,20 @@ export function setSegmentation(documentId:string){
             statementId: documentId,
             order:0,
             title:"שם מלא",
-            fieldMandatoryName: fieldMandatoryName.displayName,
+            fieldMandatoryName: FieldMandatoryName.displayName,
             type:SegmentationType.string,
-           isRequired:true
+            filedType:FieldType.text,
+           isRequired:false
+        }
+
+        const phoneNumber:Segmentation = {
+            statementId: documentId,
+            order:2,
+            title:"מספר טלפון",
+            fieldMandatoryName: "phoneNumber",
+            filedType:FieldType.tel,
+            type:SegmentationType.string,
+            isRequired:true
         }
 
         const community:Segmentation = {
@@ -59,8 +70,11 @@ export function setSegmentation(documentId:string){
             ]
         }
 
+
+
         setDoc(doc(segmentationRef, `${documentId}_name`), name);
         setDoc(doc(segmentationRef, `${documentId}_community`), community);
+        setDoc(doc(segmentationRef, `${documentId}_phoneNumber`), phoneNumber);
 
     } catch (error) {
         console.error(error)
