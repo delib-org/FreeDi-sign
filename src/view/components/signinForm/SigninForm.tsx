@@ -10,13 +10,16 @@ import { useParams } from "react-router-dom";
 import { getSegments } from "../../../controllers/db/segmentation/getSegmentation";
 import InputFields from "./inputFields/InputFields";
 import { useLanguage } from "../../../controllers/hooks/useLanguage";
+import { validateIsraeliPhoneNumber } from "../../../controllers/general.ts/validations";
 
 const SigninForm = () => {
   const { t } = useLanguage();
   const { statementId } = useParams<{ statementId: string }>();
   const dispatch = useDispatch();
+  const allowAnonymous = false;
 
   const [segments, setSegments] = useState<Segmentation[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (statementId) {
@@ -39,16 +42,26 @@ const SigninForm = () => {
 
         const form = ev.target as HTMLFormElement;
         const value = form[fieldMandatoryName].value;
-        if (!value) {
+
+        if (segment.filedType === "tel" && !validateIsraeliPhoneNumber(value)) {
+          throw new Error("אנא הכנס/י מספר טלפון תקין");
+        }
+
+        if (!value && segment.isRequired) {
           throw new Error("אנא מלא/י את כל השדות");
         }
         values[fieldMandatoryName] = value;
+
+        if (fieldMandatoryName === "displayName" && values[fieldMandatoryName] === "") {
+          values[fieldMandatoryName] = t("Anonymous");
+        }
       }
 
       const _userData: UserData | undefined = await setUserDataToDB(values, statementId);
       dispatch(setUserData(_userData));
-    } catch (error) {
+    } catch (error:any) {
       console.error(error);
+      setErrorMessage(error.message);
     }
   }
 
@@ -68,6 +81,7 @@ const SigninForm = () => {
         {segments.map((segmentation, i: number) => (
           <InputFields segmentation={segmentation} key={`field-${i}`} />
         ))}
+        {errorMessage && <div className={styles.error}>{errorMessage}</div>}
         <div className="btns">
           <Button
             text="הרשמה"
@@ -76,18 +90,22 @@ const SigninForm = () => {
             isSelected={true}
           />
         </div>
-        <div className="btns">
-          --- {t("Or")} ---
-        </div>
-        <div className="btns">
-          <Button
-            onClick={handleSetUserDataAnonymous}
-            text={t("Login as anonymous")}
-            type="button"
-            buttonType={ButtonType.secondary}
-            isSelected={true}
-          />
-        </div>
+       
+        {allowAnonymous && <>
+          <div className="btns">
+            --- {t("Or")} ---
+          </div>
+          <div className="btns">
+            <Button
+              onClick={handleSetUserDataAnonymous}
+              text={t("Login as anonymous")}
+              type="button"
+              buttonType={ButtonType.secondary}
+              isSelected={true}
+            />
+          </div>
+        </>
+        }
       </form>
     </div>
   );
