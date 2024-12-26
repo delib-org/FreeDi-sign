@@ -19,6 +19,7 @@ export function addCommentToDB({
     try {
 
         const user = store.getState().user.user;
+        const userData = store.getState().user.usersData.find(u => u.userId === user?.uid);
         if (!user) throw new Error("User not found");
   
         const userAnonymous:User = (user.isAnonymous) ? {
@@ -40,7 +41,8 @@ export function addCommentToDB({
             order,
             type: DocumentType.comment,
             isTop: false,
-            user: userAnonymous
+            user: userAnonymous,
+            userData
         });
         if (!newStatement) throw new Error("Error creating new comment");
         const { statementId } = newStatement;
