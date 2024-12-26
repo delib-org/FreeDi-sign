@@ -13,6 +13,7 @@ import Button from "../../../../components/buttons/button/Button";
 import { useLanguage } from "../../../../../controllers/hooks/useLanguage";
 import Text from "../../../../components/text/Text";
 import { ButtonType } from "../../../../../model/enumsModel";
+import Modal from "../../../../components/modal/Modal";
 
 interface Props {
   statement: Statement;
@@ -53,11 +54,13 @@ const Comment: FC<Props> = ({ statement }) => {
   }
 
   const isAuthor = user?.uid === statement.creatorId;
-  const displayName = statement.creator?.displayName || t("Anonymous");
+
+  const displayName = (statement.creatorData as any)['ישוב'] ?? t("Anonymous");
+  const finalName = (statement.creatorData as any)['ישוב']? "תושב/ת " + displayName  : displayName;
 
   return (
     <div className={styles.commentBox}>
-      <div className={styles.name}>{displayName}</div>
+      <div className={styles.name}>{finalName}</div>
       <div className={styles.comment}>
         <div
           className={styles.description}
@@ -101,6 +104,38 @@ const Comment: FC<Props> = ({ statement }) => {
           </div>
         </div>
       </div>
+      <Modal>
+        {/* show creatorData */}
+        <div className={styles.modal}>
+          <div className={styles.modal__title}>{t("User Details")}</div>
+          <div className={styles.modal__content}>
+            <div className={styles.modal__content__item}>
+              <div className={styles.modal__content__item__title}>
+                {t("Name")}
+              </div>
+              <div className={styles.modal__content__item__value}>
+                {displayName}
+              </div>
+            </div>
+            <div className={styles.modal__content__item}>
+              <div className={styles.modal__content__item__title}>
+                {t("Email")}
+              </div>
+              <div className={styles.modal__content__item__value}>
+               
+              </div>
+            </div>
+            <div className={styles.modal__content__item}>
+              <div className={styles.modal__content__item__title}>
+                {t("Phone")}
+              </div>
+              <div className={styles.modal__content__item__value}>
+                {(statement.creatorData as any)['ישוב']}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
