@@ -19,6 +19,7 @@ import BackArrow from "../../../../assets/icons/backArrow.svg?react";
 import { commentsSelector } from "../../../../controllers/slices/statementsSlice";
 import { ButtonType } from "../../../../model/enumsModel";
 import Likes from "../../../components/likes/Likes";
+import { DocumentContext } from "../documentCont";
 
 const Comments: FC = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const Comments: FC = () => {
 
   const { statement, showComments, showNewComment } = useSelector(cmsSelector);
   const comments = useSelector(commentsSelector(statement?.statementId));
-  const role = useContext(RoleContext);
+  const role = useContext(DocumentContext).role;
   const userId = useSelector(selectUser)?.uid;
   const didUserCommented = comments.some((cm) => cm.creatorId === userId);
   const myComment = comments.find((cm) => cm.creatorId === userId);
