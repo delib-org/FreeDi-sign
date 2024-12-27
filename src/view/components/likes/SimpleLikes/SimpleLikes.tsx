@@ -34,8 +34,8 @@ const SimpleLikes: FC<Props> = ({
 	)?.evaluation;
 
 	useEffect(() => {
-		setConVotesCount(statement?.evaluation?.sumCon ?? 0);
-		setProVotesCount(statement.evaluation?.sumPro ?? 0);
+		setConVotesCount(statement?.evaluation?.sumCon || 0);
+		setProVotesCount(statement.evaluation?.sumPro || 0);
 	}, [ statement.evaluation?.sumPro, statement.evaluation?.sumCon]);
 
 	return (
@@ -49,7 +49,7 @@ const SimpleLikes: FC<Props> = ({
 				<div className="thumb-icon">
 					
 					<Thumb
-						evaluation={like ?? 0}
+						evaluation={like || 0}
 						upDown="up"
 						statement={statement}
 						setProVote={setProVotesCount}
@@ -58,7 +58,7 @@ const SimpleLikes: FC<Props> = ({
 				</div>
 				<div className="thumb-icon">
 					<Thumb
-						evaluation={like ?? 0}
+						evaluation={like || 0}
 						upDown="down"
 						statement={statement}
 						setConVote={setConVotesCount}

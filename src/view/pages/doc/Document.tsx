@@ -46,7 +46,7 @@ const Document = () => {
   const mySignature: Signature | undefined = useSelector(
     mySignaturesSelector(statementId)
   );
-  const paragraphs = useSelector(documentParagraphsSelector(statementId ?? ""));
+  const paragraphs = useSelector(documentParagraphsSelector(statementId || ""));
   const rejected = useSelector(
     selectApprovalsByDocId(statementId || "")
   ).filter((approval) => approval.approval === false);
