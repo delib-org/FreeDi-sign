@@ -49,17 +49,17 @@ const Button: FC<Props> = ({
     other:{
       backgroundColor,
       color,
-      border:`1px solid ${backgroundColor}`
+      border:`2px solid ${backgroundColor}`
     },
     approve:{
       backgroundColor:"var(--approve)",
       color:"white",
-      border:"1px solid var(--approve)"
+      border:"2px solid var(--approve)"
     },
     reject:{
       backgroundColor:"var(--reject)",
       color:"white",
-      border:"1px solid var(--reject)"
+      border:"2px solid var(--reject)"
     }
   };
 
@@ -75,7 +75,7 @@ const Button: FC<Props> = ({
           ? types[buttonType].backgroundColor
           : unselectedBackgroundColor,
         color: isSelected ? types[buttonType].color : unselectedColor,
-        border:isSelected?`2px solid ${types[buttonType].border}`:`2px solid ${ unselectedBorderColor}`,
+        border:isSelected?`${types[buttonType].border}`:`${ unselectedBorderColor}`,
         borderRadius,
       }}
       type={type}
