@@ -1,8 +1,8 @@
-import { Statement } from "delib-npm";
-import { FC, useEffect } from "react";
+import { Role, Statement } from "delib-npm";
+import { FC, useContext, useEffect, useState } from "react";
 import styles from "./Comment.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser} from "../../../../../controllers/slices/userSlice";
+import { selectUser } from "../../../../../controllers/slices/userSlice";
 import { setAgreesToDB } from "../../../../../controllers/db/agree/setAgrees";
 import { listenToUserAgree } from "../../../../../controllers/db/agree/getAgree";
 import {
@@ -14,6 +14,8 @@ import { useLanguage } from "../../../../../controllers/hooks/useLanguage";
 import Text from "../../../../components/text/Text";
 import { ButtonType } from "../../../../../model/enumsModel";
 import Modal from "../../../../components/modal/Modal";
+import UserDetails from "./userDetails/UserDetails";
+import { DocumentContext } from "../../documentCont";
 
 interface Props {
   statement: Statement;
@@ -24,10 +26,14 @@ const Comment: FC<Props> = ({ statement }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const agree = useSelector(selectAgree(statement.statementId));
+   const role = useContext(DocumentContext).role;
+
+  const [showDetails, setShowDetails] = useState(false);
+
   const isCreator = user?.uid === statement.creatorId;
 
   useEffect(() => {
-    let unsubscribe = () => {};
+    let unsubscribe = () => { };
 
     unsubscribe = listenToUserAgree(statement.statementId);
 
@@ -54,13 +60,20 @@ const Comment: FC<Props> = ({ statement }) => {
   }
 
   const isAuthor = user?.uid === statement.creatorId;
+  const isAdmin = role === Role.admin;
 
   const displayName = (statement.creatorData as any)['ישוב'] ?? t("Anonymous");
-  const finalName = (statement.creatorData as any)['ישוב']? "תושב/ת " + displayName  : displayName;
+  const finalName = (statement.creatorData as any)['ישוב'] ? "תושב/ת " + displayName : displayName;
+
+  function handleShowUserDetails(){
+    if(isAdmin){
+      setShowDetails(!showDetails);
+    }
+  }
 
   return (
     <div className={styles.commentBox}>
-      <div className={styles.name}>{finalName}</div>
+      <div className={styles.name} style={{ cursor: isAdmin ? "pointer" : "auto" }} onClick={handleShowUserDetails}>{finalName}</div>
       <div className={styles.comment}>
         <div
           className={styles.description}
@@ -104,38 +117,9 @@ const Comment: FC<Props> = ({ statement }) => {
           </div>
         </div>
       </div>
-      <Modal>
-        {/* show creatorData */}
-        <div className={styles.modal}>
-          <div className={styles.modal__title}>{t("User Details")}</div>
-          <div className={styles.modal__content}>
-            <div className={styles.modal__content__item}>
-              <div className={styles.modal__content__item__title}>
-                {t("Name")}
-              </div>
-              <div className={styles.modal__content__item__value}>
-                {displayName}
-              </div>
-            </div>
-            <div className={styles.modal__content__item}>
-              <div className={styles.modal__content__item__title}>
-                {t("Email")}
-              </div>
-              <div className={styles.modal__content__item__value}>
-               
-              </div>
-            </div>
-            <div className={styles.modal__content__item}>
-              <div className={styles.modal__content__item__title}>
-                {t("Phone")}
-              </div>
-              <div className={styles.modal__content__item__value}>
-                {(statement.creatorData as any)['ישוב']}
-              </div>
-            </div>
-          </div>
-        </div>
-      </Modal>
+      {isAdmin && showDetails && <Modal onClick={handleShowUserDetails}>
+        <UserDetails creatorData={statement.creatorData} />
+      </Modal>}
     </div>
   );
 };
