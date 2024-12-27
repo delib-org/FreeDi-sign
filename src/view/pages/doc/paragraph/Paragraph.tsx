@@ -2,15 +2,13 @@ import { Approval, Role, Statement } from "delib-npm";
 import { FC, useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  commentsSelector,
   deleteStatement,
 } from "../../../../controllers/slices/statementsSlice";
 import styles from "./Paragraph.module.scss";
 import { isEditSelector } from "../../../../controllers/slices/editSlice";
-import { updateParagraphTextToDB } from "../../../../controllers/db/paragraphs/setParagraphs";
+import { updateParagraphTextToDB, deleteParagraphFromDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import Evaluation from "./evaluation/Evaluation";
 import { adjustTextAreaHeight } from "../../../../controllers/general.ts/general";
-import { deleteParagraphFromDB } from "../../../../controllers/db/paragraphs/setParagraphs";
 import DeleteIcon from "../../../../assets/icons/trash.svg?react";
 import { selectApprovalById } from "../../../../controllers/slices/approvalSlice";
 import { setViewToDB } from "../../../../controllers/db/views/setViews";
@@ -34,9 +32,6 @@ const Paragraph: FC<Props> = ({ statement }) => {
   const paragraphRef = useRef<HTMLDivElement>(null);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const comments = useSelector(commentsSelector(statement.statementId)).sort(
-    (a, b) => b.createdAt - a.createdAt
-  );
   const approval: Approval | undefined = useSelector(
     selectApprovalById(statement.statementId)
   );
@@ -188,7 +183,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
             </div>
           </div>
         )}
-        {!isEdit && <Evaluation statement={statement} comments={comments} />}
+        {!isEdit && <Evaluation statement={statement}/>}
       </div>
     );
   } catch (e) {

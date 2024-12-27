@@ -12,6 +12,7 @@ import { store } from "../../model/store";
 
 export function useStatements() {
     const user = useSelector(selectUser);
+    
     if (!user) return { statements: [], isLoading: false, error: "User not found" };
     
     const userId = user.uid;
