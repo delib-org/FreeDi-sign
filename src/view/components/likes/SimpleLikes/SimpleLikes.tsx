@@ -33,8 +33,6 @@ const SimpleLikes: FC<Props> = ({
 		selectLike(statement.statementId)
 	)?.evaluation;
 
-
-
 	useEffect(() => {
 		setConVotesCount(statement?.evaluation?.sumCon || 0);
 		setProVotesCount(statement.evaluation?.sumPro || 0);
@@ -69,9 +67,6 @@ const SimpleLikes: FC<Props> = ({
 				</div>
 				{shouldDisplayScore && <span>{conVotesCount}</span>}				
 			</div>
-			{/* {shouldDisplayScore && (
-				<div className="total-evaluations">{consensusToDisplay}</div>
-			)} */}
 		</div>
 	);
 };

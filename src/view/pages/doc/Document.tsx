@@ -1,5 +1,5 @@
 import styles from "./document.module.scss";
-import { useParams } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import { useDocument } from "../../../controllers/hooks/documentHooks";
 import Aside from "./aside/Aside";
 import Paper from "../../components/paper/Paper";
@@ -12,12 +12,7 @@ import DocumentInfo from "../../components/info/DocumentInfo";
 import { useSignatures } from "../../../controllers/hooks/signHooks";
 import Page401 from "../page401/Page401";
 import HourGlassLoader from "../../components/loaders/HourGlassLoader";
-import Comments from "./comments/Comments";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  commentsSelector,
-  updateShowComments,
-} from "../../../controllers/slices/commentsSlice";
 import { useLanguage } from "../../../controllers/hooks/useLanguage";
 
 import { listenToMySignature } from "../../../controllers/db/signatures/getSignatures";
@@ -36,7 +31,6 @@ import {
 import SigninForm from "../../components/signinForm/SigninForm";
 import { getUserData } from "../../../controllers/db/user/getUserData";
 import { setSegmentation } from "../../../controllers/db/segmentation/setSegmentation";
-import { useLocation } from "react-router-dom";
 
 export const RoleContext = createContext<Role>(Role.unsubscribed);
 import { MetaTags } from "../../components/metaTags/MetaTags";
@@ -49,7 +43,6 @@ const Document = () => {
   const { statementId } = useParams<{ statementId: string }>();
   const user = useSelector(selectUser);
   const userData = useSelector(selectUserData);
-  const { showComments } = useSelector(commentsSelector);
   const mySignature: Signature | undefined = useSelector(
     mySignaturesSelector(statementId)
   );
@@ -128,15 +121,6 @@ const Document = () => {
       handleSetUserEnteredPage(statement, paragraphs.length, approved);
   }, [mySignature, paragraphs.length, statement, approved]);
 
-  function handleShowComments(
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) {
-    if (event.target === event.currentTarget) {
-      event.stopPropagation();
-      dispatch(updateShowComments(!showComments));
-    }
-  }
-
   if (isLoading)
     return (
       <div className={styles.loader}>
@@ -179,13 +163,7 @@ const Document = () => {
                 />
               </Modal>
             )}
-            {showComments && (
-              <div>
-                <Modal onClick={handleShowComments}>
-                  <Comments />
-                </Modal>
-              </div>
-            )}
+            <Outlet />
             {!userData && role !== Role.admin && (
               <Modal>
                 <SigninForm />

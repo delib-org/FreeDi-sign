@@ -5,19 +5,19 @@ import { store } from "../../../model/store";
 import { createNewStatement } from "../../general.ts/statement_helpers";
 
 interface AddCommentToDBProps {
-    title: string;
-    description?: string;
-    parentStatement: Statement;
-    order: number;
+	title: string;
+	description?: string;
+	parentStatement: Statement;
+	order: number;
 }
 
 export function addCommentToDB({
-    title,
-    description,
-    parentStatement,
-    order = 0 }: AddCommentToDBProps): void {
-    try {
-
+	title,
+	description,
+	parentStatement,
+	order = 0,
+}: AddCommentToDBProps): void {
+	try {
         const user = store.getState().user.user;
         if (!user) throw new Error("User not found");
   
@@ -31,7 +31,6 @@ export function addCommentToDB({
         if (!title) {
             throw new Error("Title is required");
         }
-
 
         const newStatement: Statement | undefined = createNewStatement({
             title,
@@ -54,17 +53,17 @@ export function addCommentToDB({
 }
 
 interface EditCommentProps {
-    statement: Statement;
-    newText?: string;
+	statement: Statement;
+	newText?: string;
 }
 
 export function editComment({ statement, newText }: EditCommentProps): void {
-    try {
-        const statementRef = doc(DB, Collections.statements, statement.statementId);
-        updateDoc(statementRef, {
-            statement: newText
-        });
-    } catch (error) {
-        console.error(error);
-    }
+	try {
+		const statementRef = doc(DB, Collections.statements, statement.statementId);
+		updateDoc(statementRef, {
+			statement: newText,
+		});
+	} catch (error) {
+		console.error(error);
+	}
 }
