@@ -25,7 +25,7 @@ export function getHeatMapColor(value: number): string {
   // Define color stops
   const colors = [
       { point: 0, color: [0, 0, 255] },     // Blue
-      { point: 0.33, color: [0, 255, 0] },  // Green
+      { point: 0.33, color: [0, 150, 0] },  // Green
       { point: 0.66, color: [255, 255, 0] }, // Yellow
       { point: 1, color: [255, 0, 0] }      // Red
   ];

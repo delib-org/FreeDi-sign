@@ -64,9 +64,19 @@ $mobile:1000px;
 
 .back{
    margin-top: 1rem;
-    color: #3e3e3e;
+    color: var(--label-color);
     text-decoration: none;
     font-weight: 400;
-    background-color: var(--toc-bkg);
+    // background-color: var(--toc-bkg);
     padding: 0 0.5rem;
+    display: flex;
+    gap:.3rem;
+    align-items: center;
+
+    svg{
+       color:var(--icon-blue);
+       display: flex;
+       justify-content: center;
+         align-items: center;
+    }
 }

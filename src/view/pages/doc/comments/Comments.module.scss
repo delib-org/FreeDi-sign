@@ -16,6 +16,9 @@ $padding:1rem;
     }
    
 }
+.commentWrapper{
+    overflow-y: auto;
+}
 .comments {
 
 
@@ -34,9 +37,9 @@ $padding:1rem;
 }
 .paragraph{
     font-weight: 400;
-    color: var(--paragraph-light);
+    color:#1E2129;
     font-size: var(--button-text);
-    padding: 0 1rem;
+    padding: 1rem 0.2rem;
     overflow: clip;
     text-overflow: ellipsis;
     max-height: 40vh;

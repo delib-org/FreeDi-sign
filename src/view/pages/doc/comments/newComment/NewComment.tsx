@@ -60,15 +60,16 @@ const NewComment: FC<Props> = ({ parentStatement, order }) => {
 							name='new-comment'
 						/>
 						<div className={styles.wrapper__descriptionWrapper__buttonsWrapper}>
-							<button
-								className={styles.cancel}
+							<Button
+								type={'button'}
+								text={t('Cancel')}
+								buttonType={ButtonType.secondary}
+								isSelected={true}
 								onClick={() => {
 									setShowUserComment(false);
 									navigate('..');
 								}}
-							>
-								{t('Cancel')}
-							</button>
+							/>
 							<Button
 								type={'submit'}
 								text={t('Add Comment')}

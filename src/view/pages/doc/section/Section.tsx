@@ -51,9 +51,8 @@ const Section: FC<Props> = ({
 
     return (
       <section
-        className={`${styles.section} ${
-          dir === "rtl" && styles["section--rtl"]
-        } ${isEdit && styles.edit}`}
+        className={`${styles.section} ${dir === "rtl" && styles["section--rtl"]
+          } ${isEdit && styles.edit}`}
       >
         <SectionTitle
           bullet={bullet}
@@ -64,9 +63,8 @@ const Section: FC<Props> = ({
         />
         {isTitleReady && (
           <div
-            className={`${styles.sectionsWrapper} ${
-              dir === "rtl" && styles["sectionsWrapper--rtl"]
-            }`}
+            className={`${styles.sectionsWrapper} ${dir === "rtl" && styles["sectionsWrapper--rtl"]
+              }`}
           >
             <div className={styles.paragraphs}>
               <SubParagraphs parentStatement={statement} />
@@ -77,7 +75,9 @@ const Section: FC<Props> = ({
             {isTOC && (
               <a href="#toc" className={styles.back}>
                 {t("Back to table of contents")}
-                <ArrowUpIcon />
+                <div style={{ transform: dir === "ltr" ? `scaleX(1)` : `scaleX(-1)` }}>
+                  <ArrowUpIcon />
+                </div>
               </a>
             )}
             <div className={styles.sections}>
