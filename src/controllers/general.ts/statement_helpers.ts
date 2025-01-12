@@ -143,7 +143,7 @@ export function statementsToDocument({ section, statements, level = 1 }: Stateme
 
 }
 
-interface CreateNewStatementProps { title: string, description ?: string, statement: Statement, order: number, isTop ?: boolean, type: DocumentType, user: User, userData:UserData|undefined }
+interface CreateNewStatementProps { title: string, description ?: string, statement: Statement, order: number, isTop ?: boolean, type: DocumentType, user?: User, userData?:UserData }
 
 export function createNewStatement({ title, description = "", statement, order, isTop, type, user, userData }: CreateNewStatementProps): Statement | undefined {
     try {
@@ -175,10 +175,14 @@ export function createNewStatement({ title, description = "", statement, order, 
                 order,
                 type,
                 isTop: isTop||false
-            },
-            creatorData:userData
-
+            }
         };
+
+        if(userData){
+            newStatement.creatorData = userData;
+        }
+
+
         StatementSchema.parse(newStatement);
         return newStatement;
     } catch (error) {
