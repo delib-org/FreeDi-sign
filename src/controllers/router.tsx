@@ -23,6 +23,12 @@ export const router = createBrowserRouter([
       {
         path: "/doc/:statementId",
         element: <Document />,
+        children: [
+          {
+            path: "comments/:paragraphId",
+            element: <CommentsModal />
+          }
+        ]
       },
       {
         path: "/doc-anonymous/:statementId",
