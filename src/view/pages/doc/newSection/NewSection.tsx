@@ -9,6 +9,7 @@ import { createNewStatement } from "../../../../controllers/general.ts/statement
 import EditInput from "../../../components/editInput/EditInput";
 import { setSectionToDB } from "../../../../controllers/db/sections/setSections";
 import { getBullet } from "../../../../controllers/general.ts/helpers";
+import { selectUser } from "../../../../controllers/slices/userSlice";
 
 interface Props {
   statement: Statement;
@@ -35,10 +36,10 @@ const NewSection: FC<Props> = ({ statement, order,parentBullet }) => {
         if (!text || text === "") return;
 
         const newSection = createNewStatement({
-          title:text,
+          title: text,
           statement,
           order,
-          type: DocumentType.section, // Replace "someType" with the actual type value
+          type: DocumentType.section
         });
 
         if (!newSection) throw new Error("Error creating new section");

@@ -12,7 +12,7 @@ $padding:1rem;
         width:100vw;
         height: 100vh;
         max-height: 100vh;
-        
+        padding: 1rem;        
     }
    
 }
@@ -55,11 +55,3 @@ $padding:1rem;
 
 }
 
-.btns{
-   
-    
-    
-    @media screen and (max-width: 768px){
-        display: none;
-    }
-}

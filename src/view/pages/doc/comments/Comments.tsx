@@ -1,11 +1,11 @@
 import { Role } from 'delib-npm';
-import { FC, useContext, useState } from 'react';
+import { FC, useContext } from 'react';
 import NewComment from './newComment/NewComment';
 import Comment from './comment/Comment';
 import styles from './Comments.module.scss';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../../../controllers/slices/userSlice';
-import { RoleContext } from '../Document';
+
 import { useLanguage } from '../../../../controllers/hooks/useLanguage';
 import Button from '../../../components/buttons/button/Button';
 
@@ -18,23 +18,24 @@ import {
 import { ButtonType } from '../../../../model/enumsModel';
 import Likes from '../../../components/likes/Likes';
 import { useNavigate, useParams } from 'react-router-dom';
+import { DocumentContext } from '../documentCont';
 
 const Comments: FC = () => {
 	const { t, dir } = useLanguage();
 	const navigate = useNavigate();
 	const { paragraphId } = useParams();
+	console.log(paragraphId)
 
-	const comments = useSelector(commentsSelector(paragraphId));
+	
 	const statement = useSelector(statementSelector(paragraphId));
-	const role = useContext(RoleContext);
+	const {role} = useContext(DocumentContext);
+	const comments = useSelector(commentsSelector(statement?.statementId));
 	const userId = useSelector(selectUser)?.uid;
-
-	const [didUserCommented] = useState(
-		comments.some((cm) => cm.creatorId === userId)
-	);
-
+	const didUserCommented = comments.some((cm) => cm.creatorId === userId);
 	const myComment = comments.find((cm) => cm.creatorId === userId);
 	const otherComments = comments.filter((cm) => cm.creatorId !== userId);
+
+
 
 	function handleHideComments() {
 		navigate('..');
