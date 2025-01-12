@@ -1,11 +1,16 @@
 import { Segmentation, SegmentationType } from 'delib-npm';
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import UserIcon from '../../../../assets/icons/user.svg?react';
+import PhoneIcon from '../../../../assets/icons/phone-tel.svg?react';
+import './InputFields.scss';
 
 interface Props {
 	segmentation: Segmentation;
 }
 
 const InputFields: FC<Props> = ({ segmentation }) => {
+	const [hasValue, setHasValue] = useState(false);
+
 	const fieldMandatoryName = segmentation.fieldMandatoryName
 		? segmentation.fieldMandatoryName
 		: segmentation.title;
@@ -13,33 +18,56 @@ const InputFields: FC<Props> = ({ segmentation }) => {
 		segmentation.isRequired === true ? ' *' : ''
 	}`;
 
+	const getIcon = (title: string) => {
+		if (title.includes('שם')) return <UserIcon className='input-icon' />;
+		if (title.includes('טלפון')) return <PhoneIcon className='input-icon' />;
+		return null;
+	};
+
+	const handleChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+	) => {
+		setHasValue(!!e.target.value);
+	};
+
 	if (segmentation.type === SegmentationType.array) {
 		return (
 			<div className='input-element'>
 				<label>{label}</label>
-				<select defaultValue='' name={fieldMandatoryName}>
-					<option value='' defaultChecked disabled>
-						בחר/י
-					</option>
-					{segmentation.array?.map((option: string, i: number) => (
-						<option key={`option-${i}`} value={option}>
-							{option}
+				<div className='input-container'>
+					<select
+						defaultValue=''
+						name={fieldMandatoryName}
+						onChange={handleChange}
+					>
+						<option value='' defaultChecked disabled>
+							בחר/י
 						</option>
-					))}
-				</select>
+						{segmentation.array?.map((option: string, i: number) => (
+							<option key={`option-${i}`} value={option}>
+								{option}
+							</option>
+						))}
+					</select>
+				</div>
 			</div>
 		);
 	}
+
 	return (
 		<div className='input-element'>
 			<label>{label}</label>
-			<input
-				type={segmentation.filedType}
-				name={fieldMandatoryName}
-				placeholder={segmentation.title}
-				autoFocus={segmentation.order === 0}
-				required={segmentation.isRequired}
-			/>
+			<div className='input-container'>
+				<input
+					type={segmentation.filedType}
+					name={fieldMandatoryName}
+					placeholder={segmentation.title}
+					autoFocus={segmentation.order === 0}
+					required={segmentation.isRequired}
+					onChange={handleChange}
+				/>
+				{!hasValue && getIcon(segmentation.title)}
+			</div>
 		</div>
 	);
 };

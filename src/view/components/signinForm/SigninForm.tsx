@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from 'react';
 import Button from '../buttons/button/Button';
 import { ButtonType } from '../../../model/enumsModel';
-import styles from './SignupForm.module.scss';
+import './SignupForm.scss';
 import { useDispatch } from 'react-redux';
 import { setUserDataToDB } from '../../../controllers/db/user/setUserData';
 import { setUserData } from '../../../controllers/slices/userSlice';
@@ -11,6 +11,7 @@ import { getSegments } from '../../../controllers/db/segmentation/getSegmentatio
 import InputFields from './inputFields/InputFields';
 import { useLanguage } from '../../../controllers/hooks/useLanguage';
 import { validateIsraeliPhoneNumber } from '../../../controllers/general.ts/validations';
+import signInImage from '../../../assets/images/sign-in-image.png';
 
 const SigninForm = () => {
 	const { t } = useLanguage();
@@ -67,9 +68,13 @@ const SigninForm = () => {
 				statementId
 			);
 			dispatch(setUserData(_userData));
-		} catch (error: any) {
+		} catch (error) {
 			console.error(error);
-			setErrorMessage(error.message);
+			if (error instanceof Error) {
+				setErrorMessage(error.message);
+			} else {
+				setErrorMessage(String(error));
+			}
 		}
 	}
 
@@ -85,38 +90,38 @@ const SigninForm = () => {
 		}
 	}
 	return (
-		<div className={styles.sign}>
-			<h1 className={styles.h1}>טופס הרשמה</h1>
-			<form onSubmit={handleSetUserData}>
-				{segments.map((segmentation, i: number) => (
-					<InputFields segmentation={segmentation} key={`field-${i}`} />
-				))}
-				{errorMessage && <div className={styles.error}>{errorMessage}</div>}
-				<div className='btns'>
-					<Button
-						text='הרשמה'
-						type='submit'
-						buttonType={ButtonType.primary}
-						isSelected={true}
-					/>
-				</div>
+		<form className='signInform' onSubmit={handleSetUserData}>
+      <img src={signInImage} alt="sign in" />
+			<span className='title'>טופס הרשמה</span>
+      <span className='sub-title'>נא למלא את הפרטים האישיים</span>
+			{segments.map((segmentation, i: number) => (
+				<InputFields segmentation={segmentation} key={`field-${i}`} />
+			))}
+			{errorMessage && <div className='error'>{errorMessage}</div>}
+			<div className='btns'>
+				<Button
+					text='הרשמה'
+					type='submit'
+					buttonType={ButtonType.primary}
+					isSelected={true}
+				/>
+			</div>
 
-				{allowAnonymous && (
-					<>
-						<div className='btns'>--- {t('Or')} ---</div>
-						<div className='btns'>
-							<Button
-								onClick={handleSetUserDataAnonymous}
-								text={t('Login as anonymous')}
-								type='button'
-								buttonType={ButtonType.secondary}
-								isSelected={true}
-							/>
-						</div>
-					</>
-				)}
-			</form>
-		</div>
+			{allowAnonymous && (
+				<>
+					<div className='btns'>--- {t('Or')} ---</div>
+					<div className='btns'>
+						<Button
+							onClick={handleSetUserDataAnonymous}
+							text={t('Login as anonymous')}
+							type='button'
+							buttonType={ButtonType.secondary}
+							isSelected={true}
+						/>
+					</div>
+				</>
+			)}
+		</form>
 	);
 };
 

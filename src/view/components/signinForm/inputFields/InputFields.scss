@@ -1,0 +1,57 @@
+.input-container {
+	position: relative;
+	display: flex;
+	align-items: center;
+
+	.input-icon {
+		position: absolute;
+		right: 10px;
+		width: 16px;
+		height: 16px;
+		color: #666;
+		pointer-events: none;
+	}
+
+	input,
+	select {
+		width: 100%;
+		padding: 8px 35px 8px 12px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		text-align: right;
+		direction: rtl;
+		background-color: #fff;
+
+		&::placeholder {
+			padding-right: 1rem;
+			text-align: right;
+			direction: rtl;
+		}
+
+		&:focus {
+			outline: none;
+			border-color: #2196f3;
+		}
+	}
+
+	select {
+		appearance: none;
+		position: relative;
+		z-index: 2;
+		background: #fff
+			url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23666666'/%3E%3C/svg%3E")
+			no-repeat;
+		background-position: left 10px center;
+		padding-left: 30px;
+
+		option {
+			direction: rtl;
+			text-align: right;
+			padding-right: 1rem;
+		}
+	}
+}
+
+select::-ms-expand {
+	display: none;
+}
