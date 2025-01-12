@@ -24,18 +24,14 @@ const Comments: FC = () => {
 	const { t, dir } = useLanguage();
 	const navigate = useNavigate();
 	const { paragraphId } = useParams();
-	console.log(paragraphId)
 
-	
 	const statement = useSelector(statementSelector(paragraphId));
-	const {role} = useContext(DocumentContext);
+	const { role } = useContext(DocumentContext);
 	const comments = useSelector(commentsSelector(statement?.statementId));
 	const userId = useSelector(selectUser)?.uid;
 	const didUserCommented = comments.some((cm) => cm.creatorId === userId);
 	const myComment = comments.find((cm) => cm.creatorId === userId);
 	const otherComments = comments.filter((cm) => cm.creatorId !== userId);
-
-
 
 	function handleHideComments() {
 		navigate('..');
