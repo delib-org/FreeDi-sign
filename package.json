@@ -4,6 +4,7 @@
   "version": "5.3.59",
   "type": "module",
   "scripts": {
+    "clean": "rm -rf node_modules package-lock.json dist && git rm -r --cache . && git reset && npm install",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -33,6 +34,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "sass": "^1.83.0",
     "typescript": "^5.2.2",
     "vite-plugin-pwa": "^0.20.0",
     "vite-plugin-svgr": "^4.2.0",
