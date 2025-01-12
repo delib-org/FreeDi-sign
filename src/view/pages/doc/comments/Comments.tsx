@@ -1,5 +1,5 @@
 import { Role } from 'delib-npm';
-import { FC, useContext, useState } from 'react';
+import { FC, useContext } from 'react';
 import NewComment from './newComment/NewComment';
 import Comment from './comment/Comment';
 import styles from './Comments.module.scss';
@@ -24,6 +24,7 @@ const Comments: FC = () => {
 	const { t, dir } = useLanguage();
 	const navigate = useNavigate();
 	const { paragraphId } = useParams();
+	console.log(paragraphId)
 
 	
 	const statement = useSelector(statementSelector(paragraphId));
