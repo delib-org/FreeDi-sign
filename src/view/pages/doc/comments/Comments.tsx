@@ -58,8 +58,8 @@ const Comments: FC = () => {
 					<BackArrow />
 				</button>
 			</div>
-			<div>
-				<p className={styles.p}>{t('Paragraph')}:</p>
+			<div className={styles.commentWrapper}>
+				{/* <p className={styles.p}>{t('Paragraph')}:</p> */}
 				<div className={styles.paragraph}>{newText}</div>
 				<Likes statement={statement} />
 				{role !== Role.admin && !didUserCommented && (

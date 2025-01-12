@@ -26,7 +26,7 @@ interface Props {
 
 const Paragraph: FC<Props> = ({ statement }) => {
   const dispatch = useDispatch();
-  const {maxViewed, role} = useContext(DocumentContext);
+  const { maxViewed, role } = useContext(DocumentContext);
   const isAdmin = role === Role.admin;
 
   const paragraphRef = useRef<HTMLDivElement>(null);
@@ -62,15 +62,15 @@ const Paragraph: FC<Props> = ({ statement }) => {
           if (entry.isIntersecting && !hasBeenViewed) {
             // Set a 4-second delay before triggering the view count
             timeoutRef.current = setTimeout(() => {
-              setHasBeenViewed(true);    
+              setHasBeenViewed(true);
               setViewToDB(statement);
             }, 4000);
           }
         });
       },
-      {    
-        threshold: 0.7, 
-        rootMargin: "0px", 
+      {
+        threshold: 0.7,
+        rootMargin: "0px",
       }
     );
 
@@ -143,10 +143,10 @@ const Paragraph: FC<Props> = ({ statement }) => {
     const showHeatMap = true
 
     return (
-      <div className={styles.paragraph} ref={paragraphRef} 
-      style={{
-        backgroundColor:showHeatMap && isAdmin?getHeatMapColor(relativeViewed):'transparent',
-        boxShadow: showHeatMap && isAdmin ?`0 0 10px ${getHeatMapColor(relativeViewed)}`:'none'
+      <div className={styles.paragraph} ref={paragraphRef}
+        style={{
+          borderLeft: showHeatMap && `1rem solid ${isAdmin ? getHeatMapColor(relativeViewed) : 'transparent'}`,
+          boxShadow: showHeatMap && isAdmin ? `0 0 10px #ceced3` : 'none'
         }}>
         {isEdit && _isEdit ? (
           <textarea
@@ -166,14 +166,13 @@ const Paragraph: FC<Props> = ({ statement }) => {
           <div className={styles.paragraphLine}>
             <div className={styles.paragraphText}>
               <p
-                className={`${styles.textArea} ${styles.textAreaP} ${
-                  approval?.approval === false && styles.rejected
-                }`}
+                className={`${styles.textArea} ${styles.textAreaP} ${approval?.approval === false && styles.rejected
+                  }`}
                 onClick={() => {
                   _setIsEdit(true);
                 }}
               >
-               {isAdmin && (<><span><EyeIcon /></span> <span className={styles.viewed}>{viewed}</span></>)} <span>{renderText(statement.statement)} </span>
+                {isAdmin && (<><span><EyeIcon /></span> <span className={styles.viewed}>{viewed}</span></>)} <span>{renderText(statement.statement)} </span>
               </p>
               {isEdit && (
                 <button onClick={handleDelete}>
@@ -183,7 +182,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
             </div>
           </div>
         )}
-        {!isEdit && <Evaluation statement={statement}/>}
+        {!isEdit && <Evaluation statement={statement} />}
       </div>
     );
   } catch (e) {
