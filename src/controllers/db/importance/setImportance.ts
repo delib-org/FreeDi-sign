@@ -1,5 +1,5 @@
 import { doc, setDoc } from "firebase/firestore";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 import { Collections, getStatementSubscriptionId, Importance, ImportanceSchema, Statement } from "delib-npm";
 import { store } from "../../../model/store";
 
@@ -9,7 +9,7 @@ export async function setImportanceToDB({ statement, importance }: { statement: 
         if (!user) throw new Error("User not logged in");
         const importanceId = getStatementSubscriptionId(statement.statementId, user);
         if(!importanceId) throw new Error("ImportanceId not found");
-        const importanceRef = doc(DB, Collections.importance, importanceId);
+        const importanceRef = doc(firebaseDb, Collections.importance, importanceId);
 
         const userId = user.uid;
 

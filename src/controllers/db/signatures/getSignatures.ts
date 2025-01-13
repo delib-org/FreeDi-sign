@@ -1,5 +1,5 @@
 import { Unsubscribe } from "firebase/auth";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 import { Collections, DocumentSigns, DocumentSignsSchema, getStatementSubscriptionId, Signature, SignatureSchema, User } from "delib-npm";
 import { onSnapshot, doc } from "firebase/firestore";
 import { store } from "../../../model/store";
@@ -9,7 +9,7 @@ export function listenToSignatures(statementId: string): Unsubscribe {
     try {
      
         const dispatch = store.dispatch;
-        const signaturesRef = doc(DB, Collections.documentsSigns, statementId);
+        const signaturesRef = doc(firebaseDb, Collections.documentsSigns, statementId);
        
         return onSnapshot(signaturesRef, (doc) => {
             try {
@@ -41,7 +41,7 @@ export function listenToMySignature(statementId: string, ): Unsubscribe {
         const signatureId = getStatementSubscriptionId(statementId, user);
         if(!signatureId) throw new Error("Signature Id not found");
 
-        const signatureRef = doc(DB, Collections.signatures, signatureId);
+        const signatureRef = doc(firebaseDb, Collections.signatures, signatureId);
      
         return onSnapshot(signatureRef, (sigDB) => {
             try {

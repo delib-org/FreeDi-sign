@@ -6,7 +6,7 @@ const CommentsModal = () => {
 	const navigate = useNavigate();
 
 	return (
-		<div>
+		<div className='tets'>
 			<Modal
 				onClick={(e) => {
 					if (e.target === e.currentTarget) {

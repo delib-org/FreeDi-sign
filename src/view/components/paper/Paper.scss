@@ -1,0 +1,70 @@
+.paper {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	width: 100%;
+	height: 100vh;
+	overflow-y: auto;
+	scroll-behavior: smooth;
+	padding: 0 1rem;
+
+	.TOC {
+		max-width: 100%;
+		border-radius: 5px;
+		background-color: white;
+		@media screen and (min-width: 1030px) {
+			display: none;
+		}
+	}
+
+	.headerWrapper {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		.title {
+			background-color: transparent;
+		}
+
+		.buttons {
+			display: flex;
+			justify-content: end;
+			align-items: center;
+			gap: 1rem;
+		}
+	}
+
+	.mainContainer {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+	}
+
+	.bottomWrapper {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 4rem;
+	}
+
+	.feedbackButton{
+		display: grid;
+		place-content: center;
+	}
+
+	.footer {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		a {
+			text-align: center;
+			text-decoration: none;
+		}
+
+		@media screen and (min-width: 1030px) {
+			display: none;
+		}
+	}
+}

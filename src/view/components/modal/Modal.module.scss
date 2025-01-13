@@ -1,17 +1,17 @@
-.modal{
-    position:fixed;
-    top: 0px;
-    left: 0px;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 101;
-.box{
-    padding: 1rem;
-    border-radius: 5px;
-    background-color: white;
-}
+.modal {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 101;
+    
+	.box {
+		border-radius: 5px;
+		background-color: white;
+	}
 }

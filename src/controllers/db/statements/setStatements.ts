@@ -1,6 +1,6 @@
 import { Collections, Statement } from "delib-npm";
 import { doc, updateDoc } from "firebase/firestore";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 interface StatementTextProps {
     statement: Statement;
     title?: string;
@@ -10,7 +10,7 @@ interface StatementTextProps {
 
 export function updateStatementText({ statement, title, description }: StatementTextProps) {
     try {
-        const statementRef = doc(DB, Collections.statements, statement.statementId);
+        const statementRef = doc(firebaseDb, Collections.statements, statement.statementId);
         const newTitle = title ? title : statement.statement;
         const newDescription = description ? description : statement.description||"";
         updateDoc(statementRef, { statement: newTitle, description: newDescription });

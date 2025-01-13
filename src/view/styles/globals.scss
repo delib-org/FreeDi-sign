@@ -1,230 +1,217 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Permanent+Marker&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&display=swap&subset=latin');
-@import url("scrollbars.scss");
-@import url("forms.scss");
+@import url('scrollbars.scss');
+@import url('forms.scss');
 
 :root {
+	//fonts
+	--font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
-    //fonts
-    --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	--h1-color: #191e29;
+	--h1-size: 2rem;
+	--h1-weight: 500;
 
-    --h1-color:#191E29;
-    --h1-size: 2rem;
-    --h1-weight: 500;
+	--h2-color: #285edc;
+	--h2-size: 1.75rem;
+	--h2-weight: 500;
 
-    --h2-color:#285edc;
-    --h2-size: 1.75rem;
-    --h2-weight: 500;
+	--h3-color: #285edc;
+	--h3-size: 1.5rem;
+	--h3-weight: 500;
 
-    --h3-color:#285edc;
-    --h3-size: 1.5rem;
-    --h3-weight: 500;
+	--h4-color: #285edc;
+	--h4-size: 1.25rem;
+	--h4-weight: 500;
 
-    --h4-color:#285edc;
-    --h4-size: 1.25rem;
-    --h4-weight: 500;
+	--h5-color: #285edc;
+	--h5-size: 1.125rem;
+	--h5-weight: 500;
 
-    --h5-color:#285edc;
-    --h5-size: 1.125rem;
-    --h5-weight: 500;
-    
+	--h6-color: #285edc;
+	--h6-size: 1rem;
+	--h6-weight: 400;
 
-    --h6-color:#285edc;
-    --h6-size: 1rem;
-    --h6-weight: 400;
+	--p-color: #3d4d71;
+	--p-size: 1rem;
+	--p-weight: 300;
 
-    --p-color:#3d4d71;
-    --p-size: 1rem;
-    --p-weight: 300;
+	//notifications
+	--notification-color: #7784d9;
 
-    //notifications
-    --notification-color:#7784D9;
+	//colors
+	--home: #5f88e5;
+	--text-main: white;
+	--text-body-dark: #57688f;
+	--sign-site-sidebar: #fbfcff;
+	--icon-blue: #4789d1;
+	--border-box: #bdcef4;
+	--screen-bg: #f2f6ff;
+	--label-color: #7484a9;
+	--body-default: #6a7699;
+	--paragraph-light: #818fad;
+	--toc-bkg: rgb(237, 236, 236);
 
+	--side-bar: #ebf4ff;
+	--headline: #5f7bba;
+	--disabled-paragraph: #a1b0d1;
+	--text-blue: #668fd1;
 
+	--blue-primary: #739ee4;
 
+	--cinnamon: #f38ec2;
 
+	//buttons
+	--primary: #5f88e5;
+	--secondary: #99a2e1;
 
-    //colors
-    --home: #5F88E5;
-    --text-main: white;
-    --text-body-dark: #57688F;
-    --sign-site-sidebar: #FBFCFF;
-    --icon-blue: #4789D1;
-    --border-box:#BDCEF4;
-    --screen-bg: #F2F6FF;
-    --label-color:#7484A9;
-    --body-default: #6A7699;
-    --paragraph-light: #818FAD;
-    --toc-bkg:rgb(237, 236, 236);
-   
-    --side-bar: #EBF4FF;
-    --headline: #5f7bba;
-    --disabled-paragraph: #A1B0D1;
-    --text-blue: #668FD1;
+	--active-btn: #739ee4;
+	--inactive-btn: #d7e9fd;
+	--button-text: 1rem;
+	--small-circle: 1.5rem;
 
-    --blue-primary: #739EE4;
+	--screenBG: #f2f6ff;
+	--approve: #6fc5be;
+	--reject: #e8749e;
+	--vertical-hr: #b8d5f7;
+	--edit: #6fc5be;
+	--not-selected: #d4dae6;
 
-    --cinnamon: #F38EC2;
-    
-    //buttons
-    --primary: #5F88E5;
-    --secondary: #99a2e1;
-
-    --active-btn: #739EE4;
-    --inactive-btn: #D7E9FD;
-    --button-text: 1rem;
-    --small-circle: 1.5rem;
-
-    --screenBG: #F2F6FF;
-    --approve: #6FC5BE;
-    --reject: #E8749e;
-    --vertical-hr: #b8d5f7;
-    --edit: #6FC5BE;
-    --not-selected:#d4dae6;
-
-//radius
-    --sm-radius:5px;
-
+	//radius
+	--sm-radius: 5px;
 }
 
 html,
 body {
-    font-size: 20px;
-    margin: 0;
-    font-family: var(--font-main);
-    font-weight: 300;
-    font-style: normal;
-    font-optical-sizing: auto;
-    background-color: var(--screen-bg);
+	font-size: 20px;
+	margin: 0;
+	font-family: var(--font-main);
+	font-weight: 300;
+	font-style: normal;
+	font-optical-sizing: auto;
+	background-color: var(--screen-bg);
 }
 
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .logo-text {
-    font-family: "Caveat", cursive;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
-    font-size: 2rem;
+	font-family: 'Caveat', cursive;
+	font-optical-sizing: auto;
+	font-weight: 500;
+	font-style: normal;
+	font-size: 2rem;
 }
 
-h2,h3,h4,h5,h6 {
-  
-    font-weight: 500;
-    font-style: normal;
-    color: var(--headline);
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 500;
+	font-style: normal;
+	color: var(--headline);
 }
 
-h1{
-    font-size: var(--h1-size);
-    color: var(--h1-color);
-    a{
-        color: var(--h1-color);
-    }
+h1 {
+	font-size: var(--h1-size);
+	color: var(--h1-color);
+	a {
+		color: var(--h1-color);
+	}
 
-    @media screen and (max-width: 768px) {
-        font-size: 1.3rem;
-        
-    }
+	@media screen and (max-width: 768px) {
+		font-size: 1.3rem;
+	}
 }
 
-h2{
-    font-size: var(--h2-size);
-    color: var(--h2-color);
-    @media screen and (max-width: 768px) {
-        font-size: 1.2rem;
-        
-    }
+h2 {
+	font-size: var(--h2-size);
+	color: var(--h2-color);
+	@media screen and (max-width: 768px) {
+		font-size: 1.2rem;
+	}
 }
 
-h3{
-    font-size: var(--h3-size);
-    color: var(--h3-color);
-    @media screen and (max-width: 768px) {
-        font-size: 1.1rem;
-        
-    }
+h3 {
+	font-size: var(--h3-size);
+	color: var(--h3-color);
+	@media screen and (max-width: 768px) {
+		font-size: 1.1rem;
+	}
 }
 
-h4{
-    font-size: var(--h4-size);
-    color: var(--h4-color);
-    @media screen and (max-width: 768px) {
-        font-size: 1.05rem;
-        
-    }
+h4 {
+	font-size: var(--h4-size);
+	color: var(--h4-color);
+	@media screen and (max-width: 768px) {
+		font-size: 1.05rem;
+	}
 }
 
-h5{
-    font-size: var(--h5-size);
-    color: var(--h5-color);
-    @media screen and (max-width: 768px) {
-        font-size: 1.02rem;
-        
-    }
+h5 {
+	font-size: var(--h5-size);
+	color: var(--h5-color);
+	@media screen and (max-width: 768px) {
+		font-size: 1.02rem;
+	}
 }
 
-h6{
-    font-size: var(--h6-size);
-    color: var(--h6-color);
-    @media screen and (max-width: 768px) {
-        font-size: 1rem;
-        
-    }
+h6 {
+	font-size: var(--h6-size);
+	color: var(--h6-color);
+	@media screen and (max-width: 768px) {
+		font-size: 1rem;
+	}
 }
 
-p{
-    font-size: var(--p-size);
-    color: var(--p-color);
-    margin-top: 0.1rem;
-    margin-bottom: 0.3rem;
+p {
+	font-size: var(--p-size);
+	color: var(--p-color);
+	margin-top: 0.1rem;
+	margin-bottom: 0.3rem;
 }
 
 .wrapper {
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: 60rem;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	max-width: 60rem;
 
-    &--paper {
-    
-       
-        margin-bottom: 4rem;
-        @media screen and (min-width: 768px) {
-            padding: 1rem;
-            
-        }
-    }
+	&--paper {
+		@media screen and (min-width: 768px) {
+			padding: 1rem;
+		}
+	}
 
-    &--rtl {
-        left: 0px;
-        right: 50%;
-        transform: translateX(50%);
-    }
+	&--rtl {
+		left: 0px;
+		right: 50%;
+		transform: translateX(50%);
+	}
 }
 
-.loader-page{
-    background-color: var(--dark-main);
-    width:100vw;
-    height:100vh;
-    display: flex;
-    flex-direction: column;
-    color:white;
-    gap:2rem;
-    justify-content: center;
-    align-items: center;
+.loader-page {
+	background-color: var(--dark-main);
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	color: white;
+	gap: 2rem;
+	justify-content: center;
+	align-items: center;
 
-    >span{
-        transform: scale(3);
-    }
+	> span {
+		transform: scale(3);
+	}
 }
 
-.btns{
-    display: flex;
-    gap: 1rem;
-    justify-content: space-around;
-    align-items: center;
+.btns {
+	display: flex;
+	gap: 1rem;
+	justify-content: space-around;
+	align-items: center;
 }

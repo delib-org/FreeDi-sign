@@ -10,8 +10,8 @@ import {
 	query,
 	where,
 } from 'firebase/firestore';
-import { DB } from '../config';
-import { Collections, DocumentType, Statement, StatementSubscription } from 'delib-npm';
+import { firebaseDb } from '../config';
+import { Collections, Statement, StatementSubscription } from 'delib-npm';
 import { store } from '../../../model/store';
 import {
 	deleteStatement,
@@ -26,7 +26,7 @@ export async function getStatements(): Promise<Statement[]> {
 		const user = store.getState().user.user;
 		if (!user) throw new Error('User not found');
 
-		const statementsRef = collection(DB, Collections.statements);
+		const statementsRef = collection(firebaseDb, Collections.statements);
 		const q = query(statementsRef, where('creatorId', '==', user.uid));
 		const querySnapshot = await getDocs(q);
 		const statements: Statement[] = [];
@@ -53,7 +53,7 @@ export function listenToStatements(
 		const dispatch = store.dispatch;
 		setIsLoading(true);
 
-		const statementsRef = collection(DB, Collections.statements);
+		const statementsRef = collection(firebaseDb, Collections.statements);
 		const q = query(statementsRef, where('creatorId', '==', userId));
 		const unsubscribe = onSnapshot(
 			q,
@@ -64,7 +64,6 @@ export function listenToStatements(
 					statements.push(doc.data() as Statement);
 				});
 
-				console.table('Statements: ', statements);
 				dispatch(setStatements(statements));
 			},
 			(error) => {
@@ -94,7 +93,7 @@ export function listenToUserTopStatements(
 		if (!user.uid) throw new Error('User not logged in');
 
 		const statementsSubscribeRef = collection(
-			DB,
+			firebaseDb,
 			Collections.statementsSubscribe
 		);
 		const q = query(
@@ -150,7 +149,7 @@ export function listenToUserTopStatements(
 export const listenToStatement = (statementId: string): Unsubscribe => {
 	try {
 		const dispatch = store.dispatch;
-		const statementRef = doc(DB, Collections.statements, statementId);
+		const statementRef = doc(firebaseDb, Collections.statements, statementId);
 
 		return onSnapshot(
 			statementRef,
@@ -180,7 +179,7 @@ export async function getStatement(
 	statementId: string
 ): Promise<Statement | undefined> {
 	try {
-		const statementRef = doc(DB, Collections.statements, statementId);
+		const statementRef = doc(firebaseDb, Collections.statements, statementId);
 		const statementDB = await getDoc(statementRef);
 		if (!statementDB.exists()) throw new Error('Statement does not exist');
 		return statementDB.data() as Statement;
@@ -193,7 +192,7 @@ export function listenToDocument(statementId: string | undefined): Unsubscribe {
 	try {
 		if (!statementId) throw new Error('No statementId provided');
 		const dispatch = store.dispatch;
-		const statementRef = collection(DB, Collections.statements);
+		const statementRef = collection(firebaseDb, Collections.statements);
 		const q = query(
 			statementRef,
 			where('documentSettings.parentDocumentId', '==', statementId),

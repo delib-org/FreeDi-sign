@@ -1,7 +1,7 @@
 import { AgreeDisagree, Collections, getStatementSubscriptionId, Statement } from "delib-npm";
 import { store } from "../../../model/store";
 import { doc, setDoc } from "firebase/firestore";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 
 export function setAgreesToDB({ statement, agree }: { statement: Statement, agree: number }): void {
     try {
@@ -10,7 +10,7 @@ export function setAgreesToDB({ statement, agree }: { statement: Statement, agre
         const agreeId = getStatementSubscriptionId(statement.statementId, user);
         if (!agreeId) throw new Error("Agree Id not found");
 
-        const agreeRef = doc(DB, Collections.agrees, agreeId);
+        const agreeRef = doc(firebaseDb, Collections.agrees, agreeId);
      
         const documentId = statement.documentSettings?.parentDocumentId;
         if(!documentId) throw new Error("Document Id not found");

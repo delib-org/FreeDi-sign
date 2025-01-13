@@ -1,7 +1,7 @@
 import { Collections, getStatementSubscriptionId } from "delib-npm";
 import { store } from "../../../model/store";
 import { doc, setDoc } from "firebase/firestore";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 
 type UnknownObject = Record<string, unknown>;
 
@@ -25,7 +25,7 @@ export async function setUserDataToDB(userData: UnknownObject, statementId: stri
         if (!userDataId) throw new Error("User data id not found");
 
         const newData: UserObjectInterface = { ...userData, userId: user.uid, documentId: statementId };
-        const userDataRef = doc(DB, Collections.usersData, userDataId);
+        const userDataRef = doc(firebaseDb, Collections.usersData, userDataId);
         await setDoc(userDataRef, newData);
 
         return newData;
