@@ -24,6 +24,7 @@ import Modal from '../modal/Modal';
 import { ButtonType } from '../../../model/enumsModel';
 
 const Paper = () => {
+	const {t} = useLanguage();
 	const { statementId } = useParams<{ statementId: string }>();
 	const sections = useSelector(sectionsSelector(statementId || ''));
 	const paragraphs = useSelector(documentParagraphsSelector(statementId || ''));
@@ -95,7 +96,7 @@ const Paper = () => {
 				)}
 				<div className='feedbackButton'>
 					<Button
-						text={'משוב חוויה'}
+						text={t('Feedback')}
 						isSelected={true}
 						buttonType={ButtonType.approve}
 						onClick={toggleFeedbackWindow}

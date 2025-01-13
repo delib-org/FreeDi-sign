@@ -61,7 +61,6 @@ const InputFields: FC<Props> = ({ segmentation }) => {
 				<input
 					type={segmentation.filedType}
 					name={fieldMandatoryName}
-					placeholder={segmentation.title}
 					autoFocus={segmentation.order === 0}
 					required={segmentation.isRequired}
 					onChange={handleChange}

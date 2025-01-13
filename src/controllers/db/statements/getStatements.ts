@@ -11,7 +11,7 @@ import {
 	where,
 } from 'firebase/firestore';
 import { firebaseDb } from '../config';
-import { Collections, DocumentType, Statement, StatementSubscription } from 'delib-npm';
+import { Collections, Statement, StatementSubscription } from 'delib-npm';
 import { store } from '../../../model/store';
 import {
 	deleteStatement,
@@ -64,7 +64,6 @@ export function listenToStatements(
 					statements.push(doc.data() as Statement);
 				});
 
-				console.table('Statements: ', statements);
 				dispatch(setStatements(statements));
 			},
 			(error) => {
