@@ -1,6 +1,6 @@
 import { Collections, Statement, DocumentType } from "delib-npm";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 import { createNewStatement } from "../../general.ts/statement_helpers";
 
 
@@ -19,7 +19,7 @@ export async function setParagraphToDB({ statement, order, text }: SetSectionToD
         if (!newSection) throw new Error("Error creating new section");
         const { statementId } = newSection;
       
-        const newSectionRef = doc(DB, Collections.statements, statementId);
+        const newSectionRef = doc(firebaseDb, Collections.statements, statementId);
         await setDoc(newSectionRef, newSection);
         return;
 
@@ -36,7 +36,7 @@ interface EditParagraphProps {
 
 export function updateParagraphTextToDB({ statement, newText }: EditParagraphProps): void {
     try {
-        const statementRef = doc(DB, Collections.statements, statement.statementId);
+        const statementRef = doc(firebaseDb, Collections.statements, statement.statementId);
         updateDoc(statementRef, {
             statement: newText !== "" ? newText : "New Paragraph"
         });
@@ -47,7 +47,7 @@ export function updateParagraphTextToDB({ statement, newText }: EditParagraphPro
 
 export async function deleteParagraphFromDB(statement: Statement): Promise<void> {
     try {
-        const statementRef = doc(DB, Collections.statements, statement.statementId);
+        const statementRef = doc(firebaseDb, Collections.statements, statement.statementId);
      
         updateDoc(statementRef, { "statementSettings.show": false });
 

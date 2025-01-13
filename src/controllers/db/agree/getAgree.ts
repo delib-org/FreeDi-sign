@@ -1,7 +1,7 @@
 import { AgreeDisagree, Collections, getStatementSubscriptionId } from "delib-npm";
 import { store } from "../../../model/store";
 import { doc, onSnapshot } from "firebase/firestore";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 import { setAgree } from "../../slices/agreeSlice";
 
 export function listenToUserAgree(statementId:string):()=>void{
@@ -11,7 +11,7 @@ export function listenToUserAgree(statementId:string):()=>void{
         const agreeId = getStatementSubscriptionId(statementId, user);
         if (!agreeId) throw new Error("Agree Id not found");
 
-        const agreeRef = doc(DB, Collections.agrees, agreeId);
+        const agreeRef = doc(firebaseDb, Collections.agrees, agreeId);
         const unsubscribe = onSnapshot(agreeRef, (doc) => {
             if (doc.exists()) {
                 const agree = doc.data() as AgreeDisagree;

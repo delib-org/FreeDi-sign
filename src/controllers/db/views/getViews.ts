@@ -1,6 +1,6 @@
 import { Collections, StatementView, StatementViewSchema } from "delib-npm";
 import { store } from "../../../model/store";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 import { doc, getDoc } from "firebase/firestore";
 
 export async function getViewsFromDB(statementId: string) {
@@ -8,7 +8,7 @@ export async function getViewsFromDB(statementId: string) {
     const userId = store.getState().user.user?.uid;
     if(!userId) throw new Error("User not found");
 
-    const viewRef =  doc(DB, Collections.statementViews, `${userId}--${statementId}`);
+    const viewRef =  doc(firebaseDb, Collections.statementViews, `${userId}--${statementId}`);
    
     const viewDB = await getDoc(viewRef);
     if(!viewDB.exists()) return undefined;

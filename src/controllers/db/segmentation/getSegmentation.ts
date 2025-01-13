@@ -6,11 +6,11 @@ import {
 	query,
 	where,
 } from 'firebase/firestore';
-import { DB } from '../config';
+import { firebaseDb } from '../config';
 
 export async function getSegments(documentId: string): Promise<Segmentation[]> {
 	try {
-		const segmentsRef = collection(DB, Collections.statementSegments);
+		const segmentsRef = collection(firebaseDb, Collections.statementSegments);
 		const q = query(segmentsRef, where('statementId', '==', documentId));
 		const segmentsDB = await getDocs(q);
 		const segments = segmentsDB.docs.map(

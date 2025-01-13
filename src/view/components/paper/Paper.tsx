@@ -25,7 +25,6 @@ import { ButtonType } from '../../../model/enumsModel';
 
 const Paper = () => {
 	const { statementId } = useParams<{ statementId: string }>();
-	const { t } = useLanguage();
 	const sections = useSelector(sectionsSelector(statementId || ''));
 	const paragraphs = useSelector(documentParagraphsSelector(statementId || ''));
 	const rejected = useSelector(
@@ -56,8 +55,8 @@ const Paper = () => {
 	return (
 		<main className='paper'>
 			{userFeedbackIsOpen && (
-				<Modal onClick={toggleFeedbackWindow}>
-					<FeedbackWindow />
+				<Modal>
+					<FeedbackWindow onCloseClick={toggleFeedbackWindow} />
 				</Modal>
 			)}
 			<div
@@ -101,11 +100,6 @@ const Paper = () => {
 						buttonType={ButtonType.approve}
 						onClick={toggleFeedbackWindow}
 					/>
-				</div>
-				<div className='footer'>
-					<a href='https://delib.org' target='_blank'>
-						{t('From the Deliberative Democracy Institute')}
-					</a>
 				</div>
 			</div>
 			{role === Role.admin ? (

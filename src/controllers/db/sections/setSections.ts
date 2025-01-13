@@ -1,6 +1,6 @@
 import { Collections, Statement } from "delib-npm";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 
 
 
@@ -13,7 +13,7 @@ export function setSectionToDB(newSection: Statement): void {
 
         const { statementId } = newSection;
 
-        const newSectionRef = doc(DB, Collections.statements, statementId);
+        const newSectionRef = doc(firebaseDb, Collections.statements, statementId);
         setDoc(newSectionRef, newSection, { merge: true });
   
 
@@ -35,7 +35,7 @@ export function updateSectionTitleToDB({ statement, newText }: EditSectionProps)
         if (!statementId) throw new Error("statementId is required");
         if (!newText) throw new Error("newText is required");
 
-        const statementRef = doc(DB, Collections.statements, statementId);
+        const statementRef = doc(firebaseDb, Collections.statements, statementId);
         updateDoc(statementRef, { statement: newText });
     } catch (error) {
         console.error(error);

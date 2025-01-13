@@ -1,10 +1,10 @@
 import { Collections, FieldMandatoryName, FieldType, Segmentation, SegmentationType } from "delib-npm"
 import { collection, doc, setDoc } from "firebase/firestore"
-import { DB } from "../config"
+import { firebaseDb } from "../config"
 
 export function setSegmentation(documentId:string){
     try {
-        const segmentationRef = collection(DB, Collections.statementSegments)
+        const segmentationRef = collection(firebaseDb, Collections.statementSegments)
 
         const name:Segmentation = {
             statementId: documentId,

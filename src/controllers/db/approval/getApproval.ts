@@ -1,7 +1,7 @@
 import { Approval, Collections, getStatementSubscriptionId, Statement } from "delib-npm";
 import { store } from "../../../model/store";
 import { doc, getDoc } from "firebase/firestore";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 
 export async function getUserApprovalFromDB({ statement }: { statement: Statement }): Promise<Approval | undefined> {
     try {
@@ -10,7 +10,7 @@ export async function getUserApprovalFromDB({ statement }: { statement: Statemen
         const approvalId = getStatementSubscriptionId(statement.statementId, user);
         if (!approvalId) throw new Error("Approval Id not found");
 
-        const approvalRef = doc(DB, Collections.approval, approvalId);
+        const approvalRef = doc(firebaseDb, Collections.approval, approvalId);
         const approvalSnap = await getDoc(approvalRef);
 
         if (!approvalSnap.exists()) return undefined;

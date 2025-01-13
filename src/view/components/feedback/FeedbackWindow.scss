@@ -1,17 +1,102 @@
 .feedbackWindow {
-	width: 100%;
-	max-width: 70ch;
-	height: 100%;
-	max-height: 85vh;
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+	max-width: 85ch;
+	max-height: 70vh;
 
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	padding: 1rem 0;
 	gap: 1rem;
-	padding: 1rem;
+
+	.closeIcon {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		cursor: pointer;
+		color: #5f88e5;
+		width: 1rem;
+		height: 1rem;
+	}
+
+	.title {
+		padding: 0;
+		margin: 0;
+	}
+
+	.subTitle {
+		padding: 0;
+		margin: 0;
+		text-align: center;
+		width: 70%;
+		margin-bottom: 1rem;
+	}
+
+	.starsBox {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+		.star {
+			background: none;
+			border: none;
+			cursor: pointer;
+			color: #5f88e5;
+			padding: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: transform 0.2s;
+			fill: none;
+		}
+
+		.star:hover {
+			transform: scale(1.1);
+		}
+
+		.starFilled {
+			color: goldenrod;
+			fill: goldenrod;
+		}
+	}
+
+	.feedbackText {
+		width: 80%;
+		height: 10rem;
+		font-size: 0.8rem;
+		padding: 1rem;
+		border: 0.5px solid #5f88e650;
+		border-radius: 10px;
+		resize: none;
+	}
+	.feedbackText::placeholder {
+		font-size: 0.8rem;
+	}
+	.feedbackText:focus {
+		outline: none;
+	}
 
 	button {
 		width: 80%;
+	}
+
+	.delibLink {
+		color: #345197;
+	}
+}
+
+@media screen and (max-width: 576px) {
+	.feedbackWindow {
+		max-width: 90vw;
+		max-height: 90vh;
+		gap: 2rem;
+
+		.subTitle {
+			width: 80%;
+			text-align: justify;
+		}
 	}
 }
