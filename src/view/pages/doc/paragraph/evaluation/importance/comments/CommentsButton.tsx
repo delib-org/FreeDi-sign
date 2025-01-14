@@ -9,10 +9,7 @@ interface Props {
 	numberOfComments: number;
 	statement: Statement;
 }
-const CommentsButton: FC<Props> = ({
-	numberOfComments,
-	statement,
-}) => {
+const CommentsButton: FC<Props> = ({ numberOfComments, statement }) => {
 	const { t } = useLanguage();
 	const navigate = useNavigate();
 

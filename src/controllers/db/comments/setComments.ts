@@ -1,6 +1,6 @@
 import { Collections, DocumentType, Statement, User } from "delib-npm";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 import { store } from "../../../model/store";
 import { createNewStatement } from "../../general.ts/statement_helpers";
 
@@ -46,7 +46,7 @@ export function addCommentToDB({
         if (!newStatement) throw new Error("Error creating new comment");
         const { statementId } = newStatement;
 
-        const statementRef = doc(DB, Collections.statements, statementId);
+        const statementRef = doc(firebaseDb, Collections.statements, statementId);
         setDoc(statementRef, newStatement, { merge: true });
 
     } catch (error) {
@@ -61,7 +61,7 @@ interface EditCommentProps {
 
 export function editComment({ statement, newText }: EditCommentProps): void {
 	try {
-		const statementRef = doc(DB, Collections.statements, statement.statementId);
+		const statementRef = doc(firebaseDb, Collections.statements, statement.statementId);
 		updateDoc(statementRef, {
 			statement: newText,
 		});

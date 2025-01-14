@@ -1,7 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { store } from "../../../model/store";
 import { Collections, getStatementSubscriptionId, Signature } from "delib-npm";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 
 export async function getSignature({ documentId }: { documentId: string|undefined }): Promise<Signature|undefined> {
     try {
@@ -11,7 +11,7 @@ export async function getSignature({ documentId }: { documentId: string|undefine
         const signatureId = getStatementSubscriptionId(documentId, user);
         if(!signatureId) throw new Error("Signature Id not found");
 
-        const signatureRef = doc(DB, Collections.signatures, signatureId);
+        const signatureRef = doc(firebaseDb, Collections.signatures, signatureId);
         const signatureDB = await getDoc(signatureRef);
         if (!signatureDB.exists()) {
             return undefined;

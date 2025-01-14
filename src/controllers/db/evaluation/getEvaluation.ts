@@ -1,6 +1,6 @@
 import { doc, DocumentSnapshot, onSnapshot, Unsubscribe } from "firebase/firestore";
 import { store } from "../../../model/store";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 import { Collections, Evaluation } from "delib-npm";
 import { setLike } from "../../slices/evaluationSlice";
 
@@ -12,7 +12,7 @@ export function listenToEvaluation(statementId: string):Unsubscribe{
         const userId = user.uid;
         const evaluationId = `${userId}--${statementId}`;
 
-        const evaluationRef = doc(DB, Collections.evaluations, evaluationId);
+        const evaluationRef = doc(firebaseDb, Collections.evaluations, evaluationId);
         return onSnapshot(evaluationRef, (evaluationDB: DocumentSnapshot) => {
             if (evaluationDB.exists()) {
                 const evaluation = evaluationDB.data() as Evaluation;

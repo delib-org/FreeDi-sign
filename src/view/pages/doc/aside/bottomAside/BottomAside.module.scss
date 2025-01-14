@@ -1,25 +1,26 @@
-.options{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
-    margin-bottom: 2rem;
-    color:white;
+.options {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 10px;
+	margin-bottom: 2rem;
+	color: white;
 
-    .clickable{
-        cursor: pointer;
-        user-select: none;
-    }
+	.clickable {
+		cursor: pointer;
+		user-select: none;
+		color: white;
+	}
 
-    a{
-        text-decoration: none;
-        color: white;
-    }
+	a {
+		text-decoration: none;
+		color: white;
+	}
 
-    >*{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: .5rem;
-        gap:0.5rem;
-    }
+	> * {
+		display: flex;
+		justify-content: start;
+		align-items: center;
+		padding: 0.5rem;
+		gap: 0.5rem;
+	}
 }

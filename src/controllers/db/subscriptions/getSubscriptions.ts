@@ -1,7 +1,7 @@
 import { Collections, getStatementSubscriptionId, StatementSubscription} from "delib-npm";
 import { store } from "../../../model/store";
 import { doc, getDoc } from "firebase/firestore";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 
 export async function getSubscription(statementId:string|undefined):Promise<StatementSubscription|undefined>{
     try {
@@ -13,7 +13,7 @@ export async function getSubscription(statementId:string|undefined):Promise<Stat
         
         
         if(!subscriptionId) return undefined;
-        const subscriptionRef = doc(DB, Collections.statementsSubscribe, subscriptionId);
+        const subscriptionRef = doc(firebaseDb, Collections.statementsSubscribe, subscriptionId);
        
         const subscriptionDB = await getDoc(subscriptionRef);
    

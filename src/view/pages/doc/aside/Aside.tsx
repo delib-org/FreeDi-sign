@@ -8,7 +8,7 @@ import {
 //icons
 // import USAFlag from "../../../../assets/icons/usaFlag.svg?react";
 // import IsraelFlag from "../../../../assets/icons/israelFlag.svg?react";
-import TOC from "../toc/TOC";
+import TOC from "../toc/TableOfContent";
 
 
 import BottomAside from "./bottomAside/BottomAside";

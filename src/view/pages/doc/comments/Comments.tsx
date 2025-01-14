@@ -2,7 +2,7 @@ import { Role } from 'delib-npm';
 import { FC, useContext } from 'react';
 import NewComment from './newComment/NewComment';
 import Comment from './comment/Comment';
-import styles from './Comments.module.scss';
+import './Comments.scss';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../../../controllers/slices/userSlice';
 
@@ -24,18 +24,14 @@ const Comments: FC = () => {
 	const { t, dir } = useLanguage();
 	const navigate = useNavigate();
 	const { paragraphId } = useParams();
-	console.log(paragraphId)
 
-	
 	const statement = useSelector(statementSelector(paragraphId));
-	const {role} = useContext(DocumentContext);
+	const { role } = useContext(DocumentContext);
 	const comments = useSelector(commentsSelector(statement?.statementId));
 	const userId = useSelector(selectUser)?.uid;
 	const didUserCommented = comments.some((cm) => cm.creatorId === userId);
 	const myComment = comments.find((cm) => cm.creatorId === userId);
 	const otherComments = comments.filter((cm) => cm.creatorId !== userId);
-
-
 
 	function handleHideComments() {
 		navigate('..');
@@ -47,8 +43,8 @@ const Comments: FC = () => {
 	const newText = text.replace(/\*/g, '');
 
 	return (
-		<div className={styles.box}>
-			<div className={styles.back}>
+		<div className='box'>
+			<div className='back'>
 				<button
 					onClick={handleHideComments}
 					style={{
@@ -58,9 +54,9 @@ const Comments: FC = () => {
 					<BackArrow />
 				</button>
 			</div>
-			<div className={styles.commentWrapper}>
+			<div className='commentWrapper'>
 				{/* <p className={styles.p}>{t('Paragraph')}:</p> */}
-				<div className={styles.paragraph}>{newText}</div>
+				<h2 className='paragraph'>{newText}</h2>
 				<Likes statement={statement} />
 				{role !== Role.admin && !didUserCommented && (
 					<NewComment parentStatement={statement} order={comments.length} />
@@ -73,7 +69,7 @@ const Comments: FC = () => {
 					<Comment key={`c-${comment.statementId}`} statement={comment} />
 				))}
 			</div>
-			<div className={`btns ${styles.btns}`}>
+			<div className='btns'>
 				<Button
 					text={t('Close')}
 					isSelected={true}

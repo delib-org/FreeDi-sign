@@ -25,19 +25,6 @@ export default defineConfig({
       },
     },
   },
-  optimizeDeps: {
-    exclude: ['@fontsource/assistant']
-  },
-  build: {
-    sourcemap: true,
-    rollupOptions: {
-      output: {
-        sourcemapExcludeSources: false
-      }
-    }
-  },
-  server: {
-  },
   plugins: [
    
     react(),

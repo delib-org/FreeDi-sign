@@ -7,6 +7,7 @@ import agreesSliceReducer from '../controllers/slices/agreeSlice';
 import approvalsSliceReducer from '../controllers/slices/approvalSlice';
 import commentsSliceReducer from '../controllers/slices/commentsSlice';
 import evaluationsSliceReducer from '../controllers/slices/evaluationSlice';
+import modeSliceReducer from '../controllers/slices/modesSlice';
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     approvals: approvalsSliceReducer,
     comments: commentsSliceReducer,
     evaluations: evaluationsSliceReducer,
+    modes: modeSliceReducer
   },
 })
 

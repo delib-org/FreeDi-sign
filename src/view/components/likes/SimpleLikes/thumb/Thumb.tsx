@@ -5,13 +5,14 @@ import { Statement } from "delib-npm";
 import { setEvaluationToDB } from "../../../../../controllers/db/evaluations/setEvaluations";
 // Assets
 import LikeIcon from "../../../../../assets/icons/simpleLike/full/like.svg?react";
-import LikeUnelectedIcon from "../../../../../assets/icons/simpleLike/full/likeUnselected.svg?react";
 import DislikeIcon from "../../../../../assets/icons/simpleLike/full/dislike.svg?react";
-import DislikeUnselectedIcon from "../../../../../assets/icons/simpleLike/full/dislikeUnselected.svg?react";
 
 // Statement helpers
 
 import styles from "./Thumb.module.scss";
+import { setUserDataToDB } from "../../../../../controllers/db/user/setUserData";
+import { useSelector } from "react-redux";
+import { selectUserData } from "../../../../../controllers/slices/userSlice";
 
 interface ThumbProps {
   evaluation: number;
@@ -28,8 +29,10 @@ const Thumb: FC<ThumbProps> = ({
   setConVote,
   setProVote,
 }) => {
+  const userData = useSelector(selectUserData);
   const handleVote = (isUp: boolean) => {
     if (isUp) {
+      setUserDataToDB({ userData, documentId: statement.documentSettings?.parentDocumentId, eventType: "like-pro", targetText: statement.statement, targetId: statement.statementId });
       if (evaluation > 0) {
         // Set evaluation in DB
         setEvaluationToDB(statement, 0);
@@ -46,6 +49,7 @@ const Thumb: FC<ThumbProps> = ({
         setConVote((prev) => prev - 1);
       }
     } else {
+      setUserDataToDB({ userData, documentId: statement.documentSettings?.parentDocumentId, eventType: "like-con", targetText: statement.statement, targetId: statement.statementId });
       if (evaluation < 0) {
         setEvaluationToDB(statement, 0);
 
@@ -71,12 +75,12 @@ const Thumb: FC<ThumbProps> = ({
       onClick={() => handleVote(isUpVote)}
     >
       {isUpVote ? (
-       <div style={{color: isActive? "var(--approve)": "var(--not-selected)"}}>
-        <LikeIcon />
-       </div>
-      ) :(<div style={{color: isActive? "var(--reject)": "var(--not-selected)"}}>
+        <div style={{ color: isActive ? "var(--approve)" : "var(--not-selected)" }}>
+          <LikeIcon />
+        </div>
+      ) : (<div style={{ color: isActive ? "var(--reject)" : "var(--not-selected)" }}>
         <DislikeIcon />
-        </div>)}
+      </div>)}
     </button>
   );
 };

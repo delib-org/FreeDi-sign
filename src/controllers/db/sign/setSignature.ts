@@ -1,6 +1,6 @@
 import { Collections, getStatementSubscriptionId, Signature, SignatureSchema, SignatureType, Statement } from "delib-npm";
 import { store } from "../../../model/store";
-import { DB } from "../config";
+import { firebaseDb } from "../config";
 import { doc, setDoc } from "firebase/firestore";
 import { setMySignature } from "../../slices/statementsSlice";
 
@@ -34,7 +34,7 @@ export async function setSignatureToDB({ document, paragraphsLength, approved, s
 
         dispatch(setMySignature(signature));
 
-        const signatureRef = doc(DB, Collections.signatures, signatureId);
+        const signatureRef = doc(firebaseDb, Collections.signatures, signatureId);
         await setDoc(signatureRef, signature);
         return true;
     } catch (error) {
