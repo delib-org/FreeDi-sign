@@ -37,5 +37,10 @@
     "Name": "שם",
     "Phone Number": "מספר טלפון",
     "City":"ישוב",
-    "Feedback": "נשמח לקבל מכם משוב"
+    "Feedback": "נשמח לקבל מכם משוב",
+    "Heat Maps": "מפות חום",
+    "Views Map": "מפת צפיות",
+    "Support Map": "מפת תמיכה",
+    "Settings": "הגדרות",
+    "Download CSV": "הורדת קובץ CSV"
 }

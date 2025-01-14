@@ -23,7 +23,7 @@ const Modal: FC<Props> = ({ children, onClick }) => {
     <div className={styles.modal} onClick={handleOnClick} id={modalId}>
       <div className={styles.box}>
         <button className={styles.close}>
-          <CloseIcon onClick={onClick} />
+          <CloseIcon onClick={onClick} className='closeIcon' />
         </button>
         {children}
       </div>

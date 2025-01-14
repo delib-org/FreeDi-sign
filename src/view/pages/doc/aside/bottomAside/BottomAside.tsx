@@ -11,10 +11,12 @@ import { DocumentContext } from '../../documentCont';
 import { Role } from 'delib-npm';
 import Modal from '../../../../components/modal/Modal';
 import Settings from '../../../../components/settings/Settings';
+import { useLanguage } from '../../../../../controllers/hooks/useLanguage';
 
 const BottomAside: React.FC = () => {
 	const { statementId: documentId } = useParams<{ statementId: string }>();
 	const { role } = useContext(DocumentContext);
+	const {t} = useLanguage();
 
 	const [showSettings, setShowSettings] = useState(false);
 
@@ -31,13 +33,13 @@ const BottomAside: React.FC = () => {
 			{role === Role.admin && (
 				<button className={styles.clickable} onClick={onDownloadClick}>
 					<DownloadIcon />
-					<span>Download CSV</span>
+					<span>{t("Download CSV")}</span>
 				</button>
 			)}
 			{role === Role.admin && (
 				<button className={styles.clickable} onClick={handleSettingsClick}>
 					<SettingIcon />
-					<span>Settings</span>
+					<span>{t("Settings")}</span>
 				</button>
 			)}
 			<a

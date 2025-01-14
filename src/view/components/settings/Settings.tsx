@@ -21,19 +21,20 @@ const Settings = () => {
     }
     return (
         <div className={styles.settings}>
+            <h2>{t("Settings")}</h2>
             <div className={styles.modes}>
-                <h3>{t("Modes")}</h3>
+                <h3>{t("Heat Maps")}</h3>
                 <div className={styles.switchBox}>
                     <Switch
                         onChange={(isChecked) => handleOnChange(isChecked, Mode.viewsMode)}
                         checked={modeState === Mode.viewsMode} />
-                    <span>{t("Views Mode")}</span>
+                    <span>{t("Views Map")}</span>
                 </div>
                 <div className={styles.switchBox}>
                     <Switch
                         onChange={(isChecked) => handleOnChange(isChecked, Mode.resistanceMode)}
                         checked={modeState === Mode.resistanceMode} />
-                    <span>{t("Resistance Mode")}</span>
+                    <span>{t("Support Map")}</span>
                 </div>
             </div>
 
