@@ -63,66 +63,68 @@ const SigninForm = () => {
 				}
 			}
 
-			const _userData: UserData | undefined = await setUserDataToDB(
-				values,
-				statementId
-			);
-			dispatch(setUserData(_userData));
-		} catch (error) {
-			console.error(error);
-			if (error instanceof Error) {
-				setErrorMessage(error.message);
-			} else {
-				setErrorMessage(String(error));
-			}
+			const _userData: UserData | undefined = await setUserDataToDB({
+				userData:values,
+				documentId: statementId,
+				eventType: "signup"
+			});
+		dispatch(setUserData(_userData));
+	} catch (error) {
+		console.error(error);
+		if (error instanceof Error) {
+			setErrorMessage(error.message);
+		} else {
+			setErrorMessage(String(error));
 		}
 	}
+}
 
-	async function handleSetUserDataAnonymous(): Promise<void> {
-		try {
-			const _userData: UserData | undefined = await setUserDataToDB(
-				{ displayName: t('Anonymous') },
-				statementId
-			);
-			dispatch(setUserData(_userData));
-		} catch (error) {
-			console.error(error);
-		}
+async function handleSetUserDataAnonymous(): Promise<void> {
+	try {
+		const _userData: UserData | undefined = await setUserDataToDB({
+			userData: { displayName: t('Anonymous') },
+			documentId: statementId,
+			eventType:"signup"
+	});
+		dispatch(setUserData(_userData));
+	} catch (error) {
+		console.error(error);
 	}
-	return (
-		<form className='signInform' onSubmit={handleSetUserData}>
-      <img src={signInImage} alt="sign in" />
-			<span className='title'>טופס הרשמה</span>
-      <span className='sub-title'>נא למלא את הפרטים האישיים</span>
-			{segments.map((segmentation, i: number) => (
-				<InputFields segmentation={segmentation} key={`field-${i}`} />
-			))}
-			{errorMessage && <div className='error'>{errorMessage}</div>}
-			<div className='btns'>
-				<Button
-					text='הרשמה'
-					type='submit'
-					buttonType={ButtonType.primary}
-					isSelected={true}
-				/>
-			</div>
+}
+return (
+	<form className='signInform' onSubmit={handleSetUserData}>
+		<img src={signInImage} alt="sign in" />
+		<span className='title'>טופס הרשמה</span>
+		<span className='sub-title'>נא למלא את הפרטים האישיים</span>
+		{segments.map((segmentation, i: number) => (
+			<InputFields segmentation={segmentation} key={`field-${i}`} />
+		))}
+		{errorMessage && <div className='error'>{errorMessage}</div>}
+		<div className='btns'>
+			<Button
+				text='הרשמה'
+				type='submit'
+				buttonType={ButtonType.primary}
+				isSelected={true}
+			/>
+		</div>
 
-			{allowAnonymous && (
-				<>
-					<div className='btns'>--- {t('Or')} ---</div>
-					<div className='btns'>
-						<Button
-							onClick={handleSetUserDataAnonymous}
-							text={t('Login as anonymous')}
-							type='button'
-							buttonType={ButtonType.secondary}
-							isSelected={true}
-						/>
-					</div>
-				</>
-			)}
-		</form>
-	);
+		{allowAnonymous && (
+			<>
+				<div className='btns'>--- {t('Or')} ---</div>
+				<div className='btns'>
+					<Button
+						onClick={handleSetUserDataAnonymous}
+						text={t('Login as anonymous')}
+						type='button'
+						buttonType={ButtonType.secondary}
+						isSelected={true}
+					/>
+				</div>
+			</>
+		)}
+	</form>
+);
 };
 
 export default SigninForm;
