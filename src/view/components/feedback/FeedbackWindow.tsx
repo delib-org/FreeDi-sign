@@ -1,7 +1,6 @@
 import Button from '../buttons/button/Button';
 import './FeedbackWindow.scss';
 import StarIcon from '../../../assets/icons/star.svg?react';
-import CloseIcon from '../../../assets/icons/close.svg?react';
 import { ButtonType } from '../../../model/enumsModel';
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../../../controllers/hooks/useLanguage';
