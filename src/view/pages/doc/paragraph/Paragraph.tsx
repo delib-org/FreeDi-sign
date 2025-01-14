@@ -19,6 +19,7 @@ import { DocumentContext } from '../documentCont';
 //icons
 import EyeIcon from '../../../../assets/icons/eye.svg?react';
 import { getHeatMapColor } from '../../../../controllers/general.ts/helpers';
+import { Mode, selectMode } from '../../../../controllers/slices/modesSlice';
 
 interface Props {
 	statement: Statement;
@@ -27,6 +28,7 @@ interface Props {
 const Paragraph: FC<Props> = ({ statement }) => {
 	const dispatch = useDispatch();
 	const { maxViewed, role } = useContext(DocumentContext);
+	const mode = useSelector(selectMode);
 	const isAdmin = role === Role.admin;
 
 	const paragraphRef = useRef<HTMLDivElement>(null);
@@ -140,19 +142,19 @@ const Paragraph: FC<Props> = ({ statement }) => {
 	try {
 		const viewed = statement.viewed?.individualViews || 0;
 		const relativeViewed = viewed / maxViewed;
-		const showHeatMap = true;
+		const showHeatMap = mode === Mode.viewsMode;
 
 		return (
 			<div
 				className={styles.paragraph}
 				ref={paragraphRef}
 				style={{
-					borderLeft:
-						showHeatMap &&
-						`1rem solid ${
+					backgroundColor:
+						showHeatMap ?
+						`${
 							isAdmin ? getHeatMapColor(relativeViewed) : 'transparent'
-						}`,
-					boxShadow: showHeatMap && isAdmin ? `0 0 10px #ceced3` : 'none',
+						}`:"white",
+					boxShadow: showHeatMap || isAdmin ? `0 0 10px #ceced3` : 'none',
 				}}
 			>
 				{isEdit && _isEdit ? (
