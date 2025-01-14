@@ -7,6 +7,9 @@ import { useLanguage } from '../../../../../controllers/hooks/useLanguage';
 import Button from '../../../../components/buttons/button/Button';
 import { ButtonType } from '../../../../../model/enumsModel';
 import { useNavigate } from 'react-router-dom';
+import { setUserDataToDB } from '../../../../../controllers/db/user/setUserData';
+import { selectUserData } from "../../../../../controllers/slices/userSlice";
+import { useSelector } from 'react-redux';
 
 interface Props {
 	parentStatement: Statement;
@@ -14,6 +17,7 @@ interface Props {
 }
 const NewComment: FC<Props> = ({ parentStatement, order }) => {
 	const [showUserComment, setShowUserComment] = useState(true);
+	const userData = useSelector(selectUserData);
 	const { t } = useLanguage();
     const navigate = useNavigate();
 
@@ -33,6 +37,17 @@ const NewComment: FC<Props> = ({ parentStatement, order }) => {
 					description,
 					parentStatement,
 					order,
+				});
+
+				setUserDataToDB({
+					userData: {
+						...userData,
+						description,
+					},
+					documentId: parentStatement.documentSettings?.parentDocumentId,
+					eventType: 'comment',
+					targetText: title,
+					targetId: parentStatement.statementId,
 				});
 
 				navigate('..');

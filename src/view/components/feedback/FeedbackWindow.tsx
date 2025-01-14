@@ -1,7 +1,6 @@
 import Button from '../buttons/button/Button';
 import './FeedbackWindow.scss';
 import StarIcon from '../../../assets/icons/star.svg?react';
-import CloseIcon from '../../../assets/icons/close.svg?react';
 import { ButtonType } from '../../../model/enumsModel';
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../../../controllers/hooks/useLanguage';
@@ -129,7 +128,6 @@ export default function FeedbackWindow({ onCloseClick }: FeedbackWindowProps) {
 
     return (
         <main className='feedbackWindow'>
-            <CloseIcon onClick={onCloseClick} className='closeIcon' />
             <h1 className='title'>אנו מעריכים את המשוב שלכם</h1>
             <p className='subTitle'>
                 אנחנו ממשיכים לשפר את חווית המשתמש. אנא הקדישו רגע להערכת המערכת וספרו

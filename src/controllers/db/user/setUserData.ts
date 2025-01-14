@@ -1,4 +1,4 @@
-import { Collections, getStatementSubscriptionId } from "delib-npm";
+import { Collections, getRandomUID, getStatementSubscriptionId } from "delib-npm";
 import { store } from "../../../model/store";
 import { doc, setDoc } from "firebase/firestore";
 import { firebaseDb } from "../config";
@@ -11,24 +11,46 @@ interface UserObjectInterface {
     [key: string]: unknown;
 }
 
-export async function setUserDataToDB(userData: UnknownObject, statementId: string|undefined): Promise<UserObjectInterface | undefined> {
+interface SetUserDataToDBProps {
+    userData: UnknownObject | undefined, documentId: string | undefined, eventType: string, targetText?: string, targetId?: string;
+}
+export async function setUserDataToDB({ 
+    userData, 
+    documentId, 
+    eventType, 
+    targetText,
+    targetId,
+}: SetUserDataToDBProps): Promise<UserObjectInterface | undefined> {
     try {
-        if(!statementId) throw new Error("Statement id is missing");
+        if (!documentId) throw new Error("Statement id is missing");
         if (!userData) throw new Error("User data not found");
         if (typeof userData !== "object") throw new Error("User data must be an object");
         const user = store.getState().user.user;
         if (!user) throw new Error("User not found");
 
         if (!user) throw new Error("User not found");
+        const newData: UserObjectInterface = { ...userData, userId: user.uid, documentId, eventType };
+        if (targetText) newData.target = targetText;
+        if (targetId) newData.targetId = targetId;
 
-        const userDataId = getStatementSubscriptionId(statementId, user);
-        if (!userDataId) throw new Error("User data id not found");
+        if (eventType === "signup") {
 
-        const newData: UserObjectInterface = { ...userData, userId: user.uid, documentId: statementId };
-        const userDataRef = doc(firebaseDb, Collections.usersData, userDataId);
-        await setDoc(userDataRef, newData);
+            const userDataId = getStatementSubscriptionId(documentId, user);
+            if (!userDataId) throw new Error("User data id not found");
 
+
+            const userDataRef = doc(firebaseDb, Collections.usersData, userDataId);
+            await setDoc(userDataRef, newData);
+
+        } else {
+
+            const userDataPointId = getRandomUID();
+            const userDataRef = doc(firebaseDb, Collections.usersData, userDataPointId);
+            await setDoc(userDataRef, newData);
+        }
+        console.log(newData)
         return newData;
+
     } catch (error) {
         console.error(error);
         return undefined;
