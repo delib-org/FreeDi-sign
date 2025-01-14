@@ -1,4 +1,4 @@
-import  { useState, FC } from 'react';
+import  { useState, FC, useEffect } from 'react';
 import styles from './Switch.module.scss';
 
 interface SwitchProps {
@@ -17,6 +17,10 @@ const Switch: FC<SwitchProps> = ({ onChange, checked = false, tabIndex=0 }) => {
             onChange(newValue);
         }
     };
+
+    useEffect(() => {
+        setIsChecked(checked);
+    }, [checked]);
 
     return (
         <div

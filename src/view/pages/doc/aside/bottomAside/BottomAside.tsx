@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext, useState } from 'react';
 import styles from './BottomAside.module.scss';
 import { useParams } from 'react-router-dom';
 import { CSV } from '../../../../../controllers/general.ts/csv';
@@ -16,12 +16,15 @@ const BottomAside: React.FC = () => {
 	const { statementId: documentId } = useParams<{ statementId: string }>();
 	const { role } = useContext(DocumentContext);
 
+	const [showSettings, setShowSettings] = useState(false);
+
 	function onDownloadClick() {
 		CSV.downloadCSV(documentId);
 	}
 
-	function handleSettingsClick() {
-		console.log('Settings clicked');
+	function handleSettingsClick(event: React.MouseEvent<HTMLButtonElement>) {
+		event.stopPropagation();
+		setShowSettings(!showSettings);
 	}
 	return (
 		<div className={styles.options}>
@@ -45,7 +48,7 @@ const BottomAside: React.FC = () => {
 				<GlobousIcon />
 				<span>FreeDi</span>
 			</a>
-			<Modal><Settings /></Modal>
+			{showSettings && <Modal onClick={handleSettingsClick}><Settings /></Modal>}
 		</div>
 	);
 };

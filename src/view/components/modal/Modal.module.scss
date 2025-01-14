@@ -13,5 +13,16 @@
 	.box {
 		border-radius: 5px;
 		background-color: white;
+		padding: 2rem;
+		position: relative;
+	}
+
+	.close {
+		color: red;
+		position: absolute;
+		top: 0px;
+		right:0px;
+		padding: 1rem;
+		cursor: pointer;
 	}
 }
