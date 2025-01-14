@@ -5,9 +5,7 @@ import { Statement } from "delib-npm";
 import { setEvaluationToDB } from "../../../../../controllers/db/evaluations/setEvaluations";
 // Assets
 import LikeIcon from "../../../../../assets/icons/simpleLike/full/like.svg?react";
-import LikeUnelectedIcon from "../../../../../assets/icons/simpleLike/full/likeUnselected.svg?react";
 import DislikeIcon from "../../../../../assets/icons/simpleLike/full/dislike.svg?react";
-import DislikeUnselectedIcon from "../../../../../assets/icons/simpleLike/full/dislikeUnselected.svg?react";
 
 // Statement helpers
 
