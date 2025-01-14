@@ -9,7 +9,6 @@ import { createNewStatement } from "../../../../controllers/general.ts/statement
 import EditInput from "../../../components/editInput/EditInput";
 import { setSectionToDB } from "../../../../controllers/db/sections/setSections";
 import { getBullet } from "../../../../controllers/general.ts/helpers";
-import { selectUser } from "../../../../controllers/slices/userSlice";
 
 interface Props {
   statement: Statement;
