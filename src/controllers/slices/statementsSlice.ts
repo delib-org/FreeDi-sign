@@ -2,7 +2,8 @@ import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { Statement, updateArray, StatementSchema, writeZodError, StatementType, DocumentType, DocumentSigns, Signature, SignatureType } from 'delib-npm'
 
-export interface UpdateSignature{
+
+export interface UpdateSignature {
     statementId: string,
     signed: SignatureType | undefined
 }
@@ -10,7 +11,7 @@ export interface StatementsState {
     statements: Statement[]
     signatures: DocumentSigns[],
     mySignatures: Signature[],
-    mySignatureUpdate:UpdateSignature[]
+    mySignatureUpdate: UpdateSignature[]
 }
 
 const initialState: StatementsState = {
@@ -78,8 +79,8 @@ export const counterSlice = createSlice({
         },
         setMySignatureUpdate: (state, action: PayloadAction<UpdateSignature>) => {
             try {
-                const {signed, statementId} = action.payload
-                state.mySignatureUpdate = updateArray(state.mySignatureUpdate, {signed, statementId}, "statementId");
+                const { signed, statementId } = action.payload
+                state.mySignatureUpdate = updateArray(state.mySignatureUpdate, { signed, statementId }, "statementId");
             } catch (error) {
                 console.error("Error setting my signature update: ", error);
             }
@@ -159,6 +160,30 @@ export const mySignatureUpdateSelector = (statementId: string | undefined) => cr
 
 export const selectStatement = (state: { statements: StatementsState }, statementId: string) => state.statements.statements.find((statement) => statement.statementId === statementId);
 
+export const evaluationMaxMinSelector = (statementId: string | undefined) => createSelector(
+    (state: { statements: StatementsState }) => state.statements.statements,
+    (statements) => {
+        const filteredStatements = statements
+        .filter((statement) => statement.documentSettings?.parentDocumentId === statementId && statement.documentSettings?.type === DocumentType.paragraph);
+       
+        if (filteredStatements.length > 0) {
+            const max = Math.max(...filteredStatements.map((statement) => {
+                const sum = (statement.evaluation?.sumPro || 0) - (statement.evaluation?.sumCon || 0);
+                return sum;
+            }));
+            const min = Math.min(...filteredStatements.map((statement) => {
+                const sum = (statement.evaluation?.sumPro || 0) - (statement.evaluation?.sumCon || 0);
+                return sum;
+            }));
+
+            return { max, min };
+        }
+
+
+        return { max: 0, min: 0 };
+
+    }
+);
 
 
 export default counterSlice.reducer

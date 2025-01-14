@@ -1,7 +1,7 @@
 import { Approval, Role, Statement } from 'delib-npm';
 import { FC, useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteStatement } from '../../../../controllers/slices/statementsSlice';
+import { deleteStatement, evaluationMaxMinSelector } from '../../../../controllers/slices/statementsSlice';
 import styles from './Paragraph.module.scss';
 import { isEditSelector } from '../../../../controllers/slices/editSlice';
 import {
@@ -18,7 +18,7 @@ import { DocumentContext } from '../documentCont';
 
 //icons
 import EyeIcon from '../../../../assets/icons/eye.svg?react';
-import { getHeatMapColor } from '../../../../controllers/general.ts/helpers';
+import { getHeatMapColor, getSupportResistanceColor } from '../../../../controllers/general.ts/helpers';
 import { Mode, selectMode } from '../../../../controllers/slices/modesSlice';
 
 interface Props {
@@ -29,6 +29,8 @@ const Paragraph: FC<Props> = ({ statement }) => {
 	const dispatch = useDispatch();
 	const { maxViewed, role } = useContext(DocumentContext);
 	const mode = useSelector(selectMode);
+	const minMax = useSelector(evaluationMaxMinSelector(statement.documentSettings?.parentDocumentId ));
+	
 	const isAdmin = role === Role.admin;
 
 	const paragraphRef = useRef<HTMLDivElement>(null);
@@ -139,21 +141,33 @@ const Paragraph: FC<Props> = ({ statement }) => {
 		}
 	}
 
-	try {
+	function getBackgroundColor() {
+		const totalSupport = (statement.evaluation?.sumPro || 0) - (statement.evaluation?.sumCon || 0);
 		const viewed = statement.viewed?.individualViews || 0;
 		const relativeViewed = viewed / maxViewed;
-		const showHeatMap = mode === Mode.viewsMode;
+		if (isAdmin) {
+			if (mode === Mode.viewsMode) {
+				return getHeatMapColor(relativeViewed);
+			}
+			if (mode === Mode.resistanceMode) {
+				return getSupportResistanceColor(totalSupport, minMax.max, minMax.min);;
+			}
 
+			return 'white';
+		}
+		return 'transparent';
+	}
+
+	try {
+		const viewed = statement.viewed?.individualViews || 0;
+		const showHeatMap = mode === Mode.viewsMode;
+	
 		return (
 			<div
 				className={styles.paragraph}
 				ref={paragraphRef}
 				style={{
-					backgroundColor:
-						showHeatMap ?
-						`${
-							isAdmin ? getHeatMapColor(relativeViewed) : 'transparent'
-						}`:"white",
+					backgroundColor:getBackgroundColor(),
 					boxShadow: showHeatMap || isAdmin ? `0 0 10px #ceced3` : 'none',
 				}}
 			>
@@ -175,9 +189,8 @@ const Paragraph: FC<Props> = ({ statement }) => {
 					<div className={styles.paragraphLine}>
 						<div className={styles.paragraphText}>
 							<p
-								className={`${styles.textArea} ${styles.textAreaP} ${
-									approval?.approval === false && styles.rejected
-								}`}
+								className={`${styles.textArea} ${styles.textAreaP} ${approval?.approval === false && styles.rejected
+									}`}
 								onClick={() => {
 									_setIsEdit(true);
 								}}
