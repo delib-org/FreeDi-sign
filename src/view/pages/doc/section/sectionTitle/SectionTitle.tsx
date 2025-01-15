@@ -47,7 +47,7 @@ const SectionTitle: FC<Props> = ({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleUpdate(e: any) {
-    if (e.key === "Enter" || e.type === "blur") {
+    if (e.key === "Enter" ) {
       const textarea = e.target as HTMLTextAreaElement;
       const value = textarea.value;
 
@@ -68,23 +68,27 @@ const SectionTitle: FC<Props> = ({
     const viewed = statement.viewed?.individualViews || 0;
     return (
       <>
+        <div id={`id-${statement.statementId}`} className={styles.anchor}></div>
         {isEdit && _isEdit ? (
-          <EditInput
-            placeholder="Sdd title"
-            text={statement.statement}
-            onChange={handleChange}
-            onBlur={handleUpdate}
-            onKeyUp={handleUpdate}
-          />
+          <div>
+            <EditInput
+              statement={statement}
+              placeholder="Add title"
+              text={statement.statement}
+              onChange={handleChange}
+              onBlur={handleUpdate}
+              onKeyUp={handleUpdate}
+            />
+          </div>
         ) : (
           <div
-          className={styles.title}
-            id={`id-${statement.statementId}`}
+            className={styles.title}
+           
             onClick={() => {
               if (isEdit) _setIsEdit(true);
             }}
           >
-           {isAdmin && <h2 className={styles.adminH2}><span className={styles.viewed}><TouchIcon /></span><span >{viewed}</span></h2>} {sectionHeader(`${statement.statement}`, level)} 
+            {isAdmin && <h2 className={styles.adminH2}><span className={styles.viewed}><TouchIcon /></span><span >{viewed}</span></h2>} {sectionHeader(`${statement.statement}`, level)}
           </div>
         )}
       </>

@@ -2,6 +2,9 @@
     display: flex;
     align-items: center;
     gap:1rem;
+    h1, h2, h3, h4, h5, h6{
+        margin: 0;
+    }
     
 
     .adminH2{
@@ -17,4 +20,11 @@
         }
     }
 
+}
+.anchor{
+    @media screen and (max-width: 768px){
+         height: 1rem;
+        
+    }
+   
 }
