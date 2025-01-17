@@ -3,9 +3,8 @@ import { Outlet, useLocation, useParams } from "react-router-dom";
 import { useDocument } from "../../../controllers/hooks/documentHooks";
 import Aside from "./aside/Aside";
 import Paper from "../../components/paper/Paper";
-
 import PaperHeader from "../../components/paper/header/PaperHeader";
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Role, Signature } from "delib-npm";
 import Modal from "../../components/modal/Modal";
 import DocumentInfo from "../../components/info/DocumentInfo";
@@ -31,9 +30,8 @@ import {
 import SigninForm from "../../components/signinForm/SigninForm";
 import { getUserData } from "../../../controllers/db/user/getUserData";
 import { setSegmentation } from "../../../controllers/db/segmentation/setSegmentation";
-
-export const RoleContext = createContext<Role>(Role.unsubscribed);
 import { MetaTags } from "../../components/metaTags/MetaTags";
+import { RoleContext } from "../../../controllers/hooks/useRole";
 
 const Document = () => {
   const dispatch = useDispatch();
@@ -151,7 +149,7 @@ const Document = () => {
             </div>
 
             <div className={styles.main}>
-              <PaperHeader statement={statement} setShowInfo={setShowInfo} />
+              <PaperHeader statement={statement} />
               <Paper />
             </div>
             {showInfo && (
