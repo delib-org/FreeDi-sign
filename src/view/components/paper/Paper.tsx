@@ -8,8 +8,8 @@ import { useDocument } from '../../../controllers/hooks/documentHooks';
 import AdminBottomButtons from './bottomButtons/AdminBottomButtons';
 import NewSection from '../../pages/doc/newSection/NewSection';
 import {
-    documentParagraphsSelector,
-    sectionsSelector,
+	documentParagraphsSelector,
+	sectionsSelector,
 } from '../../../controllers/slices/statementsSlice';
 import { useLanguage } from '../../../controllers/hooks/useLanguage';
 import UserButtons from './bottomButtons/userButtons/UserButtons';
@@ -26,111 +26,115 @@ import { ButtonType } from '../../../model/enumsModel';
 import './paper.scss';
 
 const Paper = () => {
-    const { t } = useLanguage();
-    const { statementId } = useParams<{ statementId: string }>();
-    const sections = useSelector(sectionsSelector(statementId || ''));
-    const paragraphs = useSelector(documentParagraphsSelector(statementId || ''));
-    const rejected = useSelector(
-        selectApprovalsByDocId(statementId || '')
-    ).filter((approval) => approval.approval === false);
-    const approved = paragraphs.length - rejected.length;
-    const { dir } = useLanguage();
+	const { t } = useLanguage();
+	const { statementId } = useParams<{ statementId: string }>();
+	const sections = useSelector(sectionsSelector(statementId || ''));
+	const paragraphs = useSelector(documentParagraphsSelector(statementId || ''));
+	const rejected = useSelector(
+		selectApprovalsByDocId(statementId || '')
+	).filter((approval) => approval.approval === false);
+	const approved = paragraphs.length - rejected.length;
+	const { dir } = useLanguage();
 
-    const [isAside, setIsAside] = useState<boolean>(getViewWidth() > 1024);
-    const [userFeedbackIsOpen, setUserFeedbackIsOpen] = useState(false);
-    const resizeTimeoutRef = useRef<number>();
+	const [isAside, setIsAside] = useState<boolean>(getViewWidth() > 1024);
+	const [userFeedbackIsOpen, setUserFeedbackIsOpen] = useState(false);
+	const resizeTimeoutRef = useRef<number>();
 
-    const { isLoading, isError, statement, role } = useDocument();
+	const { isLoading, isError, statement, role } = useDocument();
 
-    const handleResize = useCallback(() => {
-        if (resizeTimeoutRef.current) {
-            window.clearTimeout(resizeTimeoutRef.current);
-        }
+	const handleResize = useCallback(() => {
+		if (resizeTimeoutRef.current) {
+			window.clearTimeout(resizeTimeoutRef.current);
+		}
 
-        // Set new timeout
-        resizeTimeoutRef.current = window.setTimeout(() => {
-            setIsAside(getViewWidth() > 1024);
-        }, 250);
-    }, []);
-	
-    useEffect(() => {
-        window.addEventListener('resize', handleResize);
+		// Set new timeout
+		resizeTimeoutRef.current = window.setTimeout(() => {
+			setIsAside(getViewWidth() > 1024);
+		}, 250);
+	}, []);
 
-        return () => {
-            window.removeEventListener('resize', handleResize);
-            if (resizeTimeoutRef.current) {
-                window.clearTimeout(resizeTimeoutRef.current);
-            }
-        };
-    }, [handleResize]);
+	useEffect(() => {
+		window.addEventListener('resize', handleResize);
 
-    const toggleFeedbackWindow = useCallback(() => {
-        setUserFeedbackIsOpen(prev => !prev);
-    }, []);
+		return () => {
+			window.removeEventListener('resize', handleResize);
+			if (resizeTimeoutRef.current) {
+				window.clearTimeout(resizeTimeoutRef.current);
+			}
+		};
+	}, [handleResize]);
 
-    if (isLoading) return <HourGlassLoader />;
-    if (isError) return <div>Error: An error occurred.</div>;
-    if (!statement) return null;
+	const toggleFeedbackWindow = useCallback(() => {
+		setUserFeedbackIsOpen((prev) => !prev);
+	}, []);
 
-    return (
-        <main className='paper'>
-            {userFeedbackIsOpen && (
-                <Modal onClick={toggleFeedbackWindow}>
-                    <FeedbackWindow onCloseClick={toggleFeedbackWindow} />
-                </Modal>
-            )}
-            <div
-                className={`wrapper wrapper--paper ${dir === 'rtl' ? 'wrapper--rtl' : ''}`}
-            >
-                <div id='toc' />
-                <div className='mainContainer'>
-                    <h1>{statement.statement}</h1>
+	if (isLoading) return <HourGlassLoader />;
+	if (isError) return <div>Error: An error occurred.</div>;
+	if (!statement) return null;
 
-                    <Text
-                        statement={statement}
-                        showTitle={false}
-                        showDescription={true}
-                    />
+	return (
+		<main className='paper'>
+			{userFeedbackIsOpen && (
+				<Modal onClick={toggleFeedbackWindow}>
+					<FeedbackWindow onCloseClick={toggleFeedbackWindow} />
+				</Modal>
+			)}
+			<div
+				className={`wrapper wrapper--paper ${
+					dir === 'rtl' ? 'wrapper--rtl' : ''
+				}`}
+			>
+				<div id='toc' />
+				<div className='mainContainer'>
+					<h1>{statement.statement}</h1>
 
-                    <div className='TOC'>
-                        <TableOfContent isAside={isAside} />
-                    </div>
-                    {sections.map((section, index) => (
-                        <Section
-                            key={section.statementId}
-                            statement={section}
-                            order={index + 1}
-                            parentLevel={0}
-                            parentBullet=''
-                        />
-                    ))}
+					<Text
+						statement={statement}
+						showTitle={false}
+						showDescription={true}
+					/>
 
-                    <NewSection
-                        statement={statement}
-                        order={sections.length + 1}
-                        parentBullet=''
-                    />
-                </div>
-                <div className='feedbackButton'>
-                    <Button
-                        text={t('Feedback')}
-                        isSelected={true}
-                        buttonType={ButtonType.approve}
-                        onClick={toggleFeedbackWindow}
-                    />
-                </div>
-            </div>
-            {role === Role.admin ? (
-                <AdminBottomButtons />
-            ) : (
-                <UserButtons
-                    paragraphsLength={paragraphs.length}
-                    approved={approved}
-                    document={statement}
-                />
-            )}
-        </main>
-    );
+					<div className='TOC'>
+						<TableOfContent isAside={isAside} />
+					</div>
+					{sections.map((section, index) => (
+						<Section
+							key={section.statementId}
+							statement={section}
+							order={index + 1}
+							parentLevel={0}
+							parentBullet=''
+						/>
+					))}
+
+					<NewSection
+						statement={statement}
+						order={sections.length + 1}
+						parentBullet=''
+					/>
+				</div>
+				{role !== Role.admin && (
+					<div className='feedbackButton'>
+						<Button
+							text={t('Feedback')}
+							isSelected={true}
+							buttonType={ButtonType.approve}
+							onClick={toggleFeedbackWindow}
+						/>
+					</div>
+				)}
+			</div>
+			{role === Role.admin ? (
+				<AdminBottomButtons />
+			) : (
+				<UserButtons
+					paragraphsLength={paragraphs.length}
+					approved={approved}
+					document={statement}
+				/>
+			)}
+		</main>
+	);
 };
 
 export default React.memo(Paper);
