@@ -3,7 +3,7 @@ import { isEditSelector } from "../../../../../controllers/slices/editSlice";
 import { useSelector } from "react-redux";
 import { adjustTextAreaHeight } from "../../../../../controllers/general.ts/general";
 import EditInput from "../../../../components/editInput/EditInput";
-import { Role, Statement } from "delib-npm";
+import { Statement } from "delib-npm";
 import { updateStatementText } from "../../../../../controllers/db/statements/setStatements";
 import { useRole } from "../../../../../controllers/hooks/useRole";
 import styles from './SectionTitle.module.scss';
@@ -28,8 +28,7 @@ const SectionTitle: FC<Props> = ({
 }) => {
   // const { statementId } = useParams();
   // const role:Role | undefined = useSelector(selectSubscriptionByDocumentId(statementId))?.role;
-  const role = useRole();
-  const isAdmin = role === Role.admin;
+  const {isAdmin} = useRole();
   const isEdit = useSelector(isEditSelector);
   const [_isEdit, _setIsEdit] = useState(false);
 
