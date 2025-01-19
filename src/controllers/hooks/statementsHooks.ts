@@ -26,7 +26,7 @@ export function useStatements() {
 		selectStatementsByCreatorId(userId)
 	);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
-	const [error, setError] = useState(false);
+	const [error, setError] = useState<string>("");
 
 	useEffect(() => {
 		const unsubscribe = listenToStatements(setIsLoading, setError);
