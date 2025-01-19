@@ -1,13 +1,13 @@
-import { Role, Statement } from 'delib-npm';
-import { FC, useContext } from 'react';
+import {  Statement } from 'delib-npm';
+import { FC } from 'react';
 import styles from './Evaluation.module.scss';
 import Importance, { fromImportanceToIcon } from './importance/Importance';
 import ApprovalComp from './approval/Approval';
 import CommentsButton from './importance/comments/CommentsButton';
-import { RoleContext } from '../../Document';
 import { useSelector } from 'react-redux';
 import { selectEvaluationSettings } from '../../../../../controllers/slices/evaluationSlice';
 import { commentsSelector } from '../../../../../controllers/slices/statementsSlice';
+import { useRole } from '../../../../../controllers/hooks/useRole';
 
 interface Props {
 	statement: Statement;
@@ -22,19 +22,19 @@ const Evaluation: FC<Props> = ({ statement }) => {
 	);
 
 	const numberOfComments = comments.length;
-	const role = useContext(RoleContext);
+	const {isAdmin} = useRole();
 
 	try {
 		return (
 			<div
 				className={`${styles.evaluation} ${
-					role === Role.admin ? styles.evaluationAdmin : null
+					isAdmin ? styles.evaluationAdmin : null
 				}`}
 			>
 				{approve && <ApprovalComp statement={statement} />}
 				{/* <VerticalHR /> */}
 
-				{role !== Role.admin ? (
+				{!isAdmin ? (
 					<>{importance && <Importance statement={statement} />}</>
 				) : importance ? (
 					<div className={styles.importance}>

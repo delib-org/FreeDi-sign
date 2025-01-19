@@ -1,139 +1,142 @@
-import { useEffect, useState } from "react";
-import {  Role, Statement } from "delib-npm";
-import {  listenToDocument, listenToStatement } from "../db/statements/getStatements";
+
+import { useEffect, useState, useCallback } from "react";
+import { Role, Statement, User, UserData, Signature } from "delib-npm";
+import { listenToDocument, listenToStatement } from "../db/statements/getStatements";
 import { useDispatch, useSelector } from "react-redux";
-import { documentSelector, statementSelector } from "../slices/statementsSlice";
+import { documentSelector, statementSelector, mySignaturesSelector } from "../slices/statementsSlice";
 import { getSubscription } from "../db/subscriptions/getSubscriptions";
-import { selectUser } from "../slices/userSlice";
+import { selectUser, selectUserData } from "../slices/userSlice";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { anonymousLogin } from "../db/authCont";
-import {  setSubscription } from "../slices/subscriptionsSlice";
+import { setSubscription } from "../slices/subscriptionsSlice";
 
-interface Props {
-    statements: Statement[];
-    statement: Statement | undefined;
-    isLoading: boolean;
-    isError: boolean;
-    isAuthorized: boolean;
-    role: Role;
+interface DocumentHookResult {
+  statements: Statement[];
+  statement?: Statement;
+  isLoading: boolean;
+  isError: boolean;
+  isAuthorized: boolean;
+  role: Role;
+  user: User | null;
+  userData: UserData | undefined;
+  mySignature?: Signature;
 }
-export function useDocument(): Props {
 
-    //hooks
-    const { pathname } = useLocation();
-    const { statementId } = useParams<{ statementId: string }>();
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+export function useDocument(): DocumentHookResult {
+  const { pathname } = useLocation();
+  const { statementId } = useParams<{ statementId: string }>();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const user = useSelector(selectUser);
-    const statement = useSelector(statementSelector(statementId));
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+  const user = useSelector(selectUser);
+  const userData = useSelector(selectUserData);
+  const statement = useSelector(statementSelector(statementId));
+  const statements = useSelector(documentSelector(statementId || ""));
+  const mySignature = useSelector(mySignaturesSelector(statementId));
 
-    const statements: Statement[] = useSelector(documentSelector(statementId || ""));
-    const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
-    const [role, setRole] = useState<Role>(Role.unsubscribed);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [role, setRole] = useState<Role>(Role.unsubscribed);
 
-    const pathElements = pathname.split("/");
-    const isAnonymousPage = pathElements.includes("doc-anonymous");
+  const isAnonymousPage = pathname.includes("doc-anonymous");
 
-    useEffect(() => {
-        if (statementId) {
-            localStorage.setItem("statementId", statementId);
-        }
-    }, [statementId])
+  // Memoized authorization function
+  const handleAuthorization = useCallback(async () => {
+    if (!statementId) return { unsubscribe: () => {}, unsubscribe2: () => {} };
 
-
-    useEffect(() => {
-   
-        let unsubscribe: () => void = () => {};
-        let unsubscribe2: () => void = () => {};
-        // eslint-disable-next-line prefer-const
-        ({ unsubscribe2, unsubscribe } = authorize(unsubscribe2, unsubscribe));
-        return () => {
-            if (unsubscribe) unsubscribe();
-            if (unsubscribe2) unsubscribe2();
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [statementId, user])
-
-
-
-    useEffect(() => {
-
-        if (statement) {
-         
-            setIsLoading(false);
-        } else {
-            setIsLoading(true);
-        }
-
-    }, [statement])
-
-
-    try {
-
-        const _statements = isAuthorized ? statements : [];
-        const _statement = isAuthorized ? statement : undefined;
-
-        return { statements: _statements, isError: false, isLoading, statement: _statement, isAuthorized, role }
-    } catch (error) {
-        console.error(error)
-        return { statements: [], isError: true, isLoading: false, statement: undefined, isAuthorized: false, role: Role.unsubscribed }
+    if (isAnonymousPage) {
+      if (!user) {
+        anonymousLogin();
+        return { unsubscribe: () => {}, unsubscribe2: () => {} };
+      }
+      setIsLoading(true);
+      setIsAuthorized(true);
+      return {
+        unsubscribe2: listenToStatement(statementId),
+        unsubscribe: listenToDocument(statementId)
+      };
     }
 
-    function authorize(unsubscribe2: () => void, unsubscribe: () => void) {
-        if (statementId) {
-           
-            if (isAnonymousPage) {
-                if (user) {
-
-                    setIsLoading(true);
-                    setIsAuthorized(true);
-                    unsubscribe2 = listenToStatement(statementId);
-                    unsubscribe = listenToDocument(statementId);
-                } else {
-
-                    anonymousLogin();
-                }
-            } else {
-
-                if (!user) {
-                    navigate("/login");
-                } else if (user.isAnonymous === false) {
-                    
-                    getSubscription(statementId).then((subscription) => {
-                        
-                        if (subscription) {
-                            
-
-                            dispatch(setSubscription(subscription));
-                            if (subscription.role === Role.admin) {
-
-                                setRole(Role.admin);
-                                setIsAuthorized(true);
-                                setIsLoading(false);
-                                unsubscribe2 = listenToStatement(statementId);
-                                unsubscribe = listenToDocument(statementId);
-                            } else {
-                                setIsAuthorized(false);
-                                setRole(Role.unsubscribed);
-                                setIsLoading(false);
-                            }
-                        } else {
-
-                            setIsAuthorized(false);
-                            setRole(Role.unsubscribed);
-                            setIsLoading(false);
-                        }
-                    });
-                } else {
-                    setIsAuthorized(false);
-                    setRole(Role.unsubscribed);
-                    setIsLoading(false);
-                }
-            }
-        }
-        return { unsubscribe2, unsubscribe };
+    if (!user) {
+      navigate("/login");
+      return { unsubscribe: () => {}, unsubscribe2: () => {} };
     }
+
+    if (user.isAnonymous) {
+      setIsAuthorized(false);
+      setRole(Role.unsubscribed);
+      setIsLoading(false);
+      return { unsubscribe: () => {}, unsubscribe2: () => {} };
+    }
+
+    const subscription = await getSubscription(statementId);
+    if (subscription) {
+      dispatch(setSubscription(subscription));
+      if (subscription.role === Role.admin) {
+        setRole(Role.admin);
+        setIsAuthorized(true);
+        setIsLoading(false);
+        return {
+          unsubscribe2: listenToStatement(statementId),
+          unsubscribe: listenToDocument(statementId)
+        };
+      }
+    }
+    
+    setIsAuthorized(false);
+    setRole(Role.unsubscribed);
+    setIsLoading(false);
+    return { unsubscribe: () => {}, unsubscribe2: () => {} };
+  }, [statementId, isAnonymousPage, user, navigate, dispatch]);
+
+  useEffect(() => {
+    if (statementId) {
+      localStorage.setItem("statementId", statementId);
+    }
+  }, [statementId]);
+
+  useEffect(() => {
+    let unsubscribe = () => {};
+    let unsubscribe2 = () => {};
+
+    handleAuthorization().then(({ unsubscribe: unsub1, unsubscribe2: unsub2 }) => {
+      unsubscribe = unsub1;
+      unsubscribe2 = unsub2;
+    });
+
+    return () => {
+      unsubscribe();
+      unsubscribe2();
+    };
+  }, [handleAuthorization]);
+
+  useEffect(() => {
+    setIsLoading(!statement);
+  }, [statement]);
+
+  try {
+    return {
+      statements: isAuthorized ? statements : [],
+      statement: isAuthorized ? statement : undefined,
+      isError: false,
+      isLoading,
+      isAuthorized,
+      role,
+      user,
+      userData,
+      mySignature
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      statements: [],
+      isError: true,
+      isLoading: false,
+      isAuthorized: false,
+      role: Role.unsubscribed,
+      user: null,
+      userData: undefined,
+      mySignature: undefined
+    };
+  }
 }
