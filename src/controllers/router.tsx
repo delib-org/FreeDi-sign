@@ -23,6 +23,10 @@ export const router = createBrowserRouter(
 					element: <Login />,
 				},
 				{
+					path: "/lobby",
+					element: <Lobby />,
+				},
+				{
 					path: '/doc/:statementId',
 					element: <Document />,
 					children: [
@@ -43,10 +47,6 @@ export const router = createBrowserRouter(
 					],
 				},
 			],
-		},
-		{
-			path:"/lobby",
-			element: <Lobby />,
 		},
 		{
 			path: '/404',
