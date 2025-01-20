@@ -1,7 +1,5 @@
 import { FC } from 'react'
 import styles from './AccessabiityStatement.module.scss'
-import Button from '../buttons/button/Button'
-import { ButtonType } from '../../../model/enumsModel'
 
 interface Props {
     close: () => void
