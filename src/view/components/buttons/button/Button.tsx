@@ -35,6 +35,7 @@ const Button: FC<Props> = ({
 	isDisabled = false,
 	fontWight = 'normal',
 }) => {
+	console.log(buttonType);
 	const types = {
 		primary: {
 			backgroundColor: 'var(--primary)',
@@ -62,6 +63,8 @@ const Button: FC<Props> = ({
 			border: '2px solid var(--reject)',
 		},
 	};
+
+	console.log(types[buttonType])
 
 	return (
 		<button

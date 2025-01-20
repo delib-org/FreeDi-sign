@@ -1,32 +1,36 @@
 import { FC } from 'react'
 import { useDocumentCard } from './DocumentCardVM'
-import { Link, NavLink } from 'react-router-dom'
-
+import { Link, NavLink } from 'react-router-dom';
+import styles from './DocumentCard.module.scss';
 interface Props {
     documentId: string
 }
+
 const DocumentCard: FC<Props> = ({ documentId }) => {
     const { loading, docTOC } = useDocumentCard(documentId)
     return (
-        <div>
+        <div className={styles["lobby-card"]}>
             {loading && <div>Loading...</div>}
-            <h2>
-                <NavLink to={`/doc/${documentId}`}>{docTOC?.title}</NavLink>
-            </h2>
-            <ul>
+            <NavLink to={`/doc-anonymous/${documentId}`}>
+                <img src={docTOC?.image} alt={`Image depicting ${docTOC?.title}`} />
+                <h2>
+                    {docTOC?.title}
+                </h2>
+            </NavLink>
+            <div className={styles["lobby-card__u1"]}>
                 {docTOC?.children.map((child) => (
-                    <li key={child.statementId}>
-                        <Link to={`/doc/${documentId}#id-${child.statementId}`}>{child.title}</Link>
-                        <ul>
+                    <div className={styles.li} key={child.statementId}>
+                        <Link to={`/doc-anonymous/${documentId}#id-${child.statementId}`}>{child.title}</Link>
+                        {child.children.length > 0 &&<div className={styles["lobby-card__u2"]}>
                             {child.children.map((child) => (
-                                <li key={child.statementId}>
-                                    <Link to={`/doc/${documentId}#id-${child.statementId}`}>{child.title} </Link>
-                                </li>
+                                <div className = {styles.li} key={child.statementId}>
+                                    <Link to={`/doc-anonymous/${documentId}#id-${child.statementId}`}>{child.title} </Link>
+                                </div>
                             ))}
-                        </ul>
-                    </li>
+                        </div>}
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     )
 }
