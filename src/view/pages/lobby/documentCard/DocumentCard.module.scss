@@ -1,0 +1,42 @@
+.lobby-card {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 1rem;
+
+    a {
+        text-decoration: none;
+    }
+
+    h2 {
+        color: var(--text-headline);
+        margin:0;
+    }
+
+    &__u1{
+        padding: .3rem;
+    }
+
+    &__u2{
+        padding: .3rem;
+        font-size: .89rem;
+    }
+
+    .li {
+        list-style: none;
+        padding-left: .4rem;
+
+        a {
+            color: var(--text-paragraph);
+
+        }
+    }
+
+
+    img {
+        width: 100%;
+        object-fit: cover;
+    }
+}

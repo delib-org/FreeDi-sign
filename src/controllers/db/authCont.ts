@@ -10,6 +10,7 @@ import { parseUserFromFirebase } from 'delib-npm';
 import { setUser } from '../slices/userSlice';
 import { auth } from './config';
 
+
 const provider = new GoogleAuthProvider();
 
 export function listenToAuth() {
