@@ -1,4 +1,3 @@
-import LogoAndNameIcon from "../../../components/icons/LogoAndNameIcon";
 import styles from "./Aside.module.scss";
 
 import {
@@ -12,6 +11,7 @@ import TOC from "../toc/TableOfContent";
 
 
 import BottomAside from "./bottomAside/BottomAside";
+import AsideLogo from "./AsideLogo";
 
 function Aside() {
   const { t, dir } = useLanguage();
@@ -23,15 +23,7 @@ function Aside() {
 
   return (
     <aside className={styles.aside}>
-      <a
-      href="https://freedi.co" target="_blank" rel="noreferrer"
-        className={`${styles.logo} ${
-          dir === "rtl" ? styles["logo--rtl"] : null
-        }`}
-      >
-        <LogoAndNameIcon />
-        <div className={styles.slogan}>{t("Fostering Collaboration")}</div>
-      </a>
+      <AsideLogo />
       <TOC isAside={true} />
       
      

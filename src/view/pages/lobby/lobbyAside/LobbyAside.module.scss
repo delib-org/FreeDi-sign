@@ -1,5 +1,10 @@
 .lobby-aside{
-    background-color: var(--header);
+    background-color: var(--off-canvas-header);
     color: white;
     padding: 1rem;
+
+    .logo{
+        position: sticky;
+        top: 0;
+    }
 }
