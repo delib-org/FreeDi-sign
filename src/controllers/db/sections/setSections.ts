@@ -1,5 +1,5 @@
 import { Collections, Statement } from "delib-npm";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { firebaseDb } from "../config";
 
 
@@ -39,5 +39,22 @@ export function updateSectionTitleToDB({ statement, newText }: EditSectionProps)
         updateDoc(statementRef, { statement: newText });
     } catch (error) {
         console.error(error);
+    }
+}
+
+export async function deleteSection(sectionId?:string): Promise<boolean> {
+    try {
+        if(!sectionId) throw new Error("sectionId is required");
+        const result = confirm("Are you sure you want to delete this section?");
+        if (!result) return false;
+
+        const newSectionRef = doc(firebaseDb, Collections.statements, sectionId);
+       
+        await deleteDoc(newSectionRef);
+        return true;
+
+    } catch (error) {
+        console.error(error)
+        return false;
     }
 }
