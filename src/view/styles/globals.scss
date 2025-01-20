@@ -41,6 +41,7 @@
 	--notification-color: #7784d9;
 
 	//colors
+	 --header: #3b4f7d;
 	--home: #5f88e5;
 	--text-main: white;
 	--text-body-dark: #57688f;
@@ -56,11 +57,31 @@
 	--side-bar: #ebf4ff;
 	--headline: #5f7bba;
 	--disabled-paragraph: #a1b0d1;
-	--text-blue: #668fd1;
+	
 
 	--blue-primary: #739ee4;
 
 	--cinnamon: #f38ec2;
+
+	//texts
+	--text-headline: #232f4a;
+	--text-paragraph: #57688f;
+	--text-paragraph-light: #818fad;
+	--text-paragraph-lightest: #a4aec5;
+	--text-blue: #668fd1;
+	--text-white: #ffffff;
+	--text-blue: #5f88e5;
+	--text-green: #3bb0b0;
+	--text-red: #ff3a46;
+	--text-crimson: #e8749e;
+	--text-emphasis: #ea8222;
+	--text-dark-btn: #57688f;
+	--text-light-btn: #ffffff;
+	--text-disabled-paragraph: #a1b0d1;
+	--text-disabled-light: #c7cedd;
+	--text-disabled-digit: #adcbed;
+	--text-triangle-taboo: #99250e;
+
 
 	//buttons
 	--primary: #5f88e5;
@@ -118,6 +139,7 @@ h6 {
 h1 {
 	font-size: var(--h1-size);
 	color: var(--h1-color);
+
 	a {
 		color: var(--h1-color);
 	}
@@ -130,6 +152,7 @@ h1 {
 h2 {
 	font-size: var(--h2-size);
 	color: var(--h2-color);
+
 	@media screen and (max-width: 768px) {
 		font-size: 1.2rem;
 	}
@@ -138,6 +161,7 @@ h2 {
 h3 {
 	font-size: var(--h3-size);
 	color: var(--h3-color);
+
 	@media screen and (max-width: 768px) {
 		font-size: 1.1rem;
 	}
@@ -146,6 +170,7 @@ h3 {
 h4 {
 	font-size: var(--h4-size);
 	color: var(--h4-color);
+
 	@media screen and (max-width: 768px) {
 		font-size: 1.05rem;
 	}
@@ -154,6 +179,7 @@ h4 {
 h5 {
 	font-size: var(--h5-size);
 	color: var(--h5-color);
+
 	@media screen and (max-width: 768px) {
 		font-size: 1.02rem;
 	}
@@ -162,6 +188,7 @@ h5 {
 h6 {
 	font-size: var(--h6-size);
 	color: var(--h6-color);
+
 	@media screen and (max-width: 768px) {
 		font-size: 1rem;
 	}
@@ -204,7 +231,7 @@ p {
 	justify-content: center;
 	align-items: center;
 
-	> span {
+	>span {
 		transform: scale(3);
 	}
 }
