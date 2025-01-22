@@ -1,5 +1,5 @@
 import styles from "./Aside.module.scss";
-
+import HomeIcon from "../../../../assets/icons/home.svg?react";
 import {
   useLanguage,
 } from "../../../../controllers/hooks/useLanguage";
@@ -12,9 +12,12 @@ import TOC from "../toc/TableOfContent";
 
 import BottomAside from "./bottomAside/BottomAside";
 import AsideLogo from "./AsideLogo";
+import { NavLink, useSearchParams } from "react-router-dom";
 
 function Aside() {
   const { t } = useLanguage();
+  const [searchParams] = useSearchParams();
+  const lobby = searchParams.get("lobby");
 
   // function handleToggleLanguage() {
   //   if (currentLanguage === LanguagesEnum.he) changeLanguage(LanguagesEnum.en);
@@ -22,7 +25,10 @@ function Aside() {
   // }
 
   return (
-    <aside className={styles.aside}>
+    <aside className={styles.aside} style={{ gridTemplateRows: lobby ? "30px 6rem 1fr" : "6rem 1fr"}}>
+      {lobby && <NavLink to={`/lobby/${lobby}`} className={styles.homeButton}>
+        <HomeIcon />
+      </NavLink>}
       <AsideLogo />
       <TOC isAside={true} />
       
