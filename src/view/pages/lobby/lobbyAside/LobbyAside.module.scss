@@ -2,6 +2,8 @@
     background-color: var(--off-canvas-header);
     color: white;
     padding: 1rem;
+    box-sizing:content-box;
+  
 
     .logo{
         position: sticky;

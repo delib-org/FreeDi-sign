@@ -14,7 +14,7 @@ import BottomAside from "./bottomAside/BottomAside";
 import AsideLogo from "./AsideLogo";
 
 function Aside() {
-  const { t, dir } = useLanguage();
+  const { t } = useLanguage();
 
   // function handleToggleLanguage() {
   //   if (currentLanguage === LanguagesEnum.he) changeLanguage(LanguagesEnum.en);

@@ -658,6 +658,7 @@ body {
 	font-style: normal;
 	font-optical-sizing: auto;
 	background-color: var(--screen-bg);
+
 }
 
 * {
@@ -745,6 +746,15 @@ p {
 	color: var(--p-color);
 	margin-top: 0.1rem;
 	margin-bottom: 0.3rem;
+}
+li{
+	font-size: var(--p-size);
+	color: var(--p-color);
+}
+
+button{
+	cursor: pointer;
+	user-select: none;
 }
 
 .wrapper {

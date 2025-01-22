@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo, memo } from 'react';
 import { Role } from 'delib-npm';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { DocumentContext, handleSetUserEnteredPage } from './documentCont';
 import { RoleContext } from '../../../controllers/hooks/useRole';
 import { useLanguage } from '../../../controllers/hooks/useLanguage';
@@ -29,7 +29,6 @@ const Document = () => {
 	const dispatch = useDispatch();
 	const { t } = useLanguage();
 	const location = useLocation();
-	const navigate = useNavigate();
 	const { statementId } = useParams<{ statementId: string }>();
 	console.log(location.hash);
 
