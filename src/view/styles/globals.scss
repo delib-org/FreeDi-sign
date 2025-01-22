@@ -746,10 +746,23 @@ p {
 	color: var(--p-color);
 	margin-top: 0.1rem;
 	margin-bottom: 0.3rem;
+
+	@media screen and (max-width: 768px) {
+		  line-height: 1.8rem;
+		  font-size: 1.15rem;
+		  font-weight: 400;
+		
+	}
 }
 li{
 	font-size: var(--p-size);
 	color: var(--p-color);
+	@media screen and (max-width: 768px) {
+		line-height: 1.8rem;
+		font-size: 1.15rem;
+		font-weight: 400;
+
+	}
 }
 
 button{

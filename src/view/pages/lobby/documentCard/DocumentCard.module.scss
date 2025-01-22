@@ -6,6 +6,18 @@
     page-break-inside: avoid;
     margin-bottom: 1rem;
 
+    &__header{
+        position: relative;
+        div{
+            position: absolute;
+            bottom: 6px;
+            background-color: rgba(0, 3, 3, 0.409);
+            padding: 1rem;
+            font-size: 1.5rem;
+            width: 100%;
+        }
+    }
+
     a {
         text-decoration: none;
     }
@@ -42,7 +54,7 @@
         padding-left: .4rem;
 
         a {
-            color: var(--text-paragraph);
+            color: var(--p-color);
 
         }
 

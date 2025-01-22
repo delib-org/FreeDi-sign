@@ -22,6 +22,7 @@
     position: sticky;
     top: 0;
     background-color: var(--screenBG);
+    z-index: 5;
 
     @media screen and (max-width: 768px) {
         display: none;

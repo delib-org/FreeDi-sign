@@ -2,36 +2,43 @@ import { FC } from 'react'
 import { useDocumentCard } from './DocumentCardVM'
 import { Link, NavLink, useParams } from 'react-router-dom';
 import styles from './DocumentCard.module.scss';
+import HourGlassLoader from '../../../components/loaders/HourGlassLoader';
 interface Props {
     documentId: string
 }
 
 const DocumentCard: FC<Props> = ({ documentId }) => {
-    const {lobbyId} = useParams();
+    const { lobbyId } = useParams();
     const { loading, docTOC } = useDocumentCard(documentId)
     return (
         <div className={styles["lobby-card"]}>
-            {loading && <div>Loading...</div>}
-            <NavLink to={`/doc-anonymous/${documentId}`}>
-                {docTOC?.image  &&<img src={docTOC?.image} alt={`Image depicting ${docTOC?.title}`} />}
-                <h2>
-                    {docTOC?.title}
-                </h2>
-            </NavLink>
-            <div className={styles["lobby-card__u1"]}>
-                {docTOC?.children.map((child) => (
-                    <div className={`${styles.li}`} key={child.statementId}>
-                        <Link className={styles.p1} to={`/doc-anonymous/${documentId}?lobby=${lobbyId}#id-${child.statementId}`}>{child.title}</Link>
-                        {child.children.length > 0 &&<div className={styles["lobby-card__u2"]}>
-                            {child.children.map((child) => (
-                                <div className = {styles.li} key={child.statementId}>
-                                    <Link to={`/doc-anonymous/${documentId}?lobby=${lobbyId}#id-${child.statementId}`}>{child.title} </Link>
-                                </div>
-                            ))}
-                        </div>}
+            {loading ? <div className={styles.loader}>
+                <HourGlassLoader />
+            </div> :
+                <>
+                    <NavLink to={`/doc-anonymous/${documentId}`} className={styles["lobby-card__header"]}>
+                        {docTOC?.image && <img src={docTOC?.image} alt={`Image depicting ${docTOC?.title}`} />}
+                        <div>
+                            {docTOC?.title}
+                        </div>
+                    </NavLink>
+                    <div className={styles["lobby-card__u1"]}>
+                        {docTOC?.children.map((child) => (
+                            <div className={`${styles.li}`} key={child.statementId}>
+                                <Link className={styles.p1} to={`/doc-anonymous/${documentId}?lobby=${lobbyId}#id-${child.statementId}`}>{child.title}</Link>
+                                {child.children.length > 0 && <div className={styles["lobby-card__u2"]}>
+                                    {child.children.map((child) => (
+                                        <div className={styles.li} key={child.statementId}>
+                                            <Link to={`/doc-anonymous/${documentId}?lobby=${lobbyId}#id-${child.statementId}`}>{child.title} </Link>
+                                        </div>
+                                    ))}
+                                </div>}
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </>
+            }
+
         </div>
     )
 }
