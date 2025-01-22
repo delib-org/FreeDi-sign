@@ -1,12 +1,13 @@
 import { FC } from 'react'
 import { useDocumentCard } from './DocumentCardVM'
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useParams } from 'react-router-dom';
 import styles from './DocumentCard.module.scss';
 interface Props {
     documentId: string
 }
 
 const DocumentCard: FC<Props> = ({ documentId }) => {
+    const {lobbyId} = useParams();
     const { loading, docTOC } = useDocumentCard(documentId)
     return (
         <div className={styles["lobby-card"]}>
@@ -20,11 +21,11 @@ const DocumentCard: FC<Props> = ({ documentId }) => {
             <div className={styles["lobby-card__u1"]}>
                 {docTOC?.children.map((child) => (
                     <div className={styles.li} key={child.statementId}>
-                        <Link to={`/doc-anonymous/${documentId}#id-${child.statementId}`}>{child.title}</Link>
+                        <Link to={`/doc-anonymous/${documentId}?lobby=${lobbyId}#id-${child.statementId}`}>{child.title}</Link>
                         {child.children.length > 0 &&<div className={styles["lobby-card__u2"]}>
                             {child.children.map((child) => (
                                 <div className = {styles.li} key={child.statementId}>
-                                    <Link to={`/doc-anonymous/${documentId}#id-${child.statementId}`}>{child.title} </Link>
+                                    <Link to={`/doc-anonymous/${documentId}?lobby=${lobbyId}#id-${child.statementId}`}>{child.title} </Link>
                                 </div>
                             ))}
                         </div>}

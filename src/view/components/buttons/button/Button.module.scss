@@ -1,30 +1,65 @@
-.button{
-    border:none;
-    padding: 10px 30px;
-    cursor: pointer;
-    width: fit-content;
+.button {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: .5rem;
-    font-size: 0.9rem;
-    font-weight: 300;
-    text-wrap: nowrap;
+    gap: 0.5rem;
+    padding: 0.5rem 2rem;
+    cursor: pointer;
+    font-size: 1rem;
+    min-width: 50px;
+    user-select: none;
 
-    @media screen and (max-width: 768px){
-        padding: 10px 20px;
-        
+    // For custom-styled buttons (buttonType === 'other')
+    transition: all 0.3s ease;
+
+    &:hover {
+        filter: brightness(1.1);
     }
 
-    &--notActive{
+    // Modifier for disabled state
+    &--notActive {
         cursor: not-allowed;
+        opacity: 0.7;
+
+        &:hover {
+            filter: none;
+            opacity: 0.7;
+        }
     }
 
-    &:hover{
-        background-color: #f0f0f0;
+    // Button type modifiers
+    &--primary {
+        background-color: var(--primary);
+        color: white;
+        border: 1px solid var(--primary);
     }
-    svg{
-        height: 28px;
-        width: 28px;
+
+    &--secondary {
+        background-color: white;
+        color: var(--primary);
+        border: 1px solid var(--primary);
+    }
+
+    &--approve {
+        background-color: var(--approve);
+        color: white;
+        border: 2px solid var(--approve);
+    }
+
+    &--reject {
+        background-color: var(--reject);
+        color: white;
+        border: 2px solid var(--reject);
+    }
+
+    &--other {
+        // These will be overridden by inline styles as needed
+        background-color: transparent;
+        border: 2px solid currentColor;
+    }
+
+    // Child element styling
+    span {
+        display: inline-block;
     }
 }
