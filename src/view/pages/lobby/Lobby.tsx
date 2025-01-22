@@ -5,19 +5,13 @@ import AccessabilityStatement from "../../components/accesability/AccessabilityS
 import { useState } from "react";
 import LobbyAside from "./lobbyAside/LobbyAside";
 import ExpSuggestions from "./explanation/expSuggestions/ExpSuggestions";
-import { LobbyProvider, useLobby } from './LobbyContext';
+import { LobbyProvider } from './LobbyContext';
 import ExplainButton from "./explanation/explainButton/ExplainButton";
 
 
 const LobbyContent = () => {
 
-    const { showExplanation, setShowExplanation } = useLobby();
     const [showModal, setShowModal] = useState(false);
-    console.log("showExplanation in Lobby", showExplanation)
-
-    function handleShowExplanation() {
-        setShowExplanation(true);
-    }
 
     function closeAccessabilityModal() {
         setShowModal(false);
