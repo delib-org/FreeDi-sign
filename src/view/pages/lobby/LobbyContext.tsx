@@ -21,8 +21,7 @@ interface LobbyProviderProps {
 // Provider component
 export const LobbyProvider = ({ children }: LobbyProviderProps) => {
     const [showExplanation, setShowExplanation] = useState(false);
-    console.log("showExplanation in provider", showExplanation)
-
+  
     return (
         <LobbyContext.Provider value={{ showExplanation, setShowExplanation }}>
             {children}

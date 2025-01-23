@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo, memo } from 'react';
 import { Role } from 'delib-npm';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { DocumentContext, handleSetUserEnteredPage } from './documentCont';
 import { RoleContext } from '../../../controllers/hooks/useRole';
 import { useLanguage } from '../../../controllers/hooks/useLanguage';
@@ -30,8 +30,6 @@ const Document = () => {
 	const { t } = useLanguage();
 	const location = useLocation();
 	const { statementId } = useParams<{ statementId: string }>();
-	const [searchParams]= useSearchParams();
-	console.log(searchParams.get('lobby'));
 
 	const [showInfo, setShowInfo] = useState(false);
 	const [maxViewed, setMaxViewed] = useState(0);
@@ -90,9 +88,11 @@ const Document = () => {
 		}
 	}, [paragraphs, maxViewed]);
 
+	//handle user data
 	useEffect(() => {
 		if (user && !userData && statementId) {
-			getUserData(undefined, statementId).then((userData) => {
+			console.log("userId", user.uid);
+			getUserData(user.uid, statementId).then((userData) => {
 				if (userData) {
 					dispatch(setUserData(userData));
 				}

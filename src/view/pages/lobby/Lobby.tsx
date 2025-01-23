@@ -7,11 +7,34 @@ import ExpSuggestions from "./explanation/expSuggestions/ExpSuggestions";
 import { LobbyProvider } from './LobbyContext';
 import ExplainButton from "./explanation/explainButton/ExplainButton";
 import { useLobbyVM } from "./LobbyVM";
+import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../../controllers/slices/userSlice";
+import { setUserDataToDB } from "../../../controllers/db/user/setUserData";
 
 
 const LobbyContent = () => {
     const { documentsId, setShowModal, showModal, closeAccessabilityModal } = useLobbyVM();
     document.title = "Freedi | שיתוף גולן";
+    const user = useSelector(selectUser);
+    const firstEnter = localStorage.getItem("firstEnter") ? useRef(false) : useRef(true);
+
+    useEffect(() => {
+        
+        if(user?.uid){
+           
+            if(firstEnter.current){
+                console.log("first enter");
+                setUserDataToDB({ userData: { unregister: true }, documentId: "lobby", eventType: "first-time-entered-browser" });
+                firstEnter.current = false;
+                localStorage.setItem("firstEnter", "true");
+                return;
+            }          
+            console.log("entered from within");
+            setUserDataToDB({ userData: { name: user.displayName, email: user.email }, documentId: "lobby", eventType: "entered-from-within" });
+        }
+       
+    },[user]);
 
     return (
 
