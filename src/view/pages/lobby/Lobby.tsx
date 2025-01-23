@@ -11,12 +11,14 @@ import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../../controllers/slices/userSlice";
 import { setUserDataToDB } from "../../../controllers/db/user/setUserData";
+import { useParams } from "react-router-dom";
 
 
 const LobbyContent = () => {
     const { documentsId, setShowModal, showModal, closeAccessabilityModal } = useLobbyVM();
     document.title = "Freedi | שיתוף גולן";
     const user = useSelector(selectUser);
+    let {lobbyId} = useParams()||{lobbyId:false};
     const firstEnter = localStorage.getItem("firstEnter") ? useRef(false) : useRef(true);
 
     useEffect(() => {
@@ -25,13 +27,13 @@ const LobbyContent = () => {
            
             if(firstEnter.current){
                 console.log("first enter");
-                setUserDataToDB({ userData: { unregister: true }, documentId: "lobby", eventType: "first-time-entered-browser" });
+                setUserDataToDB({ userData: { unregister: true, lobbyId }, documentId: "lobby", eventType: "first-time-entered-browser" });
                 firstEnter.current = false;
                 localStorage.setItem("firstEnter", "true");
                 return;
             }          
             console.log("entered from within");
-            setUserDataToDB({ userData: { name: user.displayName, email: user.email }, documentId: "lobby", eventType: "entered-from-within" });
+            setUserDataToDB({ userData: { name: user.displayName, email: user.email, lobbyId }, documentId: "lobby", eventType: "entered-from-within" });
         }
        
     },[user]);

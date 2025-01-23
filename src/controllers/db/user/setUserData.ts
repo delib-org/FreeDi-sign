@@ -22,6 +22,12 @@ export async function setUserDataToDB({
     targetId,
 }: SetUserDataToDBProps): Promise<UserObjectInterface | undefined> {
     try {
+        //get lobby params from url
+        const urlParams = new URLSearchParams(window.location.search);
+        const lobbyId = urlParams.get('lobby') || userData?.lobbyId;
+        console.log("lobbyId", lobbyId);
+        
+
         if (!documentId) throw new Error("Statement id is missing");
         if (!userData) throw new Error("User data not found");
         if (typeof userData !== "object") throw new Error("User data must be an object");
@@ -32,6 +38,12 @@ export async function setUserDataToDB({
         const newData: UserObjectInterface = { ...userData, userId: user.uid, documentId, eventType };
         if (targetText) newData.target = targetText;
         if (targetId) newData.targetId = targetId;
+
+        newData.timestamp = Date.now();
+        newData.date = new Date().toLocaleString();
+        if (lobbyId) newData.lobbyId = lobbyId;
+
+        console.log("saving to DB", newData.lobbyId);
 
         if (eventType === "signup") {
 
