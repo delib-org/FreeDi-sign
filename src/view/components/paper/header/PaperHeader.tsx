@@ -18,7 +18,7 @@ const PaperHeader: FC<Props> = ({ statement }) => {
 	const dispatch = useDispatch();
 	const { isAdmin } = useRole();
 	if (!statement) return null;
-	const[ searchParams] = useSearchParams();
+	const [searchParams] = useSearchParams();
 	const lobby = searchParams.get('lobby');
 
 	const handleToggleEdit = () => {
@@ -30,17 +30,19 @@ const PaperHeader: FC<Props> = ({ statement }) => {
 			{lobby && <NavLink to={`/lobby/${lobby}`} className={styles.homeButton}>
 				<HomeIcon />
 			</NavLink>}
-			
+
 			<div className={styles.buttons}>
 				{isAdmin && (
 					<button onClick={handleToggleEdit}>
 						<EditIcon />
 					</button>
 				)}
-				<a href='https://freedi.co' target='_blank' rel='noreferrer'>
-					Freedi
-					<GlobousIcon />
-				</a>
+				{lobby ? <NavLink to={`/lobby/${lobby}`}> שיתוף ציבור - מועצה אזורית גולן</NavLink>
+					:
+					<a href='https://freedi.co' target='_blank' rel='noreferrer'>
+						Freedi
+						<GlobousIcon />
+					</a>}
 			</div>
 		</header>
 	);

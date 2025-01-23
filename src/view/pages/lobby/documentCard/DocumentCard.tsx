@@ -17,7 +17,7 @@ const DocumentCard: FC<Props> = ({ documentId, hasTOC}) => {
                 <HourGlassLoader />
             </div> :
                 <>
-                    <NavLink to={`/doc-anonymous/${documentId}`} className={styles["lobby-card__header"]}>
+                    <NavLink to={`/doc-anonymous/${documentId}?lobby=${lobbyId}`} className={styles["lobby-card__header"]}>
                         {docTOC?.image && <img src={docTOC?.image} alt={`Image depicting ${docTOC?.title}`} />}
                         <div>
                             {docTOC?.title}

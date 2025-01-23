@@ -50,7 +50,7 @@
 		place-content: center;
 	}
 
-	.footer {
+	footer {
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -58,10 +58,9 @@
 		a {
 			text-align: center;
 			text-decoration: none;
+			color:rgba(0, 0, 0, 0.722);
 		}
 
-		@media screen and (min-width: 1030px) {
-			display: none;
-		}
+		
 	}
 }

@@ -113,6 +113,7 @@ const Paper = () => {
 						parentBullet=''
 					/>
 				</div>
+				
 				{role !== Role.admin && (
 					<div className='feedbackButton'>
 						<Button
@@ -123,6 +124,8 @@ const Paper = () => {
 						/>
 					</div>
 				)}
+				
+				
 			</div>
 			{role === Role.admin ? (
 				<AdminBottomButtons />
@@ -133,6 +136,11 @@ const Paper = () => {
 					document={statement}
 				/>
 			)}
+			<footer>
+				<p >
+					<a href="https://freedi.co" target='_blank'>פותח על ידי פרידי הסכמות</a>
+				</p>
+			</footer>
 		</main>
 	);
 };
