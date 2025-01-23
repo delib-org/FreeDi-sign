@@ -45,11 +45,12 @@ export class CSV {
         return Array.from(headers);
     }
 
-    static async downloadCSV(documentId: string|undefined): Promise<void> {
+    static async downloadCSV({ documentId, lobbyId }: { documentId?:string, lobbyId?:string}): Promise<void> {
         try {
-            if(!documentId) throw new Error("Document id is missing");
+            if(!documentId && !lobbyId) throw new Error("Document id and LobbyId are missing");
             // Fetch data from the database
-            const data = await getUsersData(documentId);
+            console.log(documentId, lobbyId)
+            const data = await getUsersData({documentId, lobbyId});
 
             // Convert data to CSV format
             const csvContent = this.convertToCSV(data);

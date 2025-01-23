@@ -8,6 +8,7 @@ const LobbyAside = () => {
             <div className={styles.logo}>
                 <AsideLogo />
                 <Explanation />
+                
             </div>
         </aside>
     )

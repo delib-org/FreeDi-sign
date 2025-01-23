@@ -16,12 +16,13 @@ import { useLanguage } from '../../../../../controllers/hooks/useLanguage';
 const BottomAside: React.FC = () => {
 	const { statementId: documentId } = useParams<{ statementId: string }>();
 	const { role } = useContext(DocumentContext);
-	const {t} = useLanguage();
+	const { t } = useLanguage();
 
 	const [showSettings, setShowSettings] = useState(false);
 
-	function onDownloadClick() {
-		CSV.downloadCSV(documentId);
+	function onDownloadClick(dataType: "lobby" | "document") {
+		if (dataType === "lobby") return CSV.downloadCSV({ lobbyId: documentId });
+		if (dataType === "document") return CSV.downloadCSV({ documentId });
 	}
 
 	function handleSettingsClick(event: React.MouseEvent<HTMLButtonElement>) {
@@ -31,10 +32,17 @@ const BottomAside: React.FC = () => {
 	return (
 		<div className={styles.options}>
 			{role === Role.admin && (
-				<button className={styles.clickable} onClick={onDownloadClick}>
-					<DownloadIcon />
-					<span>{t("Download CSV")}</span>
-				</button>
+				<>
+					<button className={styles.clickable} onClick={() => onDownloadClick("document")}>
+						<DownloadIcon />
+						<span>{t("Document")}</span>
+					</button>
+					<button className={styles.clickable} onClick={() => onDownloadClick("lobby")}>
+						<DownloadIcon />
+						<span>{t("Lobby")}</span>
+					</button>
+				</>
+
 			)}
 			{role === Role.admin && (
 				<button className={styles.clickable} onClick={handleSettingsClick}>

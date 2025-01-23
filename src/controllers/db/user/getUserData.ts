@@ -52,21 +52,31 @@ export async function getUserData(
 	}
 }
 
-export async function getUsersData(documentId: string): Promise<UserData[]> {
+interface GetUserDataProps {
+	documentId?: string;
+	lobbyId?: string;
+}
+
+export async function getUsersData({documentId,lobbyId}:GetUserDataProps): Promise<UserData[]> {
 	try {
+		if (!documentId && !lobbyId ) throw new Error('Document id and LobbyId are missing');
+		lobbyId = "123"
 		const usersDataRef = collection(firebaseDb, Collections.usersData);
-		const q = query(usersDataRef, where('documentId', '==', documentId));
+		const q = documentId? query(usersDataRef, where('documentId', '==', documentId))
+		: query(usersDataRef, where('lobbyId', '==', lobbyId));
 		const usersDataDB = await getDocs(q);
 		const usersData: UserData[] = usersDataDB.docs.map(
 			(doc) => doc.data() as UserData
 		);
-		const results = usersData.map((userData) =>
-			UserDataSchema.safeParse(userData)
-		);
-		if (!results.every((result) => result.success)) {
-			console.error(results);
-			return [];
-		}
+		console.log(usersData);
+		// const results = usersData.map((userData) =>
+		// 	UserDataSchema.safeParse(userData)
+		// );
+		// console.log(results);
+		// if (!results.every((result) => result.success)) {
+		// 	console.error(results);
+		// 	return [];
+		// }
 		return usersData;
 	} catch (error) {
 		console.error(error);
