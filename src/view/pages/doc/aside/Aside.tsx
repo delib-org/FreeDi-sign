@@ -25,10 +25,8 @@ function Aside() {
   // }
 
   return (
-    <aside className={styles.aside} style={{ gridTemplateRows: lobby ? "30px 6rem 1fr" : "6rem 1fr"}}>
-      {lobby && <NavLink to={`/lobby/${lobby}`} className={styles.homeButton}>
-        <HomeIcon />
-      </NavLink>}
+    <aside className={styles.aside} >
+     
       <AsideLogo />
       <TOC isAside={true} />
       
