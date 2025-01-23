@@ -5,19 +5,22 @@ import { DocTOC } from "../../../model/docTOC";
 import { getStatement } from "../statements/getStatements";
 import { store } from "../../../model/store";
 import { setStatements } from "../../slices/statementsSlice";
+import { setTOC } from "../../slices/tocSlice";
 
-export async function getDocumentTOC(documentId: string): Promise<DocTOC | undefined> {
+export async function getDocumentTOC(documentId: string, hasTOC?:boolean): Promise<DocTOC | undefined> {
     try {
         const dispatch = store.dispatch;
         const firstLevelSectionsRef = collection(firebaseDb, Collections.statements);
         const q = query(firstLevelSectionsRef, where("documentSettings.parentDocumentId", "==", documentId), where("documentSettings.type", "==", DocumentType.section), orderBy("documentSettings.order"));
-        const [document, sectionsDB] = await Promise.all([getStatement(documentId), getDocs(q)]);
+        const [document, sectionsDB] = hasTOC? await Promise.all([getStatement(documentId), getDocs(q)]): await Promise.all([getStatement(documentId)]);
         if (!document) throw new Error("Document not found");
-        const sections = sectionsDB.docs.map((doc) => doc.data()) as Statement[];
+        const sections = sectionsDB? sectionsDB.docs.map((doc) => doc.data()) as Statement[]:[];
 
         dispatch(setStatements([document,...sections]));
+       
 
         const toc = orderToTOC(document, sections);
+        if(toc) dispatch(setTOC(toc))
         return toc;
 
     } catch (error) {

@@ -2,26 +2,16 @@ import DocumentCard from "./documentCard/DocumentCard";
 import styles from "./Lobby.module.scss";
 import Modal from "../../components/modal/Modal";
 import AccessabilityStatement from "../../components/accesability/AccessabilityStatement";
-import { useState } from "react";
 import LobbyAside from "./lobbyAside/LobbyAside";
 import ExpSuggestions from "./explanation/expSuggestions/ExpSuggestions";
 import { LobbyProvider } from './LobbyContext';
 import ExplainButton from "./explanation/explainButton/ExplainButton";
+import { useLobbyVM } from "./LobbyVM";
 
 
 const LobbyContent = () => {
-    const domain = window.location.hostname;
-    const [showModal, setShowModal] = useState(false);
-
-    function closeAccessabilityModal() {
-        setShowModal(false);
-    }
-
-    const devDocumentsId = ["98cdcfbc-4f8c-4d29-81c7-57de12eefcce", "5b6b7c59-82a6-4cf5-9928-c4daef1acc31", "5b6b7c59-82a6-4cf5-9928-c4daef1acc31", "98cdcfbc-4f8c-4d29-81c7-57de12eefcce", "98cdcfbc-4f8c-4d29-81c7-57de12eefcce"];
-    const prodDocumentsId = ["4183c45b-fa2f-4ba7-aff1-fd073a7dac7c", "6432fe14-a187-4643-bf84-d217b7f47b5e", "9e17cb66-35d4-44e8-be42-0ffa7ea08c69"];
-    const documentsId = domain === "localhost" ? devDocumentsId : prodDocumentsId;
+    const { documentsId, setShowModal,showModal, closeAccessabilityModal } = useLobbyVM();
     document.title = "Freedi | שיתוף גולן";
-
 
     return (
 
@@ -47,7 +37,7 @@ const LobbyContent = () => {
                         </div>
                     </header>
                     <div className={styles['lobby-wrapper']}>
-                        {documentsId.map((documentId) => (<DocumentCard key={`${Math.random()}-${documentId}`} documentId={documentId} />))}
+                        {documentsId.map((documentId) => (<DocumentCard key={`${Math.random()}-${documentId}`} documentId={documentId} hasTOC={false} />))}
                     </div>
                     <footer className={styles.footer}>
                         <a href="https://freedi.co" target="_blank"> פותח על ידי פרידי הסכמות בע"מ</a>
