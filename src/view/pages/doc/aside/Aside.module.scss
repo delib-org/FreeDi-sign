@@ -1,6 +1,7 @@
 .aside {
-    display: grid;
-    grid-template-rows: 30px 6rem 1fr;
+    display: flex;
+   flex-direction: column;
+   gap:1rem;
     justify-content: space-between;
     height: 100vh;
     width: max-content;

@@ -60,21 +60,20 @@
 }
 
 .lobby-wrapper {
-    columns: 3;
+   display: grid;
+grid-template-columns: repeat(3 , 1fr);
+
     max-width: 120ch;
     margin: auto;
     gap: 1rem;
     // padding: 1rem;
 
     @media screen and (max-width: 1440px) {
-        columns: 2;
-
-
+        grid-template-columns: repeat(2, 1fr);
     }
 
     @media screen and (max-width: 1000px) {
-        columns: 1;
-
+        grid-template-columns: repeat(1, 1fr);
     }
 }
 

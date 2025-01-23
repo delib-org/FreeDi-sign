@@ -53,6 +53,8 @@ const Paper = () => {
 		}, 250);
 	}, []);
 
+
+
 	useEffect(() => {
 		window.addEventListener('resize', handleResize);
 
@@ -68,6 +70,8 @@ const Paper = () => {
 		setUserFeedbackIsOpen((prev) => !prev);
 	}, []);
 
+
+
 	if (isLoading) return <HourGlassLoader />;
 	if (isError) return <div>Error: An error occurred.</div>;
 	if (!statement) return null;
@@ -80,9 +84,8 @@ const Paper = () => {
 				</Modal>
 			)}
 			<div
-				className={`wrapper wrapper--paper ${
-					dir === 'rtl' ? 'wrapper--rtl' : ''
-				}`}
+				className={`wrapper wrapper--paper ${dir === 'rtl' ? 'wrapper--rtl' : ''
+					}`}
 			>
 				<div id='toc' />
 				<div className='mainContainer'>

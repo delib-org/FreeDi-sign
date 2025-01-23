@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo, memo } from 'react';
 import { Role } from 'delib-npm';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams, useSearchParams, useHistory } from 'react-router-dom';
 import { DocumentContext, handleSetUserEnteredPage } from './documentCont';
 import { RoleContext } from '../../../controllers/hooks/useRole';
 import { useLanguage } from '../../../controllers/hooks/useLanguage';
@@ -24,14 +24,18 @@ import SigninForm from '../../components/signinForm/SigninForm';
 import Page401 from '../page401/Page401';
 import Aside from './aside/Aside';
 import { useDocument } from '../../../controllers/hooks/documentHooks';
+import useBackDetection from '../../../controllers/general.ts/useBackDetaction';
+
 
 const Document = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { t } = useLanguage();
 	const location = useLocation();
-	const { statementId } = useParams<{ statementId: string }>();
-	const [searchParams]= useSearchParams();
-	console.log(searchParams.get('lobby'));
+	const { statementId, paragraphId } = useParams();
+	const [searchParams] = useSearchParams();
+	const lobby = searchParams.get('lobby');
+	useBackDetection();
 
 	const [showInfo, setShowInfo] = useState(false);
 	const [maxViewed, setMaxViewed] = useState(0);
@@ -68,6 +72,17 @@ const Document = () => {
 	).filter((approval) => approval.approval === false).length;
 
 	const approved = paragraphs.length - rejectedCount;
+
+
+	// useEffect(() => {
+	// 	const handlePopState = (e) => {
+	// 		console.log("back")
+	// 	};
+
+	// 	window.addEventListener('popstate', handlePopState);
+	// 	return () => window.removeEventListener('popstate', handlePopState);
+	// }, []);
+
 
 	useEffect(() => {
 		if (statementId && role === Role.admin) {
@@ -116,7 +131,7 @@ const Document = () => {
 
 
 	useEffect(() => {
-		let unsubscribe = () => {};
+		let unsubscribe = () => { };
 		if (isAuthorized && statementId) {
 			unsubscribe = listenToMySignature(statementId);
 		}

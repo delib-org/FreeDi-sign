@@ -17,12 +17,13 @@ import {
 } from '../../../../controllers/slices/statementsSlice';
 import { ButtonType } from '../../../../model/enumsModel';
 import Likes from '../../../components/likes/Likes';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { DocumentContext } from '../documentCont';
 
 const Comments: FC = () => {
 	const { t, dir } = useLanguage();
 	const navigate = useNavigate();
+	const { search } = useLocation();
 	const { paragraphId } = useParams();
 
 	const statement = useSelector(statementSelector(paragraphId));
@@ -34,7 +35,7 @@ const Comments: FC = () => {
 	const otherComments = comments.filter((cm) => cm.creatorId !== userId);
 
 	function handleHideComments() {
-		navigate('..');
+		navigate(`..${search}`);
 	}
 
 	if (!statement) return null;

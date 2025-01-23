@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { sectionsSelector } from "../../../../../controllers/slices/statementsSlice";
 import { useLanguage } from "../../../../../controllers/hooks/useLanguage";
 import { setViewToDB } from "../../../../../controllers/db/views/setViews";
+import { NavLink, useLocation, useSearchParams } from "react-router-dom";
+import { useDocument } from "../../../../../controllers/hooks/documentHooks";
 
 interface Props {
   isActiveSection: boolean;
@@ -24,7 +26,14 @@ function AsideItem({
   level,
   isTOC,
 }: Props) {
+  const [searchParams] = useSearchParams();
+  const lobby = searchParams.get("lobby"); 
+  const press = Number(searchParams.get("press")) || 1;
+  const { pathname} = useLocation();
+  const { hostname  } = new URL(window.location.href);
+
   const { dir } = useLanguage();
+  
   const sections = useSelector(sectionsSelector(statement.statementId));
   const title = statement.statement.split("\n")[0];
 
@@ -34,6 +43,9 @@ function AsideItem({
   const minLevel = Math.min(level, 5);
   const levelCss = isAside?`aside-h${minLevel}`: `toc-h${minLevel}`;
 
+  const lobbyParam = lobby ? `lobby=${lobby}` : "";
+  const pressParam = press ? `press=${press+1}` : "";
+  const newUrl = `?${pressParam}&${lobbyParam}#id-${statement.statementId}`;
 
   return (
     <>
@@ -45,18 +57,18 @@ function AsideItem({
       >
         <div className={styles.titleWrapper}>
           {isActiveSection ? (
-            <a
-              href={`#id-${statement.statementId}`}
+            <NavLink
+              to={newUrl}
               className={`${styles.active} ${styles.title} ${levelCss}`}
             >
               {title}
-            </a>
+            </NavLink>
           ) : (
-            <a
-              href={`#id-${statement.statementId}`}
+            <NavLink
+                to={newUrl}
               className={`${styles.title} ${levelCss}`} >
               {title}
-            </a>
+            </NavLink>
           )}
         </div>
         <div className={styles.descriptionWrapper}>
@@ -75,14 +87,6 @@ function AsideItem({
         </div>
       </div>
     </>
-    // <div className={styles.wrapper}>
-    //   <div className={styles.titleWrapper} onClick={toggleSection}>
-
-    //     {isActiveSection ? <h2 className={`${styles.active} ${styles.title}`}>h1</h2> : <h2 className={styles.title}>h1</h2>}
-    //     <span className={styles.titleSpan}>{isActiveSection ? <ChevronDown/> : <ChevronRight/>}</span>
-    //   </div>
-    //   {isActiveSection && <div className={styles.description}>h2 </div>}
-    // </div>
   );
 }
 
