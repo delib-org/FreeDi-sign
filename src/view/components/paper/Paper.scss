@@ -63,4 +63,18 @@
 
 		
 	}
+	&__cover{
+		max-width:600px;
+		margin: 0 auto 1rem auto;
+	
+		img{
+			width: 100%;
+			height: auto;
+		}
+
+		@media screen and (max-width: 600px) {
+			max-width: 90vw;
+			
+		}
+	}
 }

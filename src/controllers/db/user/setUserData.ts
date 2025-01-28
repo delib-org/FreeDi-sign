@@ -24,8 +24,8 @@ export async function setUserDataToDB({
     try {
         //get lobby params from url
         const urlParams = new URLSearchParams(window.location.search);
-        const lobbyId = urlParams.get('lobby') || userData?.lobbyId;
-        console.log("lobbyId", lobbyId);
+        const lobbyId = urlParams.get('lobby') || userData?.lobbyId || "123";
+        
         
 
         if (!documentId) throw new Error("Statement id is missing");

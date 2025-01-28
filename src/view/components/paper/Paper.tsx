@@ -24,6 +24,7 @@ import Modal from '../modal/Modal';
 import { ButtonType } from '../../../model/enumsModel';
 
 import './paper.scss';
+import Image from '../image/Image';
 
 const Paper = () => {
 	const { t } = useLanguage();
@@ -80,9 +81,8 @@ const Paper = () => {
 				</Modal>
 			)}
 			<div
-				className={`wrapper wrapper--paper ${
-					dir === 'rtl' ? 'wrapper--rtl' : ''
-				}`}
+				className={`wrapper wrapper--paper ${dir === 'rtl' ? 'wrapper--rtl' : ''
+					}`}
 			>
 				<div id='toc' />
 				<div className='mainContainer'>
@@ -93,7 +93,9 @@ const Paper = () => {
 						showTitle={false}
 						showDescription={true}
 					/>
-
+					<div className='paper__cover'>
+						{statement.imagesURL?.main && <img src={statement.imagesURL.main} alt={statement.statement} />}
+					</div>
 					<div className='TOC'>
 						<TableOfContent isAside={isAside} />
 					</div>
@@ -113,7 +115,7 @@ const Paper = () => {
 						parentBullet=''
 					/>
 				</div>
-				
+
 				{role !== Role.admin && (
 					<div className='feedbackButton'>
 						<Button
@@ -124,8 +126,8 @@ const Paper = () => {
 						/>
 					</div>
 				)}
-				
-				
+
+
 			</div>
 			{role === Role.admin ? (
 				<AdminBottomButtons />
