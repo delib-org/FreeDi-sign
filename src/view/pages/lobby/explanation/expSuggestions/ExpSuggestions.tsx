@@ -20,13 +20,13 @@ const ExpSuggestions = () => {
         <Modal onClick={() => setShowExplanation(false)} close={() => setShowExplanation(false)}>
             <div className={styles["exp-suggestions"]}>
                 <h2>איך להגיב למסמכים,להציע רעיונות ולתת משוב?</h2>
-                <p>הכנסו למסמך, בחרו פסקה...</p>
+                <p>הכנסו למסמך, לחצו על תגובה, כמו בדוגמא הבאה</p>
                 <div className={styles["exp-suggestions-content"]}>
                     <img className={styles["suggestion-card-example"]} src={SuggestionsCardImg} alt="Suggestion Card Example" />
                     <img className={styles["explaining-figure-1"]} src={ExplainManImage1} alt="Explaining figure 1" />
                     <OneIcon className={styles["one-icon"]} />
                     <div className={styles["explain1-text"]}>
-                        כדי להגיב למסמך לחצו על <span>תגובה</span>
+                        כדי להגיב למסמך לחצו על <span>הצעה לשיפור</span>
                     </div>
                     <img className={styles["arrow-down"]} src={ArrowDownImage} alt="arrow directing to next step" />
                     <img className={styles["add-suggestion"]} src={AddSuggestionImage} alt="Add suggestion in the comment" />

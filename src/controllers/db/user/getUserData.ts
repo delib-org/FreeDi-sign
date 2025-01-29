@@ -68,15 +68,7 @@ export async function getUsersData({documentId,lobbyId}:GetUserDataProps): Promi
 		const usersData: UserData[] = usersDataDB.docs.map(
 			(doc) => doc.data() as UserData
 		);
-		console.log(usersData);
-		// const results = usersData.map((userData) =>
-		// 	UserDataSchema.safeParse(userData)
-		// );
-		// console.log(results);
-		// if (!results.every((result) => result.success)) {
-		// 	console.error(results);
-		// 	return [];
-		// }
+
 		return usersData;
 	} catch (error) {
 		console.error(error);

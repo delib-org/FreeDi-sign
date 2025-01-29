@@ -5,10 +5,11 @@ import { listenToDocument, listenToStatement } from "../db/statements/getStateme
 import { useDispatch, useSelector } from "react-redux";
 import { documentSelector, statementSelector, mySignaturesSelector } from "../slices/statementsSlice";
 import { getSubscription } from "../db/subscriptions/getSubscriptions";
-import { selectUser, selectUserData } from "../slices/userSlice";
+import { selectUser, selectUserData, setUserData } from "../slices/userSlice";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { anonymousLogin } from "../db/authCont";
 import { setSubscription } from "../slices/subscriptionsSlice";
+import { getUserData } from "../db/user/getUserData";
 
 interface DocumentHookResult {
   statements: Statement[];
@@ -95,6 +96,7 @@ export function useDocument(): DocumentHookResult {
     }
   }, [statementId]);
 
+  //authorize user
   useEffect(() => {
     let unsubscribe = () => {};
     let unsubscribe2 = () => {};
@@ -113,6 +115,16 @@ export function useDocument(): DocumentHookResult {
   useEffect(() => {
     setIsLoading(!statement);
   }, [statement]);
+
+  useEffect(()=>{
+    if(!userData?.userId){
+      getUserData(user?.uid, statementId).then((userData) => {
+        if (userData) {
+          dispatch(setUserData(userData));
+        }
+      }).catch((e) => console.error(e));
+    }
+  }, [userData?.userId])
 
   try {
     return {
