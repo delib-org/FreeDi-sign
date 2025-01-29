@@ -88,17 +88,7 @@ const Document = () => {
 		}
 	}, [paragraphs, maxViewed]);
 
-	//handle user data
-	useEffect(() => {
-		if (user && !userData && statementId) {
-			console.log("userId", user.uid);
-			getUserData(user.uid, statementId).then((userData) => {
-				if (userData) {
-					dispatch(setUserData(userData));
-				}
-			});
-		}
-	}, [user, userData, dispatch, statementId]);
+	
 
 	useEffect(() => {
 		if (statementId) {

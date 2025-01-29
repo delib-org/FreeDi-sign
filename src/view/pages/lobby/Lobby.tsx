@@ -26,13 +26,13 @@ const LobbyContent = () => {
         if(user?.uid){
            
             if(firstEnter.current){
-                console.log("first enter");
+            
                 setUserDataToDB({ userData: { unregister: true, lobbyId }, documentId: "lobby", eventType: "first-time-entered-browser" });
                 firstEnter.current = false;
                 localStorage.setItem("firstEnter", "true");
                 return;
             }          
-            console.log("entered from within");
+        
             setUserDataToDB({ userData: { name: user.displayName, email: user.email, lobbyId }, documentId: "lobby", eventType: "entered-from-within" });
         }
        

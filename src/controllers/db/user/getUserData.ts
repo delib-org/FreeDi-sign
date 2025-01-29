@@ -16,14 +16,24 @@ import {
 import { firebaseDb } from '../config';
 import { store } from '../../../model/store';
 
-export async function getUserData(
+interface GetUserDataProps {
 	userId: string | undefined,
 	statementId: string | undefined
-): Promise<UserData | undefined> {
+}
+
+export async function getUserData({
+	userId,
+	statementId
+}:GetUserDataProps): Promise<UserData | undefined> {
 	try {
 		if (!userId) userId = store.getState().user.user?.uid;
 		if (!userId) throw new Error("couldn't get user id");
 		if (!statementId) throw new Error('Statement id is missing');
+
+		const urlParams = new URLSearchParams(window.location.search);
+		const lobbyId: string = String(urlParams.get('lobby') ?? "123");
+
+	
 
 		const user: User = {
 			uid: userId,
@@ -35,10 +45,19 @@ export async function getUserData(
 		const userDataId = getStatementSubscriptionId(statementId, user);
 		if (!userDataId) throw new Error('User data id not found');
 
+		const lobbyUserDataId = getStatementSubscriptionId(lobbyId, user);
+		if (!lobbyUserDataId) throw new Error('Lobby User data id not found');
+
 		const userDataRef = doc(firebaseDb, Collections.usersData, userDataId);
-		const userDataDB = await getDoc(userDataRef);
-		if (!userDataDB.exists()) return undefined;
-		const userData = userDataDB.data() as UserData;
+		const lobbyUserDataRef = doc(firebaseDb, Collections.usersData, lobbyUserDataId);
+		const [userDataDB, lobbyUserDataDB] = await Promise.all([
+			getDoc(userDataRef),
+			getDoc(lobbyUserDataRef)
+		]);
+
+
+		if (!userDataDB.exists() && !lobbyUserDataDB.exists()) return undefined;
+		const userData = (userDataDB.data() || lobbyUserDataDB.data()) as UserData;
 		const results = UserDataSchema.safeParse(userData);
 		if (!results.success) {
 			console.error(results.error);

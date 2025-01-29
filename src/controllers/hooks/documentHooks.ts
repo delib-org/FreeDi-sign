@@ -117,14 +117,15 @@ export function useDocument(): DocumentHookResult {
   }, [statement]);
 
   useEffect(()=>{
-    if(!userData?.userId){
-      getUserData(user?.uid, statementId).then((userData) => {
+ 
+    if (!userData?.userId && statementId && user?.uid){
+      getUserData({userId:user?.uid, statementId}).then((userData) => {
         if (userData) {
           dispatch(setUserData(userData));
         }
       }).catch((e) => console.error(e));
     }
-  }, [userData?.userId])
+  }, [userData?.userId, statementId, user?.uid])
 
   try {
     return {
