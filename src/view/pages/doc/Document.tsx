@@ -9,8 +9,6 @@ import { useSignatures } from '../../../controllers/hooks/signHooks';
 import { listenToMySignature } from '../../../controllers/db/signatures/getSignatures';
 import { documentParagraphsSelector } from '../../../controllers/slices/statementsSlice';
 import { selectApprovalsByDocId } from '../../../controllers/slices/approvalSlice';
-import { setUserData } from '../../../controllers/slices/userSlice';
-import { getUserData } from '../../../controllers/db/user/getUserData';
 import { setEvaluationSettings } from '../../../controllers/slices/evaluationSlice';
 import { setSegmentation } from '../../../controllers/db/segmentation/setSegmentation';
 import styles from './document.module.scss';
@@ -40,7 +38,6 @@ const Document = () => {
 		statement,
 		isAuthorized,
 		role,
-		user,
 		userData,
 		mySignature,
 	} = useDocument();
@@ -147,7 +144,7 @@ const Document = () => {
 						url={currentUrl}
 					/>
 					<div className={styles.doc}>
-						<div className={styles.aside}>
+						<div className={styles.aside} style={{ backgroundColor: statement?.color }}>
 							<Aside />
 						</div>
 

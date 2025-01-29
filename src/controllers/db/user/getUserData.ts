@@ -17,8 +17,8 @@ import { firebaseDb } from '../config';
 import { store } from '../../../model/store';
 
 interface GetUserDataProps {
-	userId: string | undefined,
-	statementId: string | undefined
+	userId?: string ,
+	statementId?: string 
 }
 
 export async function getUserData({

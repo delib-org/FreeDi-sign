@@ -49,7 +49,7 @@ export class CSV {
         try {
             if(!documentId && !lobbyId) throw new Error("Document id and LobbyId are missing");
             // Fetch data from the database
-            console.log(documentId, lobbyId)
+          
             const data = await getUsersData({documentId, lobbyId});
 
             // Convert data to CSV format

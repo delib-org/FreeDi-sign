@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { isEditSelector } from "../../../../../controllers/slices/editSlice";
 import { useSelector } from "react-redux";
 import { adjustTextAreaHeight } from "../../../../../controllers/general.ts/general";
@@ -10,6 +10,7 @@ import styles from './SectionTitle.module.scss';
 
 //icons
 import TouchIcon from "../../../../../assets/icons/touch.svg?react";
+import { DocumentContext } from "../../documentCont";
 
 interface Props {
   bullet: string;
@@ -31,6 +32,7 @@ const SectionTitle: FC<Props> = ({
   const {isAdmin} = useRole();
   const isEdit = useSelector(isEditSelector);
   const [_isEdit, _setIsEdit] = useState(false);
+  const {document} = useContext(DocumentContext);
 
   useEffect(() => {
     if (isTitleReady === false) {
@@ -87,7 +89,7 @@ const SectionTitle: FC<Props> = ({
               if (isEdit) _setIsEdit(true);
             }}
           >
-            {isAdmin && <h2 className={styles.adminH2}><span className={styles.viewed}><TouchIcon /></span><span >{viewed}</span></h2>} {sectionHeader(`${statement.statement}`, level)}
+            {isAdmin && <h2 className={styles.adminH2}><span className={styles.viewed}><TouchIcon /></span><span >{viewed}</span></h2>} {sectionHeader(statement, level, document)}
           </div>
         )}
       </>
@@ -100,19 +102,22 @@ const SectionTitle: FC<Props> = ({
 
 export default SectionTitle;
 
-function sectionHeader(title: string, level: number) {
+function sectionHeader(statement: Statement, level: number, document?: Statement) {
+const title = statement.statement;
+const {color}  = document || {color:"var(--color-text)"};
+ 
   switch (level) {
     case 1:
-      return <h2>{title}</h2>;
+      return <h2 style={{ color, opacity: 1 }}>{title}</h2>;
     case 2:
-      return <h3>{title}</h3>;
+      return <h3 style={{ color, opacity: .95 }}>{title}</h3>;
     case 3:
-      return <h4>{title}</h4>;
+      return <h4 style={{ color, opacity: .9 }}>{title}</h4>;
     case 4:
-      return <h5>{title}</h5>;
+      return <h5 style={{ color, opacity: .85 }}>{title}</h5>;
     case 5:
-      return <h6>{title}</h6>;
+      return <h6 style={{ color, opacity: .8 }}>{title}</h6>;
     default:
-      return <h6>{title}</h6>;
+      return <h6 style={{ color, opacity: .8 }}>{title}</h6>;
   }
 }

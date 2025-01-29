@@ -26,7 +26,7 @@ const PaperHeader: FC<Props> = ({ statement }) => {
 	};
 
 	return (
-		<header className={styles.header}>
+		<header className={styles.header} style={{ backgroundColor: statement.color }}>
 			{lobby && (
 				<NavLink to={`/lobby/${lobby}`} className={styles.homeButton}>
 					<HomeIcon />
