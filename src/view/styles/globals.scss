@@ -775,6 +775,7 @@ button{
 .wrapper {
 	position: relative;
 	margin: auto;
+	max-width: 75ch;
 
 	&--paper {
 		@media screen and (min-width: 768px) {
@@ -784,8 +785,7 @@ button{
 
 	&--rtl {
 		left: 0px;
-		right: 50%;
-		transform: translateX(50%);
+		
 	}
 }
 

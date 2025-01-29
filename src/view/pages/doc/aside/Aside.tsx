@@ -1,28 +1,17 @@
 import styles from "./Aside.module.scss";
-import HomeIcon from "../../../../assets/icons/home.svg?react";
 import {
   useLanguage,
 } from "../../../../controllers/hooks/useLanguage";
 
-//icons
-// import USAFlag from "../../../../assets/icons/usaFlag.svg?react";
-// import IsraelFlag from "../../../../assets/icons/israelFlag.svg?react";
 import TOC from "../toc/TableOfContent";
 
 
 import BottomAside from "./bottomAside/BottomAside";
 import AsideLogo from "./AsideLogo";
-import { NavLink, useSearchParams } from "react-router-dom";
 
 function Aside() {
   const { t } = useLanguage();
-  const [searchParams] = useSearchParams();
-  const lobby = searchParams.get("lobby");
-
-  // function handleToggleLanguage() {
-  //   if (currentLanguage === LanguagesEnum.he) changeLanguage(LanguagesEnum.en);
-  //   else changeLanguage(LanguagesEnum.he);
-  // }
+ 
 
   return (
     <aside className={styles.aside} >

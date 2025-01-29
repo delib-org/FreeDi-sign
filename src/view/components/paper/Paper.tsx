@@ -24,15 +24,15 @@ import Modal from '../modal/Modal';
 import { ButtonType } from '../../../model/enumsModel';
 
 import './paper.scss';
-import Image from '../image/Image';
+
 
 const Paper = () => {
 	const { t } = useLanguage();
 	const { statementId } = useParams<{ statementId: string }>();
-	const sections = useSelector(sectionsSelector(statementId || ''));
-	const paragraphs = useSelector(documentParagraphsSelector(statementId || ''));
+	const sections = useSelector(sectionsSelector(statementId ?? ''));
+	const paragraphs = useSelector(documentParagraphsSelector(statementId ?? ''));
 	const rejected = useSelector(
-		selectApprovalsByDocId(statementId || '')
+		selectApprovalsByDocId(statementId ?? '')
 	).filter((approval) => approval.approval === false);
 	const approved = paragraphs.length - rejected.length;
 	const { dir } = useLanguage();
@@ -84,8 +84,10 @@ const Paper = () => {
 				className={`wrapper wrapper--paper ${dir === 'rtl' ? 'wrapper--rtl' : ''
 					}`}
 			>
+
 				<div id='toc' />
 				<div className='mainContainer'>
+
 					<h1>{statement.statement}</h1>
 
 					<Text
@@ -94,7 +96,7 @@ const Paper = () => {
 						showDescription={true}
 					/>
 					<div className='paper__cover'>
-						{statement.imagesURL?.main && <img src={statement.imagesURL.main} alt={statement.statement} />}
+						{statement.imagesURL?.main && <div style={{ backgroundImage: `url(${statement.imagesURL.main})` }} />}
 					</div>
 					<div className='TOC'>
 						<TableOfContent isAside={isAside} />
@@ -129,6 +131,7 @@ const Paper = () => {
 
 
 			</div>
+
 			{role === Role.admin ? (
 				<AdminBottomButtons />
 			) : (
@@ -142,8 +145,9 @@ const Paper = () => {
 				<p >
 					<a href="https://freedi.co" target='_blank'>פותח על ידי פרידי הסכמות</a>
 				</p>
+
 			</footer>
-		</main>
+		</main >
 	);
 };
 
