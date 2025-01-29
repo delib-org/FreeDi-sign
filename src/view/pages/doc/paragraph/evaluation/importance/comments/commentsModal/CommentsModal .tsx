@@ -8,6 +8,7 @@ const CommentsModal = () => {
 	return (
 		<div className='tets'>
 			<Modal
+				close={() => navigate('..')}
 				onClick={(e) => {
 					if (e.target === e.currentTarget) {
 						navigate('..');
