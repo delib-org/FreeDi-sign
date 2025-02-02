@@ -26,9 +26,8 @@ interface Props{
 
 const Comments: FC<Props> = ({handleHideComments}) => {
 	const { t, dir } = useLanguage();
-	const navigate = useNavigate();
 	const { paragraphId } = useParams();
-	const { search, pathname } = useLocation();
+
 	
 
 	const statement = useSelector(statementSelector(paragraphId));
