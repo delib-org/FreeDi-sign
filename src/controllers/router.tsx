@@ -23,7 +23,7 @@ export const router = createBrowserRouter(
 					element: <Login />,
 				},
 				{
-					path: "/lobby",
+					path: "/lobby/:lobbyId",
 					element: <Lobby />,
 				},
 				{

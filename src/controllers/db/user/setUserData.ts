@@ -12,16 +12,21 @@ interface UserObjectInterface {
 }
 
 interface SetUserDataToDBProps {
-    userData: UnknownObject | undefined, documentId: string | undefined, eventType: string, targetText?: string, targetId?: string;
+    userData: UnknownObject | undefined, documentId: string | undefined, eventType: string, targetText?: string, targetId?: string; 
 }
 export async function setUserDataToDB({ 
     userData, 
     documentId, 
     eventType, 
     targetText,
-    targetId,
+    targetId
 }: SetUserDataToDBProps): Promise<UserObjectInterface | undefined> {
     try {
+        //get lobby params from url
+        const urlParams = new URLSearchParams(window.location.search);
+        const lobbyId:string = String( urlParams.get('lobby') ?? userData?.lobbyId ?? "123" );
+                
+
         if (!documentId) throw new Error("Statement id is missing");
         if (!userData) throw new Error("User data not found");
         if (typeof userData !== "object") throw new Error("User data must be an object");
@@ -33,14 +38,25 @@ export async function setUserDataToDB({
         if (targetText) newData.target = targetText;
         if (targetId) newData.targetId = targetId;
 
+        newData.timestamp = Date.now();
+        newData.date = new Date().toLocaleString();
+        if (lobbyId) newData.lobbyId = lobbyId;
+
         if (eventType === "signup") {
 
             const userDataId = getStatementSubscriptionId(documentId, user);
+            const lobbyUserDataId = getStatementSubscriptionId(lobbyId, user);
             if (!userDataId) throw new Error("User data id not found");
+            if (!lobbyUserDataId) throw new Error("Lobby User data id not found");
 
 
             const userDataRef = doc(firebaseDb, Collections.usersData, userDataId);
-            await setDoc(userDataRef, newData);
+            const lobbyUserDataRef = doc(firebaseDb, Collections.usersData, lobbyUserDataId);
+
+            await Promise.all([
+                setDoc(userDataRef, newData),
+                setDoc(lobbyUserDataRef, newData)
+            ]);
 
         } else {
 
@@ -48,7 +64,7 @@ export async function setUserDataToDB({
             const userDataRef = doc(firebaseDb, Collections.usersData, userDataPointId);
             await setDoc(userDataRef, newData);
         }
-        console.log(newData)
+
         return newData;
 
     } catch (error) {

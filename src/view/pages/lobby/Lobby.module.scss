@@ -1,19 +1,46 @@
+
+.mobileHeader {
+    display: none;
+    @media screen and (max-width: 768px) {
+        display: block;
+        position: sticky;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        background-color: var(--home);
+        color: white;
+        padding: .4rem;
+        text-align: center;
+        margin: 0;
+        font-size: 1.2rem;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.desktopHeader {
+    display: block;
+    position: sticky;
+    top: 0;
+    background-color: var(--screenBG);
+    z-index: 5;
+
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
+}
 .lobby {
     display: grid;
     grid-template-columns: 300px 3fr;
     height: 100vh;
-    h1 {
-        position: sticky;
-        top: 0;
-          background-color: var(--screenBG);
-    }
+    
+ 
     header{
         margin-bottom: 2rem;
       
     }
     main {
         max-width: 120ch;
-        margin: 2rem auto 5rem auto;
+        margin: 0rem auto 5rem auto;
         padding: 1rem;
        
     }
@@ -33,22 +60,9 @@
 }
 
 .lobby-wrapper {
-    columns: 3;
-    max-width: 120ch;
-    margin: auto;
-    gap: 1rem;
-    // padding: 1rem;
-
-    @media screen and (max-width: 1440px) {
-        columns: 2;
-
-
-    }
-
-    @media screen and (max-width: 1000px) {
-        columns: 1;
-
-    }
+   display: grid;
+    grid-template-columns: 1fr;
+   
 }
 
 .footer {
@@ -71,5 +85,11 @@
     button {
         cursor: pointer;
 
+    }
+}
+.learnToSuggest{
+    @media screen and (min-width: 768px) {
+        display: none;
+        
     }
 }

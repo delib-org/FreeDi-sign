@@ -6,22 +6,47 @@
     page-break-inside: avoid;
     margin-bottom: 1rem;
 
+    &__header{
+        position: relative;
+        div{
+            position: absolute;
+            bottom: 6px;
+            background-color: rgba(0, 3, 3, 0.409);
+            padding: 1rem;
+            font-size: 1.5rem;
+            width: 100%;
+        }
+    }
+
     a {
         text-decoration: none;
     }
 
     h2 {
         color: var(--text-headline);
-        margin:0;
+        margin: 0;
     }
 
-    &__u1{
+    &__u1 {
         padding: .3rem;
     }
 
-    &__u2{
+    &__u2 {
         padding: .3rem;
         font-size: .89rem;
+    }
+
+    .p1 {
+       @media screen and (max-width: 768px) {
+             font-weight: 500;
+             font-size: 1.2rem;
+             line-height: 2rem;
+
+             a {
+                 color: rgb(29, 29, 29);
+             }
+        
+       }
     }
 
     .li {
@@ -29,7 +54,18 @@
         padding-left: .4rem;
 
         a {
-            color: var(--text-paragraph);
+            color: var(--p-color);
+
+        }
+
+        @media screen and (max-width: 768px) {
+            line-height: 1.8rem;
+            font-size: 1.15rem;
+            font-weight: 400;
+
+            a {
+                color: rgb(66, 66, 66)
+            }
 
         }
     }

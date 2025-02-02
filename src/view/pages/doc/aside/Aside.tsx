@@ -1,37 +1,22 @@
-import LogoAndNameIcon from "../../../components/icons/LogoAndNameIcon";
 import styles from "./Aside.module.scss";
-
 import {
   useLanguage,
 } from "../../../../controllers/hooks/useLanguage";
 
-//icons
-// import USAFlag from "../../../../assets/icons/usaFlag.svg?react";
-// import IsraelFlag from "../../../../assets/icons/israelFlag.svg?react";
 import TOC from "../toc/TableOfContent";
 
 
 import BottomAside from "./bottomAside/BottomAside";
+import AsideLogo from "./AsideLogo";
 
 function Aside() {
-  const { t, dir } = useLanguage();
-
-  // function handleToggleLanguage() {
-  //   if (currentLanguage === LanguagesEnum.he) changeLanguage(LanguagesEnum.en);
-  //   else changeLanguage(LanguagesEnum.he);
-  // }
+  const { t } = useLanguage();
+ 
 
   return (
-    <aside className={styles.aside}>
-      <a
-      href="https://freedi.co" target="_blank" rel="noreferrer"
-        className={`${styles.logo} ${
-          dir === "rtl" ? styles["logo--rtl"] : null
-        }`}
-      >
-        <LogoAndNameIcon />
-        <div className={styles.slogan}>{t("Fostering Collaboration")}</div>
-      </a>
+    <aside className={styles.aside} >
+     
+      <AsideLogo />
       <TOC isAside={true} />
       
      

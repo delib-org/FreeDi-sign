@@ -14,7 +14,7 @@ const CSVDownloadButton: FC = () => {
     setIsLoading(true);
     try {
 
-      await CSV.downloadCSV(documentId);
+      await CSV.downloadCSV({documentId});
     } catch (error) {
       console.error('Failed to download CSV:', error);
     } finally {

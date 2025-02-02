@@ -8,9 +8,11 @@ interface Props {
   children?: React.ReactNode
   onClick?: (event: any) => void
   close?: () => void
+  scale?: number;
+  background?: string;
 }
 
-const Modal: FC<Props> = ({ children, onClick, close }) => {
+const Modal: FC<Props> = ({ children, onClick, close, scale=1, background}) => {
 
   const modalId = `modal-${Math.random()}`
   function handleOnClick(event: any) {
@@ -24,8 +26,8 @@ const Modal: FC<Props> = ({ children, onClick, close }) => {
 
 
   return (
-    <div className={styles.modal} onClick={handleOnClick} id={modalId}>
-      <div className={styles.box}>
+    <div className={styles.modal} onClick={handleOnClick} id={modalId} style={{background: background}}>
+      <div className={styles.box} style={{transform: `scale(${scale})`}}>
         <button className={styles.close}>
           <CloseIcon onClick={handleOnClick} className='closeIcon' />
         </button>

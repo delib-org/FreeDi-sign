@@ -1,8 +1,5 @@
 .paper {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	width: 100%;
+	
 	height: 100vh;
 	overflow-y: auto;
 	scroll-behavior: smooth;
@@ -53,7 +50,7 @@
 		place-content: center;
 	}
 
-	.footer {
+	footer {
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -61,10 +58,50 @@
 		a {
 			text-align: center;
 			text-decoration: none;
+			color:rgba(0, 0, 0, 0.722);
 		}
 
-		@media screen and (min-width: 1030px) {
-			display: none;
+		
+	}
+	&__cover{
+		width: 100%;
+		margin: 1rem auto 2rem auto;
+		display: flex;
+		justify-content: center;
+
+		@media screen and (max-width: 1030px) {
+			margin: 1rem auto 1rem auto;
+			
+		}
+	
+		>div{
+			width: 1024px;
+			height: 600px;
+			background-repeat: no-repeat;
+			background-size:contain;
+			background-position: center;
+
+			@media screen and (max-width: 1440px) {
+				background-size: cover;
+				width: 100%;
+				height: 500px;
+			}
+
+			@media screen and (max-width: 1030px) {
+				background-size: cover;
+				width: 100%;
+				height: 500px;
+			}
+			@media screen and (max-width: 420px) {
+				background-size: cover;
+				width: 100%;
+				height: 400px;
+			}
+		}
+
+		@media screen and (max-width: 600px) {
+			max-width: 90vw;
+			
 		}
 	}
 }

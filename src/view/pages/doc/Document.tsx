@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo, memo } from 'react';
 import { Role } from 'delib-npm';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { DocumentContext, handleSetUserEnteredPage } from './documentCont';
 import { RoleContext } from '../../../controllers/hooks/useRole';
 import { useLanguage } from '../../../controllers/hooks/useLanguage';
@@ -9,8 +9,6 @@ import { useSignatures } from '../../../controllers/hooks/signHooks';
 import { listenToMySignature } from '../../../controllers/db/signatures/getSignatures';
 import { documentParagraphsSelector } from '../../../controllers/slices/statementsSlice';
 import { selectApprovalsByDocId } from '../../../controllers/slices/approvalSlice';
-import { setUserData } from '../../../controllers/slices/userSlice';
-import { getUserData } from '../../../controllers/db/user/getUserData';
 import { setEvaluationSettings } from '../../../controllers/slices/evaluationSlice';
 import { setSegmentation } from '../../../controllers/db/segmentation/setSegmentation';
 import styles from './document.module.scss';
@@ -29,9 +27,7 @@ const Document = () => {
 	const dispatch = useDispatch();
 	const { t } = useLanguage();
 	const location = useLocation();
-	const navigate = useNavigate();
 	const { statementId } = useParams<{ statementId: string }>();
-	console.log(location.hash);
 
 	const [showInfo, setShowInfo] = useState(false);
 	const [maxViewed, setMaxViewed] = useState(0);
@@ -42,7 +38,6 @@ const Document = () => {
 		statement,
 		isAuthorized,
 		role,
-		user,
 		userData,
 		mySignature,
 	} = useDocument();
@@ -90,15 +85,7 @@ const Document = () => {
 		}
 	}, [paragraphs, maxViewed]);
 
-	useEffect(() => {
-		if (user && !userData && statementId) {
-			getUserData(undefined, statementId).then((userData) => {
-				if (userData) {
-					dispatch(setUserData(userData));
-				}
-			});
-		}
-	}, [user, userData, dispatch, statementId]);
+	
 
 	useEffect(() => {
 		if (statementId) {
@@ -157,7 +144,7 @@ const Document = () => {
 						url={currentUrl}
 					/>
 					<div className={styles.doc}>
-						<div className={styles.aside}>
+						<div className={styles.aside} style={{ backgroundColor: statement?.color }}>
 							<Aside />
 						</div>
 

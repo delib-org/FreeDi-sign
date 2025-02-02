@@ -35,7 +35,7 @@ const Button: FC<Props> = ({
 	isDisabled = false,
 	fontWight = 'normal',
 }) => {
-	console.log(buttonType);
+
 	const types = {
 		primary: {
 			backgroundColor: 'var(--primary)',
@@ -64,13 +64,15 @@ const Button: FC<Props> = ({
 		},
 	};
 
-	console.log(types[buttonType])
 
 	return (
 		<button
-			className={`${styles.button} ${
-				isDisabled ? styles['button--notActive'] : ''
-			}`}
+			className={`
+        ${styles.button} 
+        ${styles[`button--${buttonType}`]}
+        ${isSelected ? styles['button--selected'] : ''}
+        ${isDisabled ? styles['button--notActive'] : ''}
+    `}
 			onClick={onClick}
 			style={{
 				fontWeight: fontWight,

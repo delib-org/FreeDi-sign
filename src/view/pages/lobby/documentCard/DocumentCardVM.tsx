@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { DocTOC } from "../../../../model/docTOC";
-import { getDocumentTOC } from "../../../../controllers/db/sections/getSections";
 
-export function useDocumentCard(statementId: string) {
-   
-    const [docTOC, setDocTOC] = useState<DocTOC | null>(null);
+import { getDocumentTOC } from "../../../../controllers/db/sections/getSections";
+import { useSelector } from "react-redux";
+import { selectTOC } from "../../../../controllers/slices/tocSlice";
+
+export function useDocumentCard(statementId: string, hasTOC?: boolean) {
+
+    const docTOC = useSelector(selectTOC(statementId));
     const [loading, setLoading] = useState(false);
     const [triedToFetchSections, setTriedToFetchSections] = useState(false);
 
@@ -14,15 +16,12 @@ export function useDocumentCard(statementId: string) {
         if (!triedToFetchSections && !docTOC) {
             setTriedToFetchSections(true);
             setLoading(true);
-            getDocumentTOC(statementId).then((toc) => {
-                if(!toc) return;
-                setDocTOC(toc);
+            getDocumentTOC(statementId, hasTOC).then(() => {
                 setLoading(false);
             }).catch((error) => {
                 console.error(error);
                 setLoading(false);
             });
-
         }
 
     }, [docTOC])
