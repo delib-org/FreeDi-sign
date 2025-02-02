@@ -17,7 +17,7 @@ const ExpSuggestions = () => {
     if (!showExplanation) return null;
 
     return (
-        <Modal onClick={() => setShowExplanation(false)} close={() => setShowExplanation(false)}>
+        <Modal show={showExplanation} setShow={setShowExplanation}>
             <div className={styles["exp-suggestions"]}>
                 <h2>איך להגיב למסמכים,להציע רעיונות ולתת משוב?</h2>
                 <p>הכנסו למסמך, לחצו על תגובה, כמו בדוגמא הבאה</p>
@@ -26,14 +26,14 @@ const ExpSuggestions = () => {
                     <img className={styles["explaining-figure-1"]} src={ExplainManImage1} alt="Explaining figure 1" />
                     <OneIcon className={styles["one-icon"]} />
                     <div className={styles["explain1-text"]}>
-                        כדי להגיב למסמך לחצו על <span>הצעה לשיפור</span>
+                        כדי להגיב למסמך לחצו על <span>הוספת תגובה</span>
                     </div>
                     <img className={styles["arrow-down"]} src={ArrowDownImage} alt="arrow directing to next step" />
                     <img className={styles["add-suggestion"]} src={AddSuggestionImage} alt="Add suggestion in the comment" />
                     <img className={styles["explaining-figure-2"]} src={ExplainManImage2} alt="Explaining figure 2" />
                     <TwoIcon className={styles["two-icon"]} />
                     <div className={styles["explain2-text"]}>
-                        וכתבו את הצעת <span>השיפור</span> שלכם
+                        וכתבו את  <span>התגובה</span> שלכם
                     </div>
                 </div>
                 <div className={`btns  ${styles["btns"]}`}>

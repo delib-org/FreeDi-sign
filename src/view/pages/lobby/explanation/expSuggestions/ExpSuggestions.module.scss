@@ -181,6 +181,7 @@ $desktop: 1024px;
         border-radius: $border-radius;
         position: relative;
         z-index: 200;
+        height: 385px;
 
         @include tablet {
             position: absolute;
@@ -222,7 +223,7 @@ $desktop: 1024px;
         @include tablet {
             position: absolute;
             width: 300px;
-            top: 540px;
+            top: 518px;
             right: 140px;
             font-size: 20px;
             text-align: left;

@@ -76,7 +76,7 @@ const Paper = () => {
 	return (
 		<main className='paper'>
 			{userFeedbackIsOpen && (
-				<Modal onClick={toggleFeedbackWindow}>
+				<Modal show={userFeedbackIsOpen} setShow={toggleFeedbackWindow}>
 					<FeedbackWindow onCloseClick={toggleFeedbackWindow} />
 				</Modal>
 			)}

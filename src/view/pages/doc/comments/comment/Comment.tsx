@@ -33,7 +33,7 @@ const Comment: FC<Props> = ({ statement }) => {
 	const isCreator = user?.uid === statement.creatorId;
 
 	useEffect(() => {
-		let unsubscribe = () => {};
+		let unsubscribe = () => { };
 
 		unsubscribe = listenToUserAgree(statement.statementId);
 
@@ -125,11 +125,9 @@ const Comment: FC<Props> = ({ statement }) => {
 					</div>
 				</div>
 			</div>
-			{isAdmin && showDetails && (
-				<Modal onClick={handleShowUserDetails}>
-					<UserDetails creatorData={statement.creatorData} />
-				</Modal>
-			)}
+			<Modal show={isAdmin && showDetails} setShow={handleShowUserDetails}>
+				<UserDetails creatorData={statement.creatorData} />
+			</Modal>
 		</div>
 	);
 };

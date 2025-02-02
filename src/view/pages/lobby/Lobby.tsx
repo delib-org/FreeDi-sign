@@ -84,7 +84,7 @@ const LobbyContent = () => {
                     </footer>
                 </div>
             </main>
-            {showModal && <Modal close={closeAccessabilityModal}>
+            {showModal && <Modal show={showModal} setShow={() => closeAccessabilityModal()}>
                 <AccessabilityStatement close={closeAccessabilityModal} />
             </Modal>}
 

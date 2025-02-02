@@ -25,8 +25,8 @@ const BottomAside: React.FC = () => {
 		if (dataType === "document") return CSV.downloadCSV({ documentId });
 	}
 
-	function handleSettingsClick(event: React.MouseEvent<HTMLButtonElement>) {
-		event.stopPropagation();
+	function handleSettingsClick() {
+		
 		setShowSettings(!showSettings);
 	}
 	return (
@@ -58,7 +58,7 @@ const BottomAside: React.FC = () => {
 				<GlobousIcon />
 				<span>FreeDi</span>
 			</a>
-			{showSettings && <Modal onClick={handleSettingsClick}><Settings /></Modal>}
+			<Modal show={showSettings} setShow={handleSettingsClick}><Settings /></Modal>
 		</div>
 	);
 };

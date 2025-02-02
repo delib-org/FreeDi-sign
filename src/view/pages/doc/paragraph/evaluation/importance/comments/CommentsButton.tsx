@@ -3,9 +3,7 @@ import styles from './CommentsButton.module.scss';
 import AddComment from '../../../../../../../assets/icons/addCommentIcon.svg?react';
 import { useLanguage } from '../../../../../../../controllers/hooks/useLanguage';
 import { Statement } from 'delib-npm';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import Modal from '../../../../../../components/modal/Modal';
-import NewComment from '../../../../comments/newComment/NewComment';
 import Comments from '../../../../comments/Comments';
 
 interface Props {
@@ -14,9 +12,6 @@ interface Props {
 }
 const CommentsButton: FC<Props> = ({ numberOfComments, statement }) => {
 	const { t } = useLanguage();
-	const navigate = useNavigate();
-	const [searchParams] = useSearchParams();
-	const lobby = searchParams.get('lobby');
 	const [showComments, setShowComments] = useState(false);
 
 	function handleShowComments() {

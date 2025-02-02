@@ -11,10 +11,7 @@ import Button from '../../../components/buttons/button/Button';
 
 //icons
 import BackArrow from '../../../../assets/icons/backArrow.svg?react';
-import {
-	commentsSelector,
-	statementSelector,
-} from '../../../../controllers/slices/statementsSlice';
+import {commentsSelector } from '../../../../controllers/slices/statementsSlice';
 import { ButtonType } from '../../../../model/enumsModel';
 import Likes from '../../../components/likes/Likes';
 import { DocumentContext } from '../documentCont';
