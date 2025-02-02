@@ -49,8 +49,7 @@ const NewComment: FC<Props> = ({ parentStatement, order }) => {
 					targetText: title,
 					targetId: parentStatement.statementId,
 				});
-
-				navigate('..');
+				setShowUserComment(false);
 			}
 
 			target.reset();
@@ -82,7 +81,7 @@ const NewComment: FC<Props> = ({ parentStatement, order }) => {
 								isSelected={true}
 								onClick={() => {
 									setShowUserComment(false);
-									navigate('..');
+									
 								}}
 							/>
 							<Button
