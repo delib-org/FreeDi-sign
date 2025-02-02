@@ -1,4 +1,4 @@
-import { Role } from 'delib-npm';
+import { Role, Statement } from 'delib-npm';
 import { FC, useContext } from 'react';
 import NewComment from './newComment/NewComment';
 import Comment from './comment/Comment';
@@ -17,20 +17,16 @@ import {
 } from '../../../../controllers/slices/statementsSlice';
 import { ButtonType } from '../../../../model/enumsModel';
 import Likes from '../../../components/likes/Likes';
-import { useParams } from 'react-router-dom';
 import { DocumentContext } from '../documentCont';
 
 interface Props{
 	handleHideComments: () => void;
+	statement: Statement;
 }
 
-const Comments: FC<Props> = ({handleHideComments}) => {
+const Comments: FC<Props> = ({ handleHideComments, statement }) => {
 	const { t, dir } = useLanguage();
-	const { paragraphId } = useParams();
 
-	
-
-	const statement = useSelector(statementSelector(paragraphId));
 	const { role } = useContext(DocumentContext);
 	const comments = useSelector(commentsSelector(statement?.statementId));
 	const userId = useSelector(selectUser)?.uid;

@@ -5,7 +5,6 @@ import Main from '../view/pages/main/Main';
 import Document from '../view/pages/doc/Document';
 import Page404 from '../view/pages/page404/Page404';
 import Page401 from '../view/pages/page401/Page401';
-import CommentsModal from '../view/pages/doc/paragraph/evaluation/importance/comments/commentsModal/CommentsModal ';
 import Lobby from '../view/pages/lobby/Lobby';
 
 export const router = createBrowserRouter(
@@ -28,23 +27,11 @@ export const router = createBrowserRouter(
 				},
 				{
 					path: '/doc/:statementId',
-					element: <Document />,
-					children: [
-						{
-							path: 'comments/:paragraphId',
-							element: <CommentsModal />,
-						},
-					],
+					element: <Document />
 				},
 				{
 					path: '/doc-anonymous/:statementId',
-					element: <Document />,
-					children: [
-						{
-							path: 'comments/:paragraphId',
-							element: <CommentsModal />,
-						},
-					],
+					element: <Document />
 				},
 			],
 		},

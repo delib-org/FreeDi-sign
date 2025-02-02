@@ -6,34 +6,54 @@ import CloseIcon from '../../../assets/icons/close.svg?react';
 
 interface Props {
   children?: React.ReactNode
-  onClick?: (event: any) => void
-  close?: () => void
   scale?: number;
   background?: string;
+  show: boolean
+  setShow?: (show: boolean) => void
 }
 
-const Modal: FC<Props> = ({ children, onClick, close, scale=1, background}) => {
+const Modal: FC<Props> = ({ children, scale = 1, background, show, setShow }) => {
+
+
 
   const modalId = `modal-${Math.random()}`
-  function handleOnClick(event: any) {
-    if(close) close();
 
-    event.stopPropagation()
-    if (event.target.id === modalId)
-      onClick && onClick(event)
+  function handleClose(e: any) {
+   
+    if (e.key === 'Escape' && setShow) {
+      console.log("close modal")
+      setShow(false);
+      return;
+    }
+    if (e) {
+      e.stopPropagation();
+      if (e.target === e.currentTarget && setShow) {
+        setShow(false);
+      }
+    } 
   }
+
+  if (!show) return null;
 
 
 
   return (
-    <div className={styles.modal} onClick={handleOnClick} id={modalId} style={{background: background}}>
-      <div className={styles.box} style={{transform: `scale(${scale})`}}>
-        <button className={styles.close}>
-          <CloseIcon onClick={handleOnClick} className='closeIcon' />
-        </button>
+    <dialog
+      className={styles.modal}
+      style={{ background: background }}
+      onClick={handleClose}
+      onKeyDown={(e) => { if (e.key === 'Escape') handleClose(e); }}
+      role="button"
+      tabIndex={0}
+      id={modalId}
+    >
+      <div className={styles.box} style={{ transform: `scale(${scale})` }}>
+        {setShow && (<button className={styles.close} onClick={handleClose} >
+          <CloseIcon className='closeIcon' onClick={handleClose} />
+        </button>)}
         {children}
       </div>
-    </div>
+    </dialog>
   )
 }
 
