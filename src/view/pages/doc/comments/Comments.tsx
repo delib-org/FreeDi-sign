@@ -17,7 +17,7 @@ import {
 } from '../../../../controllers/slices/statementsSlice';
 import { ButtonType } from '../../../../model/enumsModel';
 import Likes from '../../../components/likes/Likes';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { DocumentContext } from '../documentCont';
 
 interface Props{
