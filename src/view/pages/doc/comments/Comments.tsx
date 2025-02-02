@@ -20,11 +20,16 @@ import Likes from '../../../components/likes/Likes';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { DocumentContext } from '../documentCont';
 
-const Comments: FC = () => {
+interface Props{
+	handleHideComments: () => void;
+}
+
+const Comments: FC<Props> = ({handleHideComments}) => {
 	const { t, dir } = useLanguage();
 	const navigate = useNavigate();
 	const { paragraphId } = useParams();
-	const { search } = useLocation();
+	const { search, pathname } = useLocation();
+	
 
 	const statement = useSelector(statementSelector(paragraphId));
 	const { role } = useContext(DocumentContext);
@@ -34,10 +39,7 @@ const Comments: FC = () => {
 	const myComment = comments.find((cm) => cm.creatorId === userId);
 	const otherComments = comments.filter((cm) => cm.creatorId !== userId);
 
-	function handleHideComments() {
-		console.log(search)
-		navigate(`..${search}`)
-	}
+
 
 	if (!statement) return null;
 
