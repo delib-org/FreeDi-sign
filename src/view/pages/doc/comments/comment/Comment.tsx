@@ -16,6 +16,8 @@ import { ButtonType } from '../../../../../model/enumsModel';
 import Modal from '../../../../components/modal/Modal';
 import UserDetails from './userDetails/UserDetails';
 import { DocumentContext } from '../../documentCont';
+import { deleteCommentFromDB } from '../../../../../controllers/db/comments/setComments';
+import { deleteComment } from '../../../../../controllers/slices/commentsSlice';
 
 interface Props {
 	statement: Statement;
@@ -73,6 +75,14 @@ const Comment: FC<Props> = ({ statement }) => {
 		}
 	}
 
+	function handleDeleteComment() {
+		const isDelete = confirm('Are you sure you want to delete this comment?');
+		if (isDelete) {
+			dispatch(deleteComment(statement));
+			deleteCommentFromDB(statement);
+		}
+	}
+
 	return (
 		<div className={styles.commentBox}>
 			<div
@@ -127,6 +137,7 @@ const Comment: FC<Props> = ({ statement }) => {
 			</div>
 			<Modal show={isAdmin && showDetails} setShow={handleShowUserDetails}>
 				<UserDetails creatorData={statement.creatorData} />
+				<button className="btn" onClick={handleDeleteComment}>Delete comment</button>
 			</Modal>
 		</div>
 	);

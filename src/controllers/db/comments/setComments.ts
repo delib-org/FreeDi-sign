@@ -1,5 +1,5 @@
 import { Collections, DocumentType, Statement, User } from "delib-npm";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { firebaseDb } from "../config";
 import { store } from "../../../model/store";
 import { createNewStatement } from "../../general.ts/statement_helpers";
@@ -68,4 +68,13 @@ export function editComment({ statement, newText }: EditCommentProps): void {
 	} catch (error) {
 		console.error(error);
 	}
+}
+
+export function deleteCommentFromDB(statement: Statement): void {
+    try {
+        const statementRef = doc(firebaseDb, Collections.statements, statement.statementId);
+        deleteDoc(statementRef);
+    } catch (error) {
+        console.error(error);
+    }
 }

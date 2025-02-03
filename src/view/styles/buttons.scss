@@ -1,0 +1,10 @@
+.btn{
+    border-radius: 50px;
+    border:1px solid var(--primary);
+    padding: 10px 20px;
+
+    &:hover{
+        background-color: var(--primary);
+        color: var(--white);
+    }
+}

@@ -6,7 +6,6 @@ import { store } from '../../../../../model/store';
 import { useLanguage } from '../../../../../controllers/hooks/useLanguage';
 import Button from '../../../../components/buttons/button/Button';
 import { ButtonType } from '../../../../../model/enumsModel';
-import { useNavigate } from 'react-router-dom';
 import { setUserDataToDB } from '../../../../../controllers/db/user/setUserData';
 import { selectUserData } from "../../../../../controllers/slices/userSlice";
 import { useSelector } from 'react-redux';
@@ -19,7 +18,7 @@ const NewComment: FC<Props> = ({ parentStatement, order }) => {
 	const [showUserComment, setShowUserComment] = useState(true);
 	const userData = useSelector(selectUserData);
 	const { t } = useLanguage();
-    const navigate = useNavigate();
+  
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	function handleAddNewComment(ev: any) {
