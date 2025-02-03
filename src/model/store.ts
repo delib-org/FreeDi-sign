@@ -9,6 +9,7 @@ import commentsSliceReducer from '../controllers/slices/commentsSlice';
 import evaluationsSliceReducer from '../controllers/slices/evaluationSlice';
 import modeSliceReducer from '../controllers/slices/modesSlice';
 import tocSliceReducer from '../controllers/slices/tocSlice';
+import modalSliceReducer from '../controllers/slices/modalsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
     evaluations: evaluationsSliceReducer,
     modes: modeSliceReducer,
     tocs: tocSliceReducer,
+    modals: modalSliceReducer
   },
 })
 
