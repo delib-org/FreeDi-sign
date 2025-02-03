@@ -202,12 +202,14 @@ export function listenToDocument(statementId: string | undefined): Unsubscribe {
 		return onSnapshot(
 			q,
 			(documentsDB) => {
-				const statements: Statement[] = [];
-				documentsDB.forEach((docDB) => {
-					statements.push(docDB.data() as Statement);
+				documentsDB.docChanges().forEach((change) => {
+					const statement = change.doc.data() as Statement;
+					if (change.type === 'added' || change.type === 'modified') {
+						dispatch(setStatement(statement));
+					} else if (change.type === 'removed') {
+						dispatch(deleteStatement(statement.statementId));
+					}
 				});
-
-				dispatch(setStatements(statements));
 			},
 			(error) => {
 				console.error(error);
