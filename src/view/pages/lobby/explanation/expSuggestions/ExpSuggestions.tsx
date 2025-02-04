@@ -14,10 +14,15 @@ import { useLobby } from '../../LobbyContext';
 const ExpSuggestions = () => {
 
     const { setShowExplanation, showExplanation } = useLobby();
+
     if (!showExplanation) return null;
 
+    function handleClose(){
+        setShowExplanation(false);
+    }
+
     return (
-        <Modal show={showExplanation} setShow={setShowExplanation}>
+        <Modal show={showExplanation} setShow={handleClose}>
             <div className={styles["exp-suggestions"]}>
                 <h2>איך להגיב למסמכים,להציע רעיונות ולתת משוב?</h2>
                 <p>הכנסו למסמך, לחצו על תגובה, כמו בדוגמא הבאה</p>
@@ -37,7 +42,7 @@ const ExpSuggestions = () => {
                     </div>
                 </div>
                 <div className={`btns  ${styles["btns"]}`}>
-                    <Button text="סגירה" buttonType={ButtonType.secondary} />
+                    <Button text="סגירה" buttonType={ButtonType.secondary} onClick={handleClose} />
                 </div>
             </div>
         </Modal>

@@ -7,4 +7,15 @@
         background-color: var(--primary);
         color: var(--white);
     }
+
+    &--danger{
+        background-color: var(--reject);
+        border: 1px solid var(--reject);
+        color: white;
+
+        &:hover{
+            background-color: red;
+            color: var(--white);
+        }
+    }
 }

@@ -13,7 +13,6 @@ import Button from '../../../../components/buttons/button/Button';
 import { useLanguage } from '../../../../../controllers/hooks/useLanguage';
 import Text from '../../../../components/text/Text';
 import { ButtonType } from '../../../../../model/enumsModel';
-import Modal from '../../../../components/modal/Modal';
 import UserDetails from './userDetails/UserDetails';
 import { DocumentContext } from '../../documentCont';
 import { deleteCommentFromDB } from '../../../../../controllers/db/comments/setComments';
@@ -135,10 +134,15 @@ const Comment: FC<Props> = ({ statement }) => {
 					</div>
 				</div>
 			</div>
-			<Modal show={isAdmin && showDetails} setShow={handleShowUserDetails}>
-				<UserDetails creatorData={statement.creatorData} />
-				<button className="btn" onClick={handleDeleteComment}>Delete comment</button>
-			</Modal>
+			{isAdmin && showDetails && (
+				<div>
+					<UserDetails creatorData={statement.creatorData} />
+					<div className={`${styles.btns} btns`}>
+						<button className="btn btn--danger" onClick={handleDeleteComment}>Delete comment</button>
+						<button className="btn" onClick={handleShowUserDetails}>Close</button>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
