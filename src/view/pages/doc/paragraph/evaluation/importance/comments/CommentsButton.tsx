@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import styles from './CommentsButton.module.scss';
 import AddComment from '../../../../../../../assets/icons/addCommentIcon.svg?react';
 import { useLanguage } from '../../../../../../../controllers/hooks/useLanguage';
