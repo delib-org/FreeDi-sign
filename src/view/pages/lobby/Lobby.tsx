@@ -18,8 +18,8 @@ const LobbyContent = () => {
     const { documentsId, setShowModal, showModal, closeAccessabilityModal } = useLobbyVM();
     document.title = "Freedi | שיתוף גולן";
     const user = useSelector(selectUser);
-    let {lobbyId} = useParams()||{lobbyId:false};
-    const firstEnter = localStorage.getItem("firstEnter") ? useRef(false) : useRef(true);
+    const {lobbyId} = useParams()||{lobbyId:false};
+    const firstEnter = useRef(!localStorage.getItem("firstEnter"));
 
     useEffect(() => {
         
@@ -36,7 +36,7 @@ const LobbyContent = () => {
             setUserDataToDB({ userData: { name: user.displayName, email: user.email, lobbyId }, documentId: "lobby", eventType: "entered-from-within" });
         }
        
-    },[user]);
+    }, [user, lobbyId]);
 
     return (
 
@@ -58,7 +58,7 @@ const LobbyContent = () => {
 
                         <p>בטרם אישור סופי, אנו מזמינים אתכם להוסיף, לתת משוב, הארות, הערות ורעיונות על בסיס התכנית שנבנתה.</p>
 
-                        <p>תוכלו להרחיב בנושאים שחשובים בעינכם, לתת הערות שחשוב שצוותי המימוש ייקח בחשבון, לתת רעיונות לחיבורים נוספים או התפתחות נוספת, והכי חשוב- תכירו את התכניות ותהיו שותפים להתפתחות הגולן.</p>
+                        <p>תוכלו להרחיב בנושאים שחשובים בעינכם, לתת הערות שחשוב שצוותי המימוש ייקח בחשבון, להוסיף רעיונות לחיבורים נוספים, והכי חשוב- תכירו את התכניות ותהיו שותפים להתפתחות הגולן.</p>
 
                         <p>באתר שלפניכם תוכלו לעיין בתוכניות האסטרטגיות ולהגיב - בין אם לכולן או רק לנושאים הקרובים לליבכם. התייחסותכם חשובה לנו והיא תילקח בחשבון בגיבוש התוכניות הסופיות.</p>
 

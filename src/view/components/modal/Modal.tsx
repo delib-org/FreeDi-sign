@@ -18,10 +18,10 @@ const Modal: FC<Props> = ({ children, scale = 1, background, show, setShow }) =>
 
   const modalId = `modal-${Math.random()}`
 
-  function handleClose(e: any) {
+  function handleClose(e: React.MouseEvent<HTMLDialogElement> | React.KeyboardEvent<HTMLDialogElement>) {
    
-    if (e.key === 'Escape' && setShow) {
-      console.log("close modal")
+    if ('key' in e && e.key === 'Escape' && setShow) {
+    
       setShow(false);
       return;
     }
@@ -38,22 +38,21 @@ const Modal: FC<Props> = ({ children, scale = 1, background, show, setShow }) =>
 
 
   return (
-    <dialog
+    <div
       className={styles.modal}
       style={{ background: background }}
       onClick={handleClose}
       onKeyDown={(e) => { if (e.key === 'Escape') handleClose(e); }}
-      role="button"
       tabIndex={0}
       id={modalId}
     >
       <div className={styles.box} style={{ transform: `scale(${scale})` }}>
         {setShow && (<button className={styles.close} onClick={handleClose} >
-          <CloseIcon className='closeIcon' onClick={handleClose} />
+          <CloseIcon className='closeIcon' onClick={() => setShow(false)} />
         </button>)}
         {children}
       </div>
-    </dialog>
+    </div>
   )
 }
 

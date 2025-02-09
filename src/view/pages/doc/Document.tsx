@@ -22,6 +22,8 @@ import SigninForm from '../../components/signinForm/SigninForm';
 import Page401 from '../page401/Page401';
 import Aside from './aside/Aside';
 import { useDocument } from '../../../controllers/hooks/documentHooks';
+import {selectComments, selectShowComments, setShowComments} from '../../../controllers/slices/modalsSlice';
+import Comments from './comments/Comments';
 
 const Document = () => {
 	const dispatch = useDispatch();
@@ -31,6 +33,10 @@ const Document = () => {
 
 	const [showInfo, setShowInfo] = useState(false);
 	const [maxViewed, setMaxViewed] = useState(0);
+
+	const currentParagraph = useSelector(selectComments) || null;
+	const showComments = useSelector(selectShowComments);
+
 
 	const {
 		isLoading,
@@ -167,6 +173,9 @@ const Document = () => {
 						<Modal show={!userData && role !== Role.admin}>
 							<SigninForm />
 						</Modal>
+						{showComments && currentParagraph && <Modal show={showComments} setShow={setShowComments}>
+							<Comments handleHideComments={() => dispatch(setShowComments(false))} statement={currentParagraph} />
+						</Modal>}
 
 					</div>
 				</>

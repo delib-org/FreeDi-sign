@@ -18,16 +18,14 @@ import Text from '../text/Text';
 import HourGlassLoader from '../loaders/HourGlassLoader';
 import TableOfContent from '../../pages/doc/toc/TableOfContent';
 import { getViewWidth } from '../../../controllers/general.ts/helpers';
-import Button from '../buttons/button/Button';
 import FeedbackWindow from '../feedback/FeedbackWindow';
 import Modal from '../modal/Modal';
-import { ButtonType } from '../../../model/enumsModel';
 
 import './paper.scss';
 
 
 const Paper = () => {
-	const { t } = useLanguage();
+
 	const { statementId } = useParams<{ statementId: string }>();
 	const sections = useSelector(sectionsSelector(statementId ?? ''));
 	const paragraphs = useSelector(documentParagraphsSelector(statementId ?? ''));
@@ -118,16 +116,6 @@ const Paper = () => {
 					/>
 				</div>
 
-				{role !== Role.admin && (
-					<div className='feedbackButton'>
-						<Button
-							text={t('Feedback')}
-							isSelected={true}
-							buttonType={ButtonType.approve}
-							onClick={toggleFeedbackWindow}
-						/>
-					</div>
-				)}
 
 
 			</div>

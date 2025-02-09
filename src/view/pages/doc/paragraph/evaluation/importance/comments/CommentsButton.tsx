@@ -3,8 +3,8 @@ import styles from './CommentsButton.module.scss';
 import AddComment from '../../../../../../../assets/icons/addCommentIcon.svg?react';
 import { useLanguage } from '../../../../../../../controllers/hooks/useLanguage';
 import { Statement } from 'delib-npm';
-import Modal from '../../../../../../components/modal/Modal';
-import Comments from '../../../../comments/Comments';
+import { useDispatch } from 'react-redux';
+import { setComments, setShowComments } from '../../../../../../../controllers/slices/modalsSlice';
 
 interface Props {
 	numberOfComments: number;
@@ -12,36 +12,36 @@ interface Props {
 }
 const CommentsButton: FC<Props> = ({ numberOfComments, statement }) => {
 	const { t } = useLanguage();
-	const [showComments, setShowComments] = useState(false);
+	const dispatch = useDispatch();
+
 
 	function handleShowComments() {
-		setShowComments(true);
+		dispatch(setComments(statement));
+		dispatch(setShowComments(true));
 	}
 
 
 	return (
-		<>
-			<button className={styles.comments} onClick={handleShowComments}>
-				{numberOfComments > 0 && (
-					<span
-						className={styles.commentsCounter}
-						style={{
-							width: numberOfComments < 10 ? '1.2rem' : '1.4rem',
-							height: numberOfComments < 10 ? '1.2rem' : '1.4rem',
-						}}
-					>
-						{numberOfComments < 100 ? numberOfComments : 99}
-					</span>
-				)}
-				<AddComment />
-				<div className={styles['comments__text']}>
-					<span>{t('Comments')}</span>
-				</div>
-			</button>
-			<Modal show={showComments} setShow={setShowComments}>
-				<Comments handleHideComments={() => setShowComments(false)} statement={statement} />
-			</Modal>
-		</>
+
+		<button className={styles.comments} onClick={handleShowComments}>
+			{numberOfComments > 0 && (
+				<span
+					className={styles.commentsCounter}
+					style={{
+						width: numberOfComments < 10 ? '1.2rem' : '1.4rem',
+						height: numberOfComments < 10 ? '1.2rem' : '1.4rem',
+					}}
+				>
+					{numberOfComments < 100 ? numberOfComments : 99}
+				</span>
+			)}
+			<AddComment />
+			<div className={styles['comments__text']}>
+				<span>{t('Comments')}</span>
+			</div>
+		</button>
+
+
 	);
 };
 
