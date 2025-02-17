@@ -1,6 +1,24 @@
 {
   "projects": {
-    "default": "synthesistalyaron",
-    "dev": "delib-v3-dev"
-  }
+    "dev": "freedi-test",
+    "prod": "synthesistalyaron"
+  },
+  "targets": {
+    "synthesistalyaron": {
+      "hosting": {
+        "prod": [
+          "delib-5"
+        ]
+      }
+    },
+    "freedi-test": {
+      "hosting": {
+        "dev": [
+          "freedi-test"
+        ]
+      }
+    }
+  },
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
 }

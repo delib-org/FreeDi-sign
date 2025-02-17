@@ -26,6 +26,9 @@ import './paper.scss';
 
 const Paper = () => {
 
+	const searchParams = new URLSearchParams(window.location.search);
+	const lobby = searchParams.get('lobby');
+
 	const { statementId } = useParams<{ statementId: string }>();
 	const sections = useSelector(sectionsSelector(statementId ?? ''));
 	const paragraphs = useSelector(documentParagraphsSelector(statementId ?? ''));
@@ -130,9 +133,9 @@ const Paper = () => {
 				/>
 			)}
 			<footer>
-				<p >
+				{!lobby && <p >
 					<a href="https://freedi.co" target='_blank'>פותח על ידי פרידי הסכמות</a>
-				</p>
+				</p>}
 
 			</footer>
 		</main >

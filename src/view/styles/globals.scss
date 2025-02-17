@@ -760,6 +760,7 @@ p {
 li{
 	font-size: var(--p-size);
 	color: var(--p-color);
+	margin-right: .7rem;
 	@media screen and (max-width: 768px) {
 		line-height: 1.8rem;
 		font-size: 1.15rem;

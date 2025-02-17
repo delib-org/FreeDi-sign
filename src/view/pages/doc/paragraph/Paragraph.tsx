@@ -20,6 +20,7 @@ import { DocumentContext } from '../documentCont';
 import EyeIcon from '../../../../assets/icons/eye.svg?react';
 import { getHeatMapColor, getSupportResistanceColor } from '../../../../controllers/general.ts/helpers';
 import { Mode, selectMode } from '../../../../controllers/slices/modesSlice';
+import TextFormatter from '../../../components/textFormater/TextFormater';
 
 interface Props {
 	statement: Statement;
@@ -115,31 +116,17 @@ const Paragraph: FC<Props> = ({ statement }) => {
 			| React.KeyboardEvent<HTMLTextAreaElement>
 			| React.FocusEvent<HTMLTextAreaElement>
 	) {
-		if (e.type === 'keyup' && (e as React.KeyboardEvent).key !== 'Enter')
+		if (e.type === 'keyup' && !((e as React.KeyboardEvent).key === 'Enter' && (e as React.KeyboardEvent).shiftKey === false))
 			return;
 		_setIsEdit(false);
 		const textarea = e.target as HTMLTextAreaElement;
 		if (textarea.value === '') {
 			textarea.value = statement.statement;
 		}
-		textarea.value = textarea.value.replace(/\n/g, ' ');
 		updateParagraphTextToDB({ statement, newText: textarea.value });
 	}
 
-	function renderText(text: string) {
-		if (text.includes('*')) {
-			const parts = text.split('*');
-			return parts.map((part, index) => {
-				if (index % 2 === 0) {
-					return <span key={index}>{part}</span>;
-				} else {
-					return <b key={index}>{part}</b>;
-				}
-			});
-		} else {
-			return text;
-		}
-	}
+	
 
 	function getBackgroundColor() {
 		const totalSupport = (statement.evaluation?.sumPro || 0) - (statement.evaluation?.sumCon || 0);
@@ -203,7 +190,7 @@ const Paragraph: FC<Props> = ({ statement }) => {
 										<span className={styles.viewed}>{viewed}</span>
 									</>
 								)}
-								<span>{renderText(statement.statement)} </span>
+								<span><TextFormatter text={statement.statement} /> </span>
 							</p>
 							{isEdit && (
 								<button onClick={handleDelete}>
