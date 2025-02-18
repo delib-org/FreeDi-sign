@@ -100,7 +100,7 @@ const Document = () => {
 					statementId,
 					approve: false,
 					comment: true,
-					importance: false,
+					importance: true,
 					likes: true,
 				})
 			);

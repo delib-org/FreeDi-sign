@@ -14,7 +14,6 @@
         width: 32px;
         height: 32px;
         cursor: pointer;
-        transform: scaleX(-1);
         transition: all .3s;
         }
     }
@@ -28,10 +27,15 @@
     .notSelected{
         color: #d8d8d8;
     }
-    .selected{
-        color: var(--off-canvas-header);
+    .imp0{
+        color: #facf3a;
     }
-    
+    .imp1{
+        color: #ff976f;
+    }
+    .imp2{
+        color: #f16982;
+    }
 }
 
 // .importance {

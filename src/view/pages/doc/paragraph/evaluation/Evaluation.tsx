@@ -15,7 +15,7 @@ interface Props {
 const Evaluation: FC<Props> = ({ statement }) => {
 	const { comment, approve, importance } = useSelector(
 		selectEvaluationSettings(statement.documentSettings?.parentDocumentId)
-	) || { comment: false, approve: false, importance: false };
+	) || { comment: false, approve: false, importance: true };
 
 	const comments = useSelector(commentsSelector(statement.statementId)).sort(
 		(a, b) => b.createdAt - a.createdAt
@@ -23,6 +23,9 @@ const Evaluation: FC<Props> = ({ statement }) => {
 
 	const numberOfComments = comments.length;
 	const {isAdmin} = useRole();
+	const averageImportance = Math.round((statement.documentImportance?.averageImportance ?? 0)*1000)/1000;
+	const sumImportance = Math.round((statement.documentImportance?.sumImportance ?? 0)*1000)/1000;
+	const evaluators = statement.documentImportance?.numberOfUsers ?? 0;
 
 	try {
 		return (
@@ -35,15 +38,15 @@ const Evaluation: FC<Props> = ({ statement }) => {
 				{/* <VerticalHR /> */}
 
 				{!isAdmin ? (
-					<>{importance && <Importance statement={statement} />}</>
-				) : importance ? (
-					<div className={styles.importance}>
-						{fromImportanceToIcon(
-							statement.documentImportance?.averageImportance || 0
-						)}
-						<span>{statement.documentImportance?.sumImportance}</span>
-					</div>
-				) : null}
+					importance && <Importance statement={statement} />
+				) : (
+					importance && (
+						<div className={styles.importance}>
+							{fromImportanceToIcon(averageImportance || 0)}
+							<span>{sumImportance} ({evaluators})</span>
+						</div>
+					)
+				)}
 				{comment && (
 					<CommentsButton
 						numberOfComments={numberOfComments}
