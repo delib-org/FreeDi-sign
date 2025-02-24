@@ -1,20 +1,21 @@
 import { NavLink, useSearchParams } from "react-router-dom";
 import { useLanguage } from "../../../../controllers/hooks/useLanguage"
-import LogoAndNameIcon from "../../../components/icons/LogoAndNameIcon"
+import LogoAndNameIcon from "../../../components/icons/LogoAndNameIcon";
+import GolanLogo from "../../../../assets/images/golanLogo.png";
 import styles from './AsideLogo.module.scss'
-import { useDocument } from "../../../../controllers/hooks/documentHooks";
+// import { useDocument } from "../../../../controllers/hooks/documentHooks";
 
 const AsideLogo = () => {
     const { dir, t } = useLanguage();
     const [searchParams] = useSearchParams();
     const lobby = searchParams.get("lobby");
-    const {statement} = useDocument();
+    // const {statement} = useDocument();
 
 
     if (lobby) {
         return (
             <NavLink to={`/lobby/${lobby}`} className={`${styles.logoText} ${dir === "rtl" ? styles["logo--rtl"] : null}`} >
-                {statement?.statement ?? "חזרה ללובי"}
+                <img src={GolanLogo} alt="Back to Lobby" />
             </NavLink>
         )
     }
