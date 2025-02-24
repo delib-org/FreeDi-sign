@@ -3,13 +3,13 @@ import { useLanguage } from "../../../../controllers/hooks/useLanguage"
 import LogoAndNameIcon from "../../../components/icons/LogoAndNameIcon";
 import GolanLogo from "../../../../assets/images/golanLogo.png";
 import styles from './AsideLogo.module.scss'
-// import { useDocument } from "../../../../controllers/hooks/documentHooks";
+
 
 const AsideLogo = () => {
     const { dir, t } = useLanguage();
     const [searchParams] = useSearchParams();
     const lobby = searchParams.get("lobby");
-    // const {statement} = useDocument();
+ 
 
 
     if (lobby) {
