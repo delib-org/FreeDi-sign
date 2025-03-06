@@ -87,7 +87,7 @@ const LobbyContent = () => {
                             <button onClick={() => setShowModal(true)}>הצהרת נגישות</button>
                         </div>
                         <div>
-                            במידה ונתקלתם בתקלה טכנית, אנא פנו ל<br /><a href="mailto:tal.yaron@freedi.co">תמיכה במייל</a> או <a href="tel:052-607-9419">052-607-9419</a>
+                            במידה ונתקלתם בתקלה טכנית, אנא פנו ל<br /><a href="mailto:tal.yaron@freedi.co">תמיכה במייל: tal.yaron@freedi.co</a> או <a href="tel:052-607-9419">052-607-9419</a>
                         </div>
                     </footer>
                 </div>

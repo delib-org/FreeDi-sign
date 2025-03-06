@@ -1,7 +1,8 @@
 {
   "projects": {
-    "dev": "freedi-test",
-    "prod": "synthesistalyaron"
+    "test": "freedi-test",
+    "prod": "synthesistalyaron",
+    "dev": "delib-v3-dev"
   },
   "targets": {
     "synthesistalyaron": {
@@ -11,9 +12,16 @@
         ]
       }
     },
+     "delib-v3-dev": {
+       "hosting": {
+         "dev": [
+           "delib-v3-dev"
+         ]
+       }
+     },
     "freedi-test": {
       "hosting": {
-        "dev": [
+        "test": [
           "freedi-test"
         ]
       }
