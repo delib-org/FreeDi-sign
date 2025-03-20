@@ -77,6 +77,7 @@ interface GetUserDataProps {
 	lobbyId?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getUsersData({documentId,lobbyId}:GetUserDataProps): Promise<any[]> {
 	try {
 		if (!documentId && !lobbyId ) throw new Error('Document id and LobbyId are missing');
@@ -85,10 +86,12 @@ export async function getUsersData({documentId,lobbyId}:GetUserDataProps): Promi
 		const q = documentId? query(usersDataRef, where('documentId', '==', documentId))
 		: query(usersDataRef, where('lobbyId', '==', lobbyId));
 		const usersDataDB = await getDocs(q);
+		
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const usersData: any[] = usersDataDB.docs.map(
 			(doc) => doc.data() 
 		);
-debugger;
+
 		const comments = usersData.filter((userData) => userData.eventType === 'comment');
 
 		const targetRefs = comments.map((comment) => doc(firebaseDb, Collections.statements, comment.targetId));

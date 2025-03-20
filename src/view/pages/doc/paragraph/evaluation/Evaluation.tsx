@@ -24,7 +24,7 @@ const Evaluation: FC<Props> = ({ statement }) => {
 	const numberOfComments = comments.length;
 	const {isAdmin} = useRole();
 	const averageImportance = Math.round((statement.documentImportance?.averageImportance ?? 0)*1000)/1000;
-	const sumImportance = Math.round((statement.documentImportance?.sumImportance ?? 0)*1000)/1000;
+	// const sumImportance = Math.round((statement.documentImportance?.sumImportance ?? 0)*1000)/1000;
 	const evaluators = statement.documentImportance?.numberOfUsers ?? 0;
 
 	try {
@@ -43,7 +43,7 @@ const Evaluation: FC<Props> = ({ statement }) => {
 					importance && (
 						<div className={styles.importance}>
 							{fromImportanceToIcon(averageImportance || 0)}
-							<span>{sumImportance} ({evaluators})</span>
+								<span>חשיבות: {Math.round(averageImportance*100)}% ({evaluators})</span>
 						</div>
 					)
 				)}
