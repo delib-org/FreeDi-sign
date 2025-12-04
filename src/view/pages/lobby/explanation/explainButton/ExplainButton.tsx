@@ -12,7 +12,7 @@ const ExplainButton = () => {
         <button
             onClick={() => {
                 setShowExplanation(true);
-                console.log("first")
+
             }}
             className={styles['explain-button']}
             aria-label="Explain Suggest Improvements"

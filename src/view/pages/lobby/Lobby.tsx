@@ -4,7 +4,7 @@ import Modal from "../../components/modal/Modal";
 import AccessabilityStatement from "../../components/accesability/AccessabilityStatement";
 import LobbyAside from "./lobbyAside/LobbyAside";
 import ExpSuggestions from "./explanation/expSuggestions/ExpSuggestions";
-import { LobbyProvider } from './LobbyContext';
+import { LobbyProvider, useLobby } from './LobbyContext';
 import ExplainButton from "./explanation/explainButton/ExplainButton";
 import { useLobbyVM } from "./LobbyVM";
 import { useEffect, useRef } from "react";
@@ -18,25 +18,28 @@ const LobbyContent = () => {
     const { documentsId, setShowModal, showModal, closeAccessabilityModal } = useLobbyVM();
     document.title = "Freedi | שיתוף גולן";
     const user = useSelector(selectUser);
-    let {lobbyId} = useParams()||{lobbyId:false};
-    const firstEnter = localStorage.getItem("firstEnter") ? useRef(false) : useRef(true);
+    const { lobbyId } = useParams() || { lobbyId: false };
+    const firstEnter = useRef(!localStorage.getItem("firstEnter"));
+    const { showExplanation } = useLobby();
 
     useEffect(() => {
-        
-        if(user?.uid){
-           
-            if(firstEnter.current){
-            
+
+        if (user?.uid) {
+
+            if (firstEnter.current) {
+
                 setUserDataToDB({ userData: { unregister: true, lobbyId }, documentId: "lobby", eventType: "first-time-entered-browser" });
                 firstEnter.current = false;
                 localStorage.setItem("firstEnter", "true");
                 return;
-            }          
-        
+            }
+
             setUserDataToDB({ userData: { name: user.displayName, email: user.email, lobbyId }, documentId: "lobby", eventType: "entered-from-within" });
         }
-       
-    },[user]);
+
+    }, [user, lobbyId]);
+
+    if (showExplanation) return <ExpSuggestions />;
 
     return (
 
@@ -58,7 +61,7 @@ const LobbyContent = () => {
 
                         <p>בטרם אישור סופי, אנו מזמינים אתכם להוסיף, לתת משוב, הארות, הערות ורעיונות על בסיס התכנית שנבנתה.</p>
 
-                        <p>תוכלו להרחיב בנושאים שחשובים בעינכם, לתת הערות שחשוב שצוותי המימוש ייקח בחשבון, לתת רעיונות לחיבורים נוספים או התפתחות נוספת, והכי חשוב- תכירו את התכניות ותהיו שותפים להתפתחות הגולן.</p>
+                        <p>תוכלו להרחיב בנושאים שחשובים בעינכם, לתת הערות שחשוב שצוותי המימוש ייקח בחשבון, להוסיף רעיונות לחיבורים נוספים, והכי חשוב- תכירו את התכניות ותהיו שותפים להתפתחות הגולן.</p>
 
                         <p>באתר שלפניכם תוכלו לעיין בתוכניות האסטרטגיות ולהגיב - בין אם לכולן או רק לנושאים הקרובים לליבכם. התייחסותכם חשובה לנו והיא תילקח בחשבון בגיבוש התוכניות הסופיות.</p>
 
@@ -79,16 +82,21 @@ const LobbyContent = () => {
                         {documentsId.map((documentId) => (<DocumentCard key={`${Math.random()}-${documentId}`} documentId={documentId} hasTOC={false} />))}
                     </div>
                     <footer className={styles.footer}>
-                        <a href="https://freedi.co" target="_blank"> פותח על ידי פרידי הסכמות בע"מ</a>
-                        <button onClick={() => setShowModal(true)}>הצהרת נגישות</button>
+                        <div>
+                            <a href="https://freedi.co" target="_blank"> פותח על ידי פרידי הסכמות בע"מ</a>
+                            <button onClick={() => setShowModal(true)}>הצהרת נגישות</button>
+                        </div>
+                        <div>
+                            במידה ונתקלתם בתקלה טכנית, אנא פנו ל<br /><a href="mailto:tal.yaron@freedi.co">תמיכה במייל: tal.yaron@freedi.co</a> או <a href="tel:052-607-9419">052-607-9419</a>
+                        </div>
                     </footer>
                 </div>
             </main>
-            {showModal && <Modal close={closeAccessabilityModal}>
+            <Modal show={showModal} setShow={() => closeAccessabilityModal()}>
                 <AccessabilityStatement close={closeAccessabilityModal} />
-            </Modal>}
+            </Modal>
 
-            <ExpSuggestions />
+
 
         </div>
 

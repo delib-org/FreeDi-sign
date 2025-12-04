@@ -3,7 +3,8 @@ import styles from './CommentsButton.module.scss';
 import AddComment from '../../../../../../../assets/icons/addCommentIcon.svg?react';
 import { useLanguage } from '../../../../../../../controllers/hooks/useLanguage';
 import { Statement } from 'delib-npm';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setComments, setShowComments } from '../../../../../../../controllers/slices/modalsSlice';
 
 interface Props {
 	numberOfComments: number;
@@ -11,16 +12,17 @@ interface Props {
 }
 const CommentsButton: FC<Props> = ({ numberOfComments, statement }) => {
 	const { t } = useLanguage();
-	const navigate = useNavigate();
-	const [searchParams] = useSearchParams();
-	const lobby = searchParams.get('lobby');
+	const dispatch = useDispatch();
+
 
 	function handleShowComments() {
-		navigate(`comments/${statement.statementId}${lobby ? "?lobby="+lobby:""}`, {
-			relative: 'path',
-		});
+		dispatch(setComments(statement));
+		dispatch(setShowComments(true));
 	}
+
+
 	return (
+
 		<button className={styles.comments} onClick={handleShowComments}>
 			{numberOfComments > 0 && (
 				<span
@@ -38,6 +40,8 @@ const CommentsButton: FC<Props> = ({ numberOfComments, statement }) => {
 				<span>{t('Comments')}</span>
 			</div>
 		</button>
+
+
 	);
 };
 

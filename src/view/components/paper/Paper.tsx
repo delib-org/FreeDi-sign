@@ -18,16 +18,17 @@ import Text from '../text/Text';
 import HourGlassLoader from '../loaders/HourGlassLoader';
 import TableOfContent from '../../pages/doc/toc/TableOfContent';
 import { getViewWidth } from '../../../controllers/general.ts/helpers';
-import Button from '../buttons/button/Button';
 import FeedbackWindow from '../feedback/FeedbackWindow';
 import Modal from '../modal/Modal';
-import { ButtonType } from '../../../model/enumsModel';
 
 import './paper.scss';
 
 
 const Paper = () => {
-	const { t } = useLanguage();
+
+	const searchParams = new URLSearchParams(window.location.search);
+	const lobby = searchParams.get('lobby');
+
 	const { statementId } = useParams<{ statementId: string }>();
 	const sections = useSelector(sectionsSelector(statementId ?? ''));
 	const paragraphs = useSelector(documentParagraphsSelector(statementId ?? ''));
@@ -76,7 +77,7 @@ const Paper = () => {
 	return (
 		<main className='paper'>
 			{userFeedbackIsOpen && (
-				<Modal onClick={toggleFeedbackWindow}>
+				<Modal show={userFeedbackIsOpen} setShow={toggleFeedbackWindow}>
 					<FeedbackWindow onCloseClick={toggleFeedbackWindow} />
 				</Modal>
 			)}
@@ -118,16 +119,6 @@ const Paper = () => {
 					/>
 				</div>
 
-				{role !== Role.admin && (
-					<div className='feedbackButton'>
-						<Button
-							text={t('Feedback')}
-							isSelected={true}
-							buttonType={ButtonType.approve}
-							onClick={toggleFeedbackWindow}
-						/>
-					</div>
-				)}
 
 
 			</div>
@@ -142,9 +133,9 @@ const Paper = () => {
 				/>
 			)}
 			<footer>
-				<p >
+				{!lobby && <p >
 					<a href="https://freedi.co" target='_blank'>פותח על ידי פרידי הסכמות</a>
-				</p>
+				</p>}
 
 			</footer>
 		</main >

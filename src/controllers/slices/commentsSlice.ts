@@ -39,10 +39,13 @@ const commentsSlice = createSlice({
         updateShowComments: (state, action: PayloadAction<boolean>) => {
             state.showComments = action.payload;
         },
+        deleteComment: (state, action: PayloadAction<Statement>) => {
+            state.comments = state.comments.filter((comment) => comment.statementId !== action.payload.statementId);
+        }
     },
 });
 
-export const { setComments, updateRole, updateComments, updateShowComments } = commentsSlice.actions;
+export const { setComments, updateRole, updateComments, updateShowComments, deleteComment } = commentsSlice.actions;
 
 export const commentsSelector = (state: { comments: CommentsState }) => state.comments;
 

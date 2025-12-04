@@ -13,9 +13,10 @@ import Button from '../../../../components/buttons/button/Button';
 import { useLanguage } from '../../../../../controllers/hooks/useLanguage';
 import Text from '../../../../components/text/Text';
 import { ButtonType } from '../../../../../model/enumsModel';
-import Modal from '../../../../components/modal/Modal';
 import UserDetails from './userDetails/UserDetails';
 import { DocumentContext } from '../../documentCont';
+import { deleteCommentFromDB } from '../../../../../controllers/db/comments/setComments';
+import { deleteComment } from '../../../../../controllers/slices/commentsSlice';
 
 interface Props {
 	statement: Statement;
@@ -33,7 +34,7 @@ const Comment: FC<Props> = ({ statement }) => {
 	const isCreator = user?.uid === statement.creatorId;
 
 	useEffect(() => {
-		let unsubscribe = () => {};
+		let unsubscribe = () => { };
 
 		unsubscribe = listenToUserAgree(statement.statementId);
 
@@ -73,6 +74,15 @@ const Comment: FC<Props> = ({ statement }) => {
 		}
 	}
 
+	function handleDeleteComment() {
+		const isDelete = confirm(t('Are you sure you want to delete this comment?'));
+		if (isDelete) {
+			dispatch(deleteComment(statement));
+			deleteCommentFromDB(statement);
+		}
+	}
+
+
 	return (
 		<div className={styles.commentBox}>
 			<div
@@ -93,9 +103,10 @@ const Comment: FC<Props> = ({ statement }) => {
 				>
 					<div className={styles.text}>
 						<Text statement={statement} allowEditing={true} />
+						{isAuthor && <button onClick={handleDeleteComment} className='btn btn--danger'>{t("Delete")}</button>}
 					</div>
 					<div className={styles.btns}>
-						{statement.documentAgree?.disagree || 0}
+						{statement.documentAgree?.disagree ?? 0}
 						{isAuthor ? (
 							<div className={styles.disagree}>{t('Disagreed')}</div>
 						) : (
@@ -121,14 +132,18 @@ const Comment: FC<Props> = ({ statement }) => {
 								isDisabled={isCreator}
 							/>
 						)}
-						{statement.documentAgree?.agree || 0}
+						{statement.documentAgree?.agree ?? 0}
 					</div>
 				</div>
 			</div>
 			{isAdmin && showDetails && (
-				<Modal onClick={handleShowUserDetails}>
+				<div>
 					<UserDetails creatorData={statement.creatorData} />
-				</Modal>
+					<div className={`${styles.btns} btns`}>
+						<button className="btn btn--danger" onClick={handleDeleteComment}>Delete comment</button>
+						<button className="btn" onClick={handleShowUserDetails}>Close</button>
+					</div>
+				</div>
 			)}
 		</div>
 	);

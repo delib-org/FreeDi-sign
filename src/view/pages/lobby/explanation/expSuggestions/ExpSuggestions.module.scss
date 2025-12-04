@@ -37,6 +37,7 @@ $desktop: 1024px;
     z-index: 200;
     width: 100%;
     direction: rtl;
+     overflow-y: auto;
    
     border-radius: 0;
     max-height: 85vh;
@@ -73,7 +74,7 @@ $desktop: 1024px;
 }
 
 .exp-suggestions-content {
-     overflow-y: auto;
+    
      max-height: 60vh;
     width: 100%;
    
@@ -181,6 +182,7 @@ $desktop: 1024px;
         border-radius: $border-radius;
         position: relative;
         z-index: 200;
+        height: 385px;
 
         @include tablet {
             position: absolute;
@@ -222,7 +224,7 @@ $desktop: 1024px;
         @include tablet {
             position: absolute;
             width: 300px;
-            top: 540px;
+            top: 518px;
             right: 140px;
             font-size: 20px;
             text-align: left;
@@ -250,4 +252,17 @@ $desktop: 1024px;
             margin: 0 0.5rem;
         }
     }
+}
+
+.exp-suggestions-rules{
+    margin: auto;
+    margin-top: 2rem;
+    max-width: 75ch;
+    h2, p{
+        text-align: start;
+    }
+    h2{
+        margin-bottom: 1.25rem;
+    }
+    
 }

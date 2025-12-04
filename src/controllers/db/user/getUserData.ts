@@ -1,6 +1,7 @@
 import {
 	Collections,
 	getStatementSubscriptionId,
+	Statement,
 	User,
 	UserData,
 	UserDataSchema,
@@ -76,7 +77,8 @@ interface GetUserDataProps {
 	lobbyId?: string;
 }
 
-export async function getUsersData({documentId,lobbyId}:GetUserDataProps): Promise<UserData[]> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getUsersData({documentId,lobbyId}:GetUserDataProps): Promise<any[]> {
 	try {
 		if (!documentId && !lobbyId ) throw new Error('Document id and LobbyId are missing');
 		lobbyId = "123"
@@ -84,11 +86,35 @@ export async function getUsersData({documentId,lobbyId}:GetUserDataProps): Promi
 		const q = documentId? query(usersDataRef, where('documentId', '==', documentId))
 		: query(usersDataRef, where('lobbyId', '==', lobbyId));
 		const usersDataDB = await getDocs(q);
-		const usersData: UserData[] = usersDataDB.docs.map(
-			(doc) => doc.data() as UserData
+		
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const usersData: any[] = usersDataDB.docs.map(
+			(doc) => doc.data() 
 		);
 
-		return usersData;
+		const comments = usersData.filter((userData) => userData.eventType === 'comment');
+
+		const targetRefs = comments.map((comment) => doc(firebaseDb, Collections.statements, comment.targetId));
+
+		const targetsDB = await Promise.all(targetRefs.map((ref) => getDoc(ref)));
+
+		const targets = targetsDB.map((target) => target.data() as Statement);
+
+		const usersDataWithTargets = usersData.map((ud) => {
+			if(ud.eventType === 'comment') {
+				const target = targets.find((target) => target?.statementId === ud.targetId);
+				if(!target) return ud;
+				if(!target.statement) return ud;
+				return {
+					...ud,
+					targetText: target?.statement,
+				};
+			} else {
+				return ud;
+			}
+		});
+
+		return usersDataWithTargets;
 	} catch (error) {
 		console.error(error);
 		return [];

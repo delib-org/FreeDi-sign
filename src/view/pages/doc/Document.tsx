@@ -22,6 +22,8 @@ import SigninForm from '../../components/signinForm/SigninForm';
 import Page401 from '../page401/Page401';
 import Aside from './aside/Aside';
 import { useDocument } from '../../../controllers/hooks/documentHooks';
+import {selectComments, selectShowComments, setShowComments} from '../../../controllers/slices/modalsSlice';
+import Comments from './comments/Comments';
 
 const Document = () => {
 	const dispatch = useDispatch();
@@ -31,6 +33,10 @@ const Document = () => {
 
 	const [showInfo, setShowInfo] = useState(false);
 	const [maxViewed, setMaxViewed] = useState(0);
+
+	const currentParagraph = useSelector(selectComments) || null;
+	const showComments = useSelector(selectShowComments);
+
 
 	const {
 		isLoading,
@@ -57,9 +63,9 @@ const Document = () => {
 		[role, maxViewed, statement]
 	);
 
-	const paragraphs = useSelector(documentParagraphsSelector(statementId || ''));
+	const paragraphs = useSelector(documentParagraphsSelector(statementId ?? ''));
 	const rejectedCount = useSelector(
-		selectApprovalsByDocId(statementId || '')
+		selectApprovalsByDocId(statementId ?? '')
 	).filter((approval) => approval.approval === false).length;
 
 	const approved = paragraphs.length - rejectedCount;
@@ -85,7 +91,7 @@ const Document = () => {
 		}
 	}, [paragraphs, maxViewed]);
 
-	
+
 
 	useEffect(() => {
 		if (statementId) {
@@ -94,7 +100,7 @@ const Document = () => {
 					statementId,
 					approve: false,
 					comment: true,
-					importance: false,
+					importance: true,
 					likes: true,
 				})
 			);
@@ -103,7 +109,7 @@ const Document = () => {
 
 
 	useEffect(() => {
-		let unsubscribe = () => {};
+		let unsubscribe = () => { };
 		if (isAuthorized && statementId) {
 			unsubscribe = listenToMySignature(statementId);
 		}
@@ -152,24 +158,25 @@ const Document = () => {
 							<PaperHeader statement={statement} />
 							<Paper />
 						</div>
+						<Modal show={showInfo} setShow={setShowInfo}>
+							<DocumentInfo
+								statement={statement}
+								signatures={signatures}
+								setShowInfo={setShowInfo}
+							/>
+						</Modal>
 
-						{showInfo && (
-							<Modal>
-								<DocumentInfo
-									statement={statement}
-									signatures={signatures}
-									setShowInfo={setShowInfo}
-								/>
-							</Modal>
-						)}
 
 						<Outlet />
 
-						{!userData && role !== Role.admin && (
-							<Modal>
-								<SigninForm />
-							</Modal>
-						)}
+
+						<Modal show={!userData && role !== Role.admin}>
+							<SigninForm />
+						</Modal>
+						{showComments && currentParagraph && <Modal show={showComments} setShow={setShowComments}>
+							<Comments handleHideComments={() => dispatch(setShowComments(false))} statement={currentParagraph} />
+						</Modal>}
+
 					</div>
 				</>
 			</DocumentContext.Provider>

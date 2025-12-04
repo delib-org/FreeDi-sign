@@ -10,13 +10,13 @@ export async function getSubscription(statementId:string|undefined):Promise<Stat
         const user = store.getState().user.user;
         if(!user) return undefined;
         const subscriptionId = getStatementSubscriptionId(statementId, user);
-        
+        console.log(user.uid, subscriptionId)
         
         if(!subscriptionId) return undefined;
         const subscriptionRef = doc(firebaseDb, Collections.statementsSubscribe, subscriptionId);
        
         const subscriptionDB = await getDoc(subscriptionRef);
-   
+        console.log("Subscription", subscriptionDB.data())
    
         if(subscriptionDB.exists()){
             return subscriptionDB.data() as StatementSubscription;

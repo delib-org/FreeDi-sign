@@ -38,6 +38,7 @@ export function useDocument(): DocumentHookResult {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [role, setRole] = useState<Role>(Role.unsubscribed);
+  console.log(isAuthorized, role)
 
   const isAnonymousPage = pathname.includes("doc-anonymous");
 
@@ -71,6 +72,7 @@ export function useDocument(): DocumentHookResult {
     }
 
     const subscription = await getSubscription(statementId);
+    console.log("subscription", subscription)
     if (subscription) {
       dispatch(setSubscription(subscription));
       if (subscription.role === Role.admin) {

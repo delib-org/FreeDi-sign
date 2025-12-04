@@ -10,13 +10,14 @@ interface Props {
 
 const InputFields: FC<Props> = ({ segmentation }) => {
 	const [hasValue, setHasValue] = useState(false);
+	const [otherValue, setOtherValue] = useState('אחר');
+	const [showOther, setShowOther] = useState(false);
 
 	const fieldMandatoryName = segmentation.fieldMandatoryName
 		? segmentation.fieldMandatoryName
 		: segmentation.title;
-	const label = `${segmentation.title}${
-		segmentation.isRequired === true ? ' *' : ''
-	}`;
+	const label = `${segmentation.title}${segmentation.isRequired === true ? ' *' : ''
+		}`;
 
 	const getIcon = (title: string) => {
 		if (title.includes('שם')) return <UserIcon className='input-icon' />;
@@ -27,6 +28,11 @@ const InputFields: FC<Props> = ({ segmentation }) => {
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
 	) => {
+		if (e.target.value === 'other' || e.target.value === otherValue) {
+			setShowOther(true);
+		} else {
+			setShowOther(false);
+		}
 		setHasValue(!!e.target.value);
 	};
 
@@ -48,7 +54,9 @@ const InputFields: FC<Props> = ({ segmentation }) => {
 								{option}
 							</option>
 						))}
+						<option value={otherValue}>{otherValue}</option>
 					</select>
+					{showOther  && (<input type='text' name='other' placeholder='ישוב' onBlur={(e) => setOtherValue(e.target.value)} />)}
 				</div>
 			</div>
 		);
